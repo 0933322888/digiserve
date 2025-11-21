@@ -1,0 +1,41 @@
+{
+  "events": [
+    {
+      "id": "event-1",
+      "title": "Jazz Night",
+      "date": "2024-03-15",
+      "time": "8:00 PM",
+      "description": "Join us for an evening of smooth jazz with live performances by local artists. Enjoy our signature cocktails and small plates.",
+      "image": "/images/events/jazz-night.jpg",
+      "featured": true
+    },
+    {
+      "id": "event-2",
+      "title": "Wine Tasting Evening",
+      "date": "2024-03-22",
+      "time": "7:00 PM",
+      "description": "Experience a curated selection of wines from renowned vineyards. Includes wine pairings with chef's selection appetizers.",
+      "image": "/images/events/wine-tasting.jpg",
+      "featured": true
+    },
+    {
+      "id": "event-3",
+      "title": "Sunday Brunch",
+      "date": "2024-03-17",
+      "time": "10:00 AM - 2:00 PM",
+      "description": "Our popular Sunday brunch featuring bottomless mimosas, classic brunch favorites, and live acoustic music.",
+      "image": "/images/events/brunch.jpg",
+      "featured": false
+    },
+    {
+      "id": "event-4",
+      "title": "Chef's Table Experience",
+      "date": "2024-03-28",
+      "time": "6:00 PM",
+      "description": "An exclusive 7-course tasting menu prepared by our executive chef. Limited seating available.",
+      "image": "/images/events/chefs-table.jpg",
+      "featured": true
+    }
+  ]
+}
+

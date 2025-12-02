@@ -21,7 +21,7 @@ export default function EventCard({ event, index = 0 }) {
     >
       <div className="relative h-48 w-full">
         <Image
-          src={event.image || '/images/placeholder-event.jpg'}
+          src={event.image || '/images/trio_main.png'}
           alt={event.title}
           fill
           className="object-cover"
@@ -52,4 +52,3 @@ export default function EventCard({ event, index = 0 }) {
     </motion.div>
   )
 }
-

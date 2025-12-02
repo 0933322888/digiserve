@@ -2,8 +2,8 @@ import { notFound } from 'next/navigation'
 import SectionTitle from '@/components/SectionTitle'
 import OrderMenuClient from '@/components/ordering/OrderMenuClient'
 import { siteConfig } from '@/config/siteConfig'
-import foodMenuData from '@/data/menu/food.json'
-import drinksMenuData from '@/data/menu/drinks.json'
+import { getActiveMenu } from '@/lib/menu-service'
+import { isModuleEnabled } from '@/lib/module-settings-service'
 
 /**
  * Order Page Metadata
@@ -17,38 +17,65 @@ export const metadata = {
   },
 }
 
+export const dynamic = 'force-dynamic'
+
 /**
  * Order Page - Browse Menu
- * Combines food and drink menus with category filtering
+ * Uses the active menu
  */
-export default function OrderPage() {
+export default async function OrderPage() {
+  const orderingEnabled = await isModuleEnabled('ordering')
+  const activeMenu = await getActiveMenu()
 
-  // Combine all menu items
-  const allSections = [
-    ...(siteConfig.features.foodMenu
-      ? foodMenuData.sections.map((section) => ({
-          ...section,
-          category: 'food',
-        }))
-      : []),
-    ...(siteConfig.features.drinkMenu
-      ? drinksMenuData.sections.map((section) => ({
-          ...section,
-          category: 'drinks',
-        }))
-      : []),
-  ]
+  if (!activeMenu || !activeMenu.sections || activeMenu.sections.length === 0) {
+    return (
+      <div className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle title={orderingEnabled ? "Order Online" : "Menu"} subtitle="Menu is currently unavailable" />
+          <div className="text-center py-12">
+            <p className="text-gray-600 dark:text-gray-400">
+              Please check back later or contact us directly.
+            </p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://triobistro.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Order Online',
+        item: 'https://triobistro.com/menu',
+      },
+    ],
+  }
 
   return (
-    <div className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <SectionTitle
-          title="Order Online"
-          subtitle="Browse our menu and add items to your cart"
-        />
-        <OrderMenuClient sections={allSections} />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <div className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <SectionTitle
+            title={orderingEnabled ? "Order Online" : "Menu"}
+            subtitle={orderingEnabled ? "Browse our menu and add items to your cart" : ""}
+          />
+          <OrderMenuClient sections={activeMenu.sections} />
+        </div>
       </div>
-    </div>
+    </>
   )
 }
-

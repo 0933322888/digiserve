@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, MapPin, Clock } from 'lucide-react'
+import { Calendar, MapPin, Clock, UtensilsCrossed } from 'lucide-react'
 import { siteConfig } from '@/config/siteConfig'
 import PaymentForm from './PaymentForm'
 
@@ -15,8 +15,9 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
     name: '',
     email: '',
     phone: '',
-    orderType: 'pickup', // 'pickup' or 'delivery'
+    orderType: 'pickup', // 'pickup', 'delivery', or 'dineIn'
     pickupTime: '',
+    dineInTime: '',
     deliveryAddress: {
       street: '',
       city: '',
@@ -34,9 +35,10 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
     formData.orderType === 'delivery' && ordering?.deliverySettings
       ? ordering.deliverySettings.baseFee
       : 0
+  // Dine-in orders have no delivery fee
   const total = cartTotals.subtotal + tax + deliveryFee
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     const { name, value } = e.target
     if (name.startsWith('deliveryAddress.')) {
       const field = name.split('.')[1]
@@ -64,6 +66,9 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
     if (formData.orderType === 'pickup' && !formData.pickupTime) {
       newErrors.pickupTime = 'Pickup time is required'
     }
+    if (formData.orderType === 'dineIn' && !formData.dineInTime) {
+      newErrors.dineInTime = 'Dine-in time is required'
+    }
     if (formData.orderType === 'delivery') {
       if (!formData.deliveryAddress.street.trim())
         newErrors['deliveryAddress.street'] = 'Street address is required'
@@ -76,7 +81,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = async (paymentIntent) => {
+  const handleSubmit = async paymentIntent => {
     if (!validateForm()) return false
 
     setIsSubmitting(true)
@@ -93,6 +98,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
           },
           orderType: formData.orderType,
           pickupTime: formData.pickupTime,
+          dineInTime: formData.dineInTime,
           deliveryAddress: formData.deliveryAddress,
           totals: {
             subtotal: cartTotals.subtotal,
@@ -141,9 +147,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
-            {errors.name && (
-              <p className="text-red-600 text-sm mt-1">{errors.name}</p>
-            )}
+            {errors.name && <p className="text-red-600 text-sm mt-1">{errors.name}</p>}
           </div>
 
           <div>
@@ -157,9 +161,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
-            {errors.email && (
-              <p className="text-red-600 text-sm mt-1">{errors.email}</p>
-            )}
+            {errors.email && <p className="text-red-600 text-sm mt-1">{errors.email}</p>}
           </div>
 
           <div>
@@ -173,9 +175,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             />
-            {errors.phone && (
-              <p className="text-red-600 text-sm mt-1">{errors.phone}</p>
-            )}
+            {errors.phone && <p className="text-red-600 text-sm mt-1">{errors.phone}</p>}
           </div>
 
           {/* Order Type Selection */}
@@ -183,7 +183,9 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
               Order Type *
             </label>
-            <div className="grid grid-cols-2 gap-4">
+            <div
+              className={`grid gap-4 ${ordering?.dineIn && ordering?.pickup && ordering?.delivery ? 'grid-cols-3' : ordering?.dineIn && (ordering?.pickup || ordering?.delivery) ? 'grid-cols-2' : 'grid-cols-2'}`}
+            >
               {ordering?.pickup && (
                 <button
                   type="button"
@@ -201,9 +203,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
               {ordering?.delivery && (
                 <button
                   type="button"
-                  onClick={() =>
-                    setFormData({ ...formData, orderType: 'delivery' })
-                  }
+                  onClick={() => setFormData({ ...formData, orderType: 'delivery' })}
                   className={`p-4 rounded-lg border-2 transition-colors ${
                     formData.orderType === 'delivery'
                       ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
@@ -212,6 +212,20 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
                 >
                   <MapPin className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
                   <span className="font-semibold">Delivery</span>
+                </button>
+              )}
+              {ordering?.dineIn && (
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, orderType: 'dineIn' })}
+                  className={`p-4 rounded-lg border-2 transition-colors ${
+                    formData.orderType === 'dineIn'
+                      ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
+                      : 'border-gray-300 dark:border-gray-600'
+                  }`}
+                >
+                  <UtensilsCrossed className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
+                  <span className="font-semibold">Dine In</span>
                 </button>
               )}
             </div>
@@ -238,6 +252,30 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
             </div>
           )}
 
+          {/* Dine-In Time */}
+          {formData.orderType === 'dineIn' && ordering?.dineIn && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <Clock className="w-4 h-4 inline mr-2" />
+                Preferred Dine-In Time *
+              </label>
+              <input
+                type="datetime-local"
+                name="dineInTime"
+                value={formData.dineInTime}
+                onChange={handleChange}
+                min={new Date().toISOString().slice(0, 16)}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              />
+              {errors.dineInTime && (
+                <p className="text-red-600 text-sm mt-1">{errors.dineInTime}</p>
+              )}
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                We'll prepare your order for this time. Please arrive on time.
+              </p>
+            </div>
+          )}
+
           {/* Delivery Address */}
           {formData.orderType === 'delivery' && ordering?.delivery && (
             <div className="space-y-4">
@@ -256,9 +294,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                 />
                 {errors['deliveryAddress.street'] && (
-                  <p className="text-red-600 text-sm mt-1">
-                    {errors['deliveryAddress.street']}
-                  </p>
+                  <p className="text-red-600 text-sm mt-1">{errors['deliveryAddress.street']}</p>
                 )}
               </div>
               <div className="grid grid-cols-2 gap-4">
@@ -274,9 +310,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   />
                   {errors['deliveryAddress.city'] && (
-                    <p className="text-red-600 text-sm mt-1">
-                      {errors['deliveryAddress.city']}
-                    </p>
+                    <p className="text-red-600 text-sm mt-1">{errors['deliveryAddress.city']}</p>
                   )}
                 </div>
                 <div>
@@ -291,9 +325,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
                     className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                   />
                   {errors['deliveryAddress.zip'] && (
-                    <p className="text-red-600 text-sm mt-1">
-                      {errors['deliveryAddress.zip']}
-                    </p>
+                    <p className="text-red-600 text-sm mt-1">{errors['deliveryAddress.zip']}</p>
                   )}
                 </div>
               </div>
@@ -328,15 +360,10 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
               </div>
             </div>
 
-            <PaymentForm
-              amount={total}
-              onSuccess={handleSubmit}
-              isSubmitting={isSubmitting}
-            />
+            <PaymentForm amount={total} onSuccess={handleSubmit} isSubmitting={isSubmitting} />
           </div>
         </div>
       </div>
     </div>
   )
 }
-

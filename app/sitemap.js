@@ -28,34 +28,6 @@ export default function sitemap() {
     },
   ]
 
-  // Add menu routes if enabled
-  if (siteConfig.features.foodMenu || siteConfig.features.drinkMenu) {
-    if (siteConfig.features.foodMenu && siteConfig.features.drinkMenu) {
-      routes.push({
-        url: `${baseUrl}/menu`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.9,
-      })
-    }
-    if (siteConfig.features.foodMenu) {
-      routes.push({
-        url: `${baseUrl}/menu/food`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.9,
-      })
-    }
-    if (siteConfig.features.drinkMenu) {
-      routes.push({
-        url: `${baseUrl}/menu/drinks`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: 0.9,
-      })
-    }
-  }
-
   // Add feature routes if enabled
   if (siteConfig.features.reservations) {
     routes.push({
@@ -94,7 +66,7 @@ export default function sitemap() {
   }
 
   // Add ordering routes if enabled
-  if (siteConfig.features.onlineOrdering && siteConfig.ordering?.enabled) {
+  if (siteConfig.ordering?.enabled) {
     routes.push({
       url: `${baseUrl}/order`,
       lastModified: new Date(),
@@ -105,4 +77,3 @@ export default function sitemap() {
 
   return routes
 }
-

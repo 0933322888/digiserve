@@ -13,8 +13,7 @@ import { formatPrice } from '@/lib/utils'
  */
 export default function CartDrawer() {
   const [isOpen, setIsOpen] = useState(false)
-  const { cartItems, removeItem, updateQuantity, cartTotals, itemCount } =
-    useCart()
+  const { cartItems, removeItem, updateQuantity, cartTotals, itemCount } = useCart()
 
   return (
     <>
@@ -69,13 +68,11 @@ export default function CartDrawer() {
                 {cartItems.length === 0 ? (
                   <div className="text-center py-12">
                     <ShoppingCart className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <p className="text-gray-600 dark:text-gray-400">
-                      Your cart is empty
-                    </p>
+                    <p className="text-gray-600 dark:text-gray-400">Your cart is empty</p>
                   </div>
                 ) : (
                   <div className="space-y-4 h-full">
-                    {cartItems.map((item) => (
+                    {cartItems.map(item => (
                       <div
                         key={item.id}
                         className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-sm"
@@ -105,9 +102,7 @@ export default function CartDrawer() {
                         <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
                           <div className="flex items-center space-x-3">
                             <button
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity - 1)
-                              }
+                              onClick={() => updateQuantity(item.id, item.quantity - 1)}
                               className="w-10 h-10 rounded-lg border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors font-semibold"
                             >
                               -
@@ -116,9 +111,7 @@ export default function CartDrawer() {
                               {item.quantity}
                             </span>
                             <button
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity + 1)
-                              }
+                              onClick={() => updateQuantity(item.id, item.quantity + 1)}
                               className="w-10 h-10 rounded-lg border-2 border-gray-300 dark:border-gray-600 flex items-center justify-center hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors font-semibold"
                             >
                               +
@@ -138,9 +131,7 @@ export default function CartDrawer() {
               {cartItems.length > 0 && (
                 <div className="border-t border-gray-200 dark:border-gray-700 p-6 space-y-4 bg-white dark:bg-gray-800 flex-shrink-0">
                   <div className="flex justify-between text-xl font-semibold">
-                    <span className="text-gray-700 dark:text-gray-300">
-                      Subtotal:
-                    </span>
+                    <span className="text-gray-700 dark:text-gray-300">Subtotal:</span>
                     <span className="text-primary dark:text-gold">
                       {formatPrice(cartTotals.subtotal)}
                     </span>
@@ -161,4 +152,3 @@ export default function CartDrawer() {
     </>
   )
 }
-

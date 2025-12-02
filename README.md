@@ -26,11 +26,13 @@ A fully modular, SEO-optimized, responsive Next.js 14 website template designed 
 1. **Clone or download the project**
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Run development server**
+
    ```bash
    npm run dev
    ```
@@ -43,11 +45,13 @@ A fully modular, SEO-optimized, responsive Next.js 14 website template designed 
 All site configuration is managed in `/config/siteConfig.ts`. This file controls:
 
 ### Restaurant Information
+
 - Restaurant name, tagline, description
 - Address and contact information
 - Operating hours
 
 ### Feature Toggles
+
 Enable or disable features by setting them to `true` or `false`:
 
 ```typescript
@@ -56,17 +60,17 @@ features: {
   gallery: true,       // Gallery page
   reservations: true,  // Reservations page
   giftCards: true,     // Gift cards page
-  foodMenu: true,      // Food menu page
-  drinkMenu: true,     // Drinks menu page
 }
 ```
 
 ### SEO Configuration
+
 - Site name and default meta tags
 - OpenGraph and Twitter card settings
 - Social media links
 
 ### API Configuration
+
 - Email sending (AWS SES integration)
 - Stripe payment processing (for gift cards)
 
@@ -99,10 +103,12 @@ restaurant: {
 ### Step 2: Update Menu Data
 
 Replace menu items in:
+
 - `/data/menu/food.json` - Food menu items
 - `/data/menu/drinks.json` - Drinks menu items
 
 Menu structure:
+
 ```json
 {
   "sections": [
@@ -147,6 +153,7 @@ Edit `/data/events.json` with your events:
 ### Step 4: Update Images
 
 Replace placeholder images with your own:
+
 - Hero section images
 - Gallery images
 - Event images
@@ -157,6 +164,7 @@ Place images in `/public/images/` directory.
 ### Step 5: Update SEO Settings
 
 In `/config/siteConfig.ts`, update:
+
 - `seo.defaultTitle`
 - `seo.defaultDescription`
 - `seo.defaultImage`
@@ -165,6 +173,7 @@ In `/config/siteConfig.ts`, update:
 ### Step 6: Update Domain
 
 Update the base URL in:
+
 - `/app/sitemap.js` - Change `baseUrl`
 - `/app/robots.js` - Change `baseUrl`
 - `/app/layout.js` - Update OpenGraph URL
@@ -172,6 +181,7 @@ Update the base URL in:
 ## 🌐 AWS Deployment
 
 ### Prerequisites
+
 - AWS Account
 - AWS CLI configured
 - S3 bucket created
@@ -186,17 +196,20 @@ npm run build
 ### Deploy to S3
 
 1. **Build the project**
+
    ```bash
    npm run build
    ```
 
 2. **Export static files**
+
    ```bash
    npm run build
    # Next.js will output to .next/standalone
    ```
 
 3. **Upload to S3**
+
    ```bash
    aws s3 sync .next/standalone s3://your-bucket-name --delete
    ```
@@ -226,6 +239,7 @@ To enable email sending:
    - Request production access if needed
 
 2. **Install AWS SDK**
+
    ```bash
    npm install @aws-sdk/client-ses
    ```
@@ -248,11 +262,13 @@ To enable Stripe payments:
    - Get your API keys
 
 2. **Install Stripe SDK**
+
    ```bash
    npm install stripe
    ```
 
 3. **Update configuration**
+
    ```typescript
    api: {
      enableStripe: true,
@@ -336,11 +352,13 @@ fontFamily: {
 ## 🧪 Development
 
 ### Run Linter
+
 ```bash
 npm run lint
 ```
 
 ### Format Code
+
 ```bash
 npm run format
 ```
@@ -352,6 +370,7 @@ This template is provided as-is for use in restaurant websites. Customize as nee
 ## 🤝 Support
 
 For questions or issues:
+
 1. Check the configuration file
 2. Review the API route implementations
 3. Check Next.js documentation
@@ -369,4 +388,3 @@ For questions or issues:
 ---
 
 **Built with ❤️ for restaurants and bars**
-

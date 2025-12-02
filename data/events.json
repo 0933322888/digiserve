@@ -6,7 +6,7 @@
       "date": "2024-03-15",
       "time": "8:00 PM",
       "description": "Join us for an evening of smooth jazz with live performances by local artists. Enjoy our signature cocktails and small plates.",
-      "image": "/images/events/jazz-night.jpg",
+      "image": "/images/trio_main.png",
       "featured": true
     },
     {
@@ -15,7 +15,7 @@
       "date": "2024-03-22",
       "time": "7:00 PM",
       "description": "Experience a curated selection of wines from renowned vineyards. Includes wine pairings with chef's selection appetizers.",
-      "image": "/images/events/wine-tasting.jpg",
+      "image": "/images/trio_main.png",
       "featured": true
     },
     {
@@ -24,7 +24,7 @@
       "date": "2024-03-17",
       "time": "10:00 AM - 2:00 PM",
       "description": "Our popular Sunday brunch featuring bottomless mimosas, classic brunch favorites, and live acoustic music.",
-      "image": "/images/events/brunch.jpg",
+      "image": "/images/trio_main.png",
       "featured": false
     },
     {
@@ -33,9 +33,8 @@
       "date": "2024-03-28",
       "time": "6:00 PM",
       "description": "An exclusive 7-course tasting menu prepared by our executive chef. Limited seating available.",
-      "image": "/images/events/chefs-table.jpg",
+      "image": "/images/trio_main.png",
       "featured": true
     }
   ]
 }
-

@@ -1,0 +1,1554 @@
+[
+  {
+    "id": "ORD-001",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "John Smith",
+      "email": "john.smith@email.com",
+      "phone": "+1-555-0101"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 2
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 54,
+      "tax": 7.02,
+      "delivery": 0,
+      "total": 61.02
+    },
+    "status": "completed",
+    "pickupTime": "2024-11-20T18:30:00.000Z",
+    "createdAt": "2024-11-20T17:00:00.000Z",
+    "updatedAt": "2024-11-20T18:30:00.000Z",
+    "completedAt": "2024-11-20T18:30:00.000Z"
+  },
+  {
+    "id": "ORD-002",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@email.com",
+      "phone": "+1-555-0102"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "English Country Garden",
+        "price": 18,
+        "quantity": 2
+      },
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 82,
+      "tax": 10.66,
+      "delivery": 5,
+      "total": 97.66
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "123 Main St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1A 0A1"
+    },
+    "createdAt": "2024-11-21T19:15:00.000Z",
+    "updatedAt": "2024-11-21T20:00:00.000Z",
+    "completedAt": "2024-11-21T20:00:00.000Z"
+  },
+  {
+    "id": "ORD-003",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Michael Chen",
+      "email": "m.chen@email.com",
+      "phone": "+1-555-0103"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Tia Mia",
+        "price": 19,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 60,
+      "tax": 7.8,
+      "delivery": 0,
+      "total": 67.8
+    },
+    "status": "completed",
+    "dineInTime": "2024-11-22T20:00:00.000Z",
+    "createdAt": "2024-11-22T19:30:00.000Z",
+    "updatedAt": "2024-11-22T21:00:00.000Z",
+    "completedAt": "2024-11-22T21:00:00.000Z"
+  },
+  {
+    "id": "ORD-004",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Emily Rodriguez",
+      "email": "emily.r@email.com",
+      "phone": "+1-555-0104"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      },
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 41,
+      "tax": 5.33,
+      "delivery": 0,
+      "total": 46.33
+    },
+    "status": "pending",
+    "pickupTime": "2024-11-23T18:00:00.000Z",
+    "createdAt": "2024-11-23T16:30:00.000Z",
+    "updatedAt": "2024-11-23T16:30:00.000Z"
+  },
+  {
+    "id": "ORD-005",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "David Williams",
+      "email": "d.williams@email.com",
+      "phone": "+1-555-0105"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 3
+      },
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 77,
+      "tax": 10.01,
+      "delivery": 5,
+      "total": 92.01
+    },
+    "status": "preparing",
+    "deliveryAddress": {
+      "street": "456 Oak Avenue",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K2B 1A2"
+    },
+    "createdAt": "2024-11-23T17:45:00.000Z",
+    "updatedAt": "2024-11-23T18:00:00.000Z"
+  },
+  {
+    "id": "ORD-006",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Lisa Anderson",
+      "email": "lisa.a@email.com",
+      "phone": "+1-555-0106"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 2
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 82,
+      "tax": 10.66,
+      "delivery": 0,
+      "total": 92.66
+    },
+    "status": "ready",
+    "dineInTime": "2024-11-23T19:30:00.000Z",
+    "createdAt": "2024-11-23T19:00:00.000Z",
+    "updatedAt": "2024-11-23T19:15:00.000Z"
+  },
+  {
+    "id": "ORD-007",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "John Smith",
+      "email": "john.smith@email.com",
+      "phone": "+1-555-0101"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Negroni",
+        "price": 19,
+        "quantity": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 58,
+      "tax": 7.54,
+      "delivery": 0,
+      "total": 65.54
+    },
+    "status": "completed",
+    "pickupTime": "2024-11-24T12:30:00.000Z",
+    "createdAt": "2024-11-24T12:00:00.000Z",
+    "updatedAt": "2024-11-24T12:45:00.000Z",
+    "completedAt": "2024-11-24T12:45:00.000Z"
+  },
+  {
+    "id": "ORD-008",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@email.com",
+      "phone": "+1-555-0102"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 41,
+      "tax": 5.33,
+      "delivery": 5,
+      "total": 51.33
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "123 Main St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1A 0A1"
+    },
+    "createdAt": "2024-11-24T13:15:00.000Z",
+    "updatedAt": "2024-11-24T14:00:00.000Z",
+    "completedAt": "2024-11-24T14:00:00.000Z"
+  },
+  {
+    "id": "ORD-009",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Robert Taylor",
+      "email": "r.taylor@email.com",
+      "phone": "+1-555-0107"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 4
+      },
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 95,
+      "tax": 12.35,
+      "delivery": 0,
+      "total": 107.35
+    },
+    "status": "completed",
+    "dineInTime": "2024-11-24T20:30:00.000Z",
+    "createdAt": "2024-11-24T20:00:00.000Z",
+    "updatedAt": "2024-11-24T21:30:00.000Z",
+    "completedAt": "2024-11-24T21:30:00.000Z"
+  },
+  {
+    "id": "ORD-010",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Jennifer Martinez",
+      "email": "j.martinez@email.com",
+      "phone": "+1-555-0108"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 65,
+      "tax": 8.45,
+      "delivery": 0,
+      "total": 73.45
+    },
+    "status": "completed",
+    "pickupTime": "2024-11-25T19:00:00.000Z",
+    "createdAt": "2024-11-25T18:30:00.000Z",
+    "updatedAt": "2024-11-25T19:15:00.000Z",
+    "completedAt": "2024-11-25T19:15:00.000Z"
+  },
+  {
+    "id": "ORD-011",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Michael Chen",
+      "email": "m.chen@email.com",
+      "phone": "+1-555-0103"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 2
+      },
+      {
+        "id": "plate-7",
+        "name": "French Onion Mushroom on Toast",
+        "price": 24,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 60,
+      "tax": 7.8,
+      "delivery": 5,
+      "total": 72.8
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "789 Pine Street",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1Z 6X1"
+    },
+    "createdAt": "2024-11-25T18:00:00.000Z",
+    "updatedAt": "2024-11-25T19:00:00.000Z",
+    "completedAt": "2024-11-25T19:00:00.000Z"
+  },
+  {
+    "id": "ORD-012",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Emily Rodriguez",
+      "email": "emily.r@email.com",
+      "phone": "+1-555-0104"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "cocktail-3",
+        "name": "Negroni",
+        "price": 19,
+        "quantity": 2
+      },
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 61,
+      "tax": 7.93,
+      "delivery": 0,
+      "total": 68.93
+    },
+    "status": "completed",
+    "dineInTime": "2024-11-26T19:45:00.000Z",
+    "createdAt": "2024-11-26T19:30:00.000Z",
+    "updatedAt": "2024-11-26T20:30:00.000Z",
+    "completedAt": "2024-11-26T20:30:00.000Z"
+  },
+  {
+    "id": "ORD-013",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "David Williams",
+      "email": "d.williams@email.com",
+      "phone": "+1-555-0105"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 3
+      }
+    ],
+    "totals": {
+      "subtotal": 77,
+      "tax": 10.01,
+      "delivery": 0,
+      "total": 87.01
+    },
+    "status": "completed",
+    "pickupTime": "2024-11-26T17:30:00.000Z",
+    "createdAt": "2024-11-26T17:00:00.000Z",
+    "updatedAt": "2024-11-26T17:45:00.000Z",
+    "completedAt": "2024-11-26T17:45:00.000Z"
+  },
+  {
+    "id": "ORD-014",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Lisa Anderson",
+      "email": "lisa.a@email.com",
+      "phone": "+1-555-0106"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 65,
+      "tax": 8.45,
+      "delivery": 5,
+      "total": 78.45
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "321 Elm Road",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1N 5A8"
+    },
+    "createdAt": "2024-11-27T18:15:00.000Z",
+    "updatedAt": "2024-11-27T19:00:00.000Z",
+    "completedAt": "2024-11-27T19:00:00.000Z"
+  },
+  {
+    "id": "ORD-015",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "John Smith",
+      "email": "john.smith@email.com",
+      "phone": "+1-555-0101"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      },
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Negroni",
+        "price": 19,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 57,
+      "tax": 7.41,
+      "delivery": 0,
+      "total": 64.41
+    },
+    "status": "completed",
+    "dineInTime": "2024-11-27T20:00:00.000Z",
+    "createdAt": "2024-11-27T19:45:00.000Z",
+    "updatedAt": "2024-11-27T21:00:00.000Z",
+    "completedAt": "2024-11-27T21:00:00.000Z"
+  },
+  {
+    "id": "ORD-016",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@email.com",
+      "phone": "+1-555-0102"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 2
+      },
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 59,
+      "tax": 7.67,
+      "delivery": 0,
+      "total": 66.67
+    },
+    "status": "completed",
+    "pickupTime": "2024-11-28T12:00:00.000Z",
+    "createdAt": "2024-11-28T11:30:00.000Z",
+    "updatedAt": "2024-11-28T12:15:00.000Z",
+    "completedAt": "2024-11-28T12:15:00.000Z"
+  },
+  {
+    "id": "ORD-017",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Michael Chen",
+      "email": "m.chen@email.com",
+      "phone": "+1-555-0103"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 63,
+      "tax": 8.19,
+      "delivery": 5,
+      "total": 76.19
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "789 Pine Street",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1Z 6X1"
+    },
+    "createdAt": "2024-11-28T13:30:00.000Z",
+    "updatedAt": "2024-11-28T14:30:00.000Z",
+    "completedAt": "2024-11-28T14:30:00.000Z"
+  },
+  {
+    "id": "ORD-018",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Emily Rodriguez",
+      "email": "emily.r@email.com",
+      "phone": "+1-555-0104"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 1
+      },
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 63,
+      "tax": 8.19,
+      "delivery": 0,
+      "total": 71.19
+    },
+    "status": "completed",
+    "dineInTime": "2024-11-28T19:00:00.000Z",
+    "createdAt": "2024-11-28T18:45:00.000Z",
+    "updatedAt": "2024-11-28T20:00:00.000Z",
+    "completedAt": "2024-11-28T20:00:00.000Z"
+  },
+  {
+    "id": "ORD-019",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "David Williams",
+      "email": "d.williams@email.com",
+      "phone": "+1-555-0105"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 3
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Negroni",
+        "price": 19,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 73,
+      "tax": 9.49,
+      "delivery": 0,
+      "total": 82.49
+    },
+    "status": "completed",
+    "pickupTime": "2024-11-29T18:00:00.000Z",
+    "createdAt": "2024-11-29T17:30:00.000Z",
+    "updatedAt": "2024-11-29T18:15:00.000Z",
+    "completedAt": "2024-11-29T18:15:00.000Z"
+  },
+  {
+    "id": "ORD-020",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Lisa Anderson",
+      "email": "lisa.a@email.com",
+      "phone": "+1-555-0106"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "plate-7",
+        "name": "French Onion Mushroom on Toast",
+        "price": 24,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 44,
+      "tax": 5.72,
+      "delivery": 5,
+      "total": 54.72
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "321 Elm Road",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1N 5A8"
+    },
+    "createdAt": "2024-11-29T19:30:00.000Z",
+    "updatedAt": "2024-11-29T20:30:00.000Z",
+    "completedAt": "2024-11-29T20:30:00.000Z"
+  },
+  {
+    "id": "ORD-021",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Robert Taylor",
+      "email": "r.taylor@email.com",
+      "phone": "+1-555-0107"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 3
+      },
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 83,
+      "tax": 10.79,
+      "delivery": 0,
+      "total": 93.79
+    },
+    "status": "completed",
+    "dineInTime": "2024-11-30T20:15:00.000Z",
+    "createdAt": "2024-11-30T20:00:00.000Z",
+    "updatedAt": "2024-11-30T21:15:00.000Z",
+    "completedAt": "2024-11-30T21:15:00.000Z"
+  },
+  {
+    "id": "ORD-022",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Jennifer Martinez",
+      "email": "j.martinez@email.com",
+      "phone": "+1-555-0108"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 2
+      },
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 77,
+      "tax": 10.01,
+      "delivery": 0,
+      "total": 87.01
+    },
+    "status": "completed",
+    "pickupTime": "2024-11-30T17:45:00.000Z",
+    "createdAt": "2024-11-30T17:15:00.000Z",
+    "updatedAt": "2024-11-30T18:00:00.000Z",
+    "completedAt": "2024-11-30T18:00:00.000Z"
+  },
+  {
+    "id": "ORD-023",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "John Smith",
+      "email": "john.smith@email.com",
+      "phone": "+1-555-0101"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 2
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Negroni",
+        "price": 19,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 63,
+      "tax": 8.19,
+      "delivery": 5,
+      "total": 76.19
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "123 Main St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1A 0A1"
+    },
+    "createdAt": "2024-12-01T18:30:00.000Z",
+    "updatedAt": "2024-12-01T19:30:00.000Z",
+    "completedAt": "2024-12-01T19:30:00.000Z"
+  },
+  {
+    "id": "ORD-024",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@email.com",
+      "phone": "+1-555-0102"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 63,
+      "tax": 8.19,
+      "delivery": 0,
+      "total": 71.19
+    },
+    "status": "completed",
+    "dineInTime": "2024-12-01T19:00:00.000Z",
+    "createdAt": "2024-12-01T18:45:00.000Z",
+    "updatedAt": "2024-12-01T20:00:00.000Z",
+    "completedAt": "2024-12-01T20:00:00.000Z"
+  },
+  {
+    "id": "ORD-025",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Michael Chen",
+      "email": "m.chen@email.com",
+      "phone": "+1-555-0103"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 4
+      },
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 95,
+      "tax": 12.35,
+      "delivery": 0,
+      "total": 107.35
+    },
+    "status": "completed",
+    "pickupTime": "2024-12-02T16:00:00.000Z",
+    "createdAt": "2024-12-02T15:30:00.000Z",
+    "updatedAt": "2024-12-02T16:15:00.000Z",
+    "completedAt": "2024-12-02T16:15:00.000Z"
+  },
+  {
+    "id": "ORD-026",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Emily Rodriguez",
+      "email": "emily.r@email.com",
+      "phone": "+1-555-0104"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      },
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 59,
+      "tax": 7.67,
+      "delivery": 5,
+      "total": 71.67
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "456 Oak Avenue",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K2B 1A2"
+    },
+    "createdAt": "2024-12-02T17:00:00.000Z",
+    "updatedAt": "2024-12-02T18:00:00.000Z",
+    "completedAt": "2024-12-02T18:00:00.000Z"
+  },
+  {
+    "id": "ORD-027",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "David Williams",
+      "email": "d.williams@email.com",
+      "phone": "+1-555-0105"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 62,
+      "tax": 8.06,
+      "delivery": 0,
+      "total": 70.06
+    },
+    "status": "completed",
+    "dineInTime": "2024-12-02T19:30:00.000Z",
+    "createdAt": "2024-12-02T19:15:00.000Z",
+    "updatedAt": "2024-12-02T20:30:00.000Z",
+    "completedAt": "2024-12-02T20:30:00.000Z"
+  },
+  {
+    "id": "ORD-028",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Lisa Anderson",
+      "email": "lisa.a@email.com",
+      "phone": "+1-555-0106"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Tia Mia",
+        "price": 19,
+        "quantity": 1
+      },
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 57,
+      "tax": 7.41,
+      "delivery": 0,
+      "total": 64.41
+    },
+    "status": "completed",
+    "pickupTime": "2024-12-03T18:30:00.000Z",
+    "createdAt": "2024-12-03T18:00:00.000Z",
+    "updatedAt": "2024-12-03T19:00:00.000Z",
+    "completedAt": "2024-12-03T19:00:00.000Z"
+  },
+  {
+    "id": "ORD-029",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Robert Taylor",
+      "email": "r.taylor@email.com",
+      "phone": "+1-555-0107"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 59,
+      "tax": 7.67,
+      "delivery": 5,
+      "total": 71.67
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "789 Pine Street",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1Z 6X1"
+    },
+    "createdAt": "2024-12-03T19:00:00.000Z",
+    "updatedAt": "2024-12-03T20:00:00.000Z",
+    "completedAt": "2024-12-03T20:00:00.000Z"
+  },
+  {
+    "id": "ORD-030",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Jennifer Martinez",
+      "email": "j.martinez@email.com",
+      "phone": "+1-555-0108"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 66,
+      "tax": 8.58,
+      "delivery": 0,
+      "total": 74.58
+    },
+    "status": "completed",
+    "dineInTime": "2024-12-03T20:00:00.000Z",
+    "createdAt": "2024-12-03T19:45:00.000Z",
+    "updatedAt": "2024-12-03T21:00:00.000Z",
+    "completedAt": "2024-12-03T21:00:00.000Z"
+  },
+  {
+    "id": "ORD-031",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "John Smith",
+      "email": "john.smith@email.com",
+      "phone": "+1-555-0101"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      },
+      {
+        "id": "plate-7",
+        "name": "French Onion Mushroom on Toast",
+        "price": 24,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 42,
+      "tax": 5.46,
+      "delivery": 0,
+      "total": 47.46
+    },
+    "status": "completed",
+    "pickupTime": "2024-12-04T12:00:00.000Z",
+    "createdAt": "2024-12-04T11:30:00.000Z",
+    "updatedAt": "2024-12-04T12:15:00.000Z",
+    "completedAt": "2024-12-04T12:15:00.000Z"
+  },
+  {
+    "id": "ORD-032",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@email.com",
+      "phone": "+1-555-0102"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 2
+      },
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 58,
+      "tax": 7.54,
+      "delivery": 5,
+      "total": 70.54
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "123 Main St",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1A 0A1"
+    },
+    "createdAt": "2024-12-04T13:00:00.000Z",
+    "updatedAt": "2024-12-04T14:00:00.000Z",
+    "completedAt": "2024-12-04T14:00:00.000Z"
+  },
+  {
+    "id": "ORD-033",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Michael Chen",
+      "email": "m.chen@email.com",
+      "phone": "+1-555-0103"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 61,
+      "tax": 7.93,
+      "delivery": 0,
+      "total": 68.93
+    },
+    "status": "completed",
+    "dineInTime": "2024-12-04T19:00:00.000Z",
+    "createdAt": "2024-12-04T18:45:00.000Z",
+    "updatedAt": "2024-12-04T20:00:00.000Z",
+    "completedAt": "2024-12-04T20:00:00.000Z"
+  },
+  {
+    "id": "ORD-034",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Emily Rodriguez",
+      "email": "emily.r@email.com",
+      "phone": "+1-555-0104"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 2
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Negroni",
+        "price": 19,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 59,
+      "tax": 7.67,
+      "delivery": 0,
+      "total": 66.67
+    },
+    "status": "completed",
+    "pickupTime": "2024-12-05T17:00:00.000Z",
+    "createdAt": "2024-12-05T16:30:00.000Z",
+    "updatedAt": "2024-12-05T17:15:00.000Z",
+    "completedAt": "2024-12-05T17:15:00.000Z"
+  },
+  {
+    "id": "ORD-035",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "David Williams",
+      "email": "d.williams@email.com",
+      "phone": "+1-555-0105"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 46,
+      "tax": 5.98,
+      "delivery": 5,
+      "total": 56.98
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "456 Oak Avenue",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K2B 1A2"
+    },
+    "createdAt": "2024-12-05T18:00:00.000Z",
+    "updatedAt": "2024-12-05T19:00:00.000Z",
+    "completedAt": "2024-12-05T19:00:00.000Z"
+  },
+  {
+    "id": "ORD-036",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Lisa Anderson",
+      "email": "lisa.a@email.com",
+      "phone": "+1-555-0106"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 3
+      },
+      {
+        "id": "plate-3",
+        "name": "Baja Fish Tacos (3)",
+        "price": 22,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 76,
+      "tax": 9.88,
+      "delivery": 0,
+      "total": 85.88
+    },
+    "status": "completed",
+    "dineInTime": "2024-12-05T20:00:00.000Z",
+    "createdAt": "2024-12-05T19:45:00.000Z",
+    "updatedAt": "2024-12-05T21:00:00.000Z",
+    "completedAt": "2024-12-05T21:00:00.000Z"
+  },
+  {
+    "id": "ORD-037",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Robert Taylor",
+      "email": "r.taylor@email.com",
+      "phone": "+1-555-0107"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-7",
+        "name": "French Onion Mushroom on Toast",
+        "price": 24,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 64,
+      "tax": 8.32,
+      "delivery": 0,
+      "total": 72.32
+    },
+    "status": "completed",
+    "pickupTime": "2024-12-06T18:30:00.000Z",
+    "createdAt": "2024-12-06T18:00:00.000Z",
+    "updatedAt": "2024-12-06T19:00:00.000Z",
+    "completedAt": "2024-12-06T19:00:00.000Z"
+  },
+  {
+    "id": "ORD-038",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Jennifer Martinez",
+      "email": "j.martinez@email.com",
+      "phone": "+1-555-0108"
+    },
+    "orderType": "delivery",
+    "items": [
+      {
+        "id": "plate-1",
+        "name": "Roasted Garlic Kale Caesar",
+        "price": 18,
+        "quantity": 1
+      },
+      {
+        "id": "plate-4",
+        "name": "Thai Fried Calamari",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-1",
+        "name": "Dark 'n' Stormy",
+        "price": 18,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 59,
+      "tax": 7.67,
+      "delivery": 5,
+      "total": 71.67
+    },
+    "status": "completed",
+    "deliveryAddress": {
+      "street": "789 Pine Street",
+      "city": "Ottawa",
+      "state": "ON",
+      "zip": "K1Z 6X1"
+    },
+    "createdAt": "2024-12-06T19:00:00.000Z",
+    "updatedAt": "2024-12-06T20:00:00.000Z",
+    "completedAt": "2024-12-06T20:00:00.000Z"
+  },
+  {
+    "id": "ORD-039",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "John Smith",
+      "email": "john.smith@email.com",
+      "phone": "+1-555-0101"
+    },
+    "orderType": "dineIn",
+    "items": [
+      {
+        "id": "plate-2",
+        "name": "Korean Pork Belly Tacos (3)",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-3",
+        "name": "Negroni",
+        "price": 19,
+        "quantity": 2
+      }
+    ],
+    "totals": {
+      "subtotal": 61,
+      "tax": 7.93,
+      "delivery": 0,
+      "total": 68.93
+    },
+    "status": "completed",
+    "dineInTime": "2024-12-07T19:30:00.000Z",
+    "createdAt": "2024-12-07T19:15:00.000Z",
+    "updatedAt": "2024-12-07T20:30:00.000Z",
+    "completedAt": "2024-12-07T20:30:00.000Z"
+  },
+  {
+    "id": "ORD-040",
+    "barId": "bar_1",
+    "customerInfo": {
+      "name": "Sarah Johnson",
+      "email": "sarah.j@email.com",
+      "phone": "+1-555-0102"
+    },
+    "orderType": "pickup",
+    "items": [
+      {
+        "id": "plate-6",
+        "name": "Tuna Tartare",
+        "price": 23,
+        "quantity": 1
+      },
+      {
+        "id": "plate-5",
+        "name": "Kung Pao Brussel Sprouts",
+        "price": 20,
+        "quantity": 1
+      },
+      {
+        "id": "cocktail-2",
+        "name": "Old Fashioned",
+        "price": 20,
+        "quantity": 1
+      }
+    ],
+    "totals": {
+      "subtotal": 63,
+      "tax": 8.19,
+      "delivery": 0,
+      "total": 71.19
+    },
+    "status": "completed",
+    "pickupTime": "2024-12-07T17:00:00.000Z",
+    "createdAt": "2024-12-07T16:30:00.000Z",
+    "updatedAt": "2024-12-07T17:15:00.000Z",
+    "completedAt": "2024-12-07T17:15:00.000Z"
+  }
+]

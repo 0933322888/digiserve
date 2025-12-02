@@ -1,96 +1,86 @@
 import { NextResponse } from 'next/server'
+import { createReservation, getReservations } from '@/lib/reservation-service'
 import { siteConfig } from '@/config/siteConfig'
+import nodemailer from 'nodemailer'
+import { logEvent } from '@/lib/event-service'
+import { getTenantFromRequest } from '@/lib/tenant-service'
 
-/**
- * Reservations API Route
- * AWS Lambda-compatible endpoint for reservation submissions
- * 
- * In production, integrate with AWS SES for email sending
- */
+// Initialize Nodemailer
+const transporter = nodemailer.createTransport({
+  host: process.env.EMAIL_SERVER_HOST,
+  port: parseInt(process.env.EMAIL_SERVER_PORT || '587'),
+  secure: false,
+  auth: {
+    user: process.env.EMAIL_SERVER_USER,
+    pass: process.env.EMAIL_SERVER_PASSWORD,
+  },
+})
+
 export async function POST(request) {
   try {
+    const barId = await getTenantFromRequest(request)
+
+    if (!barId) {
+      return NextResponse.json({ error: 'Invalid tenant or domain' }, { status: 400 })
+    }
+
     const body = await request.json()
-    const { name, email, phone, date, time, partySize, specialRequests } = body
+    const reservation = await createReservation({ ...body, barId })
 
-    // Validation
-    if (!name || !email || !phone || !date || !time || !partySize) {
-      return NextResponse.json(
-        { error: 'All required fields must be provided' },
-        { status: 400 }
-      )
+    await logEvent('RESERVATION', `New reservation request: ${reservation.name}`, 'SUCCESS', {
+      reservationId: reservation.id,
+      date: reservation.date,
+    })
+
+    // Send Restaurant Notification (Customer email sent upon Admin Confirmation)
+    if (siteConfig.api.enableEmail && process.env.EMAIL_SERVER_HOST) {
+      try {
+        await transporter.sendMail({
+          from: process.env.EMAIL_FROM || siteConfig.restaurant.email,
+          to: siteConfig.restaurant.email,
+          subject: `New Reservation Request: ${reservation.date} at ${reservation.time} — ${reservation.partySize} guests`,
+          text: `
+New Reservation Request (Pending Confirmation):
+
+Name: ${reservation.name}
+Email: ${reservation.email}
+Phone: ${reservation.phone}
+Date: ${reservation.date}
+Time: ${reservation.time}
+Guests: ${reservation.partySize}
+Special Requests: ${reservation.specialRequests || 'None'}
+
+Please log in to the Admin Dashboard to confirm or cancel this request.
+          `,
+        })
+      } catch (emailError) {
+        console.error('Email error:', emailError)
+        await logEvent('SYSTEM', 'Failed to send reservation notification email', 'FAILED', {
+          error: emailError.message,
+        })
+      }
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email address' },
-        { status: 400 }
-      )
-    }
-
-    // Date validation
-    const reservationDate = new Date(`${date}T${time}`)
-    const now = new Date()
-    if (reservationDate <= now) {
-      return NextResponse.json(
-        { error: 'Reservation date and time must be in the future' },
-        { status: 400 }
-      )
-    }
-
-    // Party size validation
-    const partySizeNum = parseInt(partySize, 10)
-    if (isNaN(partySizeNum) || partySizeNum < 1 || partySizeNum > 20) {
-      return NextResponse.json(
-        { error: 'Party size must be between 1 and 20' },
-        { status: 400 }
-      )
-    }
-
-    // In production, send email via AWS SES and optionally save to database
-    if (siteConfig.api.enableEmail) {
-      // TODO: Integrate with AWS SES
-      // Example:
-      // await ses.sendEmail({
-      //   Source: siteConfig.restaurant.email,
-      //   Destination: { ToAddresses: [siteConfig.restaurant.email] },
-      //   Message: {
-      //     Subject: { Data: `New Reservation Request from ${name}` },
-      //     Body: {
-      //       Text: {
-      //         Data: `Reservation Details:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nDate: ${date}\nTime: ${time}\nParty Size: ${partySize}\nSpecial Requests: ${specialRequests || 'None'}`,
-      //       },
-      //     },
-      //   },
-      // })
-      
-      // For now, log the submission
-      console.log('Reservation request:', {
-        name,
-        email,
-        phone,
-        date,
-        time,
-        partySize,
-        specialRequests,
-        timestamp: new Date().toISOString(),
-      })
-    }
-
-    return NextResponse.json(
-      {
-        success: true,
-        message: 'Your reservation request has been submitted. We will confirm shortly.',
-      },
-      { status: 200 }
-    )
+    return NextResponse.json({ success: true, reservation })
   } catch (error) {
-    console.error('Reservation form error:', error)
-    return NextResponse.json(
-      { error: 'Internal server error. Please try again later.' },
-      { status: 500 }
-    )
+    await logEvent('RESERVATION', 'Reservation request failed', 'FAILED', { error: error.message })
+    return NextResponse.json({ error: error.message }, { status: 400 })
   }
 }
 
+export async function GET(request) {
+  try {
+    const barId = await getTenantFromRequest(request)
+
+    if (!barId) {
+      return NextResponse.json({ error: 'Invalid tenant or domain' }, { status: 400 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const date = searchParams.get('date')
+    const reservations = await getReservations(barId, date)
+    return NextResponse.json(reservations)
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch reservations' }, { status: 500 })
+  }
+}

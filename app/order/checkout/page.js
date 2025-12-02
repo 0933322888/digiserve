@@ -18,23 +18,16 @@ export default function CheckoutPage() {
     return null
   }
 
-  const handleSuccess = (order) => {
+  const handleSuccess = order => {
     router.push(`/order/success?orderId=${order.id}`)
   }
 
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-8">
-          Checkout
-        </h1>
-        <CheckoutForm
-          cartItems={cartItems}
-          cartTotals={cartTotals}
-          onSuccess={handleSuccess}
-        />
+        <h1 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-8">Checkout</h1>
+        <CheckoutForm cartItems={cartItems} cartTotals={cartTotals} onSuccess={handleSuccess} />
       </div>
     </div>
   )
 }
-

@@ -84,9 +84,8 @@ export default function ReservationsPage() {
                   </a>
                 </p>
                 <p>
-                  <strong>Address:</strong> {restaurant.address.street},{' '}
-                  {restaurant.address.city}, {restaurant.address.state}{' '}
-                  {restaurant.address.zip}
+                  <strong>Address:</strong> {restaurant.address.street}, {restaurant.address.city},{' '}
+                  {restaurant.address.state} {restaurant.address.zip}
                 </p>
               </div>
             </div>
@@ -98,4 +97,3 @@ export default function ReservationsPage() {
     </>
   )
 }
-

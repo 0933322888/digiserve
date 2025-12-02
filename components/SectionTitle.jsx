@@ -21,11 +21,8 @@ export default function SectionTitle({ title, subtitle, className = '' }) {
         {title}
       </h2>
       {subtitle && (
-        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          {subtitle}
-        </p>
+        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">{subtitle}</p>
       )}
     </motion.div>
   )
 }
-

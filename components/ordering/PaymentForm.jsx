@@ -2,12 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import {
-  Elements,
-  CardElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js'
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { siteConfig } from '@/config/siteConfig'
 
 // Initialize Stripe
@@ -24,9 +19,9 @@ function PaymentFormInner({ amount, onSuccess, isSubmitting }) {
   const [error, setError] = useState(null)
   const [processing, setProcessing] = useState(false)
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    
+
     // If Stripe is not configured, skip payment and proceed with order
     if (!siteConfig.api.enableStripe || !siteConfig.api.stripePublicKey) {
       const mockPaymentIntent = {
@@ -59,7 +54,7 @@ function PaymentFormInner({ amount, onSuccess, isSubmitting }) {
       }
 
       const data = await response.json()
-      
+
       if (!data.clientSecret) {
         throw new Error('No client secret received from server')
       }
@@ -67,12 +62,11 @@ function PaymentFormInner({ amount, onSuccess, isSubmitting }) {
       const { clientSecret } = data
 
       // Confirm payment
-      const { error: confirmError, paymentIntent } =
-        await stripe.confirmCardPayment(clientSecret, {
-          payment_method: {
-            card: elements.getElement(CardElement),
-          },
-        })
+      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardElement),
+        },
+      })
 
       if (confirmError) {
         setError(confirmError.message)
@@ -122,9 +116,7 @@ function PaymentFormInner({ amount, onSuccess, isSubmitting }) {
         disabled={!stripe || processing || isSubmitting}
         className="w-full bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {processing || isSubmitting
-          ? 'Processing...'
-          : `Pay $${amount.toFixed(2)}`}
+        {processing || isSubmitting ? 'Processing...' : `Pay $${amount.toFixed(2)}`}
       </button>
     </form>
   )
@@ -140,7 +132,9 @@ export default function PaymentForm({ amount, onSuccess, isSubmitting }) {
       <div className="space-y-4">
         <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-800 dark:text-blue-200 text-sm">
           <p className="font-semibold mb-1">Test Mode</p>
-          <p>Stripe is not configured. Orders will be processed without payment for testing purposes.</p>
+          <p>
+            Stripe is not configured. Orders will be processed without payment for testing purposes.
+          </p>
         </div>
         <button
           type="button"
@@ -162,12 +156,7 @@ export default function PaymentForm({ amount, onSuccess, isSubmitting }) {
 
   return (
     <Elements stripe={stripePromise}>
-      <PaymentFormInner
-        amount={amount}
-        onSuccess={onSuccess}
-        isSubmitting={isSubmitting}
-      />
+      <PaymentFormInner amount={amount} onSuccess={onSuccess} isSubmitting={isSubmitting} />
     </Elements>
   )
 }
-

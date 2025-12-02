@@ -22,11 +22,13 @@ npm run build
 ## Step 2: Create S3 Bucket
 
 1. **Create S3 bucket**
+
    ```bash
    aws s3 mb s3://your-restaurant-website
    ```
 
 2. **Enable static website hosting** (optional, if not using CloudFront)
+
    ```bash
    aws s3 website s3://your-restaurant-website --index-document index.html
    ```
@@ -152,11 +154,13 @@ For production, set environment variables:
 ## Step 9: Update Domain Settings
 
 1. **Update sitemap.js**:
+
    ```javascript
    const baseUrl = 'https://yourdomain.com'
    ```
 
 2. **Update robots.js**:
+
    ```javascript
    const baseUrl = 'https://yourdomain.com'
    ```
@@ -187,16 +191,19 @@ For production, set environment variables:
 ## Troubleshooting
 
 ### Images not loading
+
 - Check S3 bucket permissions
 - Verify image paths in code
 - Check CloudFront cache settings
 
 ### Forms not working
+
 - Verify API routes are accessible
 - Check AWS SES configuration
 - Review CloudFront function/Lambda@Edge setup
 
 ### 404 errors on refresh
+
 - Configure CloudFront error pages
 - Set up S3 redirect rules
 - Use Next.js rewrites if needed
@@ -234,7 +241,7 @@ For production, set environment variables:
 ---
 
 For more information, refer to:
+
 - [Next.js Deployment Documentation](https://nextjs.org/docs/deployment)
 - [AWS S3 Documentation](https://docs.aws.amazon.com/s3/)
 - [AWS CloudFront Documentation](https://docs.aws.amazon.com/cloudfront/)
-

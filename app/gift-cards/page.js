@@ -63,10 +63,9 @@ export default function GiftCardsPage() {
                 Perfect for Any Occasion
               </h3>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Our gift cards are the perfect way to share the TRIO experience
-                with friends and loved ones. Whether it's a birthday,
-                anniversary, holiday, or just because, a gift card to{' '}
-                {siteConfig.restaurant.name} is always appreciated.
+                Our gift cards are the perfect way to share the TRIO experience with friends and
+                loved ones. Whether it's a birthday, anniversary, holiday, or just because, a gift
+                card to {siteConfig.restaurant.name} is always appreciated.
               </p>
               <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">
                 <li>Available in various denominations</li>
@@ -83,4 +82,3 @@ export default function GiftCardsPage() {
     </>
   )
 }
-

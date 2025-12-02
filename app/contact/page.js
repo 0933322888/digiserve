@@ -1,7 +1,9 @@
 import SectionTitle from '@/components/SectionTitle'
 import ContactForm from '@/components/forms/ContactForm'
 import { siteConfig } from '@/config/siteConfig'
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { getBusinessHours } from '@/lib/app-settings-service'
+import { MapPin, Phone, Mail, Clock, Navigation, ExternalLink } from 'lucide-react'
+import MapComponent from '@/components/MapComponent'
 
 /**
  * Contact Page Metadata
@@ -19,8 +21,9 @@ export const metadata = {
  * Contact Page
  * Features contact form, map, and contact information
  */
-export default function ContactPage() {
+export default async function ContactPage() {
   const { restaurant } = siteConfig
+  const businessHours = await getBusinessHours()
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',
@@ -41,7 +44,7 @@ export default function ContactPage() {
     ],
   }
 
-  const fullAddress = `${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.state} ${restaurant.address.zip}`
+  const fullAddress = `${restaurant.address.street}, ${restaurant.address.city}, ${restaurant.address.state} ${restaurant.address.zip}, ${restaurant.address.country}`
 
   return (
     <>
@@ -52,10 +55,7 @@ export default function ContactPage() {
 
       <div className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <SectionTitle
-            title="Contact Us"
-            subtitle="We'd love to hear from you"
-          />
+          <SectionTitle title="Contact Us" subtitle="We'd love to hear from you" />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Information */}
@@ -83,9 +83,7 @@ export default function ContactPage() {
                   <div className="flex items-start space-x-4">
                     <Phone className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
-                        Phone
-                      </h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Phone</h4>
                       <a
                         href={`tel:${restaurant.phone}`}
                         className="text-primary dark:text-gold hover:underline"
@@ -98,9 +96,7 @@ export default function ContactPage() {
                   <div className="flex items-start space-x-4">
                     <Mail className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
-                        Email
-                      </h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Email</h4>
                       <a
                         href={`mailto:${restaurant.email}`}
                         className="text-primary dark:text-gold hover:underline"
@@ -113,14 +109,14 @@ export default function ContactPage() {
                   <div className="flex items-start space-x-4">
                     <Clock className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
-                        Hours
-                      </h4>
+                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Hours</h4>
                       <div className="space-y-1 text-gray-700 dark:text-gray-300">
-                        {Object.entries(restaurant.hours).map(([day, hours]) => (
+                        {Object.entries(businessHours).map(([day, hours]) => (
                           <div key={day} className="flex justify-between">
                             <span className="font-medium">{day}:</span>
-                            <span>{hours}</span>
+                            <span>
+                              {hours.closed ? 'Closed' : `${hours.open} - ${hours.close}`}
+                            </span>
                           </div>
                         ))}
                       </div>
@@ -129,27 +125,80 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Google Maps */}
+              {/* Map */}
               <div className="bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-4">
+                <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-6">
                   Find Us
                 </h3>
-                <div className="relative w-full h-64 rounded-lg overflow-hidden">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    allowFullScreen
-                    referrerPolicy="no-referrer-when-downgrade"
-                    src={`https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodeURIComponent(fullAddress)}`}
-                    title="Restaurant Location"
+                
+                {/* Address Display */}
+                <div className="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                  <div className="flex items-start space-x-3">
+                    <MapPin className="w-5 h-5 text-primary dark:text-gold flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-gray-900 dark:text-gray-100 font-medium mb-1">Address</p>
+                      <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                        {restaurant.address.street}
+                        <br />
+                        {restaurant.address.city}, {restaurant.address.state} {restaurant.address.zip}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Map */}
+                <div className="relative w-full h-96 rounded-lg overflow-hidden mb-6 border border-gray-200 dark:border-gray-600 shadow-md">
+                  <MapComponent
+                    address={fullAddress}
+                    coordinates={restaurant.address.coordinates}
                   />
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mt-4">
-                  Note: Replace YOUR_API_KEY with your Google Maps API key in
-                  the code.
-                </p>
+
+                {/* Get Directions */}
+                <div className="space-y-3">
+                  <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+                    <Navigation className="w-5 h-5 text-primary dark:text-gold" />
+                    Get Directions
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <a
+                      href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Google Maps
+                    </a>
+                    <a
+                      href={`https://maps.apple.com/?daddr=${encodeURIComponent(fullAddress)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Apple Maps
+                    </a>
+                    <a
+                      href={`https://www.waze.com/ul?q=${encodeURIComponent(fullAddress)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 px-4 py-2.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors text-sm font-medium text-gray-700 dark:text-gray-300"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      Waze
+                    </a>
+                  </div>
+                  <a
+                    href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(fullAddress)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-gold transition-colors"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    View on OpenStreetMap
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -163,4 +212,3 @@ export default function ContactPage() {
     </>
   )
 }
-

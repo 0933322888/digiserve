@@ -1,6 +1,6 @@
 /**
  * Site Configuration
- * 
+ *
  * This file controls which features are enabled/disabled for the restaurant website.
  * Modify these settings to customize the site for different restaurants.
  */
@@ -10,6 +10,7 @@ export interface SiteConfig {
   restaurant: {
     name: string
     tagline: string
+    restaurantId: string
     description: string
     address: {
       street: string
@@ -17,12 +18,13 @@ export interface SiteConfig {
       state: string
       zip: string
       country: string
+      coordinates?: {
+        lat: number
+        lon: number
+      }
     }
     phone: string
     email: string
-    hours: {
-      [key: string]: string // e.g., "Monday": "11:00 AM - 10:00 PM"
-    }
   }
 
   // Feature Toggles
@@ -31,9 +33,6 @@ export interface SiteConfig {
     gallery: boolean
     reservations: boolean
     giftCards: boolean
-    foodMenu: boolean
-    drinkMenu: boolean
-    onlineOrdering: boolean
   }
 
   // Online Ordering Configuration
@@ -41,6 +40,7 @@ export interface SiteConfig {
     enabled: boolean
     pickup: boolean
     delivery: boolean
+    dineIn: boolean
     deliverySettings?: {
       baseFee: number
       freeDeliveryFrom: number | null
@@ -49,15 +49,22 @@ export interface SiteConfig {
         fee: number
       }>
     }
-    businessHours: {
-      [key: string]: {
-        open: string // "11:00"
-        close: string // "23:00"
-        closed?: boolean
-      }
-    }
     taxRate: number // e.g., 0.13 for 13%
-    useDatabase: boolean // Use DynamoDB for order storage
+  }
+
+  // Business Hours Configuration
+  businessHours?: {
+    [day: string]: {
+      open: string // Format: 'HH:mm' (e.g., '09:00')
+      close: string // Format: 'HH:mm' (e.g., '22:00')
+      closed?: boolean // Optional: set to true if restaurant is closed on this day
+    }
+  }
+
+  // Reservation Configuration
+  reservations?: {
+    maxSeatsPerSlot: number
+    slotDurationMinutes: number
   }
 
   // SEO Configuration
@@ -78,86 +85,91 @@ export interface SiteConfig {
     stripePublicKey?: string
     stripeSecretKey?: string
   }
+
+  // Modules Configuration
+  modules?: {
+    socialPosting?: {
+      enabled: boolean
+      openAIApiKey?: string
+      facebookAppId?: string
+      facebookAppSecret?: string
+    }
+  }
 }
 
 export const siteConfig: SiteConfig = {
   restaurant: {
-    name: 'TRIO BISTRO AND LOUNGE',
-    tagline: 'Vintage Elegance, Modern Flavor',
-    description:
-      'Experience the perfect blend of vintage charm and contemporary cuisine at TRIO BISTRO AND LOUNGE. A sophisticated dining destination where classic elegance meets modern culinary innovation.',
+    name: 'Your Restaurant Name',
+    restaurantId: 'default',
+    tagline: 'Your Tagline',
+    description: 'Restaurant description goes here.',
     address: {
-      street: '307D Richmond Road',
-      city: 'Ottawa',
-      state: 'ON',
-      zip: 'K1Z 6X1',
-      country: 'Canada',
+      street: '123 Main St',
+      city: 'City',
+      state: 'State',
+      zip: '12345',
+      country: 'Country',
+      coordinates: {
+        lat: 0,
+        lon: 0,
+      },
     },
-    phone: '+1 (613) 722-3887',
-    email: 'info@triowestboro.com',
-    hours: {
-      Monday: '04:00 PM - 12:00 AM',
-      Tuesday: '04:00 PM - 12:00 AM',
-      Wednesday: '04:00 PM - 12:00 AM',
-      Thursday: '11:00 AM - 11:00 PM',
-      Friday: '4:00 PM - 02:00 AM',
-      Saturday: '04:00 PM - 02:00 AM',
-      Sunday: '04:00 PM - 12:00 AM',
-    },
+    phone: '+1 (555) 123-4567',
+    email: 'info@example.com',
   },
 
   features: {
     events: true,
     gallery: true,
     reservations: true,
-    giftCards: true,
-    foodMenu: true,
-    drinkMenu: true,
-    onlineOrdering: true,
+    giftCards: false,
   },
 
   seo: {
-    siteName: 'TRIO BISTRO AND LOUNGE',
-    defaultTitle: 'TRIO BISTRO AND LOUNGE | Vintage Elegance, Modern Flavor',
-    defaultDescription:
-      'Experience the perfect blend of vintage charm and contemporary cuisine at TRIO BISTRO AND LOUNGE. A sophisticated dining destination in New York.',
-    defaultImage: '/images/interior.jpeg',
-    twitterHandle: '@triobistro',
-    facebookUrl: 'https://www.facebook.com/Triowestboro',
-    instagramUrl: 'https://instagram.com/triobistro',
+    siteName: 'Restaurant Name',
+    defaultTitle: 'Restaurant Name | Tagline',
+    defaultDescription: 'Restaurant description.',
+    defaultImage: '/images/default-og.jpg',
   },
 
   api: {
-    enableEmail: true,
-    enableStripe: true,
-    stripePublicKey: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || '',
-    stripeSecretKey: process.env.STRIPE_SECRET_KEY || '',
+    enableEmail: false,
+    enableStripe: false,
+    stripePublicKey: '',
+    stripeSecretKey: '',
   },
 
   ordering: {
     enabled: true,
     pickup: true,
     delivery: true,
+    dineIn: true,
     deliverySettings: {
       baseFee: 5.0,
       freeDeliveryFrom: 50.0,
-      deliveryZones: [
-        { postal: 'K1Z', fee: 5.0 },
-        { postal: 'K1Y', fee: 6.0 },
-        { postal: 'K2P', fee: 7.0 },
-      ],
+      deliveryZones: [],
     },
-    businessHours: {
-      Monday: { open: '16:00', close: '00:00' },
-      Tuesday: { open: '16:00', close: '00:00' },
-      Wednesday: { open: '16:00', close: '00:00' },
-      Thursday: { open: '11:00', close: '23:00' },
-      Friday: { open: '16:00', close: '02:00' },
-      Saturday: { open: '16:00', close: '02:00' },
-      Sunday: { open: '16:00', close: '00:00' },
-    },
-    taxRate: 0.13, // 13% tax
-    useDatabase: false, // Set to true if using DynamoDB
+    taxRate: 0.13,
   },
-}
 
+  businessHours: {
+    Monday: { open: '09:00', close: '22:00' },
+    Tuesday: { open: '09:00', close: '22:00' },
+    Wednesday: { open: '09:00', close: '22:00' },
+    Thursday: { open: '09:00', close: '22:00' },
+    Friday: { open: '09:00', close: '23:00' },
+    Saturday: { open: '10:00', close: '23:00' },
+    Sunday: { open: '10:00', close: '22:00' },
+  },
+
+  reservations: {
+    maxSeatsPerSlot: 40,
+    slotDurationMinutes: 90,
+  },
+
+  modules: {
+    socialPosting: {
+      enabled: false,
+    },
+  }
+}

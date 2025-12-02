@@ -15,10 +15,10 @@ export default function GalleryGrid({ images = [] }) {
   const galleryImages =
     images.length > 0
       ? images
-      : Array.from({ length: 12 }, (_, i) => ({
+      : Array.from({ length: 8 }, (_, i) => ({
           id: i + 1,
-          src: `https://images.unsplash.com/photo-${1517248135467 + i}?w=800&h=600&fit=crop`,
-          alt: `Gallery image ${i + 1}`,
+          src: `/images/gall${i + 1}.jpg`,
+          alt: `TRIO BISTRO & LOUNGE - Gallery image ${i + 1}`,
         }))
 
   return (
@@ -61,7 +61,7 @@ export default function GalleryGrid({ images = [] }) {
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             className="relative max-w-5xl max-h-[90vh]"
-            onClick={(e) => e.stopPropagation()}
+            onClick={e => e.stopPropagation()}
           >
             <Image
               src={selectedImage.src}
@@ -82,4 +82,3 @@ export default function GalleryGrid({ images = [] }) {
     </>
   )
 }
-

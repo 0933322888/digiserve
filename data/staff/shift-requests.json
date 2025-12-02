@@ -1,0 +1,80 @@
+{
+  "requests": [
+    {
+      "id": "req-001",
+      "barId": "bar_1",
+      "employeeId": "emp-003",
+      "employeeName": "Emily Rodriguez",
+      "type": "time_off",
+      "startDate": "2025-01-25T00:00:00Z",
+      "endDate": "2025-01-27T23:59:59Z",
+      "reason": "Personal vacation",
+      "status": "pending",
+      "requestedAt": "2025-01-15T10:00:00Z",
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "notes": ""
+    },
+    {
+      "id": "req-002",
+      "barId": "bar_1",
+      "employeeId": "emp-002",
+      "employeeName": "Michael Chen",
+      "type": "shift_swap",
+      "shiftId": "shift-002",
+      "targetEmployeeId": "emp-004",
+      "targetEmployeeName": "David Thompson",
+      "reason": "Family event",
+      "status": "pending",
+      "requestedAt": "2025-01-16T10:00:00Z",
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "notes": ""
+    },
+    {
+      "id": "req-003",
+      "barId": "bar_1",
+      "employeeId": "emp-001",
+      "employeeName": "Sarah Johnson",
+      "type": "time_off",
+      "startDate": "2025-12-05T00:00:00Z",
+      "endDate": "2025-12-07T23:59:59Z",
+      "reason": "Family vacation",
+      "status": "approved",
+      "requestedAt": "2025-11-20T10:00:00Z",
+      "reviewedBy": "admin_1",
+      "reviewedAt": "2025-11-21T14:00:00Z",
+      "notes": "Approved - enjoy your vacation!"
+    },
+    {
+      "id": "req-004",
+      "barId": "bar_1",
+      "employeeId": "emp-002",
+      "employeeName": "Michael Chen",
+      "type": "time_off",
+      "startDate": "2025-12-03T00:00:00Z",
+      "endDate": "2025-12-11T23:59:59Z",
+      "reason": "Medical appointment",
+      "status": "approved",
+      "requestedAt": "2025-11-25T10:00:00Z",
+      "reviewedBy": "admin_1",
+      "reviewedAt": "2025-11-25T15:00:00Z",
+      "notes": "Approved"
+    },
+    {
+      "id": "req-005",
+      "barId": "bar_1",
+      "employeeId": "emp-003",
+      "employeeName": "Emily Rodriguez",
+      "type": "time_off",
+      "startDate": "2025-12-01T00:00:00Z",
+      "endDate": "2025-12-02T23:59:59Z",
+      "reason": "Personal days",
+      "status": "approved",
+      "requestedAt": "2025-11-22T10:00:00Z",
+      "reviewedBy": "admin_1",
+      "reviewedAt": "2025-11-23T09:00:00Z",
+      "notes": "Approved"
+    }
+  ]
+}

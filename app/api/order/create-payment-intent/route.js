@@ -10,10 +10,7 @@ export async function POST(request) {
     const { amount } = await request.json()
 
     if (!amount || amount <= 0) {
-      return NextResponse.json(
-        { error: 'Invalid amount' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Invalid amount' }, { status: 400 })
     }
 
     // If Stripe is configured, use real Stripe API
@@ -31,10 +28,13 @@ export async function POST(request) {
       //   { clientSecret: paymentIntent.client_secret },
       //   { status: 200 }
       // )
-      
+
       // For now, return error if Stripe is expected but not fully configured
       return NextResponse.json(
-        { error: 'Stripe integration is not fully set up. Please install stripe package and uncomment the code.' },
+        {
+          error:
+            'Stripe integration is not fully set up. Please install stripe package and uncomment the code.',
+        },
         { status: 500 }
       )
     }
@@ -42,19 +42,15 @@ export async function POST(request) {
     // If Stripe is not configured, return a test mode response
     // This allows testing the order flow without payment
     return NextResponse.json(
-      { 
+      {
         clientSecret: null,
         testMode: true,
-        message: 'Test mode - payment skipped'
+        message: 'Test mode - payment skipped',
       },
       { status: 200 }
     )
   } catch (error) {
     console.error('Payment intent creation error:', error)
-    return NextResponse.json(
-      { error: 'Failed to create payment intent' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to create payment intent' }, { status: 500 })
   }
 }
-

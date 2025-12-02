@@ -21,4 +21,3 @@ export default function AnimatedCard({ children, className = '', delay = 0 }) {
     </motion.div>
   )
 }
-

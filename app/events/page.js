@@ -2,7 +2,11 @@ import { notFound } from 'next/navigation'
 import SectionTitle from '@/components/SectionTitle'
 import EventCard from '@/components/EventCard'
 import { siteConfig } from '@/config/siteConfig'
-import eventsData from '@/data/events.json'
+import { isModuleEnabled } from '@/lib/module-settings-service'
+import { db } from '@/lib/db'
+import { parseLocalDate } from '@/lib/utils'
+
+export const dynamic = 'force-dynamic'
 
 /**
  * Events Page Metadata
@@ -20,22 +24,57 @@ export const metadata = {
  * Events Page
  * Displays upcoming events
  */
-export default function EventsPage() {
-  if (!siteConfig.features.events) {
+export default async function EventsPage() {
+  // Check if events module is enabled (from database or siteConfig)
+  const eventsEnabled = await isModuleEnabled('events')
+  if (!eventsEnabled) {
     notFound()
   }
 
-  const featuredEvents = eventsData.events.filter((e) => e.featured)
-  const regularEvents = eventsData.events.filter((e) => !e.featured)
+  // Fetch events from database
+  let allEvents = []
+  try {
+    const events = await db.collection('events').find()
+    // Sort by date ascending (upcoming events first)
+    events.sort((a, b) => parseLocalDate(a.date) - parseLocalDate(b.date))
+    allEvents = events
+  } catch (error) {
+    console.error('Failed to fetch events:', error)
+    // Continue with empty array
+  }
+
+  const featuredEvents = allEvents.filter(e => e.featured)
+  const regularEvents = allEvents.filter(e => !e.featured)
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://triobistro.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Events',
+        item: 'https://triobistro.com/events',
+      },
+    ],
+  }
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       <div className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <SectionTitle
-            title="Upcoming Events"
-            subtitle="Join us for special experiences"
-          />
+          <SectionTitle title="Upcoming Events" subtitle="Join us for special experiences" />
 
           {featuredEvents.length > 0 && (
             <div className="mb-12">
@@ -57,17 +96,13 @@ export default function EventsPage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {regularEvents.map((event, index) => (
-                  <EventCard
-                    key={event.id}
-                    event={event}
-                    index={featuredEvents.length + index}
-                  />
+                  <EventCard key={event.id} event={event} index={featuredEvents.length + index} />
                 ))}
               </div>
             </div>
           )}
 
-          {eventsData.events.length === 0 && (
+          {allEvents.length === 0 && (
             <div className="text-center py-12">
               <p className="text-lg text-gray-600 dark:text-gray-400">
                 No upcoming events at this time. Check back soon!
@@ -79,4 +114,3 @@ export default function EventsPage() {
     </>
   )
 }
-

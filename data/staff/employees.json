@@ -1,0 +1,116 @@
+{
+  "employees": [
+    {
+      "id": "emp-001",
+      "barId": "bar_1",
+      "firstName": "Sarah",
+      "lastName": "Johnson",
+      "email": "sarah.johnson@triobistro.com",
+      "phone": "+1-613-555-0101",
+      "role": "manager",
+      "roles": ["manager"],
+      "permissions": ["manage_staff", "manage_menu", "view_reports", "manage_orders"],
+      "hireDate": "2023-01-15",
+      "status": "active",
+      "hourlyRate": 25.0,
+      "address": {
+        "street": "123 Main St",
+        "city": "Ottawa",
+        "state": "ON",
+        "zip": "K1A 0A1"
+      },
+      "emergencyContact": {
+        "name": "John Johnson",
+        "relationship": "Spouse",
+        "phone": "+1-613-555-0102"
+      },
+      "notes": "Experienced manager with 5+ years in restaurant management",
+      "createdAt": "2023-01-15T10:00:00Z",
+      "updatedAt": "2024-01-15T10:00:00Z"
+    },
+    {
+      "id": "emp-002",
+      "barId": "bar_1",
+      "firstName": "Michael",
+      "lastName": "Chen",
+      "email": "michael.chen@triobistro.com",
+      "phone": "+1-613-555-0103",
+      "role": "bartender",
+      "roles": ["bartender"],
+      "permissions": ["manage_bar", "view_orders"],
+      "hireDate": "2023-03-20",
+      "status": "active",
+      "hourlyRate": 18.5,
+      "address": {
+        "street": "456 Oak Ave",
+        "city": "Ottawa",
+        "state": "ON",
+        "zip": "K2B 1B2"
+      },
+      "emergencyContact": {
+        "name": "Lisa Chen",
+        "relationship": "Sister",
+        "phone": "+1-613-555-0104"
+      },
+      "notes": "Expert mixologist, specializes in craft cocktails",
+      "createdAt": "2023-03-20T10:00:00Z",
+      "updatedAt": "2024-01-10T10:00:00Z"
+    },
+    {
+      "id": "emp-003",
+      "barId": "bar_1",
+      "firstName": "Emily",
+      "lastName": "Rodriguez",
+      "email": "emily.rodriguez@triobistro.com",
+      "phone": "+1-613-555-0105",
+      "role": "server",
+      "roles": ["server"],
+      "permissions": ["view_orders", "manage_tables"],
+      "hireDate": "2023-05-10",
+      "status": "active",
+      "hourlyRate": 16.0,
+      "address": {
+        "street": "789 Pine St",
+        "city": "Ottawa",
+        "state": "ON",
+        "zip": "K3C 2C3"
+      },
+      "emergencyContact": {
+        "name": "Carlos Rodriguez",
+        "relationship": "Father",
+        "phone": "+1-613-555-0106"
+      },
+      "notes": "Friendly and efficient server, great with customers",
+      "createdAt": "2023-05-10T10:00:00Z",
+      "updatedAt": "2024-01-05T10:00:00Z"
+    },
+    {
+      "id": "emp-004",
+      "barId": "bar_1",
+      "firstName": "David",
+      "lastName": "Thompson",
+      "email": "david.thompson@triobistro.com",
+      "phone": "+1-613-555-0107",
+      "role": "chef",
+      "roles": ["chef"],
+      "permissions": ["manage_kitchen", "view_orders", "manage_inventory"],
+      "hireDate": "2023-02-01",
+      "status": "active",
+      "hourlyRate": 22.0,
+      "address": {
+        "street": "321 Elm Blvd",
+        "city": "Ottawa",
+        "state": "ON",
+        "zip": "K4D 3D4"
+      },
+      "emergencyContact": {
+        "name": "Maria Thompson",
+        "relationship": "Wife",
+        "phone": "+1-613-555-0108"
+      },
+      "notes": "Head chef, 10+ years experience in fine dining",
+      "createdAt": "2023-02-01T10:00:00Z",
+      "updatedAt": "2024-01-12T10:00:00Z"
+    }
+  ]
+}

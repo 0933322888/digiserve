@@ -4,7 +4,7 @@ import { siteConfig } from '@/config/siteConfig'
 /**
  * Contact Form API Route
  * AWS Lambda-compatible endpoint for contact form submissions
- * 
+ *
  * In production, integrate with AWS SES for email sending
  */
 export async function POST(request) {
@@ -14,19 +14,13 @@ export async function POST(request) {
 
     // Validation
     if (!name || !email || !subject || !message) {
-      return NextResponse.json(
-        { error: 'All required fields must be provided' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'All required fields must be provided' }, { status: 400 })
     }
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
-      return NextResponse.json(
-        { error: 'Invalid email address' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
     }
 
     // In production, send email via AWS SES
@@ -45,7 +39,7 @@ export async function POST(request) {
       //     },
       //   },
       // })
-      
+
       // For now, log the submission (in production, this would be sent via SES)
       console.log('Contact form submission:', {
         name,
@@ -72,4 +66,3 @@ export async function POST(request) {
     )
   }
 }
-

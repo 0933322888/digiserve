@@ -1,0 +1,17 @@
+[
+  {
+    "accountId": "943318492190300",
+    "barId": "bar_1",
+    "platform": "facebook",
+    "name": "Test Public Page",
+    "username": null,
+    "accessToken": "EAAkoKzPeQdsBQMqomQVYH87fRKImc8VGpVK946b71xEPZC1BgphB6QZBClIAZCQp1jwPGe8IkFK9pbUGKuUEtZBWFOjEPjNJm64ynsMK8sSog1nnouhZCpmSBEW3KH7sr3q93d2MXgxrkEZBAImNyKLZAkeNJaSpPZBOeVrZBeZCv7ME1oHCYSk1PSl4ZAWXkyjMPwKAGLyQLim5CZAxZCul5rIMX7jWdU6RGocJpjuJ6",
+    "refreshToken": null,
+    "tokenExpiresAt": null,
+    "pageId": "943318492190300",
+    "instagramBusinessAccountId": null,
+    "connectedAt": "2025-11-28T17:00:53.269Z",
+    "lastRefreshedAt": null,
+    "isActive": true
+  }
+]

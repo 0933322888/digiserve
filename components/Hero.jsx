@@ -9,27 +9,17 @@ import { siteConfig } from '@/config/siteConfig'
  * Hero Section Component
  * Displays main banner with CTA buttons
  */
-export default function Hero() {
+export default function Hero({ reservationsEnabled = false }) {
   const { restaurant, features } = siteConfig
 
   const ctaButtons = [
-    ...(features.reservations
+    ...(reservationsEnabled
       ? [
           {
             href: '/reservations',
             label: 'Reservations',
             icon: Calendar,
             primary: true,
-          },
-        ]
-      : []),
-    ...(features.foodMenu || features.drinkMenu
-      ? [
-          {
-            href: '/menu',
-            label: 'View Menu',
-            icon: Utensils,
-            primary: false,
           },
         ]
       : []),
@@ -77,7 +67,7 @@ export default function Hero() {
           {/* CTA Buttons */}
           {ctaButtons.length > 0 && (
             <div className="flex flex-wrap justify-center gap-4">
-              {ctaButtons.map((button) => {
+              {ctaButtons.map(button => {
                 const Icon = button.icon
                 return (
                   <motion.div
@@ -107,27 +97,7 @@ export default function Hero() {
           )}
         </motion.div>
       </div>
-
-      {/* Scroll Indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1, duration: 1 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="w-6 h-10 border-2 border-cream rounded-full flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="w-1 h-3 bg-cream rounded-full mt-2"
-          />
-        </motion.div>
-      </motion.div>
+      
     </section>
   )
 }
-

@@ -1,0 +1,63 @@
+{
+  "roles": [
+    {
+      "id": "manager",
+      "name": "Manager",
+      "description": "Full access to all management functions",
+      "permissions": [
+        "manage_staff",
+        "manage_menu",
+        "view_reports",
+        "manage_orders",
+        "manage_inventory",
+        "manage_schedule",
+        "manage_payroll",
+        "manage_bar",
+        "manage_kitchen",
+        "manage_tables"
+      ],
+      "defaultHourlyRate": 25.0,
+      "color": "#3B82F6"
+    },
+    {
+      "id": "chef",
+      "name": "Chef",
+      "description": "Kitchen management and food preparation",
+      "permissions": ["manage_kitchen", "view_orders", "manage_inventory", "view_reports"],
+      "defaultHourlyRate": 22.0,
+      "color": "#EF4444"
+    },
+    {
+      "id": "bartender",
+      "name": "Bartender",
+      "description": "Bar service and drink preparation",
+      "permissions": ["manage_bar", "view_orders", "manage_inventory"],
+      "defaultHourlyRate": 18.5,
+      "color": "#10B981"
+    },
+    {
+      "id": "server",
+      "name": "Server",
+      "description": "Table service and customer interaction",
+      "permissions": ["view_orders", "manage_tables"],
+      "defaultHourlyRate": 16.0,
+      "color": "#F59E0B"
+    },
+    {
+      "id": "host",
+      "name": "Host/Hostess",
+      "description": "Greeting guests and managing reservations",
+      "permissions": ["manage_tables", "view_orders"],
+      "defaultHourlyRate": 15.0,
+      "color": "#8B5CF6"
+    },
+    {
+      "id": "busser",
+      "name": "Busser",
+      "description": "Table cleaning and setup",
+      "permissions": ["manage_tables"],
+      "defaultHourlyRate": 14.0,
+      "color": "#6B7280"
+    }
+  ]
+}

@@ -21,9 +21,9 @@ export default function OrderSuccessPage() {
     if (orderId) {
       // Fetch order details
       fetch(`/api/order/${orderId}`)
-        .then((res) => res.json())
-        .then((data) => setOrder(data))
-        .catch((err) => console.error('Error fetching order:', err))
+        .then(res => res.json())
+        .then(data => setOrder(data))
+        .catch(err => console.error('Error fetching order:', err))
     }
   }, [orderId])
 
@@ -62,8 +62,7 @@ export default function OrderSuccessPage() {
             Order Confirmed!
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
-            Thank you for your order. We'll send you a confirmation email
-            shortly.
+            Thank you for your order. We'll send you a confirmation email shortly.
           </p>
 
           {order && (
@@ -73,9 +72,7 @@ export default function OrderSuccessPage() {
                   <Receipt className="w-6 h-6 mr-2" />
                   Order Receipt
                 </h2>
-                <span className="text-sm text-gray-600 dark:text-gray-400">
-                  Order #{orderId}
-                </span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">Order #{orderId}</span>
               </div>
 
               <div className="space-y-4">
@@ -94,17 +91,14 @@ export default function OrderSuccessPage() {
                       <strong>Phone:</strong> {order.customerInfo?.phone}
                     </p>
                     <p>
-                      <strong>Type:</strong>{' '}
-                      {order.orderType === 'pickup' ? 'Pickup' : 'Delivery'}
+                      <strong>Type:</strong> {order.orderType === 'pickup' ? 'Pickup' : 'Delivery'}
                     </p>
                   </div>
                 </div>
 
                 {order.items && (
                   <div>
-                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                      Items
-                    </h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Items</h3>
                     <div className="space-y-2">
                       {order.items.map((item, index) => (
                         <div
@@ -167,4 +161,3 @@ export default function OrderSuccessPage() {
     </>
   )
 }
-

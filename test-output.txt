@@ -1,0 +1,119 @@
+﻿≡ƒº¬ End-to-End Multi-Tenancy Test
+
+==================================================
+
+≡ƒôí Step 1: Connecting to database...
+node : (node:47924) 
+[MONGOOSE] Warning: 
+Duplicate schema 
+index on {"slug":1} 
+found. This is often 
+due to declaring an 
+index using both 
+"index: true" and 
+"schema.index()". 
+Please remove the 
+duplicate index 
+definition.
+At line:1 char:1
++ node 
+scripts/test-e2e.js 
+2>&1 | Out-File 
+-FilePath 
+test-output.txt -E ...
++ ~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~
+    + CategoryInfo    
+          : NotSpeci  
+  fied: ((node:4792   
+ 4) [M...dex defin    
+ition.:String) []    
+, RemoteException
+    + FullyQualifiedE 
+   rrorId : NativeCo  
+  mmandError
+ 
+(Use `node 
+--trace-warnings ...` 
+to show where the 
+warning was created)
+(node:47924) 
+[MONGOOSE] Warning: 
+Duplicate schema 
+index on {"barId":1} 
+found. This is often 
+due to declaring an 
+index using both 
+"index: true" and 
+"schema.index()". 
+Please remove the 
+duplicate index 
+definition.
+Γ£à Connected to MongoDB
+
+≡ƒÅó Step 2: Verifying tenant exists...
+Γ£à Tenant found: Trio Bistro
+
+≡ƒæñ Step 3: Verifying user exists...
+Γ£à User found: admin@trio.app
+   Role: admin
+   Tenant Access: [ 'bar_1' ]
+
+≡ƒöÉ Step 4: Verifying user access to tenant...
+Γ£à User has access to bar_1
+
+≡ƒöæ Step 5: Testing authentication...
+Γ£à Authentication successful
+
+≡ƒÄ½ Step 6: Testing JWT token creation...
+
+Γ¥î Test failed with 
+error: [object Array] 
+could not be cloned.
+
+Stack trace: 
+DataCloneError: 
+[object Array] could 
+not be cloned.
+    at new 
+DOMException (node:int
+ernal/per_context/dome
+xception:53:5)
+    at 
+structuredClone (node:
+internal/structured_cl
+one:23:17)
+    at new 
+JWTClaimsBuilder (file
+:///C:/Users/Andrii/On
+eDrive/Documents/CodeS
+nippets/trio/node_modu
+les/jose/dist/webapi/l
+ib/jwt_claims_set.js:1
+76:25)
+    at new SignJWT (fi
+le:///C:/Users/Andrii/
+OneDrive/Documents/Cod
+eSnippets/trio/node_mo
+dules/jose/dist/webapi
+/jwt/sign.js:8:21)
+    at signToken (file
+:///C:/Users/Andrii/On
+eDrive/Documents/CodeS
+nippets/trio/lib/auth-
+edge.js:44:25)
+    at 
+createSessionToken (fi
+le:///C:/Users/Andrii/
+OneDrive/Documents/Cod
+eSnippets/trio/lib/aut
+h-service.js:61:16)
+    at testE2E (file:/
+//C:/Users/Andrii/OneD
+rive/Documents/CodeSni
+ppets/trio/scripts/tes
+t-e2e.js:89:29)
+    at process.process
+TicksAndRejections (no
+de:internal/process/ta
+sk_queues:95:5)

@@ -3,6 +3,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { CartProvider } from '@/providers/CartProvider'
 import { siteConfig } from '@/config/siteConfig'
+import { getBusinessHours } from '@/lib/app-settings-service'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -64,7 +65,8 @@ export const metadata = {
  * Root Layout Component
  * Wraps all pages with Navbar, Footer, and SEO configuration
  */
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const businessHours = await getBusinessHours()
   const restaurantSchema = {
     '@context': 'https://schema.org',
     '@type': 'Restaurant',
@@ -83,17 +85,24 @@ export default function RootLayout({ children }) {
     email: siteConfig.restaurant.email,
     servesCuisine: 'Contemporary American',
     priceRange: '$$',
-    openingHoursSpecification: Object.entries(siteConfig.restaurant.hours).map(
-      ([day, hours]) => {
-        const [open, close] = hours.split(' - ')
+    openingHoursSpecification: Object.entries(businessHours).map(([day, hours]) => {
+      if (hours.closed) {
         return {
           '@type': 'OpeningHoursSpecification',
           dayOfWeek: day,
-          opens: open,
-          closes: close,
+          opens: '00:00',
+          closes: '00:00',
         }
       }
-    ),
+      const open = hours.open
+      const close = hours.close
+      return {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: day,
+        opens: open,
+        closes: close,
+      }
+    }),
   }
 
   return (
@@ -103,6 +112,29 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantSchema) }}
         />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  const theme = localStorage.getItem('theme');
+                  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  const shouldBeDark = theme === 'dark' || (!theme && prefersDark);
+                  if (shouldBeDark) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch (e) {}
+              })();
+            `,
+          }}
+        />
+        <script 
+     defer 
+     src="/analytics/tracker.js" 
+     data-restaurant-id="RESTAURANT_ID">
+   </script>
       </head>
       <body className={inter.className}>
         <CartProvider>
@@ -114,4 +146,3 @@ export default function RootLayout({ children }) {
     </html>
   )
 }
-

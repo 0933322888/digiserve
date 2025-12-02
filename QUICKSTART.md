@@ -13,6 +13,7 @@ npm install
 ### 2. Configure Your Restaurant
 
 Edit `/config/siteConfig.ts` and update:
+
 - Restaurant name, address, phone, email
 - Operating hours
 - Feature toggles (enable/disable pages)
@@ -21,6 +22,7 @@ Edit `/config/siteConfig.ts` and update:
 ### 3. Update Menu Data
 
 Edit the JSON files in `/data/menu/`:
+
 - `food.json` - Your food menu
 - `drinks.json` - Your drinks menu
 
@@ -50,8 +52,6 @@ features: {
   gallery: true,       // Show/hide gallery page
   reservations: true,  // Show/hide reservations page
   giftCards: true,     // Show/hide gift cards page
-  foodMenu: true,      // Show/hide food menu
-  drinkMenu: true,     // Show/hide drinks menu
 }
 ```
 
@@ -149,4 +149,3 @@ See `DEPLOYMENT.md` for detailed AWS deployment instructions.
 ---
 
 **You're all set!** 🎉
-

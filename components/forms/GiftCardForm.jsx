@@ -1,15 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Gift, CheckCircle, AlertCircle } from 'lucide-react'
 import { siteConfig } from '@/config/siteConfig'
+import { useSearchParams, useRouter } from 'next/navigation'
 
 /**
  * Gift Card Form Component
  * Supports optional Stripe integration
  */
 export default function GiftCardForm() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
   const [formData, setFormData] = useState({
     recipientName: '',
     recipientEmail: '',
@@ -24,14 +28,60 @@ export default function GiftCardForm() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (e) => {
+  useEffect(() => {
+    const verifyPayment = async () => {
+      const sessionId = searchParams.get('session_id')
+      if (searchParams.get('success') && sessionId) {
+        setStatus({
+          type: 'info',
+          message: 'Processing your gift card...',
+        })
+
+        try {
+          const res = await fetch(`/api/gift-cards/verify-payment?session_id=${sessionId}`)
+          const data = await res.json()
+
+          if (data.success) {
+            setStatus({
+              type: 'success',
+              message: `Payment successful! Your Gift Card Code is: ${data.code}. We have also emailed it to you.`,
+            })
+          } else {
+            setStatus({
+              type: 'error',
+              message: data.error || 'Payment verification failed.',
+            })
+          }
+        } catch (err) {
+          setStatus({
+            type: 'error',
+            message: 'Failed to verify payment. Please contact support.',
+          })
+        }
+
+        // Clean up URL
+        router.replace('/gift-cards')
+      }
+      if (searchParams.get('canceled')) {
+        setStatus({
+          type: 'error',
+          message: 'Payment was canceled. Please try again.',
+        })
+        router.replace('/gift-cards')
+      }
+    }
+
+    verifyPayment()
+  }, [searchParams, router])
+
+  const handleChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setIsSubmitting(true)
     setStatus({ type: null, message: '' })
@@ -48,9 +98,15 @@ export default function GiftCardForm() {
       const data = await response.json()
 
       if (response.ok) {
+        if (data.url) {
+          // Redirect to Stripe Checkout
+          window.location.href = data.url
+          return
+        }
+
         setStatus({
           type: 'success',
-          message: 'Gift card request submitted! We will process it shortly.',
+          message: data.message || 'Gift card request submitted! We will process it shortly.',
         })
         setFormData({
           recipientName: '',
@@ -257,4 +313,3 @@ export default function GiftCardForm() {
     </motion.form>
   )
 }
-

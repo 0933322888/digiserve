@@ -1,0 +1,197 @@
+[
+  {
+    "id": "event-1",
+    "type": "ORDER",
+    "description": "New order created: ORD-1734567890-abc123 - pickup",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567890-abc123",
+      "orderType": "pickup",
+      "customerName": "Sarah Johnson",
+      "total": 83.62
+    },
+    "timestamp": "2024-12-20T18:15:00.000Z"
+  },
+  {
+    "id": "sample-4",
+    "type": "RESERVATION",
+    "description": "Reservation confirmed: John Doe",
+    "status": "SUCCESS",
+    "metadata": {
+      "reservationId": "res_456",
+      "status": "confirmed"
+    },
+    "timestamp": "2024-05-21T09:00:00.000Z"
+  },
+  {
+    "id": "event-2",
+    "type": "ORDER",
+    "description": "Order status updated: ORD-1734567800-xyz789 - pending → confirmed",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567800-xyz789",
+      "previousStatus": "pending",
+      "newStatus": "confirmed",
+      "updatedBy": "Admin"
+    },
+    "timestamp": "2024-12-20T17:45:00.000Z"
+  },
+  {
+    "id": "sample-3",
+    "type": "GIFT_CARD",
+    "description": "Gift card redeemed: GC-2024-ABCD",
+    "status": "SUCCESS",
+    "metadata": {
+      "amount": 50,
+      "remaining": 50
+    },
+    "timestamp": "2024-05-21T18:45:00.000Z"
+  },
+  {
+    "id": "event-3",
+    "type": "ORDER",
+    "description": "New order created: ORD-1734567700-def456 - pickup",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567700-def456",
+      "orderType": "pickup",
+      "customerName": "Emily Rodriguez",
+      "total": 56.5
+    },
+    "timestamp": "2024-12-20T16:00:00.000Z"
+  },
+  {
+    "id": "event-4",
+    "type": "ORDER",
+    "description": "Order status updated: ORD-1734567700-def456 - confirmed → preparing",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567700-def456",
+      "previousStatus": "confirmed",
+      "newStatus": "preparing",
+      "updatedBy": "Admin"
+    },
+    "timestamp": "2024-12-20T16:20:00.000Z"
+  },
+  {
+    "id": "event-5",
+    "type": "ORDER",
+    "description": "Order status updated: ORD-1734567600-ghi789 - preparing → ready",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567600-ghi789",
+      "previousStatus": "preparing",
+      "newStatus": "ready",
+      "updatedBy": "Admin"
+    },
+    "timestamp": "2024-12-20T16:00:00.000Z"
+  },
+  {
+    "id": "event-6",
+    "type": "ORDER",
+    "description": "Order status updated: ORD-1734567500-jkl012 - ready → completed",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567500-jkl012",
+      "previousStatus": "ready",
+      "newStatus": "completed",
+      "updatedBy": "Admin"
+    },
+    "timestamp": "2024-12-20T19:15:00.000Z"
+  },
+  {
+    "id": "event-7",
+    "type": "ORDER",
+    "description": "Order cancelled: ORD-1734567400-mno345",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567400-mno345",
+      "cancelledBy": "Admin",
+      "reason": "Customer requested cancellation - change of plans",
+      "previousStatus": "confirmed"
+    },
+    "timestamp": "2024-12-20T13:45:00.000Z"
+  },
+  {
+    "id": "event-8",
+    "type": "ORDER",
+    "description": "New order created: ORD-1734567300-pqr678 - pickup",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567300-pqr678",
+      "orderType": "pickup",
+      "customerName": "Maria Garcia",
+      "total": 56.5
+    },
+    "timestamp": "2024-12-20T18:30:00.000Z"
+  },
+  {
+    "id": "event-9",
+    "type": "ORDER",
+    "description": "New order created: ORD-1734567200-stu901 - delivery",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567200-stu901",
+      "orderType": "delivery",
+      "customerName": "Robert Brown",
+      "total": 64.89
+    },
+    "timestamp": "2024-12-20T16:45:00.000Z"
+  },
+  {
+    "id": "event-10",
+    "type": "ORDER",
+    "description": "Order status updated: ORD-1734567200-stu901 - pending → confirmed",
+    "status": "SUCCESS",
+    "metadata": {
+      "orderId": "ORD-1734567200-stu901",
+      "previousStatus": "pending",
+      "newStatus": "confirmed",
+      "updatedBy": "Admin"
+    },
+    "timestamp": "2024-12-20T17:00:00.000Z"
+  },
+  {
+    "id": "sample-1",
+    "type": "GIFT_CARD",
+    "description": "Gift card purchased: GC-2024-ABCD",
+    "status": "SUCCESS",
+    "metadata": {
+      "amount": 100,
+      "giftCardId": "gc_123"
+    },
+    "timestamp": "2024-05-20T10:30:00.000Z"
+  },
+  {
+    "id": "sample-2",
+    "type": "RESERVATION",
+    "description": "New reservation request: John Doe",
+    "status": "SUCCESS",
+    "metadata": {
+      "reservationId": "res_456",
+      "date": "2024-05-25"
+    },
+    "timestamp": "2024-05-20T11:15:00.000Z"
+  },
+
+  {
+    "id": "sample-5",
+    "type": "GIFT_CARD",
+    "description": "Gift card redemption failed: Insufficient funds",
+    "status": "FAILED",
+    "metadata": {
+      "error": "Insufficient funds"
+    },
+    "timestamp": "2024-05-22T19:30:00.000Z"
+  },
+  {
+    "id": "sample-6",
+    "type": "SYSTEM",
+    "description": "Failed to send confirmation email",
+    "status": "FAILED",
+    "metadata": {
+      "error": "SMTP Connection Timeout"
+    },
+    "timestamp": "2024-05-23T08:00:00.000Z"
+  }
+]

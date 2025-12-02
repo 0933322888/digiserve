@@ -22,14 +22,14 @@ export default function ContactForm() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setIsSubmitting(true)
     setStatus({ type: null, message: '' })
@@ -210,4 +210,3 @@ export default function ContactForm() {
     </motion.form>
   )
 }
-

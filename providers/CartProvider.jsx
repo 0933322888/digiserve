@@ -51,16 +51,10 @@ export function CartProvider({ children }) {
       quantity: 1,
     }
 
-    setCartItems((prevItems) => {
-      const existingItem = prevItems.find(
-        (i) => i.id === cartItem.id
-      )
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(i => i.id === cartItem.id)
       if (existingItem) {
-        return prevItems.map((i) =>
-          i.id === cartItem.id
-            ? { ...i, quantity: i.quantity + 1 }
-            : i
-        )
+        return prevItems.map(i => (i.id === cartItem.id ? { ...i, quantity: i.quantity + 1 } : i))
       }
       return [...prevItems, cartItem]
     })
@@ -70,10 +64,8 @@ export function CartProvider({ children }) {
    * Remove item from cart
    * @param {string} itemId - Cart item ID
    */
-  const removeItem = (itemId) => {
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== itemId)
-    )
+  const removeItem = itemId => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== itemId))
   }
 
   /**
@@ -86,10 +78,8 @@ export function CartProvider({ children }) {
       removeItem(itemId)
       return
     }
-    setCartItems((prevItems) =>
-      prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity } : item
-      )
+    setCartItems(prevItems =>
+      prevItems.map(item => (item.id === itemId ? { ...item, quantity } : item))
     )
   }
 
@@ -105,10 +95,7 @@ export function CartProvider({ children }) {
    * Calculate cart totals
    */
   const cartTotals = {
-    subtotal: cartItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    ),
+    subtotal: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
     tax: 0, // Will be calculated on checkout
     delivery: 0, // Will be calculated on checkout
     total: 0, // Will be calculated on checkout
@@ -137,4 +124,3 @@ export function useCart() {
   }
   return context
 }
-

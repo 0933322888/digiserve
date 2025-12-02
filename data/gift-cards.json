@@ -1,0 +1,94 @@
+[
+  {
+    "giftCardId": "sample-card-1",
+    "code": "TRIO-DEMO-1000",
+    "status": "active",
+    "initialAmount": 100,
+    "remainingAmount": 100,
+    "currency": "USD",
+    "customerName": "Alice Johnson",
+    "customerEmail": "alice@example.com",
+    "purchaserName": "Bob Smith",
+    "purchaserEmail": "bob@example.com",
+    "stripePaymentId": "pi_sample_1",
+    "paymentMethod": "stripe_checkout",
+    "createdAt": "2023-11-20T10:00:00Z",
+    "expiresAt": null,
+    "redemptionCount": 0,
+    "lastRedemptionAt": null,
+    "redemptions": []
+  },
+  {
+    "giftCardId": "sample-card-2",
+    "code": "TRIO-TEST-5000",
+    "status": "active",
+    "initialAmount": 50,
+    "remainingAmount": 18.5,
+    "currency": "USD",
+    "customerName": "Charlie Brown",
+    "customerEmail": "charlie@example.com",
+    "purchaserName": "Self",
+    "purchaserEmail": "charlie@example.com",
+    "stripePaymentId": "pi_sample_2",
+    "paymentMethod": "stripe_checkout",
+    "createdAt": "2023-11-15T14:30:00Z",
+    "expiresAt": null,
+    "redemptionCount": 2,
+    "lastRedemptionAt": "2025-11-23T01:47:45.166Z",
+    "redemptions": [
+      {
+        "redemptionId": "redemption-1",
+        "giftCardId": "sample-card-2",
+        "amount": 29.5,
+        "currency": "USD",
+        "performedByAdminId": "admin_1",
+        "performedByAdminName": "Admin",
+        "orderId": null,
+        "location": "admin_dashboard",
+        "createdAt": "2023-11-18T18:00:00Z"
+      },
+      {
+        "redemptionId": "74a6d44a-0727-4fc3-8f82-b77ad2087240",
+        "giftCardId": "sample-card-2",
+        "amount": 2,
+        "currency": "USD",
+        "performedByAdminId": "admin_user",
+        "performedByAdminName": "Admin",
+        "orderId": null,
+        "location": "admin_dashboard",
+        "createdAt": "2025-11-23T01:47:45.166Z"
+      }
+    ]
+  },
+  {
+    "giftCardId": "sample-card-3",
+    "code": "TRIO-USED-2500",
+    "status": "used_up",
+    "initialAmount": 25,
+    "remainingAmount": 0,
+    "currency": "USD",
+    "customerName": "David Lee",
+    "customerEmail": "david@example.com",
+    "purchaserName": "Eva Green",
+    "purchaserEmail": "eva@example.com",
+    "stripePaymentId": "pi_sample_3",
+    "paymentMethod": "stripe_checkout",
+    "createdAt": "2023-10-01T09:00:00Z",
+    "expiresAt": null,
+    "redemptionCount": 1,
+    "lastRedemptionAt": "2023-10-05T19:30:00Z",
+    "redemptions": [
+      {
+        "redemptionId": "redemption-2",
+        "giftCardId": "sample-card-3",
+        "amount": 25,
+        "currency": "USD",
+        "performedByAdminId": "admin_1",
+        "performedByAdminName": "Admin",
+        "orderId": null,
+        "location": "admin_dashboard",
+        "createdAt": "2023-10-05T19:30:00Z"
+      }
+    ]
+  }
+]

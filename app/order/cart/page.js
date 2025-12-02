@@ -14,13 +14,7 @@ import { formatPrice } from '@/lib/utils'
  */
 export default function CartPage() {
   const router = useRouter()
-  const {
-    cartItems,
-    removeItem,
-    updateQuantity,
-    cartTotals,
-    clearCart,
-  } = useCart()
+  const { cartItems, removeItem, updateQuantity, cartTotals, clearCart } = useCart()
 
   const taxRate = siteConfig.ordering?.taxRate || 0.13
   const tax = cartTotals.subtotal * taxRate
@@ -58,7 +52,7 @@ export default function CartPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
-            {cartItems.map((item) => (
+            {cartItems.map(item => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -71,9 +65,7 @@ export default function CartPage() {
                       {item.name}
                     </h3>
                     {item.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400">
-                        {item.description}
-                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
                     )}
                   </div>
                   <button
@@ -93,9 +85,7 @@ export default function CartPage() {
                     >
                       <Minus className="w-4 h-4 text-primary dark:text-gold" />
                     </button>
-                    <span className="text-lg font-semibold w-8 text-center">
-                      {item.quantity}
-                    </span>
+                    <span className="text-lg font-semibold w-8 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
                       className="w-10 h-10 rounded-full border-2 border-primary dark:border-gold flex items-center justify-center hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
@@ -150,4 +140,3 @@ export default function CartPage() {
     </div>
   )
 }
-

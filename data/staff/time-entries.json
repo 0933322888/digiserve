@@ -1,0 +1,58 @@
+{
+  "timeEntries": [
+    {
+      "id": "entry-001",
+      "barId": "bar_1",
+      "employeeId": "emp-001",
+      "employeeName": "Sarah Johnson",
+      "shiftId": "shift-001",
+      "clockIn": "2024-01-20T09:05:00Z",
+      "clockOut": "2024-01-20T17:10:00Z",
+      "breakStart": "2024-01-20T13:00:00Z",
+      "breakEnd": "2024-01-20T14:00:00Z",
+      "breakDuration": 60,
+      "totalHours": 7.08,
+      "regularHours": 7.08,
+      "overtimeHours": 0,
+      "status": "completed",
+      "notes": "",
+      "createdAt": "2024-01-20T09:05:00Z"
+    },
+    {
+      "id": "entry-bd1ff9cc",
+      "barId": "bar_1",
+      "employeeId": "emp-001",
+      "employeeName": "Sarah Johnson",
+      "shiftId": null,
+      "clockIn": "2025-11-24T07:36:50.236Z",
+      "clockOut": "2025-11-24T07:37:46.288Z",
+      "breakStart": null,
+      "breakEnd": null,
+      "breakDuration": 0,
+      "totalHours": 0.02,
+      "regularHours": 0.02,
+      "overtimeHours": 0,
+      "status": "completed",
+      "notes": "",
+      "createdAt": "2025-11-24T07:36:50.236Z"
+    },
+    {
+      "id": "entry-0064f02f",
+      "barId": "bar_1",
+      "employeeId": "emp-004",
+      "employeeName": "David Thompson",
+      "shiftId": null,
+      "clockIn": "2025-11-24T14:23:23.804Z",
+      "clockOut": "2025-11-24T16:33:55.886Z",
+      "breakStart": null,
+      "breakEnd": null,
+      "breakDuration": 0,
+      "totalHours": 2.18,
+      "regularHours": 2.18,
+      "overtimeHours": 0,
+      "status": "completed",
+      "notes": "",
+      "createdAt": "2025-11-24T14:23:23.804Z"
+    }
+  ]
+}

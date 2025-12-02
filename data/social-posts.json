@@ -1,0 +1,50 @@
+[
+  {
+    "postId": "57e50764-1fb9-4ab0-85b6-8fe851ea2bc7",
+    "barId": "bar_1",
+    "adminId": "admin_1",
+    "adminName": "Admin User",
+    "platform": "facebook",
+    "accountId": "943318492190300",
+    "accountName": "Test Public Page",
+    "status": "published",
+    "contentType": "text",
+    "caption": "no image tests",
+    "mediaUrls": [],
+    "scheduledFor": null,
+    "campaignId": null,
+    "publishedAt": "2025-11-28T17:19:05.083Z",
+    "publishedPostId": "943318492190300_122103166539135863",
+    "publishResponse": {
+      "id": "943318492190300_122103166539135863"
+    },
+    "error": null,
+    "errorDetails": null,
+    "createdAt": "2025-11-28T17:19:02.163Z",
+    "updatedAt": "2025-11-28T17:19:05.084Z"
+  },
+  {
+    "postId": "b16a0f9e-688a-44c7-96b0-891af940f97f",
+    "barId": "bar_1",
+    "adminId": "admin_1",
+    "adminName": "Admin User",
+    "platform": "facebook",
+    "accountId": "943318492190300",
+    "accountName": "Test Public Page",
+    "status": "published",
+    "contentType": "text",
+    "caption": "scheduled with text only",
+    "mediaUrls": [],
+    "scheduledFor": "2025-11-28T12:34",
+    "campaignId": null,
+    "publishedAt": "2025-11-28T17:34:17.959Z",
+    "publishedPostId": "943318492190300_122103173733135863",
+    "publishResponse": {
+      "id": "943318492190300_122103173733135863"
+    },
+    "error": null,
+    "errorDetails": null,
+    "createdAt": "2025-11-28T17:33:34.987Z",
+    "updatedAt": "2025-11-28T17:34:17.960Z"
+  }
+]

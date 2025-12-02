@@ -8,10 +8,7 @@ import { siteConfig } from '@/config/siteConfig'
 export async function POST(request) {
   try {
     if (!siteConfig.api.enableStripe) {
-      return NextResponse.json(
-        { error: 'Stripe is not enabled' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Stripe is not enabled' }, { status: 400 })
     }
 
     const body = await request.text()
@@ -43,10 +40,6 @@ export async function POST(request) {
     return NextResponse.json({ received: true }, { status: 200 })
   } catch (error) {
     console.error('Webhook error:', error)
-    return NextResponse.json(
-      { error: 'Webhook processing failed' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 })
   }
 }
-

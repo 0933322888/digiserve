@@ -24,14 +24,14 @@ export default function ReservationForm() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     })
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault()
     setIsSubmitting(true)
     setStatus({ type: null, message: '' })
@@ -158,7 +158,7 @@ export default function ReservationForm() {
             onChange={handleChange}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((size) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(size => (
               <option key={size} value={size}>
                 {size} {size === 1 ? 'Guest' : 'Guests'}
               </option>
@@ -262,4 +262,3 @@ export default function ReservationForm() {
     </motion.form>
   )
 }
-

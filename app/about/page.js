@@ -1,6 +1,7 @@
 import SectionTitle from '@/components/SectionTitle'
 import AnimatedCard from '@/components/AnimatedCard'
 import { siteConfig } from '@/config/siteConfig'
+import { getSetting } from '@/lib/app-settings-service'
 import Image from 'next/image'
 
 /**
@@ -19,10 +20,22 @@ export const metadata = {
  * About Page
  * Features restaurant history, mission, and philosophy
  */
-export default function AboutPage() {
+export default async function AboutPage() {
   const { restaurant } = siteConfig
-
-  const timeline = [
+  
+  // Fetch configured page content
+  let pageContent = null
+  try {
+    const aboutContentJson = await getSetting('PAGE_CONTENT_ABOUT')
+    if (aboutContentJson) {
+      pageContent = JSON.parse(aboutContentJson)
+    }
+  } catch (error) {
+    console.error('Failed to load page content:', error)
+  }
+  
+  // Get timeline from configured content or use defaults
+  const timeline = pageContent?.timeline?.items?.filter(item => item.enabled !== false) || [
     {
       year: '2015',
       title: 'The Beginning',
@@ -32,8 +45,7 @@ export default function AboutPage() {
     {
       year: '2017',
       title: 'Award Recognition',
-      description:
-        'Received "Best New Restaurant" award from the local dining association.',
+      description: 'Received "Best New Restaurant" award from the local dining association.',
     },
     {
       year: '2020',
@@ -48,23 +60,68 @@ export default function AboutPage() {
         'Continuing to serve exceptional cuisine and create unforgettable moments for our guests.',
     },
   ]
+  
+  // Get philosophy principles from configured content or use defaults
+  const principles = pageContent?.philosophy?.principles?.filter(item => item.enabled !== false) || [
+    {
+      title: 'Quality',
+      description:
+        'We use only the finest ingredients, sourced locally when possible, to ensure every dish meets our high standards.',
+    },
+    {
+      title: 'Craftsmanship',
+      description:
+        'Every dish is prepared with attention to detail and a passion for culinary excellence.',
+    },
+    {
+      title: 'Hospitality',
+      description:
+        'We strive to make every guest feel welcomed and valued, creating an atmosphere of warmth and elegance.',
+    },
+  ]
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://triobistro.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'About Us',
+        item: 'https://triobistro.com/about',
+      },
+    ],
+  }
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       {/* Hero Section */}
       <section className="relative h-96 flex items-center justify-center overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage:
-              "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1920&h=1080&fit=crop')",
-          }}
-        >
-          <div className="absolute inset-0 bg-primary/70 dark:bg-gray-900/70" />
+        <div className="absolute inset-0">
+          <Image
+            src="/images/trio_main.png"
+            alt="TRIO BISTRO & LOUNGE"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-primary/20 dark:bg-gray-900/70" />
         </div>
         <div className="relative z-10 text-center px-4">
           <h1 className="text-5xl md:text-6xl font-serif font-bold text-cream mb-4">
-            Our Story
+            {pageContent?.hero?.title || "Our Story"}
           </h1>
         </div>
       </section>
@@ -76,8 +133,8 @@ export default function AboutPage() {
             <AnimatedCard>
               <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=600&fit=crop"
-                  alt="Restaurant interior"
+                  src="/images/trio_main.png"
+                  alt="TRIO BISTRO & LOUNGE"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -86,20 +143,13 @@ export default function AboutPage() {
             </AnimatedCard>
             <AnimatedCard delay={0.2}>
               <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
-                Our Mission
+                {pageContent?.mission?.title || "Our Mission"}
               </h2>
               <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
-                At {restaurant.name}, we believe that dining is an experience
-                that should engage all the senses. Our mission is to create
-                memorable moments through exceptional cuisine, impeccable
-                service, and an atmosphere that blends vintage elegance with
-                contemporary comfort.
+                {pageContent?.mission?.description || `At ${restaurant.name}, we believe that dining is an experience that should engage all the senses. Our mission is to create memorable moments through exceptional cuisine, impeccable service, and an atmosphere that blends vintage elegance with contemporary comfort.`}
               </p>
               <p className="text-lg text-gray-700 dark:text-gray-300">
-                We source the finest ingredients, craft each dish with care, and
-                curate a beverage selection that complements our culinary
-                offerings. Every detail, from the ambiance to the presentation,
-                is designed to make your visit unforgettable.
+                {pageContent?.mission?.description2 || "We source the finest ingredients, craft each dish with care, and curate a beverage selection that complements our culinary offerings. Every detail, from the ambiance to the presentation, is designed to make your visit unforgettable."}
               </p>
             </AnimatedCard>
           </div>
@@ -109,9 +159,9 @@ export default function AboutPage() {
       {/* Timeline Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary/5 dark:bg-gray-800/50">
         <div className="max-w-7xl mx-auto">
-          <SectionTitle
-            title="Our Journey"
-            subtitle="Milestones that shaped who we are today"
+          <SectionTitle 
+            title={pageContent?.timeline?.sectionTitle || "Our Journey"} 
+            subtitle={pageContent?.timeline?.sectionSubtitle || "Milestones that shaped who we are today"} 
           />
           <div className="space-y-8">
             {timeline.map((item, index) => (
@@ -128,9 +178,7 @@ export default function AboutPage() {
                     <h3 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      {item.description}
-                    </p>
+                    <p className="text-gray-700 dark:text-gray-300">{item.description}</p>
                   </div>
                 </div>
               </AnimatedCard>
@@ -144,40 +192,22 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto text-center">
           <AnimatedCard>
             <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
-              Our Philosophy
+              {pageContent?.philosophy?.title || "Our Philosophy"}
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
-              We believe that great food brings people together. Our philosophy
-              centers on three core principles:
+              {pageContent?.philosophy?.description || "We believe that great food brings people together. Our philosophy centers on three core principles:"}
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-              <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-3">
-                  Quality
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  We use only the finest ingredients, sourced locally when
-                  possible, to ensure every dish meets our high standards.
-                </p>
-              </div>
-              <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-3">
-                  Craftsmanship
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  Every dish is prepared with attention to detail and a passion
-                  for culinary excellence.
-                </p>
-              </div>
-              <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-3">
-                  Hospitality
-                </h3>
-                <p className="text-gray-700 dark:text-gray-300">
-                  We strive to make every guest feel welcomed and valued,
-                  creating an atmosphere of warmth and elegance.
-                </p>
-              </div>
+              {principles.map((principle, index) => (
+                <div key={index} className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                  <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-3">
+                    {principle.title}
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    {principle.description}
+                  </p>
+                </div>
+              ))}
             </div>
           </AnimatedCard>
         </div>
@@ -185,4 +215,3 @@ export default function AboutPage() {
     </>
   )
 }
-

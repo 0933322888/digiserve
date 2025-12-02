@@ -16,6 +16,13 @@ import CartDrawer from '@/components/ordering/CartDrawer'
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isDark, setIsDark] = useState(false)
+  const [moduleStatus, setModuleStatus] = useState({
+    events: siteConfig.features.events,
+    gallery: siteConfig.features.gallery,
+    reservations: siteConfig.features.reservations,
+    giftCards: siteConfig.features.giftCards,
+    ordering: siteConfig.ordering?.enabled,
+  })
   const pathname = usePathname()
 
   useEffect(() => {
@@ -32,6 +39,21 @@ export default function Navbar() {
     }
   }, [])
 
+  useEffect(() => {
+    // Fetch module status from API
+    fetch('/api/modules/status')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success && data.modules) {
+          setModuleStatus(data.modules)
+        }
+      })
+      .catch(error => {
+        console.error('Failed to fetch module status:', error)
+        // Keep default values from siteConfig
+      })
+  }, [])
+
   const toggleDarkMode = () => {
     const newTheme = !isDark
     setIsDark(newTheme)
@@ -44,30 +66,27 @@ export default function Navbar() {
     }
   }
 
-  // Build navigation links based on enabled features
+  // Build navigation links based on enabled features from DB
   const navLinks = [
     { href: '/', label: 'Home' },
     {
-      href: '/menu', label: 'Menu'
+      href: '/menu',
+      label: 'Menu',
     },
     { href: '/about', label: 'About' },
-    ...(siteConfig.features.events ? [{ href: '/events', label: 'Events' }] : []),
-    ...(siteConfig.features.gallery ? [{ href: '/gallery', label: 'Gallery' }] : []),
-    ...(siteConfig.features.reservations
-      ? [{ href: '/reservations', label: 'Reservations' }]
-      : []),
-    ...(siteConfig.features.giftCards
-      ? [{ href: '/gift-cards', label: 'Gift Cards' }]
-      : []),
+    ...(moduleStatus.events ? [{ href: '/events', label: 'Events' }] : []),
+    ...(moduleStatus.gallery ? [{ href: '/gallery', label: 'Gallery' }] : []),
+    ...(moduleStatus.reservations ? [{ href: '/reservations', label: 'Reservations' }] : []),
+    ...(moduleStatus.giftCards ? [{ href: '/gift-cards', label: 'Gift Cards' }] : []),
     { href: '/contact', label: 'Contact' },
   ]
 
-  const isActive = (href) => {
+  const isActive = href => {
     if (href === '/') return pathname === '/'
     return pathname.startsWith(href)
   }
 
-  const showOrdering = siteConfig.features.onlineOrdering && siteConfig.ordering?.enabled
+  const showOrdering = moduleStatus.ordering
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-cream/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-primary/20">
@@ -82,7 +101,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
+            {navLinks.map(link => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -149,7 +168,7 @@ export default function Navbar() {
             className="md:hidden bg-cream dark:bg-gray-900 border-t border-primary/20"
           >
             <div className="px-4 py-4 space-y-3">
-              {navLinks.map((link) => (
+              {navLinks.map(link => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -171,4 +190,3 @@ export default function Navbar() {
     </nav>
   )
 }
-

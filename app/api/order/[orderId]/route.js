@@ -10,10 +10,7 @@ export async function GET(request, { params }) {
     const { orderId } = params
 
     if (!orderId) {
-      return NextResponse.json(
-        { error: 'Order ID is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Order ID is required' }, { status: 400 })
     }
 
     // TODO: Fetch from DynamoDB if useDatabase is enabled
@@ -50,10 +47,6 @@ export async function GET(request, { params }) {
     )
   } catch (error) {
     console.error('Order fetch error:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch order' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch order' }, { status: 500 })
   }
 }
-

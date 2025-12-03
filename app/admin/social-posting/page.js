@@ -4,7 +4,7 @@ import SocialPostingManager from '@/components/admin/SocialPostingManager'
 
 export default async function AdminSocialPostingPage() {
   const headersList = await headers()
-  const barId = headersList.get('x-tenant-id') || 'bar_1'
+  const barId = headersList.get('x-tenant-id')
 
   // Get session to extract adminId and adminName
   const session = await getServerSession()

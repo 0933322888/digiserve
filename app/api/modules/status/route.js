@@ -10,10 +10,15 @@ export async function GET(request) {
   try {
     const headersList = await headers()
     const host = headersList.get('host')
+    const tenantIdHeader = headersList.get('x-tenant-id')
     const { getTenantFromHost, getTenantConfig } = await import('@/lib/tenant-service')
 
-    // Get tenant ID from host
-    const barId = await getTenantFromHost(host)
+    // Get tenant ID from header or host
+    let barId = tenantIdHeader
+
+    if (!barId) {
+      barId = await getTenantFromHost(host)
+    }
 
     if (!barId) {
       return NextResponse.json(

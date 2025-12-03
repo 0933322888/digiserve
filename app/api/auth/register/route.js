@@ -141,6 +141,13 @@ export async function POST(request) {
         console.log(`   User: ${email}`)
         console.log(`   Subdomain: ${subdomain}`)
 
+        // Create session token
+        const { createSessionToken, setSession } = await import('@/lib/auth-service')
+        const token = await createSessionToken(user)
+
+        // Set session cookie
+        await setSession(token)
+
         return NextResponse.json({
             success: true,
             message: 'Registration successful',

@@ -357,19 +357,17 @@ export default function AdminSettingsPage() {
                         <button
                           onClick={() => toggleModule(module.key, !module.enabled)}
                           disabled={saving[module.key]}
-                          className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${
-                            module.enabled
+                          className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${module.enabled
                               ? 'bg-primary dark:bg-gold'
                               : 'bg-gray-200 dark:bg-gray-600'
-                          }`}
+                            }`}
                           role="switch"
                           aria-checked={module.enabled}
                           aria-label={`${module.enabled ? 'Disable' : 'Enable'} ${module.name}`}
                         >
                           <span
-                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                              module.enabled ? 'translate-x-5' : 'translate-x-0'
-                            }`}
+                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${module.enabled ? 'translate-x-5' : 'translate-x-0'
+                              }`}
                           />
                         </button>
                         {saving[module.key] && (
@@ -423,21 +421,18 @@ export default function AdminSettingsPage() {
                       <button
                         onClick={() => toggleModule('stripe', !stripeModule.enabled)}
                         disabled={saving.stripe}
-                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${
-                          stripeModule.enabled
+                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${stripeModule.enabled
                             ? 'bg-primary dark:bg-gold'
                             : 'bg-gray-200 dark:bg-gray-600'
-                        }`}
+                          }`}
                         role="switch"
                         aria-checked={stripeModule.enabled}
-                        aria-label={`${
-                          stripeModule.enabled ? 'Disable' : 'Enable'
-                        } Stripe Payments`}
+                        aria-label={`${stripeModule.enabled ? 'Disable' : 'Enable'
+                          } Stripe Payments`}
                       >
                         <span
-                          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                            stripeModule.enabled ? 'translate-x-5' : 'translate-x-0'
-                          }`}
+                          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${stripeModule.enabled ? 'translate-x-5' : 'translate-x-0'
+                            }`}
                         />
                       </button>
                       {saving.stripe && (
@@ -480,23 +475,20 @@ export default function AdminSettingsPage() {
                           <button
                             onClick={() => toggleModule('giftCards', !giftCardsModule.enabled)}
                             disabled={saving.giftCards || !stripeModule.enabled}
-                            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${
-                              giftCardsModule.enabled && stripeModule.enabled
+                            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${giftCardsModule.enabled && stripeModule.enabled
                                 ? 'bg-primary dark:bg-gold'
                                 : 'bg-gray-200 dark:bg-gray-600'
-                            }`}
+                              }`}
                             role="switch"
                             aria-checked={giftCardsModule.enabled && stripeModule.enabled}
-                            aria-label={`${
-                              giftCardsModule.enabled ? 'Disable' : 'Enable'
-                            } Gift Cards`}
+                            aria-label={`${giftCardsModule.enabled ? 'Disable' : 'Enable'
+                              } Gift Cards`}
                           >
                             <span
-                              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                giftCardsModule.enabled && stripeModule.enabled
+                              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${giftCardsModule.enabled && stripeModule.enabled
                                   ? 'translate-x-5'
                                   : 'translate-x-0'
-                              }`}
+                                }`}
                             />
                           </button>
                           {saving.giftCards && (
@@ -537,23 +529,20 @@ export default function AdminSettingsPage() {
                                 toggleModule('ordering', !orderingModule.enabled)
                               }
                               disabled={saving.ordering || !stripeModule.enabled}
-                              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${
-                                orderingModule.enabled && stripeModule.enabled
+                              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingModule.enabled && stripeModule.enabled
                                   ? 'bg-primary dark:bg-gold'
                                   : 'bg-gray-200 dark:bg-gray-600'
-                              }`}
+                                }`}
                               role="switch"
                               aria-checked={orderingModule.enabled && stripeModule.enabled}
-                              aria-label={`${
-                                orderingModule.enabled ? 'Disable' : 'Enable'
-                              } Ordering System`}
+                              aria-label={`${orderingModule.enabled ? 'Disable' : 'Enable'
+                                } Ordering System`}
                             >
                               <span
-                                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                  orderingModule.enabled && stripeModule.enabled
+                                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingModule.enabled && stripeModule.enabled
                                     ? 'translate-x-5'
                                     : 'translate-x-0'
-                                }`}
+                                  }`}
                               />
                             </button>
                             {saving.ordering && (
@@ -605,20 +594,18 @@ export default function AdminSettingsPage() {
                                         toggleOrderingOption('pickup', !orderingSettings.pickup)
                                       }
                                       disabled={saving['ordering_pickup']}
-                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${
-                                        orderingSettings.pickup
+                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.pickup
                                           ? 'bg-primary dark:bg-gold'
                                           : 'bg-gray-200 dark:bg-gray-600'
-                                      }`}
+                                        }`}
                                       role="switch"
                                       aria-checked={orderingSettings.pickup}
                                     >
                                       <span
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                          orderingSettings.pickup
+                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.pickup
                                             ? 'translate-x-5'
                                             : 'translate-x-0'
-                                        }`}
+                                          }`}
                                       />
                                     </button>
                                   </div>
@@ -653,20 +640,18 @@ export default function AdminSettingsPage() {
                                         toggleOrderingOption('delivery', !orderingSettings.delivery)
                                       }
                                       disabled={saving['ordering_delivery']}
-                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${
-                                        orderingSettings.delivery
+                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.delivery
                                           ? 'bg-primary dark:bg-gold'
                                           : 'bg-gray-200 dark:bg-gray-600'
-                                      }`}
+                                        }`}
                                       role="switch"
                                       aria-checked={orderingSettings.delivery}
                                     >
                                       <span
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                          orderingSettings.delivery
+                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.delivery
                                             ? 'translate-x-5'
                                             : 'translate-x-0'
-                                        }`}
+                                          }`}
                                       />
                                     </button>
                                   </div>
@@ -701,20 +686,18 @@ export default function AdminSettingsPage() {
                                         toggleOrderingOption('dineIn', !orderingSettings.dineIn)
                                       }
                                       disabled={saving['ordering_dineIn']}
-                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${
-                                        orderingSettings.dineIn
+                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.dineIn
                                           ? 'bg-primary dark:bg-gold'
                                           : 'bg-gray-200 dark:bg-gray-600'
-                                      }`}
+                                        }`}
                                       role="switch"
                                       aria-checked={orderingSettings.dineIn}
                                     >
                                       <span
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                          orderingSettings.dineIn
+                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.dineIn
                                             ? 'translate-x-5'
                                             : 'translate-x-0'
-                                        }`}
+                                          }`}
                                       />
                                     </button>
                                   </div>

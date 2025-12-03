@@ -8,7 +8,7 @@ import { headers } from 'next/headers'
 
 export default async function AdminReservationsPage() {
   const headersList = await headers()
-  const barId = headersList.get('x-tenant-id') || 'bar_1'
+  const barId = headersList.get('x-tenant-id')
 
   const reservations = await getReservations(barId)
   const settings = getSettings() // TODO: Update settings service to be tenant aware

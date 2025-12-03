@@ -9,7 +9,7 @@ import { headers } from 'next/headers'
 
 export default async function AdminGiftCardsPage() {
   const headersList = await headers()
-  const barId = headersList.get('x-tenant-id') || 'bar_1'
+  const barId = headersList.get('x-tenant-id')
 
   const giftCards = await getAllGiftCards(barId)
 

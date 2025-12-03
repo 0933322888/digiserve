@@ -1,25 +1,32 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import BrandingStep from './BrandingStep'
-import MenuStep from './MenuStep'
 import GoLiveStep from './GoLiveStep'
 import { Check } from 'lucide-react'
+import { useTheme } from '../ThemeProvider'
 
 export default function OnboardingWizard({ currentStep, onboardingStatus, tenantId, userId }) {
     const router = useRouter()
+    const { refreshTheme } = useTheme()
     const [step, setStep] = useState(currentStep)
     const [loading, setLoading] = useState(false)
 
+    // Load tenant theme on mount
+    useEffect(() => {
+        if (tenantId) {
+            refreshTheme(tenantId)
+        }
+    }, [tenantId])
+
     const steps = [
         { number: 1, name: 'Branding', status: 'branding' },
-        { number: 2, name: 'Menu', status: 'menu' },
-        { number: 3, name: 'Go Live', status: 'completed' },
+        { number: 2, name: 'Go Live', status: 'completed' },
     ]
 
     const handleNext = () => {
-        if (step < 3) {
+        if (step < 2) {
             setStep(step + 1)
         }
     }
@@ -62,10 +69,10 @@ export default function OnboardingWizard({ currentStep, onboardingStatus, tenant
                                 <div className="flex flex-col items-center">
                                     <div
                                         className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all ${step > s.number
-                                                ? 'bg-green-600 text-white'
-                                                : step === s.number
-                                                    ? 'bg-red-600 text-white ring-4 ring-red-600/30'
-                                                    : 'bg-gray-700 text-gray-400'
+                                            ? 'bg-green-600 text-white'
+                                            : step === s.number
+                                                ? 'bg-red-600 text-white ring-4 ring-red-600/30'
+                                                : 'bg-gray-700 text-gray-400'
                                             }`}
                                     >
                                         {step > s.number ? <Check className="w-5 h-5" /> : s.number}
@@ -102,13 +109,6 @@ export default function OnboardingWizard({ currentStep, onboardingStatus, tenant
                     />
                 )}
                 {step === 2 && (
-                    <MenuStep
-                        tenantId={tenantId}
-                        onNext={handleNext}
-                        onBack={handleBack}
-                    />
-                )}
-                {step === 3 && (
                     <GoLiveStep
                         tenantId={tenantId}
                         onBack={handleBack}

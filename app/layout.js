@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import { CartProvider } from '@/providers/CartProvider'
+import { ThemeProvider } from '@/components/ThemeProvider'
 import { siteConfig } from '@/config/siteConfig'
 import { getBusinessHours } from '@/lib/app-settings-service'
 import './globals.css'
@@ -130,17 +131,19 @@ export default async function RootLayout({ children }) {
             `,
           }}
         />
-        <script 
-     defer 
-     src="/analytics/tracker.js" 
-     data-restaurant-id="RESTAURANT_ID">
-   </script>
+        <script
+          defer
+          src="/analytics/tracker.js"
+          data-restaurant-id="RESTAURANT_ID">
+        </script>
       </head>
       <body className={inter.className}>
         <CartProvider>
-          <Navbar />
-          <main className="min-h-screen pt-20">{children}</main>
-          <Footer />
+          <ThemeProvider>
+            <Navbar />
+            <main className="min-h-screen pt-20">{children}</main>
+            <Footer />
+          </ThemeProvider>
         </CartProvider>
       </body>
     </html>

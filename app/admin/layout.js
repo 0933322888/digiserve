@@ -42,6 +42,7 @@ export default function AdminLayout({ children }) {
     gallery: true,
   })
   const [username, setUsername] = useState(null)
+  const [tenantId, setTenantId] = useState(null)
   const [isAuthenticated, setIsAuthenticated] = useState(null) // null = checking, true = authenticated, false = not authenticated
 
   // Check if we're on the login page - if so, don't render the sidebar
@@ -63,6 +64,10 @@ export default function AdminLayout({ children }) {
           if (data.authenticated) {
             setIsAuthenticated(true)
             setUsername(data.username)
+            // Use first tenant ID if available
+            if (data.tenantIds && data.tenantIds.length > 0) {
+              setTenantId(data.tenantIds[0])
+            }
             // Stats will be fetched in the second useEffect after authentication is confirmed
           } else {
             setIsAuthenticated(false)
@@ -83,9 +88,12 @@ export default function AdminLayout({ children }) {
     checkAuthentication()
   }, [router, pathname, isLoginPage])
 
-  const fetchStats = async () => {
+  const fetchStats = async (tid) => {
     try {
-      const res = await fetch('/api/admin/stats')
+      const headers = {}
+      if (tid) headers['x-tenant-id'] = tid
+
+      const res = await fetch('/api/admin/stats', { headers })
       if (res.ok) {
         const data = await res.json()
         setPendingReservations(data.reservations?.pending || 0)
@@ -97,9 +105,12 @@ export default function AdminLayout({ children }) {
     }
   }
 
-  const fetchModuleStatus = async () => {
+  const fetchModuleStatus = async (tid) => {
     try {
-      const res = await fetch('/api/modules/status')
+      const headers = {}
+      if (tid) headers['x-tenant-id'] = tid
+
+      const res = await fetch('/api/modules/status', { headers })
       if (res.ok) {
         const data = await res.json()
         if (data.success && data.modules) {
@@ -119,13 +130,13 @@ export default function AdminLayout({ children }) {
 
   // Fetch stats and module status periodically after authentication
   useEffect(() => {
-    if (!isAuthenticated) return
+    if (!isAuthenticated || !tenantId) return
 
-    fetchStats()
-    fetchModuleStatus()
+    fetchStats(tenantId)
+    fetchModuleStatus(tenantId)
     const interval = setInterval(() => {
-      fetchStats()
-      fetchModuleStatus()
+      fetchStats(tenantId)
+      fetchModuleStatus(tenantId)
     }, 30000)
 
     // Check if social posting is enabled
@@ -142,17 +153,20 @@ export default function AdminLayout({ children }) {
     checkSocialPosting()
 
     // Listen for updates from child components
-    window.addEventListener('reservation-updated', fetchStats)
-    window.addEventListener('order-updated', fetchStats)
-    window.addEventListener('module-settings-updated', fetchModuleStatus)
+    const handleStatsUpdate = () => fetchStats(tenantId)
+    const handleModuleUpdate = () => fetchModuleStatus(tenantId)
+
+    window.addEventListener('reservation-updated', handleStatsUpdate)
+    window.addEventListener('order-updated', handleStatsUpdate)
+    window.addEventListener('module-settings-updated', handleModuleUpdate)
 
     return () => {
       clearInterval(interval)
-      window.removeEventListener('reservation-updated', fetchStats)
-      window.removeEventListener('order-updated', fetchStats)
-      window.removeEventListener('module-settings-updated', fetchModuleStatus)
+      window.removeEventListener('reservation-updated', handleStatsUpdate)
+      window.removeEventListener('order-updated', handleStatsUpdate)
+      window.removeEventListener('module-settings-updated', handleModuleUpdate)
     }
-  }, [isAuthenticated])
+  }, [isAuthenticated, tenantId])
 
   // Handle logout
   const handleLogout = async () => {
@@ -228,7 +242,7 @@ export default function AdminLayout({ children }) {
 
   // Filter out disabled items and preserve dividers
   const navigation = []
-  
+
   for (const item of navigationItems) {
     if (item.divider) {
       // Only add divider if there are items before it
@@ -240,7 +254,7 @@ export default function AdminLayout({ children }) {
       navigation.push(item)
     }
   }
-  
+
   // Remove trailing divider if present
   if (navigation.length > 0 && navigation[navigation.length - 1]?.divider === true) {
     navigation.pop()
@@ -296,24 +310,22 @@ export default function AdminLayout({ children }) {
               <Link
                 key={item.name}
                 href={item.href}
-                className={`group flex items-center justify-between px-2 py-2 text-base font-medium rounded-md transition-colors ${
-                  isActive
-                    ? 'bg-primary text-white dark:bg-gold dark:text-primary'
-                    : item.disabled
-                      ? 'text-gray-400 cursor-not-allowed'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
-                }`}
+                className={`group flex items-center justify-between px-2 py-2 text-base font-medium rounded-md transition-colors ${isActive
+                  ? 'bg-primary text-white dark:bg-gold dark:text-primary'
+                  : item.disabled
+                    ? 'text-gray-400 cursor-not-allowed'
+                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+                  }`}
                 onClick={e => item.disabled && e.preventDefault()}
               >
                 <div className="flex items-center">
                   <item.icon
-                    className={`mr-4 h-6 w-6 ${
-                      isActive
-                        ? 'text-white dark:text-primary'
-                        : item.disabled
-                          ? 'text-gray-400'
-                          : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
-                    }`}
+                    className={`mr-4 h-6 w-6 ${isActive
+                      ? 'text-white dark:text-primary'
+                      : item.disabled
+                        ? 'text-gray-400'
+                        : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
+                      }`}
                   />
                   {item.name}
                   {item.disabled && (
@@ -336,18 +348,16 @@ export default function AdminLayout({ children }) {
         <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <Link
             href="/admin/settings"
-            className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors ${
-              pathname === '/admin/settings'
-                ? 'bg-primary text-white dark:bg-gold dark:text-primary'
-                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
-            }`}
+            className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors ${pathname === '/admin/settings'
+              ? 'bg-primary text-white dark:bg-gold dark:text-primary'
+              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+              }`}
           >
             <Settings
-              className={`mr-4 h-6 w-6 ${
-                pathname === '/admin/settings'
-                  ? 'text-white dark:text-primary'
-                  : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
-              }`}
+              className={`mr-4 h-6 w-6 ${pathname === '/admin/settings'
+                ? 'text-white dark:text-primary'
+                : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
+                }`}
             />
             Settings
           </Link>

@@ -10,17 +10,17 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#8B0000', // Deep red
-          dark: '#6B0000',
-          light: '#A00000',
+          DEFAULT: 'var(--primary)', // Dynamic
+          dark: '#6B0000', // TODO: Calculate dynamic dark variant
+          light: '#A00000', // TODO: Calculate dynamic light variant
         },
         cream: {
-          DEFAULT: '#F5F5DC',
+          DEFAULT: 'var(--cream)', // Dynamic
           light: '#FAFAF0',
           dark: '#E8E8D0',
         },
         gold: {
-          DEFAULT: '#D4AF37',
+          DEFAULT: 'var(--gold)', // Dynamic
           light: '#E5C158',
           dark: '#B8941F',
         },

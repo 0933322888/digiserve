@@ -32,9 +32,8 @@ export async function middleware(request) {
       // Lightweight tenant resolution for Edge Runtime
       // 1. Localhost
       if (host.includes('localhost') || host.includes('127.0.0.1')) {
-        if (process.env.NODE_ENV === 'development') {
-          tenantId = process.env.DEFAULT_TENANT_ID || 'bar_1'
-        }
+        // Strict mode: No default tenant for localhost
+        // Developers must use x-tenant-id header or subdomain
       } else {
         // 2. Subdomain (e.g., tenant.domain.com)
         const baseDomain = process.env.NEXT_PUBLIC_BASE_DOMAIN || 'digiserve.com'
@@ -60,6 +59,17 @@ export async function middleware(request) {
   if (!isPublicRoute) {
     const token = request.cookies.get('admin-session')?.value
 
+    // If tenantId is missing (e.g. localhost root) and we have a session, try to use the user's first tenant
+    // This ensures API routes like /api/theme get the correct context
+    let sessionPayload = null
+    if (!tenantId && token) {
+      sessionPayload = await verifySessionToken(token)
+      if (sessionPayload && sessionPayload.tenantIds && sessionPayload.tenantIds.length > 0) {
+        tenantId = sessionPayload.tenantIds[0]
+        headers.set('x-tenant-id', tenantId)
+      }
+    }
+
     // Check if accessing admin routes
     if (pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
       if (!token) {
@@ -69,7 +79,7 @@ export async function middleware(request) {
         return NextResponse.redirect(loginUrl)
       }
 
-      const payload = await verifySessionToken(token)
+      const payload = sessionPayload || await verifySessionToken(token)
 
       if (!payload) {
         // Token is invalid, redirect to login
@@ -81,16 +91,8 @@ export async function middleware(request) {
       }
 
       // Check if user has access to the resolved tenant
-      // In development on localhost, use the user's first tenant if tenantId is bar_1
       if (tenantId && payload.tenantIds) {
-        const host = headers.get('host')
-        const isLocalhost = host && (host.includes('localhost') || host.includes('127.0.0.1'))
-
-        // In development, if tenantId is the default and user has tenants, use their first tenant
-        if (isLocalhost && tenantId === 'bar_1' && payload.tenantIds.length > 0) {
-          // Override tenantId with user's first tenant
-          headers.set('x-tenant-id', payload.tenantIds[0])
-        } else if (!payload.tenantIds.includes(tenantId) && payload.role !== 'superadmin') {
+        if (!payload.tenantIds.includes(tenantId) && payload.role !== 'superadmin') {
           // User doesn't have access to this tenant
           return NextResponse.json({ error: 'Unauthorized access to this tenant' }, { status: 403 })
         }
@@ -109,7 +111,7 @@ export async function middleware(request) {
         return NextResponse.redirect(loginUrl)
       }
 
-      const payload = await verifySessionToken(token)
+      const payload = sessionPayload || await verifySessionToken(token)
 
       if (!payload) {
         const loginUrl = new URL('/login', request.url)
@@ -125,7 +127,7 @@ export async function middleware(request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       }
 
-      const payload = await verifySessionToken(token)
+      const payload = sessionPayload || await verifySessionToken(token)
 
       if (!payload) {
         const response = NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -135,14 +137,7 @@ export async function middleware(request) {
 
       // Check tenant access - same logic as admin routes
       if (tenantId && payload.tenantIds) {
-        const host = headers.get('host')
-        const isLocalhost = host && (host.includes('localhost') || host.includes('127.0.0.1'))
-
-        // In development, if tenantId is the default and user has tenants, use their first tenant
-        if (isLocalhost && tenantId === 'bar_1' && payload.tenantIds.length > 0) {
-          // Override tenantId with user's first tenant
-          headers.set('x-tenant-id', payload.tenantIds[0])
-        } else if (!payload.tenantIds.includes(tenantId) && payload.role !== 'superadmin') {
+        if (!payload.tenantIds.includes(tenantId) && payload.role !== 'superadmin') {
           return NextResponse.json({ error: 'Unauthorized access to this tenant' }, { status: 403 })
         }
       }
@@ -154,7 +149,7 @@ export async function middleware(request) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
       }
 
-      const payload = await verifySessionToken(token)
+      const payload = sessionPayload || await verifySessionToken(token)
 
       if (!payload) {
         const response = NextResponse.json({ error: 'Unauthorized' }, { status: 401 })

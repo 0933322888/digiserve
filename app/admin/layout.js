@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { LogoutButton } from '@/LogoutButton'
 import {
   LayoutDashboard,
   Gift,
@@ -50,18 +51,24 @@ export default function AdminLayout({ children }) {
 
   // Check authentication status first (skip for login page)
   useEffect(() => {
+    console.log(`[AdminLayout] Auth useEffect running. Path: ${pathname}, isLoginPage: ${isLoginPage}`);
     // Don't check authentication on login page
     if (isLoginPage) {
-      setIsAuthenticated(true) // Allow login page to render
+      // On the login page, the user is not authenticated.
+      setIsAuthenticated(false)
       return
     }
 
     const checkAuthentication = async () => {
+      console.log('[AdminLayout] checkAuthentication() called.');
       try {
         const res = await fetch('/api/admin/auth/session')
+        console.log(`[AdminLayout] /api/admin/auth/session response status: ${res.status}`);
         if (res.ok) {
           const data = await res.json()
+          console.log('[AdminLayout] Session data:', data);
           if (data.authenticated) {
+            console.log('[AdminLayout] User is authenticated. Setting state.');
             setIsAuthenticated(true)
             setUsername(data.username)
             // Use first tenant ID if available
@@ -70,16 +77,19 @@ export default function AdminLayout({ children }) {
             }
             // Stats will be fetched in the second useEffect after authentication is confirmed
           } else {
+            console.log('[AdminLayout] User is NOT authenticated. Redirecting to login.');
             setIsAuthenticated(false)
             // Redirect to login if not authenticated
             router.push('/admin/login?from=' + encodeURIComponent(pathname))
           }
         } else {
+          console.log('[AdminLayout] Session check failed (res not ok). Redirecting to login.');
           setIsAuthenticated(false)
           router.push('/admin/login?from=' + encodeURIComponent(pathname))
         }
       } catch (error) {
         console.error('Failed to fetch session', error)
+        console.log('[AdminLayout] Session check failed (catch block). Redirecting to login.');
         setIsAuthenticated(false)
         router.push('/admin/login?from=' + encodeURIComponent(pathname))
       }
@@ -130,7 +140,9 @@ export default function AdminLayout({ children }) {
 
   // Fetch stats and module status periodically after authentication
   useEffect(() => {
+    console.log(`[AdminLayout] Stats useEffect running. isAuthenticated: ${isAuthenticated}, tenantId: ${tenantId}`);
     if (!isAuthenticated || !tenantId) return
+    console.log('[AdminLayout] Auth confirmed. Fetching stats and module status.');
 
     fetchStats(tenantId)
     fetchModuleStatus(tenantId)
@@ -167,22 +179,6 @@ export default function AdminLayout({ children }) {
       window.removeEventListener('module-settings-updated', handleModuleUpdate)
     }
   }, [isAuthenticated, tenantId])
-
-  // Handle logout
-  const handleLogout = async () => {
-    try {
-      const res = await fetch('/api/admin/auth/logout', { method: 'POST' })
-      if (res.ok) {
-        router.push('/admin/login')
-        router.refresh()
-      }
-    } catch (error) {
-      console.error('Logout error:', error)
-      // Still redirect to login even if API call fails
-      router.push('/admin/login')
-      router.refresh()
-    }
-  }
 
   // Calculate if navigation items should be disabled
   // For reservations, only count pending as "open" - confirmed reservations are already handled
@@ -370,13 +366,7 @@ export default function AdminLayout({ children }) {
               {username}
             </div>
           )}
-          <button
-            onClick={handleLogout}
-            className="w-full flex items-center px-2 py-2 text-base font-medium text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white rounded-md transition-colors"
-          >
-            <LogOut className="mr-4 h-6 w-6 text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300" />
-            Logout
-          </button>
+          <LogoutButton />
         </div>
       </div>
 
@@ -393,13 +383,7 @@ export default function AdminLayout({ children }) {
             {username && (
               <span className="text-sm text-gray-600 dark:text-gray-400">{username}</span>
             )}
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <LogOut className="h-4 w-4" />
-              Logout
-            </button>
+            <LogoutButton />
           </div>
         </div>
 

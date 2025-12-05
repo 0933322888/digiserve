@@ -4,6 +4,8 @@ import { siteConfig } from '@/config/siteConfig'
 import { getBusinessHours } from '@/lib/app-settings-service'
 import { MapPin, Phone, Mail, Clock, Navigation, ExternalLink } from 'lucide-react'
 import MapComponent from '@/components/MapComponent'
+import { headers } from 'next/headers'
+import PlatformContactPage from '@/components/marketing/PlatformContactPage'
 
 /**
  * Contact Page Metadata
@@ -22,6 +24,14 @@ export const metadata = {
  * Features contact form, map, and contact information
  */
 export default async function ContactPage() {
+  const headersList = await headers()
+  const tenantId = headersList.get('x-tenant-id')
+
+  // If no tenant is resolved, show the platform contact page
+  if (!tenantId) {
+    return <PlatformContactPage />
+  }
+
   const { restaurant } = siteConfig
   const businessHours = await getBusinessHours()
 
@@ -130,7 +140,7 @@ export default async function ContactPage() {
                 <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-6">
                   Find Us
                 </h3>
-                
+
                 {/* Address Display */}
                 <div className="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
                   <div className="flex items-start space-x-3">

@@ -3,6 +3,8 @@ import AnimatedCard from '@/components/AnimatedCard'
 import { siteConfig } from '@/config/siteConfig'
 import { getSetting } from '@/lib/app-settings-service'
 import Image from 'next/image'
+import { headers } from 'next/headers'
+import PlatformAboutPage from '@/components/marketing/PlatformAboutPage'
 
 /**
  * About Page Metadata
@@ -21,8 +23,16 @@ export const metadata = {
  * Features restaurant history, mission, and philosophy
  */
 export default async function AboutPage() {
+  const headersList = await headers()
+  const tenantId = headersList.get('x-tenant-id')
+
+  // If no tenant is resolved, show the platform about page
+  if (!tenantId) {
+    return <PlatformAboutPage />
+  }
+
   const { restaurant } = siteConfig
-  
+
   // Fetch configured page content
   let pageContent = null
   try {
@@ -33,7 +43,7 @@ export default async function AboutPage() {
   } catch (error) {
     console.error('Failed to load page content:', error)
   }
-  
+
   // Get timeline from configured content or use defaults
   const timeline = pageContent?.timeline?.items?.filter(item => item.enabled !== false) || [
     {
@@ -60,7 +70,7 @@ export default async function AboutPage() {
         'Continuing to serve exceptional cuisine and create unforgettable moments for our guests.',
     },
   ]
-  
+
   // Get philosophy principles from configured content or use defaults
   const principles = pageContent?.philosophy?.principles?.filter(item => item.enabled !== false) || [
     {
@@ -159,9 +169,9 @@ export default async function AboutPage() {
       {/* Timeline Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary/5 dark:bg-gray-800/50">
         <div className="max-w-7xl mx-auto">
-          <SectionTitle 
-            title={pageContent?.timeline?.sectionTitle || "Our Journey"} 
-            subtitle={pageContent?.timeline?.sectionSubtitle || "Milestones that shaped who we are today"} 
+          <SectionTitle
+            title={pageContent?.timeline?.sectionTitle || "Our Journey"}
+            subtitle={pageContent?.timeline?.sectionSubtitle || "Milestones that shaped who we are today"}
           />
           <div className="space-y-8">
             {timeline.map((item, index) => (

@@ -92,10 +92,16 @@ export async function POST(request) {
 
         console.log(`✅ Onboarding completed for tenant: ${tenantId}`)
 
+        // Generate tenant redirect URL
+        const { getTenantRedirectUrl } = await import('@/lib/tenant-service')
+        const redirectUrl = await getTenantRedirectUrl(tenantId) || '/admin'
+
         return NextResponse.json({
             success: true,
             message: 'Onboarding completed successfully',
-            redirectUrl: '/admin',
+            redirectUrl,
+            tenantId,
+            subdomain: restaurant.subdomain,
         })
     } catch (error) {
         console.error('Onboarding completion error:', error)

@@ -1,174 +1,94 @@
-'use client'
+import { headers } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { getSession } from '@/lib/auth-edge'
+import { getTenantConfig } from '@/lib/tenant-service'
+import LoginForm from '@/components/auth/LoginForm'
 
-import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
-import { Mail, Lock } from 'lucide-react'
-
-export default function LoginPage() {
-    const router = useRouter()
-    const searchParams = useSearchParams()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
-
+export default async function LoginPage() {
     // Check if already authenticated
-    useEffect(() => {
-        const checkSession = async () => {
-            try {
-                const res = await fetch('/api/admin/auth/session')
-                if (res.ok) {
-                    const data = await res.json()
-                    if (data.authenticated) {
-                        setIsAuthenticated(true)
-                        const redirectTo = searchParams.get('from') || '/admin'
-                        router.push(redirectTo)
-                    }
-                }
-            } catch (error) {
-                console.error('Session check error:', error)
-            }
+    const session = await getSession()
+    const headersList = await headers()
+    const tenantId = headersList.get('x-tenant-id')
+
+    if (session && session.authenticated) {
+        // Validate session matches tenant
+        if (session.tenantId === tenantId) {
+            redirect('/admin')
         }
-
-        checkSession()
-    }, [router, searchParams])
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        setLoading(true)
-
-        try {
-            const res = await fetch('/api/admin/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            })
-
-            const data = await res.json()
-
-            if (!res.ok) {
-                setError(data.error || 'Login failed')
-                setLoading(false)
-                return
-            }
-
-            // Login successful, redirect
-            const redirectTo = searchParams.get('from') || '/admin'
-            router.push(redirectTo)
-            router.refresh()
-        } catch (error) {
-            console.error('Login error:', error)
-            setError('An error occurred. Please try again.')
-            setLoading(false)
-        }
+        // Session mismatch - will be cleared by middleware
     }
 
-    if (isAuthenticated) {
+    // No tenant resolved - show 404
+    if (!tenantId) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
-                <div className="text-white">Redirecting...</div>
+            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center px-4">
+                <div className="max-w-md w-full text-center">
+                    <h1 className="text-4xl font-bold text-white mb-4">Access Denied</h1>
+                    <p className="text-gray-400 mb-6">
+                        Login is only available on tenant domains. Please access your restaurant&apos;s specific domain or subdomain.
+                    </p>
+                    <p className="text-sm text-gray-500">
+                        Example: <code className="bg-gray-800 px-2 py-1 rounded">yourrestaurant.digiserve.com</code>
+                    </p>
+                </div>
+            </div>
+        )
+    }
+
+    // Load tenant configuration for branding
+    const tenant = await getTenantConfig(tenantId)
+
+    if (!tenant) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center px-4">
+                <div className="max-w-md w-full text-center">
+                    <h1 className="text-4xl font-bold text-white mb-4">Tenant Not Found</h1>
+                    <p className="text-gray-400">
+                        The tenant configuration could not be loaded. Please contact support.
+                    </p>
+                </div>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center px-4 py-12">
+        <div
+            className="min-h-screen flex items-center justify-center px-4 py-12"
+            style={{
+                background: tenant.theme?.primaryColor
+                    ? `linear-gradient(135deg, ${tenant.theme.primaryColor}15 0%, ${tenant.theme.primaryColor}05 100%)`
+                    : 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)'
+            }}
+        >
             <div className="max-w-md w-full">
-                {/* Header */}
+                {/* Tenant Branding */}
                 <div className="text-center mb-8">
+                    {tenant.theme?.logo ? (
+                        <img
+                            src={tenant.theme.logo}
+                            alt={tenant.name}
+                            className="h-16 mx-auto mb-4"
+                        />
+                    ) : (
+                        <div
+                            className="h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center text-2xl font-bold text-white"
+                            style={{
+                                backgroundColor: tenant.theme?.primaryColor || '#8B0000'
+                            }}
+                        >
+                            {tenant.name.charAt(0).toUpperCase()}
+                        </div>
+                    )}
                     <h1 className="text-4xl font-bold text-white mb-2">
-                        Welcome Back
+                        {tenant.name}
                     </h1>
                     <p className="text-gray-400">
-                        Sign in to manage your restaurant
+                        Sign in to your dashboard
                     </p>
                 </div>
 
                 {/* Login Form */}
-                <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Email */}
-                        <div>
-                            <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">
-                                Email Address
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Mail className="h-5 w-5 text-gray-400" />
-                                </div>
-                                <input
-                                    id="email"
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                    placeholder="you@example.com"
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Password */}
-                        <div>
-                            <label htmlFor="password" className="block text-sm font-medium text-gray-200 mb-2">
-                                Password
-                            </label>
-                            <div className="relative">
-                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <Lock className="h-5 w-5 text-gray-400" />
-                                </div>
-                                <input
-                                    id="password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    required
-                                    placeholder="Enter your password"
-                                    className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Error Message */}
-                        {error && (
-                            <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-4 py-3 rounded-lg">
-                                {error}
-                            </div>
-                        )}
-
-                        {/* Submit Button */}
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                        >
-                            {loading ? 'Signing in...' : 'Sign In'}
-                        </button>
-                    </form>
-
-                    {/* Signup Link */}
-                    <div className="mt-6 text-center">
-                        <p className="text-gray-400">
-                            Don't have an account?{' '}
-                            <Link href="/signup" className="text-red-400 hover:text-red-300 font-medium">
-                                Create one now
-                            </Link>
-                        </p>
-                    </div>
-                </div>
-
-                {/* Admin Login Link */}
-                <div className="mt-4 text-center">
-                    <Link
-                        href="/admin/login"
-                        className="text-sm text-gray-500 hover:text-gray-400"
-                    >
-                        Admin Login
-                    </Link>
-                </div>
+                <LoginForm primaryColor={tenant.theme?.primaryColor || '#8B0000'} />
             </div>
         </div>
     )

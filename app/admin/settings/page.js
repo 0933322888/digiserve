@@ -29,15 +29,53 @@ export default function AdminSettingsPage() {
     maxSeatsPerSlot: 40,
     slotDurationMinutes: 120,
   })
+  const [themeSettings, setThemeSettings] = useState({
+    type: 'vintage',
+    primaryColor: '#8B0000',
+    secondaryColor: '#F5F5DC',
+    logo: '',
+  })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState({})
+  const [tenantInfo, setTenantInfo] = useState(null)
+  const [verifyingDomain, setVerifyingDomain] = useState(false)
 
   useEffect(() => {
     fetchModuleSettings()
     fetchOrderingSettings()
     fetchOrderingConfig()
     fetchReservationsConfig()
+    fetchReservationsConfig()
+    fetchTenantInfo()
+    fetchThemeSettings()
   }, [])
+
+  const fetchThemeSettings = async () => {
+    try {
+      const res = await fetch('/api/theme')
+      if (res.ok) {
+        const data = await res.json()
+        setThemeSettings({
+          type: data.type || 'vintage',
+          primaryColor: data.primaryColor || '#8B0000',
+          secondaryColor: data.secondaryColor || '#F5F5DC',
+          logo: data.logo || '',
+        })
+      }
+    } catch (error) {
+      console.error('Failed to fetch theme settings', error)
+    }
+  }
+
+  const fetchTenantInfo = async () => {
+    try {
+      const res = await fetch('/api/tenants/me')
+      const data = await res.json()
+      if (data.success) setTenantInfo(data.tenant)
+    } catch (err) {
+      console.error('Failed to fetch tenant info', err)
+    }
+  }
 
   const fetchModuleSettings = async () => {
     try {
@@ -215,6 +253,34 @@ export default function AdminSettingsPage() {
     }
   }
 
+  const updateThemeSettings = async () => {
+    setSaving(prev => ({ ...prev, theme: true }))
+    try {
+      const response = await fetch('/api/admin/settings/theme', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(themeSettings),
+      })
+
+      const data = await response.json()
+
+      if (data.success) {
+        toast.success('Theme settings updated')
+        // Force reload to apply theme changes globally if needed, 
+        // though ThemeProvider should pick it up on navigation or refresh.
+        // For now, let's just show success. 
+        // Ideally, we'd have a way to signal ThemeProvider to refresh.
+      } else {
+        throw new Error(data.error || 'Failed to update theme')
+      }
+    } catch (error) {
+      console.error('Failed to update theme:', error)
+      toast.error('Failed to update theme: ' + error.message)
+    } finally {
+      setSaving(prev => ({ ...prev, theme: false }))
+    }
+  }
+
   const toggleModule = async (moduleKey, enabled) => {
     setSaving(prev => ({ ...prev, [moduleKey]: true }))
     try {
@@ -244,6 +310,36 @@ export default function AdminSettingsPage() {
       toast.error('Failed to update setting: ' + error.message)
     } finally {
       setSaving(prev => ({ ...prev, [moduleKey]: false }))
+    }
+  }
+
+  const verifyDomain = async () => {
+    if (!tenantInfo || !tenantInfo.customDomains || tenantInfo.customDomains.length === 0) {
+      toast.error('No custom domain configured')
+      return
+    }
+
+    const domain = tenantInfo.customDomains[0]
+    setVerifyingDomain(true)
+    try {
+      const res = await fetch('/api/domains/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tenantId: tenantInfo.barId, domain }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        toast.success('Domain verified')
+        // refresh tenant info
+        fetchTenantInfo()
+      } else {
+        toast.error(data.message || data.error || 'Verification failed')
+      }
+    } catch (err) {
+      console.error('Domain verify error', err)
+      toast.error('Failed to verify domain')
+    } finally {
+      setVerifyingDomain(false)
     }
   }
 
@@ -296,6 +392,26 @@ export default function AdminSettingsPage() {
           </p>
         </div>
       </div>
+
+      {/* Domain Verification Panel */}
+      {tenantInfo && (
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm text-gray-500">Custom Domain</div>
+              <div className="text-lg font-medium text-gray-900 dark:text-white">{tenantInfo.customDomains && tenantInfo.customDomains.length ? tenantInfo.customDomains[0] : 'Not configured'}</div>
+              {tenantInfo.domainVerification && (
+                <div className="text-xs mt-1 text-gray-500">Verification: {tenantInfo.domainVerification.verified ? 'Verified' : 'Pending'}</div>
+              )}
+            </div>
+            <div>
+              <button onClick={verifyDomain} disabled={verifyingDomain || !(tenantInfo.customDomains && tenantInfo.customDomains.length)} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded disabled:opacity-50">
+                {verifyingDomain ? 'Verifying...' : 'Verify Domain'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/** Derive grouped modules */}
       {(() => {
@@ -358,8 +474,8 @@ export default function AdminSettingsPage() {
                           onClick={() => toggleModule(module.key, !module.enabled)}
                           disabled={saving[module.key]}
                           className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${module.enabled
-                              ? 'bg-primary dark:bg-gold'
-                              : 'bg-gray-200 dark:bg-gray-600'
+                            ? 'bg-primary dark:bg-gold'
+                            : 'bg-gray-200 dark:bg-gray-600'
                             }`}
                           role="switch"
                           aria-checked={module.enabled}
@@ -422,8 +538,8 @@ export default function AdminSettingsPage() {
                         onClick={() => toggleModule('stripe', !stripeModule.enabled)}
                         disabled={saving.stripe}
                         className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${stripeModule.enabled
-                            ? 'bg-primary dark:bg-gold'
-                            : 'bg-gray-200 dark:bg-gray-600'
+                          ? 'bg-primary dark:bg-gold'
+                          : 'bg-gray-200 dark:bg-gray-600'
                           }`}
                         role="switch"
                         aria-checked={stripeModule.enabled}
@@ -476,8 +592,8 @@ export default function AdminSettingsPage() {
                             onClick={() => toggleModule('giftCards', !giftCardsModule.enabled)}
                             disabled={saving.giftCards || !stripeModule.enabled}
                             className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${giftCardsModule.enabled && stripeModule.enabled
-                                ? 'bg-primary dark:bg-gold'
-                                : 'bg-gray-200 dark:bg-gray-600'
+                              ? 'bg-primary dark:bg-gold'
+                              : 'bg-gray-200 dark:bg-gray-600'
                               }`}
                             role="switch"
                             aria-checked={giftCardsModule.enabled && stripeModule.enabled}
@@ -486,8 +602,8 @@ export default function AdminSettingsPage() {
                           >
                             <span
                               className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${giftCardsModule.enabled && stripeModule.enabled
-                                  ? 'translate-x-5'
-                                  : 'translate-x-0'
+                                ? 'translate-x-5'
+                                : 'translate-x-0'
                                 }`}
                             />
                           </button>
@@ -530,8 +646,8 @@ export default function AdminSettingsPage() {
                               }
                               disabled={saving.ordering || !stripeModule.enabled}
                               className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingModule.enabled && stripeModule.enabled
-                                  ? 'bg-primary dark:bg-gold'
-                                  : 'bg-gray-200 dark:bg-gray-600'
+                                ? 'bg-primary dark:bg-gold'
+                                : 'bg-gray-200 dark:bg-gray-600'
                                 }`}
                               role="switch"
                               aria-checked={orderingModule.enabled && stripeModule.enabled}
@@ -540,8 +656,8 @@ export default function AdminSettingsPage() {
                             >
                               <span
                                 className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingModule.enabled && stripeModule.enabled
-                                    ? 'translate-x-5'
-                                    : 'translate-x-0'
+                                  ? 'translate-x-5'
+                                  : 'translate-x-0'
                                   }`}
                               />
                             </button>
@@ -595,16 +711,16 @@ export default function AdminSettingsPage() {
                                       }
                                       disabled={saving['ordering_pickup']}
                                       className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.pickup
-                                          ? 'bg-primary dark:bg-gold'
-                                          : 'bg-gray-200 dark:bg-gray-600'
+                                        ? 'bg-primary dark:bg-gold'
+                                        : 'bg-gray-200 dark:bg-gray-600'
                                         }`}
                                       role="switch"
                                       aria-checked={orderingSettings.pickup}
                                     >
                                       <span
                                         className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.pickup
-                                            ? 'translate-x-5'
-                                            : 'translate-x-0'
+                                          ? 'translate-x-5'
+                                          : 'translate-x-0'
                                           }`}
                                       />
                                     </button>
@@ -641,16 +757,16 @@ export default function AdminSettingsPage() {
                                       }
                                       disabled={saving['ordering_delivery']}
                                       className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.delivery
-                                          ? 'bg-primary dark:bg-gold'
-                                          : 'bg-gray-200 dark:bg-gray-600'
+                                        ? 'bg-primary dark:bg-gold'
+                                        : 'bg-gray-200 dark:bg-gray-600'
                                         }`}
                                       role="switch"
                                       aria-checked={orderingSettings.delivery}
                                     >
                                       <span
                                         className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.delivery
-                                            ? 'translate-x-5'
-                                            : 'translate-x-0'
+                                          ? 'translate-x-5'
+                                          : 'translate-x-0'
                                           }`}
                                       />
                                     </button>
@@ -687,16 +803,16 @@ export default function AdminSettingsPage() {
                                       }
                                       disabled={saving['ordering_dineIn']}
                                       className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.dineIn
-                                          ? 'bg-primary dark:bg-gold'
-                                          : 'bg-gray-200 dark:bg-gray-600'
+                                        ? 'bg-primary dark:bg-gold'
+                                        : 'bg-gray-200 dark:bg-gray-600'
                                         }`}
                                       role="switch"
                                       aria-checked={orderingSettings.dineIn}
                                     >
                                       <span
                                         className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.dineIn
-                                            ? 'translate-x-5'
-                                            : 'translate-x-0'
+                                          ? 'translate-x-5'
+                                          : 'translate-x-0'
                                           }`}
                                       />
                                     </button>
@@ -938,9 +1054,107 @@ export default function AdminSettingsPage() {
         </div>
       </div>
 
+
+      {/* Theme Configuration */}
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Theme Configuration</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            Customize the look and feel of your restaurant's website.
+          </p>
+        </div>
+
+        <div className="p-6 space-y-6">
+          {/* Theme Type */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Theme Style
+            </label>
+            <select
+              value={themeSettings.type}
+              onChange={e => setThemeSettings(prev => ({ ...prev, type: e.target.value }))}
+              className="w-full md:w-64 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+            >
+              <option value="vintage">Vintage (Classic)</option>
+              <option value="modern">Modern (Clean)</option>
+              <option value="minimalist">Minimalist (Simple)</option>
+            </select>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Primary Color */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Primary Color
+              </label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  value={themeSettings.primaryColor}
+                  onChange={e => setThemeSettings(prev => ({ ...prev, primaryColor: e.target.value }))}
+                  className="h-10 w-20 p-1 rounded border border-gray-300 dark:border-gray-600 cursor-pointer"
+                />
+                <input
+                  type="text"
+                  value={themeSettings.primaryColor}
+                  onChange={e => setThemeSettings(prev => ({ ...prev, primaryColor: e.target.value }))}
+                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white uppercase"
+                  placeholder="#000000"
+                />
+              </div>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Main brand color used for buttons, links, and accents.
+              </p>
+            </div>
+
+            {/* Secondary Color */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Secondary Color
+              </label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="color"
+                  value={themeSettings.secondaryColor}
+                  onChange={e => setThemeSettings(prev => ({ ...prev, secondaryColor: e.target.value }))}
+                  className="h-10 w-20 p-1 rounded border border-gray-300 dark:border-gray-600 cursor-pointer"
+                />
+                <input
+                  type="text"
+                  value={themeSettings.secondaryColor}
+                  onChange={e => setThemeSettings(prev => ({ ...prev, secondaryColor: e.target.value }))}
+                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white uppercase"
+                  placeholder="#FFFFFF"
+                />
+              </div>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Background color and secondary elements.
+              </p>
+            </div>
+          </div>
+
+          <div className="pt-4">
+            <button
+              onClick={updateThemeSettings}
+              disabled={saving.theme}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
+            >
+              {saving.theme ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                'Save Theme Settings'
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
       {/* Page Content Management */}
       <PageContentManager />
-    </div>
+    </div >
   )
 }
 

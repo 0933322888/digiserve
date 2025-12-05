@@ -58,13 +58,13 @@ export default function GiftCardsPage() {
           />
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
+                <div className="bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
               <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-4">
                 Perfect for Any Occasion
               </h3>
               <p className="text-gray-700 dark:text-gray-300 mb-4">
                 Our gift cards are the perfect way to share the TRIO experience with friends and
-                loved ones. Whether it's a birthday, anniversary, holiday, or just because, a gift
+                loved ones. Whether it&apos;s a birthday, anniversary, holiday, or just because, a gift
                 card to {siteConfig.restaurant.name} is always appreciated.
               </p>
               <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 space-y-2">

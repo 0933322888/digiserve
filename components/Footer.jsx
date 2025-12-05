@@ -1,8 +1,9 @@
 import Link from 'next/link'
-import { MapPin, Phone, Mail, Clock } from 'lucide-react'
+import { MapPin, Phone, Mail, Clock, LogIn } from 'lucide-react'
 import { siteConfig } from '@/config/siteConfig'
 import { getBusinessHours } from '@/lib/app-settings-service'
 import { isModuleEnabled } from '@/lib/module-settings-service'
+import { headers } from 'next/headers'
 
 /**
  * Footer Component
@@ -11,6 +12,8 @@ import { isModuleEnabled } from '@/lib/module-settings-service'
 export default async function Footer() {
   const { restaurant, features, seo } = siteConfig
   const businessHours = await getBusinessHours()
+  const headersList = await headers()
+  const tenantId = headersList.get('x-tenant-id')
   
   // Check if modules are enabled
   const reservationsEnabled = await isModuleEnabled('reservations')
@@ -135,9 +138,22 @@ export default async function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-cream/20 dark:border-gray-700 text-center text-sm text-cream/60 dark:text-gray-500">
-          <p>
-            © {new Date().getFullYear()} {restaurant.name}. All rights reserved.
-          </p>
+          <div className="flex items-center justify-center space-x-4 flex-col sm:flex-row">
+            <p>
+              © {new Date().getFullYear()} {restaurant.name}. All rights reserved.
+            </p>
+            {/* Show admin login for tenant sites only */}
+            {tenantId && (
+              <Link
+                href="/admin/login"
+                aria-label="Admin login"
+                className="mt-2 sm:mt-0 inline-flex items-center text-cream/60 hover:text-cream transition-colors"
+              >
+                <LogIn className="w-4 h-4" />
+                <span className="sr-only">Admin Login</span>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
     </footer>

@@ -13,10 +13,19 @@ export async function GET(request) {
     const tenantIdHeader = headersList.get('x-tenant-id')
     const { getTenantFromHost, getTenantConfig } = await import('@/lib/tenant-service')
 
-    // Get tenant ID from header or host
-    let barId = tenantIdHeader
+    // Determine canonical barId. tenantIdHeader may be a barId OR a subdomain slug.
+    let barId = null
 
-    if (!barId) {
+    if (tenantIdHeader) {
+      // Try to treat header as a barId first
+      const candidate = await getTenantConfig(tenantIdHeader)
+      if (candidate) {
+        barId = tenantIdHeader
+      } else {
+        // header might be a subdomain slug; fall back to host-based resolution
+        barId = await getTenantFromHost(host)
+      }
+    } else {
       barId = await getTenantFromHost(host)
     }
 

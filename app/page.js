@@ -28,12 +28,28 @@ export const metadata = {
  * Home Page
  * Features hero section, highlights, and promotional banners
  */
+import { headers } from 'next/headers'
+import PlatformLandingPage from '@/components/marketing/PlatformLandingPage'
+
+/**
+ * Home Page
+ * Features hero section, highlights, and promotional banners
+ */
 export default async function HomePage() {
+  const headersList = await headers()
+  const tenantId = headersList.get('x-tenant-id')
+  console.log('Page: Received tenantId:', tenantId)
+
+  // If no tenant is resolved (e.g. root domain or localhost), show the platform landing page
+  if (!tenantId) {
+    return <PlatformLandingPage />
+  }
+
   const { restaurant, features } = siteConfig
-  
+
   // Check if reservations are enabled
   const reservationsEnabled = await isModuleEnabled('reservations')
-  
+
   // Fetch configured page content
   let pageContent = null
   try {
@@ -44,7 +60,7 @@ export default async function HomePage() {
   } catch (error) {
     console.error('Failed to load page content:', error)
   }
-  
+
   // Fetch upcoming events within next 30 days if events are enabled
   let upcomingEvents = []
   if (features.events) {
@@ -54,12 +70,12 @@ export default async function HomePage() {
         const allEvents = await db.collection('events').find()
         const today = new Date()
         today.setHours(0, 0, 0, 0)
-        
+
         // Calculate date 30 days from now
         const thirtyDaysFromNow = new Date()
         thirtyDaysFromNow.setDate(today.getDate() + 30)
         thirtyDaysFromNow.setHours(23, 59, 59, 999)
-        
+
         // Filter upcoming events within next 30 days and sort by date
         upcomingEvents = allEvents
           .filter(event => {
@@ -84,7 +100,7 @@ export default async function HomePage() {
         'gift-cards': Gift,
         'wine': Wine,
       }
-      
+
       return pageContent.highlights.items
         .filter(item => item.enabled !== false)
         .map(item => {
@@ -93,14 +109,14 @@ export default async function HomePage() {
           if (item.link?.includes('events')) icon = Calendar
           else if (item.link?.includes('gift')) icon = Gift
           else if (item.link?.includes('menu')) icon = Utensils
-          
+
           return {
             ...item,
             icon,
           }
         })
     }
-    
+
     // Default highlights
     const defaultHighlights = [
       {
@@ -111,7 +127,7 @@ export default async function HomePage() {
         image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop',
       },
     ]
-    
+
     if (features.events) {
       defaultHighlights.push({
         icon: Calendar,
@@ -121,7 +137,7 @@ export default async function HomePage() {
         image: 'https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&h=600&fit=crop',
       })
     }
-    
+
     if (features.giftCards) {
       defaultHighlights.push({
         icon: Gift,
@@ -131,10 +147,10 @@ export default async function HomePage() {
         image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&h=600&fit=crop',
       })
     }
-    
+
     return defaultHighlights
   }
-  
+
   const highlights = getHighlights()
 
   // Generate grid classes based on number of highlights
@@ -159,9 +175,9 @@ export default async function HomePage() {
       {upcomingEvents.length > 0 && (
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/10 via-gold/5 to-primary/5 dark:from-gray-800/50 dark:via-gray-700/30 dark:to-gray-800/50">
           <div className="max-w-7xl mx-auto">
-            <SectionTitle 
-              title={upcomingEvents.length === 1 ? (pageContent?.eventsSection?.title || "Upcoming Event") : (pageContent?.eventsSection?.title || "Upcoming Events")} 
-              subtitle={pageContent?.eventsSection?.subtitle || "Don't miss out on these special experiences"} 
+            <SectionTitle
+              title={upcomingEvents.length === 1 ? (pageContent?.eventsSection?.title || "Upcoming Event") : (pageContent?.eventsSection?.title || "Upcoming Events")}
+              subtitle={pageContent?.eventsSection?.subtitle || "Don't miss out on these special experiences"}
             />
             <AnimatedCard>
               <EventsCarousel events={upcomingEvents} />
@@ -174,9 +190,9 @@ export default async function HomePage() {
       {highlights.length > 0 && (
         <section className="py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto">
-            <SectionTitle 
-              title={pageContent?.highlights?.sectionTitle || "Experience TRIO"} 
-              subtitle={pageContent?.highlights?.sectionSubtitle || "Discover what makes us special"} 
+            <SectionTitle
+              title={pageContent?.highlights?.sectionTitle || "Experience TRIO"}
+              subtitle={pageContent?.highlights?.sectionSubtitle || "Discover what makes us special"}
             />
             <div className={getGridClasses(highlights.length)}>
               {highlights.map((highlight, index) => {

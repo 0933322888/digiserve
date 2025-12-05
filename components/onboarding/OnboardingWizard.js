@@ -45,14 +45,27 @@ export default function OnboardingWizard({ currentStep, onboardingStatus, tenant
                 headers: { 'Content-Type': 'application/json' },
             })
 
+            const data = await res.json()
+
             if (res.ok) {
-                router.push('/admin')
+                console.log('Onboarding completed successfully')
+
+                // Redirect to tenant domain
+                if (data.redirectUrl) {
+                    console.log('Redirecting to:', data.redirectUrl)
+                    window.location.href = data.redirectUrl
+                } else {
+                    // Fallback
+                    router.push('/admin')
+                }
             } else {
-                console.error('Failed to complete onboarding')
+                console.error('Failed to complete onboarding:', data.error)
+                alert('Failed to complete onboarding. Please try again.')
                 setLoading(false)
             }
         } catch (error) {
             console.error('Error completing onboarding:', error)
+            alert('An error occurred. Please try again.')
             setLoading(false)
         }
     }

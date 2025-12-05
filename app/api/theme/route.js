@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { getRestaurantModel } from '@/lib/db/models'
 import connectDB from '@/lib/db/mongodb-connection'
+import { getSession } from '@/lib/auth-service'
+import { getTenantFromRequest } from '@/lib/tenant-service'
 
 /**
  * GET /api/theme
@@ -8,7 +10,7 @@ import connectDB from '@/lib/db/mongodb-connection'
  */
 export async function GET(request) {
     try {
-        const tenantId = request.headers.get('x-tenant-id')
+        const tenantId = await getTenantFromRequest(request)
 
         if (!tenantId) {
             // Return default theme if no tenant

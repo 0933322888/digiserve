@@ -45,12 +45,12 @@ export async function PATCH(request) {
             }
         )
 
-        // Update user onboarding progress - mark as completed since menu step is removed
+        // Update user onboarding progress
         await User.updateOne(
             { id: user.id },
             {
                 $set: {
-                    onboardingStatus: 'completed',
+                    onboardingStatus: 'in_progress',
                     onboardingStep: 2,
                     updatedAt: new Date(),
                 },

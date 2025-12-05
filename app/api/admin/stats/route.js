@@ -12,19 +12,19 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
     }
 
-    const reservationStats = await getReservationStats() // TODO: Update this service to accept barId
-    const giftCardStats = await getGiftCardStats() // TODO: Update this service to accept barId
+    const reservationStats = await getReservationStats(barId)
+    const giftCardStats = await getGiftCardStats(barId)
     const orderStats = await getOrderStats(barId)
 
     return NextResponse.json({
       reservations: {
-        pending: reservationStats.pending,
-        confirmed: reservationStats.confirmed,
-        total: reservationStats.total,
+        pending: reservationStats?.pending || 0,
+        confirmed: reservationStats?.confirmed || 0,
+        total: reservationStats?.total || 0,
       },
-      giftCards: giftCardStats,
+      giftCards: giftCardStats || { totalValue: 0, totalRedeemed: 0, activeCards: 0 },
       orders: {
-        pending: orderStats.pending,
+        pending: orderStats?.pending || 0,
       },
     })
   } catch (error) {

@@ -19,7 +19,7 @@ import {
 export async function POST(request) {
     try {
         const body = await request.json()
-        const { email, password, businessName, phone } = body
+    const { email, password, businessName, phone, subdomain: requestedSubdomain, domain: customDomain, theme: themeFromBody } = body
 
         // Validation
         if (!email || !password || !businessName) {
@@ -70,8 +70,32 @@ export async function POST(request) {
             )
         }
 
-        // Generate subdomain
-        const subdomain = generateSubdomain(slug)
+        // Decide subdomain label: use requestedSubdomain (left-most label) if provided, otherwise use slug
+        let subdomainLabel = null
+        if (requestedSubdomain && requestedSubdomain.trim()) {
+            // normalize: if user pasted full hostname, grab left-most label before any dots
+            const raw = requestedSubdomain.trim().toLowerCase()
+            subdomainLabel = raw.split('.')[0]
+        } else {
+            subdomainLabel = slug
+        }
+
+        // Validate subdomain format (label only)
+        if (!/^[a-z0-9-]{2,63}$/.test(subdomainLabel)) {
+            return NextResponse.json(
+                { error: 'Invalid subdomain format' },
+                { status: 400 }
+            )
+        }
+
+        // disallow reserved subdomains
+        const reserved = ['www', 'app', 'api', 'admin']
+        if (reserved.includes(subdomainLabel)) {
+            return NextResponse.json(
+                { error: 'Requested subdomain is reserved. Please choose another.' },
+                { status: 400 }
+            )
+        }
 
         // Generate IDs
         const userId = uuidv4()
@@ -81,16 +105,54 @@ export async function POST(request) {
         // Hash password
         const passwordHash = await hashPassword(password)
 
+        // If a custom domain is provided, validate basic format
+        let domainToStore = null
+        let domainVerification = null
+        if (customDomain) {
+            const d = customDomain.trim().toLowerCase()
+            if (!/^[a-z0-9.-]+\.[a-z]{2,}$/.test(d)) {
+                return NextResponse.json({ error: 'Invalid custom domain format' }, { status: 400 })
+            }
+
+            // Check uniqueness of domain
+            const existingDomain = await Restaurant.findOne({ domain: d })
+            if (existingDomain) {
+                return NextResponse.json({ error: 'This domain is already registered.' }, { status: 409 })
+            }
+
+            domainToStore = d
+            // Generate verification token for domain ownership verification
+            domainVerification = {
+                token: uuidv4(),
+                createdAt: new Date(),
+                verified: false,
+            }
+        }
+
+        // Determine theme: prefer submitted theme, fall back to default
+        let themeToStore = null
+        if (themeFromBody && typeof themeFromBody === 'object') {
+            themeToStore = {
+                type: themeFromBody.type || 'custom',
+                primaryColor: themeFromBody.primaryColor || null,
+                secondaryColor: themeFromBody.secondaryColor || null,
+            }
+        } else {
+            themeToStore = getDefaultTheme('vintage')
+        }
+
         // Create tenant/restaurant record
         const restaurant = await Restaurant.create({
-            id: tenantId,
             barId,
             name: businessName,
             slug,
-            subdomain,
+            subdomain: subdomainLabel,
+            domain: domainToStore,
+            customDomains: domainToStore ? [domainToStore] : [],
+            domainVerification,
             onboardingCompletedAt: null,
             sampleDataLoaded: false,
-            theme: getDefaultTheme('vintage'),
+            theme: themeToStore,
             modules: ['ordering', 'reservations', 'events', 'gallery'],
             ordering: getDefaultOrderingConfig(),
             businessHours: getDefaultBusinessHours(),
@@ -139,26 +201,37 @@ export async function POST(request) {
 
         console.log(`✅ New tenant registered: ${businessName} (${slug})`)
         console.log(`   User: ${email}`)
-        console.log(`   Subdomain: ${subdomain}`)
+    console.log(`   Subdomain: ${subdomainLabel}`)
 
-        // Create session token
-        const { createSessionToken, setSession } = await import('@/lib/auth-service')
-        const token = await createSessionToken(user)
+        // Create an activation token so we can set a tenant-scoped session on the tenant host
+    const activationToken = uuidv4()
+        // Persist activation token on the user so the tenant host can exchange it for a session cookie
+        await User.updateOne({ id: user.id }, { $set: { activationToken, activationTokenExpires: new Date(Date.now() + 1000 * 60 * 15) } })
 
-        // Set session cookie
-        await setSession(token)
-
-        return NextResponse.json({
+        const responsePayload = {
             success: true,
             message: 'Registration successful',
             data: {
                 userId: user.id,
                 tenantId: restaurant.barId,
                 slug,
-                subdomain,
+                subdomain: subdomainLabel,
                 businessName,
             },
-        }, { status: 201 })
+        }
+
+        if (domainToStore && domainVerification) {
+            responsePayload.data.customDomain = domainToStore
+            responsePayload.data.domainVerification = {
+                token: domainVerification.token,
+                instructions: `Add a TXT record to your DNS for ${domainToStore}: Name: _trio_verification, Value: ${domainVerification.token}`,
+            }
+        }
+
+        // Return activation token so client can redirect to tenant host to complete session setup
+        responsePayload.data.activationToken = activationToken
+
+        return NextResponse.json(responsePayload, { status: 201 })
 
     } catch (error) {
         console.error('Registration error:', error)

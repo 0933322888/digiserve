@@ -1,5 +1,5 @@
 import { headers } from 'next/headers'
-import { getServerSession } from '@/lib/auth-service'
+import { getSession } from '@/lib/auth-service'
 import SocialPostingManager from '@/components/admin/SocialPostingManager'
 
 export default async function AdminSocialPostingPage() {
@@ -7,9 +7,10 @@ export default async function AdminSocialPostingPage() {
   const barId = headersList.get('x-tenant-id')
 
   // Get session to extract adminId and adminName
-  const session = await getServerSession()
-  const adminId = session?.user?.id || null
-  const adminName = session?.user?.name || null
+  const session = await getSession()
+  // auth-service/getSession returns the token payload (not a next-auth session)
+  const adminId = session?.userId || session?.user?.id || null
+  const adminName = session?.name || session?.user?.name || null
 
   return <SocialPostingManager barId={barId} adminId={adminId} adminName={adminName} />
 }

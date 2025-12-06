@@ -1064,91 +1064,16 @@ export default function AdminSettingsPage() {
           </p>
         </div>
 
-        <div className="p-6 space-y-6">
-          {/* Theme Type */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Theme Style
-            </label>
-            <select
-              value={themeSettings.type}
-              onChange={e => setThemeSettings(prev => ({ ...prev, type: e.target.value }))}
-              className="w-full md:w-64 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
-            >
-              <option value="vintage">Vintage (Classic)</option>
-              <option value="modern">Modern (Clean)</option>
-              <option value="minimalist">Minimalist (Simple)</option>
-            </select>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Primary Color */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Primary Color
-              </label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="color"
-                  value={themeSettings.primaryColor}
-                  onChange={e => setThemeSettings(prev => ({ ...prev, primaryColor: e.target.value }))}
-                  className="h-10 w-20 p-1 rounded border border-gray-300 dark:border-gray-600 cursor-pointer"
-                />
-                <input
-                  type="text"
-                  value={themeSettings.primaryColor}
-                  onChange={e => setThemeSettings(prev => ({ ...prev, primaryColor: e.target.value }))}
-                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white uppercase"
-                  placeholder="#000000"
-                />
-              </div>
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                Main brand color used for buttons, links, and accents.
-              </p>
-            </div>
-
-            {/* Secondary Color */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Secondary Color
-              </label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="color"
-                  value={themeSettings.secondaryColor}
-                  onChange={e => setThemeSettings(prev => ({ ...prev, secondaryColor: e.target.value }))}
-                  className="h-10 w-20 p-1 rounded border border-gray-300 dark:border-gray-600 cursor-pointer"
-                />
-                <input
-                  type="text"
-                  value={themeSettings.secondaryColor}
-                  onChange={e => setThemeSettings(prev => ({ ...prev, secondaryColor: e.target.value }))}
-                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white uppercase"
-                  placeholder="#FFFFFF"
-                />
-              </div>
-              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                Background color and secondary elements.
-              </p>
-            </div>
-          </div>
-
-          <div className="pt-4">
-            <button
-              onClick={updateThemeSettings}
-              disabled={saving.theme}
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50"
-            >
-              {saving.theme ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Saving...
-                </>
-              ) : (
-                'Save Theme Settings'
-              )}
-            </button>
-          </div>
+        <div className="p-6">
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
+            Choose from professional templates and customize colors to match your brand.
+          </p>
+          <a
+            href="/admin/settings/theme"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+          >
+            Customize Theme
+          </a>
         </div>
       </div>
 

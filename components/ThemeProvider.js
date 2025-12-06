@@ -4,84 +4,71 @@ import { createContext, useContext, useEffect, useState } from 'react'
 
 const ThemeContext = createContext({
     theme: {
-        type: 'vintage',
+        templateId: 'bar',
         primaryColor: '#8B0000',
         secondaryColor: '#F5F5DC',
         logo: null,
     },
     isLoading: true,
-    refreshTheme: () => { },
+    refreshTheme: async (tenantId) => { },
 })
 
-export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState({
-        type: 'vintage',
+export function ThemeProvider({ children, initialTheme }) {
+    const [theme, setTheme] = useState(initialTheme || {
+        templateId: 'bar',
         primaryColor: '#8B0000',
         secondaryColor: '#F5F5DC',
         logo: null,
     })
-    const [isLoading, setIsLoading] = useState(true)
-
-    // Fetch theme from API
-    const fetchTheme = async (specificTenantId) => {
-        try {
-            console.log('🎨 Fetching theme from API...', specificTenantId ? `for tenant: ${specificTenantId}` : 'using default tenant')
-
-            const headers = {}
-            if (specificTenantId) {
-                headers['x-tenant-id'] = specificTenantId
-            }
-
-            const res = await fetch('/api/theme', { headers })
-            if (res.ok) {
-                const data = await res.json()
-                console.log('🎨 Theme received:', data)
-                setTheme(data)
-
-                // Apply CSS variables
-                applyTheme(data)
-                console.log('🎨 Theme applied to CSS variables')
-            } else {
-                console.error('🎨 Theme API returned error:', res.status)
-            }
-        } catch (error) {
-            console.error('Failed to load theme:', error)
-        } finally {
-            setIsLoading(false)
-        }
-    }
-
-    // Expose refresh function for manual theme reload
-    const refreshTheme = async (tenantId) => {
-        console.log('🎨 refreshTheme called with:', tenantId)
-        await fetchTheme(tenantId)
-    }
-
-    useEffect(() => {
-        fetchTheme()
-    }, [])
+    const [isLoading, setIsLoading] = useState(!initialTheme)
 
     const applyTheme = (themeData) => {
         if (typeof document !== 'undefined') {
             const root = document.documentElement
 
             // Set CSS custom properties
-            root.style.setProperty('--primary', themeData.primaryColor)
-            root.style.setProperty('--secondary', themeData.secondaryColor)
-
-            // Also set cream and gold based on theme type
-            if (themeData.type === 'vintage') {
-                root.style.setProperty('--cream', themeData.secondaryColor)
-                root.style.setProperty('--gold', '#d4af37')
-            } else if (themeData.type === 'modern') {
-                root.style.setProperty('--cream', themeData.secondaryColor)
-                root.style.setProperty('--gold', '#3498db')
-            } else if (themeData.type === 'minimalist') {
-                root.style.setProperty('--cream', themeData.secondaryColor)
-                root.style.setProperty('--gold', '#666666')
+            if (themeData.primaryColor) {
+                root.style.setProperty('--primary', themeData.primaryColor)
             }
+            if (themeData.secondaryColor) {
+                root.style.setProperty('--secondary', themeData.secondaryColor)
+                // For now, map secondary to cream as defaults
+                root.style.setProperty('--cream', themeData.secondaryColor)
+            }
+
+            // Set distinct gold/accent based on template or primary
+            root.style.setProperty('--gold', themeData.primaryColor) // Use primary as gold/accent fallback
         }
     }
+
+    // Expose refresh function for manual theme reload
+    const refreshTheme = async (tenantId) => {
+        if (!tenantId) return
+
+        setIsLoading(true)
+        try {
+            const res = await fetch(`/api/tenants/${tenantId}/theme`)
+            if (res.ok) {
+                const data = await res.json()
+                // The API returns { success: true, theme: {...} }
+                if (data.theme) {
+                    setTheme(data.theme)
+                    applyTheme(data.theme)
+                    console.log('Theme refreshed', data.theme)
+                }
+            }
+        } catch (error) {
+            console.error('Failed to refresh theme:', error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        if (!initialTheme) {
+            // Logic for client-side theme fetch could go here
+        }
+    }, [initialTheme])
 
     return (
         <ThemeContext.Provider value={{ theme, isLoading, refreshTheme }}>

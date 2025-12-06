@@ -1,9 +1,11 @@
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
 import SectionTitle from '@/components/SectionTitle'
-import GalleryGrid from '@/components/GalleryGrid'
+import Gallery from '@/components/Gallery'
 import { siteConfig } from '@/config/siteConfig'
 import { isModuleEnabled } from '@/lib/module-settings-service'
 import { db } from '@/lib/db'
+import { getTenantConfig } from '@/lib/tenant-service'
 
 export const dynamic = 'force-dynamic'
 
@@ -24,6 +26,9 @@ export const metadata = {
  * Features masonry layout with images
  */
 export default async function GalleryPage() {
+  const headersList = await headers()
+  const tenantId = headersList.get('x-tenant-id')
+
   // Check if gallery module is enabled (from database or siteConfig)
   const galleryEnabled = await isModuleEnabled('gallery')
   if (!galleryEnabled) {
@@ -39,15 +44,25 @@ export default async function GalleryPage() {
       if (a.order !== b.order) return (a.order || 0) - (b.order || 0)
       return new Date(b.createdAt) - new Date(a.createdAt)
     })
-    // Transform database images to format expected by GalleryGrid
+    // Transform database images to format expected by Gallery
     images = galleryImages.map(img => ({
       id: img.id,
       src: img.url,
       alt: img.alt || img.caption || `Gallery image ${img.id}`,
+      caption: img.caption
     }))
   } catch (error) {
     console.error('Failed to fetch gallery images:', error)
-    // Continue with empty array, GalleryGrid will show placeholders
+    // Continue with empty array, Gallery will show placeholders
+  }
+
+  // Determine gallery variant based on theme
+  let galleryVariant = 'masonry'
+  if (tenantId) {
+    const tenant = await getTenantConfig(tenantId)
+    if (tenant?.theme) {
+      galleryVariant = getComponentVariants(tenant.theme.templateId).gallery
+    }
   }
 
   const breadcrumbSchema = {
@@ -80,7 +95,7 @@ export default async function GalleryPage() {
         <div className="max-w-7xl mx-auto">
           <SectionTitle title="Gallery" subtitle="A glimpse into our world" />
 
-          <GalleryGrid images={images} />
+          <Gallery images={images} variant={galleryVariant} />
         </div>
       </div>
     </>

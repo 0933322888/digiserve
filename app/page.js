@@ -164,12 +164,48 @@ export default async function HomePage() {
     return gridMap[count] || gridMap[4] // Default to 4 columns if more than 4
   }
 
+  // Fetch tenant configuration for theme and content
+  // Note: getTenantConfig is cached so this is efficient
+  const { getTenantConfig } = await import('@/lib/tenant-service')
+  const { getComponentVariants } = await import('@/lib/theme-utils')
+  const tenant = await getTenantConfig(tenantId)
+
+  // Determine Hero configuration
+  const heroConfig = {
+    title: siteConfig.restaurant.name, // Fallback
+    tagline: siteConfig.restaurant.tagline,
+    description: siteConfig.restaurant.description,
+    backgroundImage: "/images/trio_main.png",
+    variant: 'centered'
+  }
+
+  if (tenant) {
+    if (tenant.name) heroConfig.title = tenant.name
+    // TODO: Add tagline/description to Tenant schema if needed, or use appSettings
+
+    if (tenant.theme) {
+      const variants = getComponentVariants(tenant.theme.templateId)
+      heroConfig.variant = variants.hero
+
+      // Allow explicit override if we added it to schema later
+      // if (tenant.theme.heroStyle) heroConfig.variant = tenant.theme.heroStyle
+    }
+  }
+
   return (
     <>
       {/* Announcements Section */}
       <Announcements />
 
-      <Hero reservationsEnabled={reservationsEnabled} />
+      <Hero
+        title={heroConfig.title}
+        tagline={heroConfig.tagline}
+        description={heroConfig.description}
+        backgroundImage={heroConfig.backgroundImage}
+        variant={heroConfig.variant}
+        reservationsEnabled={reservationsEnabled}
+        giftCardsEnabled={features.giftCards}
+      />
 
       {/* Upcoming Events Carousel Section */}
       {upcomingEvents.length > 0 && (

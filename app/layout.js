@@ -5,9 +5,13 @@ import { CartProvider } from '@/providers/CartProvider'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { siteConfig } from '@/config/siteConfig'
 import { getBusinessHours } from '@/lib/app-settings-service'
+import { Toaster } from 'react-hot-toast'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
+
+// Force dynamic rendering to ensure tenant config is always fresh
+export const dynamic = 'force-dynamic'
 
 export const metadata = {
   metadataBase: new URL('https://triobistro.com'), // Update with your domain
@@ -70,22 +74,40 @@ import { headers } from 'next/headers'
 
 // ... (imports)
 
+import { getTenantConfig } from '@/lib/tenant-service'
+import { getThemeVariables } from '@/lib/theme-utils'
+
+// ... (previous imports)
+
 export default async function RootLayout({ children }) {
   const headersList = await headers()
   const tenantId = headersList.get('x-tenant-id')
 
+  let themeVariables = {}
+  let initialTheme = null
+
+  if (tenantId) {
+    const tenant = await getTenantConfig(tenantId)
+    if (tenant && tenant.theme) {
+      initialTheme = tenant.theme
+      themeVariables = getThemeVariables(tenant.theme)
+    }
+  }
+
   const businessHours = await getBusinessHours()
-  // ... (schema logic)
 
   return (
     <html lang="en" suppressHydrationWarning>
       {/* ... (head) */}
-      <body className={inter.className}>
+      <body className={inter.className} style={themeVariables}>
         <CartProvider>
-          <ThemeProvider>
+// (imports cleaned up by task status)
+
+          <ThemeProvider initialTheme={initialTheme}>
             {tenantId && <Navbar />}
             <main className={tenantId ? "min-h-screen pt-20" : "min-h-screen"}>{children}</main>
             {tenantId && <Footer />}
+            <Toaster position="bottom-right" />
           </ThemeProvider>
         </CartProvider>
       </body>

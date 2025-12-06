@@ -7,14 +7,19 @@ import { Filter } from 'lucide-react'
 /**
  * Client Component for Order Menu with Category Filtering
  */
-export default function OrderMenuClient({ sections }) {
+/**
+ * Client Component for Order Menu with Category Filtering
+ */
+export default function OrderMenuClient({ sections, variant = 'grid' }) {
   const [selectedCategory, setSelectedCategory] = useState('All')
+  // ... (state logic same)
   const [dietaryFilters, setDietaryFilters] = useState({
     vegetarian: false,
     'gluten-free': false,
   })
   const [showOrdering, setShowOrdering] = useState(false)
 
+  // ... (effects and filter logic same)
   // Fetch module status once at the parent level
   useEffect(() => {
     fetch('/api/modules/status')
@@ -73,9 +78,15 @@ export default function OrderMenuClient({ sections }) {
       .filter(section => section.items.length > 0)
   }
 
+  // Layout classes
+  const gridClass = "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+  const listClass = "flex flex-col space-y-4"
+
+  const getContainerClass = () => variant === 'list' ? listClass : gridClass
+
   return (
     <>
-      {/* Dietary Filters */}
+      {/* Filters UI (kept same) */}
       <div className="mb-6 flex flex-wrap gap-3 justify-center items-center">
         <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
           <Filter className="w-4 h-4" />
@@ -83,21 +94,19 @@ export default function OrderMenuClient({ sections }) {
         </div>
         <button
           onClick={() => toggleDietaryFilter('vegetarian')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            dietaryFilters.vegetarian
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${dietaryFilters.vegetarian
               ? 'bg-green-600 text-white'
               : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-          }`}
+            }`}
         >
           Vegetarian
         </button>
         <button
           onClick={() => toggleDietaryFilter('gluten-free')}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            dietaryFilters['gluten-free']
+          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${dietaryFilters['gluten-free']
               ? 'bg-green-600 text-white'
               : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-          }`}
+            }`}
         >
           Gluten-Free
         </button>
@@ -111,17 +120,15 @@ export default function OrderMenuClient({ sections }) {
         )}
       </div>
 
-      {/* Category Filter */}
       <div className="mb-8 flex flex-wrap gap-4 justify-center">
         {categories.map(category => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${
-              selectedCategory === category
+            className={`px-6 py-2 rounded-lg font-semibold transition-colors ${selectedCategory === category
                 ? 'bg-primary dark:bg-gold text-cream dark:text-primary'
                 : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
-            }`}
+              }`}
           >
             {category}
           </button>
@@ -138,13 +145,15 @@ export default function OrderMenuClient({ sections }) {
             {section.description && (
               <p className="text-gray-600 dark:text-gray-400 mb-6 italic">{section.description}</p>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className={getContainerClass()}>
               {section.items.map(item => (
-                <MenuItemCard 
-                  key={item.id} 
-                  item={item} 
-                  category={section.name} 
+                <MenuItemCard
+                  key={item.id}
+                  item={item}
+                  category={section.name}
                   showOrdering={showOrdering}
+                // We might need to pass variant to MenuItemCard too if we want row layout style
+                // But for now assume MenuItemCard handles itself or is flexible
                 />
               ))}
             </div>

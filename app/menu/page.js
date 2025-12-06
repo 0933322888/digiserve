@@ -61,6 +61,22 @@ export default async function OrderPage() {
     ],
   }
 
+  // Fetch tenant config for theme
+  const { headers } = await import('next/headers')
+  const { getTenantConfig } = await import('@/lib/tenant-service')
+  const { getComponentVariants } = await import('@/lib/theme-utils')
+
+  const headersList = await headers()
+  const tenantId = headersList.get('x-tenant-id')
+
+  let menuVariant = 'grid'
+  if (tenantId) {
+    const tenant = await getTenantConfig(tenantId)
+    if (tenant?.theme) {
+      menuVariant = getComponentVariants(tenant.theme.templateId).menu
+    }
+  }
+
   return (
     <>
       <script
@@ -73,7 +89,7 @@ export default async function OrderPage() {
             title={orderingEnabled ? "Order Online" : "Menu"}
             subtitle={orderingEnabled ? "Browse our menu and add items to your cart" : ""}
           />
-          <OrderMenuClient sections={activeMenu.sections} />
+          <OrderMenuClient sections={activeMenu.sections} variant={menuVariant} />
         </div>
       </div>
     </>

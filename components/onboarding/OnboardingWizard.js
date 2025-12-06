@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import BrandingStep from './BrandingStep'
+import TemplateStep from './TemplateStep'
 import GoLiveStep from './GoLiveStep'
 import { Check } from 'lucide-react'
 import { useTheme } from '../ThemeProvider'
@@ -22,11 +23,12 @@ export default function OnboardingWizard({ currentStep, onboardingStatus, tenant
 
     const steps = [
         { number: 1, name: 'Branding', status: 'branding' },
-        { number: 2, name: 'Go Live', status: 'completed' },
+        { number: 2, name: 'Theme', status: 'theme' },
+        { number: 3, name: 'Go Live', status: 'completed' },
     ]
 
     const handleNext = () => {
-        if (step < 2) {
+        if (step < 3) {
             setStep(step + 1)
         }
     }
@@ -122,6 +124,13 @@ export default function OnboardingWizard({ currentStep, onboardingStatus, tenant
                     />
                 )}
                 {step === 2 && (
+                    <TemplateStep
+                        tenantId={tenantId}
+                        onNext={handleNext}
+                        onBack={handleBack}
+                    />
+                )}
+                {step === 3 && (
                     <GoLiveStep
                         tenantId={tenantId}
                         onBack={handleBack}

@@ -13,7 +13,14 @@ import Image from 'next/image'
  * @param {number} index - Section index for animation delay
  * @param {boolean} showOrdering - Whether ordering is enabled (passed from parent)
  */
-export default function MenuSection({ section, index = 0, showOrdering = false }) {
+/**
+ * Reusable Menu Section Component
+ * @param {Object} section - Menu section data
+ * @param {number} index - Section index for animation delay
+ * @param {boolean} showOrdering - Whether ordering is enabled (passed from parent)
+ * @param {string} variant - Layout variant: 'grid', 'list'
+ */
+export default function MenuSection({ section, index = 0, showOrdering = false, variant = 'grid' }) {
   const { addItem } = useCart()
   const [quantities, setQuantities] = useState({})
 
@@ -31,6 +38,16 @@ export default function MenuSection({ section, index = 0, showOrdering = false }
     }
     setQuantities(prev => ({ ...prev, [item.id]: 1 }))
   }
+
+  // Render logic based on variant
+  const containerClass = variant === 'list'
+    ? "flex flex-col space-y-6"
+    : "grid grid-cols-1 md:grid-cols-2 gap-6"
+
+  const cardClass = variant === 'list'
+    ? "bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700"
+    : "bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 30 }}
@@ -48,7 +65,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false }
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className={containerClass}>
         {section.items
           .filter(item => !item.archived)
           .map(item => (
@@ -58,14 +75,15 @@ export default function MenuSection({ section, index = 0, showOrdering = false }
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className={`bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full ${
-                item.unavailable ? 'opacity-60' : ''
-              }`}
+              className={`${cardClass} ${item.unavailable ? 'opacity-60' : ''}`}
               itemScope
               itemType="https://schema.org/MenuItem"
             >
               {item.image && (
-                <div className="mb-4 rounded-lg overflow-hidden aspect-video relative">
+                <div className={`
+                    rounded-lg overflow-hidden relative shrink-0
+                    ${variant === 'list' ? 'w-full md:w-48 aspect-video md:aspect-square mb-4 md:mb-0' : 'mb-4 aspect-video'}
+                `}>
                   <Image
                     src={item.image}
                     alt={item.name}
@@ -90,7 +108,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false }
                       </span>
                     )}
                   </div>
-                  
+
                   {/* Only show main price if ordering is enabled OR item has no size variants */}
                   {showOrdering || !item.options || item.options.length === 0 ? (
                     <span
@@ -148,14 +166,14 @@ export default function MenuSection({ section, index = 0, showOrdering = false }
                 )}
               </div>
               {showOrdering && (
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className={`flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 ${variant === 'list' ? 'mt-4 md:mt-0 md:ml-6 md:flex-col md:border-t-0 md:border-l md:pl-6 bg-transparent' : 'mt-auto'}`}>
                   {item.unavailable ? (
                     <div className="w-full text-center py-2 text-sm text-gray-500 dark:text-gray-400 italic">
                       This item is temporarily unavailable
                     </div>
                   ) : (
                     <>
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-3 mb-0 md:mb-4">
                         <button
                           onClick={() => handleQuantityChange(item.id, -1)}
                           className="p-1 rounded-lg hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
@@ -176,7 +194,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false }
                       </div>
                       <button
                         onClick={() => handleAddToCart(item)}
-                        className="bg-primary dark:bg-gold text-cream dark:text-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors text-sm"
+                        className="bg-primary dark:bg-gold text-cream dark:text-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors text-sm whitespace-nowrap"
                       >
                         Add to Cart
                       </button>

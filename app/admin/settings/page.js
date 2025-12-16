@@ -4,8 +4,13 @@ import { useState, useEffect } from 'react'
 import { Settings as SettingsIcon, Loader2, CheckCircle, XCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 import PageContentManager from '@/components/admin/PageContentManager'
+import SocialMediaConfig from '@/components/admin/SocialMediaConfig'
+import SocialAccountManager from '@/components/admin/SocialAccountManager'
+import ColorSettings from '@/components/admin/ColorSettings'
+import ModuleActivationModal from '@/components/admin/ModuleActivationModal'
 
 export default function AdminSettingsPage() {
+  const [activeTab, setActiveTab] = useState('general')
   const [modules, setModules] = useState([])
   const [orderingSettings, setOrderingSettings] = useState({
     enabled: true,
@@ -29,52 +34,190 @@ export default function AdminSettingsPage() {
     maxSeatsPerSlot: 40,
     slotDurationMinutes: 120,
   })
-  const [themeSettings, setThemeSettings] = useState({
-    type: 'vintage',
-    primaryColor: '#8B0000',
-    secondaryColor: '#F5F5DC',
-    logo: '',
-  })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState({})
   const [tenantInfo, setTenantInfo] = useState(null)
   const [verifyingDomain, setVerifyingDomain] = useState(false)
 
+  // Social Media State
+  const [socialAccounts, setSocialAccounts] = useState([])
+  const [showConnectModal, setShowConnectModal] = useState(false)
+  const [connectingPlatform, setConnectingPlatform] = useState(null)
+  const [socialLinks, setSocialLinks] = useState({
+    facebook: '',
+    instagram: '',
+    twitter: ''
+  })
+
+  // Activation Modal State
+  const [activationModalOpen, setActivationModalOpen] = useState(false)
+  const [selectedModule, setSelectedModule] = useState(null)
+
+  const paidModules = ['ordering', 'reservations', 'staff', 'socialPosting', 'loyalty', 'inventory', 'giftCards']
+  const freeModules = ['events', 'gallery']
+
+  const modulePrices = {
+    ordering: '$29/mo',
+    reservations: '$19/mo',
+    staff: '$14/mo',
+    socialPosting: '$19/mo',
+    loyalty: '$24/mo',
+    inventory: '$19/mo',
+    giftCards: '$14/mo',
+  }
+
+  const handleModuleAction = async (module) => {
+    // 1. If turning ON a Paid Module: Show Activation Modal
+    if (paidModules.includes(module.key) && !module.enabled) {
+      setSelectedModule(module)
+      setActivationModalOpen(true)
+      return
+    }
+
+    // 2. If turning OFF a Paid Module: Confirm & Cancel Subscription
+    if (paidModules.includes(module.key) && module.enabled) {
+      if (!confirm(`Are you sure you want to cancel your ${module.name} subscription? This looks like a big change.`)) return
+
+      setSaving(prev => ({ ...prev, [module.key]: true }))
+      try {
+        const res = await fetch('/api/billing/subscription', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            addonKey: module.key
+          })
+        })
+        const data = await res.json()
+
+        if (data.success) {
+          setModules(prev =>
+            prev.map(m => (m.key === module.key ? { ...m, enabled: false } : m))
+          )
+          toast.success('Subscription canceled')
+          window.dispatchEvent(new CustomEvent('module-settings-updated'))
+        } else {
+          throw new Error(data.error || 'Cancellation failed')
+        }
+      } catch (err) {
+        console.error(err)
+        toast.error('Failed to cancel subscription: ' + err.message)
+      } finally {
+        setSaving(prev => ({ ...prev, [module.key]: false }))
+      }
+      return
+    }
+
+    // 3. If Free Module: Just toggle
+    toggleModule(module.key, !module.enabled)
+  }
+
+  const tabs = [
+    { id: 'general', label: 'General' },
+    { id: 'content', label: 'Content' },
+    { id: 'modules', label: 'Modules' },
+
+    { id: 'integrations', label: 'Integrations' },
+  ]
+
   useEffect(() => {
-    fetchModuleSettings()
+    // Check for success param and session_id from Stripe return
+    const params = new URLSearchParams(window.location.search)
+    const success = params.get('success')
+    const sessionId = params.get('session_id')
+    const addonKey = params.get('addon')
+
+    if (success && sessionId) {
+      verifySession(sessionId, addonKey)
+    } else {
+      fetchModuleSettings()
+    }
+
     fetchOrderingSettings()
     fetchOrderingConfig()
     fetchReservationsConfig()
-    fetchReservationsConfig()
     fetchTenantInfo()
-    fetchThemeSettings()
+    fetchSocialAccounts()
   }, [])
 
-  const fetchThemeSettings = async () => {
+  const verifySession = async (sessionId, addonKey) => {
+    const toastId = toast.loading('Verifying subscription...')
     try {
-      const res = await fetch('/api/theme')
-      if (res.ok) {
-        const data = await res.json()
-        setThemeSettings({
-          type: data.type || 'vintage',
-          primaryColor: data.primaryColor || '#8B0000',
-          secondaryColor: data.secondaryColor || '#F5F5DC',
-          logo: data.logo || '',
-        })
+      const res = await fetch('/api/billing/verify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId })
+      })
+      const data = await res.json()
+
+      if (data.success) {
+        toast.success('Subscription verified! Module enabled.', { id: toastId })
+        // Clean URL
+        const url = new URL(window.location.href)
+        url.searchParams.delete('success')
+        url.searchParams.delete('session_id')
+        url.searchParams.delete('addon')
+        window.history.replaceState({}, '', url)
+
+        // Refresh modules
+        fetchModuleSettings()
+      } else {
+        toast.error('Verification failed: ' + (data.error || 'Unknown error'), { id: toastId })
       }
-    } catch (error) {
-      console.error('Failed to fetch theme settings', error)
+    } catch (err) {
+      console.error('Verify error', err)
+      toast.error('Verification failed', { id: toastId })
+      fetchModuleSettings()
     }
   }
+
+
 
   const fetchTenantInfo = async () => {
     try {
       const res = await fetch('/api/tenants/me')
       const data = await res.json()
-      if (data.success) setTenantInfo(data.tenant)
+      if (data.barId) { // Check for barId instead of success flag as /api/tenants/[id] returns object directly
+        setTenantInfo(data)
+        if (data.social) {
+          setSocialLinks({
+            facebook: data.social.facebook || '',
+            instagram: data.social.instagram || '',
+            twitter: data.social.twitter || ''
+          })
+        }
+      }
     } catch (err) {
       console.error('Failed to fetch tenant info', err)
     }
+  }
+
+  const fetchSocialAccounts = async () => {
+    // We need tenant info for barId, but currently fetchTenantInfo is async.
+    // However, the component fetches tenant info on mount.
+    // Ideally we should wait for tenantInfo, but the API endpoint for accounts takes barId from headers (in a real app) or query param?
+    // Looking at the route: "const barId = request.headers.get('x-tenant-id')".
+    // Client components don't easily send custom headers unless we use an interceptor or manual fetch wrapper.
+    // But middleware sets the header based on domain/subdomain.
+    // So just fetching '/api/admin/social-posting/accounts' should work if middleware logic applies.
+    // Let's rely on middleware.
+    try {
+      const response = await fetch('/api/admin/social-posting/accounts')
+      const data = await response.json()
+      if (data.accounts) {
+        setSocialAccounts(data.accounts)
+      }
+    } catch (error) {
+      console.error('Failed to fetch social accounts:', error)
+    }
+  }
+
+  const handleOpenConnectModal = (platform) => {
+    setConnectingPlatform(platform)
+    setShowConnectModal(true)
+  }
+
+  const handleAccountConnected = () => {
+    fetchSocialAccounts()
   }
 
   const fetchModuleSettings = async () => {
@@ -253,34 +396,6 @@ export default function AdminSettingsPage() {
     }
   }
 
-  const updateThemeSettings = async () => {
-    setSaving(prev => ({ ...prev, theme: true }))
-    try {
-      const response = await fetch('/api/admin/settings/theme', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(themeSettings),
-      })
-
-      const data = await response.json()
-
-      if (data.success) {
-        toast.success('Theme settings updated')
-        // Force reload to apply theme changes globally if needed, 
-        // though ThemeProvider should pick it up on navigation or refresh.
-        // For now, let's just show success. 
-        // Ideally, we'd have a way to signal ThemeProvider to refresh.
-      } else {
-        throw new Error(data.error || 'Failed to update theme')
-      }
-    } catch (error) {
-      console.error('Failed to update theme:', error)
-      toast.error('Failed to update theme: ' + error.message)
-    } finally {
-      setSaving(prev => ({ ...prev, theme: false }))
-    }
-  }
-
   const toggleModule = async (moduleKey, enabled) => {
     setSaving(prev => ({ ...prev, [moduleKey]: true }))
     try {
@@ -300,7 +415,6 @@ export default function AdminSettingsPage() {
           prev.map(m => (m.key === moduleKey ? { ...m, enabled } : m))
         )
         toast.success(`${data.module.name} ${enabled ? 'enabled' : 'disabled'}`)
-        // Dispatch event to notify admin layout to refresh module status
         window.dispatchEvent(new CustomEvent('module-settings-updated'))
       } else {
         throw new Error(data.error || 'Failed to update setting')
@@ -330,7 +444,6 @@ export default function AdminSettingsPage() {
       const data = await res.json()
       if (data.success) {
         toast.success('Domain verified')
-        // refresh tenant info
         fetchTenantInfo()
       } else {
         toast.error(data.message || data.error || 'Verification failed')
@@ -383,703 +496,633 @@ export default function AdminSettingsPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-3">
-        <SettingsIcon className="w-8 h-8 text-primary dark:text-gold" />
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Manage module configurations and feature toggles
-          </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <SettingsIcon className="w-8 h-8 text-primary dark:text-gold" />
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Manage module configurations and feature toggles
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Domain Verification Panel */}
-      {tenantInfo && (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="text-sm text-gray-500">Custom Domain</div>
-              <div className="text-lg font-medium text-gray-900 dark:text-white">{tenantInfo.customDomains && tenantInfo.customDomains.length ? tenantInfo.customDomains[0] : 'Not configured'}</div>
-              {tenantInfo.domainVerification && (
-                <div className="text-xs mt-1 text-gray-500">Verification: {tenantInfo.domainVerification.verified ? 'Verified' : 'Pending'}</div>
-              )}
-            </div>
-            <div>
-              <button onClick={verifyDomain} disabled={verifyingDomain || !(tenantInfo.customDomains && tenantInfo.customDomains.length)} className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded disabled:opacity-50">
-                {verifyingDomain ? 'Verifying...' : 'Verify Domain'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Tab Navigation */}
+      <div className="border-b border-gray-200 dark:border-gray-700">
+        <nav className="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`
+                whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors
+                ${activeTab === tab.id
+                  ? 'border-primary text-primary dark:border-gold dark:text-gold'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300'
+                }
+              `}
+              aria-current={activeTab === tab.id ? 'page' : undefined}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </nav>
+      </div>
 
-      {/** Derive grouped modules */}
-      {(() => {
-        const stripeModule = modules.find(m => m.key === 'stripe')
-        const giftCardsModule = modules.find(m => m.key === 'giftCards')
-        const orderingModule = modules.find(m => m.key === 'ordering')
-        const otherModules = modules.filter(
-          m => !['stripe', 'giftCards', 'ordering'].includes(m.key)
-        )
+      {/* Tab Content */}
+      <div className="mt-6">
 
-        return (
-          <>
-            {/* General Modules (excluding Stripe, Gift Cards, Ordering) */}
+        {/* --- GENERAL TAB --- */}
+        {activeTab === 'general' && (
+          <div className="space-y-6">
+            {/* Domain Verification */}
+            {tenantInfo && (
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="text-sm text-gray-500">Custom Domain</div>
+                    <div className="text-lg font-medium text-gray-900 dark:text-white">{tenantInfo.customDomains && tenantInfo.customDomains.length ? tenantInfo.customDomains[0] : 'Not configured'}</div>
+                    {tenantInfo.domainVerification && (
+                      <div className="text-xs mt-1 text-gray-500">Verification: {tenantInfo.domainVerification.verified ? 'Verified' : 'Pending'}</div>
+                    )}
+                  </div>
+                  <div>
+                    <button onClick={verifyDomain} disabled={verifyingDomain || !(tenantInfo.customDomains && tenantInfo.customDomains.length)} className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded disabled:opacity-50 transition-colors">
+                      {verifyingDomain ? 'Verifying...' : 'Verify Domain'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Business Hours */}
             <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Modules</h2>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Social Media Links</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Enable or disable modules to control which features are available in your admin
-                  panel
+                  Configure links for the "Follow Us" section in the footer.
+                </p>
+              </div>
+              <div className="p-6 space-y-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Facebook URL
+                    </label>
+                    <input
+                      type="url"
+                      id="facebook"
+                      value={socialLinks.facebook}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, facebook: e.target.value })}
+                      placeholder="https://facebook.com/..."
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      Instagram URL
+                    </label>
+                    <input
+                      type="url"
+                      id="instagram"
+                      value={socialLinks.instagram}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, instagram: e.target.value })}
+                      placeholder="https://instagram.com/..."
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                      X (Twitter) URL
+                    </label>
+                    <input
+                      type="url"
+                      id="twitter"
+                      value={socialLinks.twitter}
+                      onChange={(e) => setSocialLinks({ ...socialLinks, twitter: e.target.value })}
+                      placeholder="https://x.com/..."
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm px-3 py-2"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-end">
+                  <button
+                    onClick={async () => {
+                      setSaving({ ...saving, socialLinks: true })
+                      try {
+                        const res = await fetch('/api/admin/settings/social-links', {
+                          method: 'PUT',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify(socialLinks)
+                        })
+                        const data = await res.json()
+                        if (data.success) {
+                          toast.success('Social links updated')
+                        } else {
+                          throw new Error(data.error)
+                        }
+                      } catch (err) {
+                        console.error(err)
+                        toast.error('Failed to update social links')
+                      } finally {
+                        setSaving({ ...saving, socialLinks: false })
+                      }
+                    }}
+                    disabled={saving.socialLinks}
+                    className="inline-flex justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50"
+                  >
+                    {saving.socialLinks ? 'Saving...' : 'Save Links'}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Business Hours */}
+            <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+              <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Business Hours</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Set the opening and closing times for each day (24-hour format).
                 </p>
               </div>
 
-              <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                {otherModules.length === 0 ? (
-                  <div className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
-                    No configurable modules found
-                  </div>
-                ) : (
-                  otherModules.map(module => (
-                    <div
-                      key={module.key}
-                      className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors"
-                    >
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3">
-                          <h3 className="text-base font-medium text-gray-900 dark:text-white">
-                            {module.name}
-                          </h3>
-                          {module.enabled ? (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                              <CheckCircle className="w-3 h-3" />
-                              Enabled
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-                              <XCircle className="w-3 h-3" />
-                              Disabled
-                            </span>
+              <div className="p-6">
+                <div className="space-y-3">
+                  {[
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday',
+                    'Sunday',
+                  ].map(day => {
+                    const hours =
+                      orderingConfig.businessHours[day] || {
+                        open: '',
+                        close: '',
+                      }
+                    const isSaving = saving[`businessHours_${day}`]
+
+                    return (
+                      <div
+                        key={day}
+                        className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-md"
+                      >
+                        <div className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">
+                          {day}
+                        </div>
+                        <div className="flex items-center gap-2 flex-1">
+                          <input
+                            type="time"
+                            value={hours.open || ''}
+                            onChange={e => {
+                              const updatedHours = {
+                                ...orderingConfig.businessHours,
+                                [day]: { ...hours, open: e.target.value },
+                              }
+                              setOrderingConfig(prev => ({
+                                ...prev,
+                                businessHours: updatedHours,
+                              }))
+                            }}
+                            onBlur={() => updateBusinessHours(day, 'open', hours.open)}
+                            disabled={isSaving}
+                            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                            placeholder="Open"
+                          />
+                          <span className="text-gray-500 dark:text-gray-400">to</span>
+                          <input
+                            type="time"
+                            value={hours.close || ''}
+                            onChange={e => {
+                              const updatedHours = {
+                                ...orderingConfig.businessHours,
+                                [day]: { ...hours, close: e.target.value },
+                              }
+                              setOrderingConfig(prev => ({
+                                ...prev,
+                                businessHours: updatedHours,
+                              }))
+                            }}
+                            onBlur={() => updateBusinessHours(day, 'close', hours.close)}
+                            disabled={isSaving}
+                            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                            placeholder="Close"
+                          />
+                          {isSaving && (
+                            <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
                           )}
                         </div>
-                        {module.description && (
-                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                            {module.description}
-                          </p>
-                        )}
                       </div>
-
-                      <div className="ml-4">
-                        <button
-                          onClick={() => toggleModule(module.key, !module.enabled)}
-                          disabled={saving[module.key]}
-                          className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${module.enabled
-                            ? 'bg-primary dark:bg-gold'
-                            : 'bg-gray-200 dark:bg-gray-600'
-                            }`}
-                          role="switch"
-                          aria-checked={module.enabled}
-                          aria-label={`${module.enabled ? 'Disable' : 'Enable'} ${module.name}`}
-                        >
-                          <span
-                            className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${module.enabled ? 'translate-x-5' : 'translate-x-0'
-                              }`}
-                          />
-                        </button>
-                        {saving[module.key] && (
-                          <Loader2 className="absolute mt-2 ml-2 w-4 h-4 animate-spin text-gray-400" />
-                        )}
-                      </div>
-                    </div>
-                  ))
-                )}
+                    )
+                  })}
+                </div>
+                <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  These hours are used across the site (footer, contact page, ordering validation) and can
+                  be different from ordering availability flags.
+                </p>
               </div>
             </div>
 
-            {/* Stripe Payments and dependent features */}
-            {stripeModule && (
+            {/* Color Settings */}
+            <ColorSettings />
+          </div>
+        )}
+
+        {/* --- CONTENT TAB --- */}
+        {activeTab === 'content' && (
+          <div className="space-y-6">
+            <PageContentManager />
+
+            {/* Website Content Modules */}
+            {(() => {
+              const contentModules = modules.filter(m => freeModules.includes(m.key))
+              if (contentModules.length === 0) return null
+
+              return (
+                <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                  <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Website Modules</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      Enable or disable additional content sections for your website.
+                    </p>
+                  </div>
+                  <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                    {contentModules.map(module => (
+                      <div key={module.key} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3">
+                            <h3 className="text-base font-medium text-gray-900 dark:text-white">{module.name}</h3>
+                            {module.enabled ? (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
+                                <CheckCircle className="w-3 h-3" /> Enabled
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
+                                <XCircle className="w-3 h-3" /> Disabled
+                              </span>
+                            )}
+                          </div>
+                          {module.description && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{module.description}</p>}
+                        </div>
+                        <div className="ml-4 relative">
+                          <button
+                            onClick={() => handleModuleAction(module)}
+                            disabled={saving[module.key]}
+                            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${module.enabled ? 'bg-primary dark:bg-gold' : 'bg-gray-200 dark:bg-gray-600'}`}
+                            role="switch"
+                            aria-checked={module.enabled}
+                          >
+                            <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${module.enabled ? 'translate-x-5' : 'translate-x-0'}`} />
+                          </button>
+                          {saving[module.key] && <Loader2 className="absolute mt-2 ml-2 w-4 h-4 animate-spin text-gray-400" />}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })()}
+          </div>
+        )}
+
+        {/* --- MODULES TAB --- */}
+        {activeTab === 'modules' && (() => {
+          // Filter modules to only show paid ones in this tab
+          const displayModules = modules.filter(m => paidModules.includes(m.key))
+
+          // Add any paid modules that might be missing from the API response (e.g. new ones)
+          const existingKeys = displayModules.map(m => m.key)
+          paidModules.forEach(key => {
+            if (!existingKeys.includes(key)) {
+              // Determine name based on key if not found
+              let name = key.charAt(0).toUpperCase() + key.slice(1)
+              if (key === 'socialPosting') name = 'Social Media Posting'
+              if (key === 'giftCards') name = 'Gift Cards'
+
+              displayModules.push({
+                key,
+                name,
+                description: 'Unlock this feature.',
+                enabled: false
+              })
+            }
+          })
+
+          return (
+            <div className="space-y-6">
               <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                    Stripe Payments
-                  </h2>
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Premium Modules</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                    Enable Stripe payment processing and configure Stripe-dependent features like
-                    gift cards and online ordering.
+                    Manage your subscription add-ons.
                   </p>
                 </div>
 
                 <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {/* Stripe toggle */}
-                  <div className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3">
-                        <h3 className="text-base font-medium text-gray-900 dark:text-white">
-                          Stripe Payments
-                        </h3>
-                        {stripeModule.enabled ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                            <CheckCircle className="w-3 h-3" />
-                            Enabled
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-                            <XCircle className="w-3 h-3" />
-                            Disabled
-                          </span>
-                        )}
-                      </div>
-                      <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                        Process online payments securely using Stripe.
-                      </p>
-                    </div>
-                    <div className="ml-4 relative">
-                      <button
-                        onClick={() => toggleModule('stripe', !stripeModule.enabled)}
-                        disabled={saving.stripe}
-                        className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${stripeModule.enabled
-                          ? 'bg-primary dark:bg-gold'
-                          : 'bg-gray-200 dark:bg-gray-600'
-                          }`}
-                        role="switch"
-                        aria-checked={stripeModule.enabled}
-                        aria-label={`${stripeModule.enabled ? 'Disable' : 'Enable'
-                          } Stripe Payments`}
-                      >
-                        <span
-                          className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${stripeModule.enabled ? 'translate-x-5' : 'translate-x-0'
-                            }`}
-                        />
-                      </button>
-                      {saving.stripe && (
-                        <Loader2 className="absolute mt-2 ml-2 w-4 h-4 animate-spin text-gray-400" />
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Stripe-dependent modules: Gift Cards & Ordering */}
-                  <div className="px-6 py-4 space-y-4 bg-gray-50 dark:bg-gray-900/40">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-                      The following modules require Stripe Payments to be enabled.
-                    </p>
-
-                    {/* Gift Cards */}
-                    {giftCardsModule && (
-                      <div className="flex items-center justify-between">
+                  {displayModules.map(module => (
+                    <div key={module.key} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
+                      <div className="px-6 py-4 flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3">
-                            <h3 className="text-base font-medium text-gray-900 dark:text-white">
-                              Gift Cards
-                            </h3>
-                            {giftCardsModule.enabled ? (
+                            <h3 className="text-base font-medium text-gray-900 dark:text-white">{module.name}</h3>
+                            {module.enabled ? (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                                <CheckCircle className="w-3 h-3" />
-                                Enabled
+                                <CheckCircle className="w-3 h-3" /> Enabled
                               </span>
                             ) : (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-                                <XCircle className="w-3 h-3" />
-                                Disabled
+                                <XCircle className="w-3 h-3" /> Disabled
+                              </span>
+                            )}
+                            {modulePrices[module.key] && (
+                              <span className="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                {modulePrices[module.key]}
                               </span>
                             )}
                           </div>
-                          <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                            Enable gift card purchasing and management.
-                          </p>
+                          {module.description && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{module.description}</p>}
                         </div>
                         <div className="ml-4 relative">
                           <button
-                            onClick={() => toggleModule('giftCards', !giftCardsModule.enabled)}
-                            disabled={saving.giftCards || !stripeModule.enabled}
-                            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${giftCardsModule.enabled && stripeModule.enabled
-                              ? 'bg-primary dark:bg-gold'
-                              : 'bg-gray-200 dark:bg-gray-600'
-                              }`}
+                            onClick={() => handleModuleAction(module)}
+                            disabled={saving[module.key]}
+                            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${module.enabled ? 'bg-primary dark:bg-gold' : 'bg-gray-200 dark:bg-gray-600'}`}
                             role="switch"
-                            aria-checked={giftCardsModule.enabled && stripeModule.enabled}
-                            aria-label={`${giftCardsModule.enabled ? 'Disable' : 'Enable'
-                              } Gift Cards`}
+                            aria-checked={module.enabled}
                           >
-                            <span
-                              className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${giftCardsModule.enabled && stripeModule.enabled
-                                ? 'translate-x-5'
-                                : 'translate-x-0'
-                                }`}
-                            />
+                            <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${module.enabled ? 'translate-x-5' : 'translate-x-0'}`} />
                           </button>
-                          {saving.giftCards && (
-                            <Loader2 className="absolute mt-2 ml-2 w-4 h-4 animate-spin text-gray-400" />
-                          )}
+                          {saving[module.key] && <Loader2 className="absolute mt-2 ml-2 w-4 h-4 animate-spin text-gray-400" />}
                         </div>
                       </div>
-                    )}
 
-                    {/* Ordering System + configuration (only when Stripe enabled) */}
-                    {orderingModule && (
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-3">
-                              <h3 className="text-base font-medium text-gray-900 dark:text-white">
-                                Ordering System
-                              </h3>
-                              {orderingModule.enabled ? (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                                  <CheckCircle className="w-3 h-3" />
-                                  Enabled
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-                                  <XCircle className="w-3 h-3" />
-                                  Disabled
-                                </span>
-                              )}
-                            </div>
-                            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                              Enable the online ordering system (pickup, delivery, dine-in).
-                            </p>
-                          </div>
-                          <div className="ml-4 relative">
-                            <button
-                              onClick={() =>
-                                toggleModule('ordering', !orderingModule.enabled)
-                              }
-                              disabled={saving.ordering || !stripeModule.enabled}
-                              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingModule.enabled && stripeModule.enabled
-                                ? 'bg-primary dark:bg-gold'
-                                : 'bg-gray-200 dark:bg-gray-600'
-                                }`}
-                              role="switch"
-                              aria-checked={orderingModule.enabled && stripeModule.enabled}
-                              aria-label={`${orderingModule.enabled ? 'Disable' : 'Enable'
-                                } Ordering System`}
-                            >
-                              <span
-                                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingModule.enabled && stripeModule.enabled
-                                  ? 'translate-x-5'
-                                  : 'translate-x-0'
-                                  }`}
-                              />
-                            </button>
-                            {saving.ordering && (
-                              <Loader2 className="absolute mt-2 ml-2 w-4 h-4 animate-spin text-gray-400" />
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Ordering Configuration & Details, only when ordering + Stripe enabled */}
-                        {stripeModule.enabled && orderingModule.enabled && (
-                          <div className="space-y-4 mt-4">
-                            {/* Ordering Configuration */}
+                      {/* Ordering Configuration */}
+                      {module.key === 'ordering' && module.enabled && (
+                        <div className="px-6 pb-6 border-t border-gray-100 dark:border-gray-700 mt-2 pt-4">
+                          <div className="space-y-6">
                             <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
                               <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
                                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                                  Ordering Configuration
+                                  Ordering Options
                                 </h3>
-                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                  Configure ordering options for pickup, delivery, and dine-in.
-                                </p>
                               </div>
                               <div className="divide-y divide-gray-200 dark:divide-gray-700">
                                 {/* Pickup */}
                                 <div className="px-4 py-3 flex items-center justify-between">
                                   <div className="flex-1">
-                                    <div className="flex items-center gap-3">
-                                      <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                                        Pickup
-                                      </h4>
-                                      {orderingSettings.pickup ? (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                                          <CheckCircle className="w-3 h-3" />
-                                          Enabled
-                                        </span>
-                                      ) : (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-                                          <XCircle className="w-3 h-3" />
-                                          Disabled
-                                        </span>
-                                      )}
-                                    </div>
-                                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                      Allow customers to place orders for pickup.
-                                    </p>
+                                    <h4 className="text-sm font-medium text-gray-900 dark:text-white">Pickup</h4>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">Allow customers to place orders for pickup.</p>
                                   </div>
-                                  <div className="ml-4">
-                                    <button
-                                      onClick={() =>
-                                        toggleOrderingOption('pickup', !orderingSettings.pickup)
-                                      }
-                                      disabled={saving['ordering_pickup']}
-                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.pickup
-                                        ? 'bg-primary dark:bg-gold'
-                                        : 'bg-gray-200 dark:bg-gray-600'
-                                        }`}
-                                      role="switch"
-                                      aria-checked={orderingSettings.pickup}
-                                    >
-                                      <span
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.pickup
-                                          ? 'translate-x-5'
-                                          : 'translate-x-0'
-                                          }`}
-                                      />
-                                    </button>
-                                  </div>
+                                  <button
+                                    onClick={() => toggleOrderingOption('pickup', !orderingSettings.pickup)}
+                                    disabled={saving['ordering_pickup']}
+                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.pickup ? 'bg-primary dark:bg-gold' : 'bg-gray-200 dark:bg-gray-600'}`}
+                                    role="switch"
+                                    aria-checked={orderingSettings.pickup}
+                                  >
+                                    <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.pickup ? 'translate-x-5' : 'translate-x-0'}`} />
+                                  </button>
                                 </div>
 
                                 {/* Delivery */}
                                 <div className="px-4 py-3 flex items-center justify-between">
                                   <div className="flex-1">
-                                    <div className="flex items-center gap-3">
-                                      <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                                        Delivery
-                                      </h4>
-                                      {orderingSettings.delivery ? (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                                          <CheckCircle className="w-3 h-3" />
-                                          Enabled
-                                        </span>
-                                      ) : (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-                                          <XCircle className="w-3 h-3" />
-                                          Disabled
-                                        </span>
-                                      )}
-                                    </div>
-                                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                      Allow customers to place orders for delivery.
-                                    </p>
+                                    <h4 className="text-sm font-medium text-gray-900 dark:text-white">Delivery</h4>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">Allow delivery orders (requires Stripe).</p>
                                   </div>
-                                  <div className="ml-4">
-                                    <button
-                                      onClick={() =>
-                                        toggleOrderingOption('delivery', !orderingSettings.delivery)
-                                      }
-                                      disabled={saving['ordering_delivery']}
-                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.delivery
-                                        ? 'bg-primary dark:bg-gold'
-                                        : 'bg-gray-200 dark:bg-gray-600'
-                                        }`}
-                                      role="switch"
-                                      aria-checked={orderingSettings.delivery}
-                                    >
-                                      <span
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.delivery
-                                          ? 'translate-x-5'
-                                          : 'translate-x-0'
-                                          }`}
-                                      />
-                                    </button>
-                                  </div>
+                                  <button
+                                    onClick={() => toggleOrderingOption('delivery', !orderingSettings.delivery)}
+                                    disabled={saving['ordering_delivery']}
+                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.delivery ? 'bg-primary dark:bg-gold' : 'bg-gray-200 dark:bg-gray-600'}`}
+                                    role="switch"
+                                    aria-checked={orderingSettings.delivery}
+                                  >
+                                    <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.delivery ? 'translate-x-5' : 'translate-x-0'}`} />
+                                  </button>
                                 </div>
 
                                 {/* Dine-In */}
                                 <div className="px-4 py-3 flex items-center justify-between">
                                   <div className="flex-1">
-                                    <div className="flex items-center gap-3">
-                                      <h4 className="text-sm font-medium text-gray-900 dark:text-white">
-                                        Dine-In
-                                      </h4>
-                                      {orderingSettings.dineIn ? (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
-                                          <CheckCircle className="w-3 h-3" />
-                                          Enabled
-                                        </span>
-                                      ) : (
-                                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-[11px] font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
-                                          <XCircle className="w-3 h-3" />
-                                          Disabled
-                                        </span>
-                                      )}
-                                    </div>
-                                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                      Allow customers to place orders for dine-in.
-                                    </p>
+                                    <h4 className="text-sm font-medium text-gray-900 dark:text-white">Dine-In</h4>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">Allow dine-in orders.</p>
                                   </div>
-                                  <div className="ml-4">
-                                    <button
-                                      onClick={() =>
-                                        toggleOrderingOption('dineIn', !orderingSettings.dineIn)
-                                      }
-                                      disabled={saving['ordering_dineIn']}
-                                      className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.dineIn
-                                        ? 'bg-primary dark:bg-gold'
-                                        : 'bg-gray-200 dark:bg-gray-600'
-                                        }`}
-                                      role="switch"
-                                      aria-checked={orderingSettings.dineIn}
-                                    >
-                                      <span
-                                        className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.dineIn
-                                          ? 'translate-x-5'
-                                          : 'translate-x-0'
-                                          }`}
-                                      />
-                                    </button>
-                                  </div>
+                                  <button
+                                    onClick={() => toggleOrderingOption('dineIn', !orderingSettings.dineIn)}
+                                    disabled={saving['ordering_dineIn']}
+                                    className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-gold disabled:opacity-50 disabled:cursor-not-allowed ${orderingSettings.dineIn ? 'bg-primary dark:bg-gold' : 'bg-gray-200 dark:bg-gray-600'}`}
+                                    role="switch"
+                                    aria-checked={orderingSettings.dineIn}
+                                  >
+                                    <span className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${orderingSettings.dineIn ? 'translate-x-5' : 'translate-x-0'}`} />
+                                  </button>
                                 </div>
                               </div>
                             </div>
 
-                            {/* Ordering Details (Tax) */}
-                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
-                              <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                                  Ordering Details
-                                </h3>
-                                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                  Configure business hours and tax rate for the ordering system.
-                                </p>
+                            {/* Tax Rate */}
+                            <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Tax Rate
+                              </label>
+                              <div className="flex items-center gap-3">
+                                <input
+                                  type="number"
+                                  min="0"
+                                  max="1"
+                                  step="0.01"
+                                  value={orderingConfig.taxRate}
+                                  onChange={e => {
+                                    const value = parseFloat(e.target.value)
+                                    if (!isNaN(value)) {
+                                      setOrderingConfig(prev => ({ ...prev, taxRate: value }))
+                                    }
+                                  }}
+                                  onBlur={e => updateTaxRate(e.target.value)}
+                                  disabled={saving.taxRate}
+                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                                  placeholder="0.13"
+                                />
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                  ({(orderingConfig.taxRate * 100).toFixed(1)}%)
+                                </span>
+                                {saving.taxRate && (
+                                  <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
+                                )}
                               </div>
-
-                              <div className="p-4 space-y-4">
-                                {/* Tax Rate */}
-                                <div>
-                                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    Tax Rate
-                                  </label>
-                                  <div className="flex items-center gap-3">
-                                    <input
-                                      type="number"
-                                      min="0"
-                                      max="1"
-                                      step="0.01"
-                                      value={orderingConfig.taxRate}
-                                      onChange={e => {
-                                        const value = parseFloat(e.target.value)
-                                        if (!isNaN(value)) {
-                                          setOrderingConfig(prev => ({ ...prev, taxRate: value }))
-                                        }
-                                      }}
-                                      onBlur={e => updateTaxRate(e.target.value)}
-                                      disabled={saving.taxRate}
-                                      className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
-                                      placeholder="0.13"
-                                    />
-                                    <span className="text-sm text-gray-500 dark:text-gray-400">
-                                      ({(orderingConfig.taxRate * 100).toFixed(1)}%)
-                                    </span>
-                                    {saving.taxRate && (
-                                      <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-                                    )}
-                                  </div>
-                                  <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                                    Enter as decimal (e.g., 0.13 for 13%).
-                                  </p>
-                                </div>
-                              </div>
+                              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                Enter as decimal (e.g., 0.13 for 13%).
+                              </p>
                             </div>
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      )}
+
+                      {/* Reservations Configuration */}
+                      {module.key === 'reservations' && module.enabled && (
+                        <div className="px-6 pb-6 border-t border-gray-100 dark:border-gray-700 mt-2 pt-4">
+                          <div className="space-y-6">
+                            {/* Max Seats Per Slot */}
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Maximum Seats Per Slot
+                              </label>
+                              <div className="flex items-center gap-3">
+                                <input
+                                  type="number"
+                                  min="1"
+                                  step="1"
+                                  value={reservationsConfig.maxSeatsPerSlot}
+                                  onChange={e => {
+                                    const value = parseInt(e.target.value, 10)
+                                    if (!isNaN(value)) {
+                                      setReservationsConfig(prev => ({ ...prev, maxSeatsPerSlot: value }))
+                                    }
+                                  }}
+                                  onBlur={e => {
+                                    const value = parseInt(e.target.value, 10)
+                                    if (!isNaN(value) && value > 0) {
+                                      updateReservationsConfig({ maxSeatsPerSlot: value })
+                                    }
+                                  }}
+                                  disabled={saving['reservations_maxSeatsPerSlot']}
+                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                                />
+                                {saving['reservations_maxSeatsPerSlot'] && (
+                                  <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
+                                )}
+                              </div>
+                              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                Total number of seats available in each reservation time slot.
+                              </p>
+                            </div>
+
+                            {/* Slot Duration */}
+                            <div>
+                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Slot Duration (minutes)
+                              </label>
+                              <div className="flex items-center gap-3">
+                                <input
+                                  type="number"
+                                  min="15"
+                                  step="15"
+                                  value={reservationsConfig.slotDurationMinutes}
+                                  onChange={e => {
+                                    const value = parseInt(e.target.value, 10)
+                                    if (!isNaN(value)) {
+                                      setReservationsConfig(prev => ({ ...prev, slotDurationMinutes: value }))
+                                    }
+                                  }}
+                                  onBlur={e => {
+                                    const value = parseInt(e.target.value, 10)
+                                    if (!isNaN(value) && value > 0) {
+                                      updateReservationsConfig({ slotDurationMinutes: value })
+                                    }
+                                  }}
+                                  disabled={saving['reservations_slotDurationMinutes']}
+                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                                />
+                                <span className="text-sm text-gray-500 dark:text-gray-400">
+                                  {(reservationsConfig.slotDurationMinutes / 60).toFixed(2)} hours
+                                </span>
+                                {saving['reservations_slotDurationMinutes'] && (
+                                  <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
+                                )}
+                              </div>
+                              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                                Length of each reservation time slot in minutes (e.g., 120 for 2 hours).
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                  }
+                </div>
+              </div>
+            </div>
+          )
+        })()}
+
+
+
+
+        {/* --- INTEGRATIONS TAB --- */}
+        {activeTab === 'integrations' && (() => {
+          const stripeModule = modules.find(m => m.key === 'stripe')
+
+          return (
+            <div className="space-y-6">
+
+              {/* Social Media Integration */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Social Media Integration</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Connect your Facebook and Instagram accounts.
+                  </p>
+                </div>
+                <div className="p-6 space-y-8">
+                  <SocialMediaConfig onConnectAccount={handleOpenConnectModal} />
+                  <SocialAccountManager
+                    accounts={socialAccounts}
+                    barId={tenantInfo?.barId}
+                    onAccountConnected={handleAccountConnected}
+                    onTokenRefreshed={fetchSocialAccounts}
+                    onAccountDeleted={fetchSocialAccounts}
+                    isConnectModalOpen={showConnectModal}
+                    connectPlatform={connectingPlatform}
+                    onCloseConnectModal={() => setShowConnectModal(false)}
+                  />
+                </div>
+              </div>
+
+              {/* Stripe Integration */}
+              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Stripe Integration</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                    Payment processing status.
+                  </p>
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">Connection Status</h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {stripeModule?.enabled ? 'Connected and ready to process payments.' : 'Not connected.'}
+                      </p>
+                    </div>
+                    {stripeModule?.enabled ? (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                        <CheckCircle className="w-4 h-4" />
+                        Connected
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                        <XCircle className="w-4 h-4" />
+                        Disconnected
+                      </span>
                     )}
                   </div>
                 </div>
               </div>
-            )}
-          </>
-        )
-      })()}
-
-      {/* Reservations Configuration */}
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Reservations Configuration</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Configure reservation capacity and slot duration
-          </p>
-        </div>
-
-        <div className="p-6 space-y-6">
-          {/* Max Seats Per Slot */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Maximum Seats Per Slot
-            </label>
-            <div className="flex items-center gap-3">
-              <input
-                type="number"
-                min="1"
-                step="1"
-                value={reservationsConfig.maxSeatsPerSlot}
-                onChange={e => {
-                  const value = parseInt(e.target.value, 10)
-                  if (!isNaN(value)) {
-                    setReservationsConfig(prev => ({ ...prev, maxSeatsPerSlot: value }))
-                  }
-                }}
-                onBlur={e => {
-                  const value = parseInt(e.target.value, 10)
-                  if (!isNaN(value) && value > 0) {
-                    updateReservationsConfig({ maxSeatsPerSlot: value })
-                  }
-                }}
-                disabled={saving['reservations_maxSeatsPerSlot']}
-                className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
-              />
-              {saving['reservations_maxSeatsPerSlot'] && (
-                <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-              )}
             </div>
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Total number of seats available in each reservation time slot.
-            </p>
-          </div>
+          )
+        })()}
 
-          {/* Slot Duration */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Slot Duration (minutes)
-            </label>
-            <div className="flex items-center gap-3">
-              <input
-                type="number"
-                min="15"
-                step="15"
-                value={reservationsConfig.slotDurationMinutes}
-                onChange={e => {
-                  const value = parseInt(e.target.value, 10)
-                  if (!isNaN(value)) {
-                    setReservationsConfig(prev => ({ ...prev, slotDurationMinutes: value }))
-                  }
-                }}
-                onBlur={e => {
-                  const value = parseInt(e.target.value, 10)
-                  if (!isNaN(value) && value > 0) {
-                    updateReservationsConfig({ slotDurationMinutes: value })
-                  }
-                }}
-                disabled={saving['reservations_slotDurationMinutes']}
-                className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
-              />
-              <span className="text-sm text-gray-500 dark:text-gray-400">
-                {(reservationsConfig.slotDurationMinutes / 60).toFixed(2)} hours
-              </span>
-              {saving['reservations_slotDurationMinutes'] && (
-                <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-              )}
-            </div>
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Length of each reservation time slot in minutes (e.g., 120 for 2 hours).
-            </p>
-          </div>
-        </div>
       </div>
 
-      {/* Business Hours Configuration */}
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Business Hours</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Set the opening and closing times for each day (24-hour format).
-          </p>
-        </div>
-
-        <div className="p-6">
-          <div className="space-y-3">
-            {[
-              'Monday',
-              'Tuesday',
-              'Wednesday',
-              'Thursday',
-              'Friday',
-              'Saturday',
-              'Sunday',
-            ].map(day => {
-              const hours =
-                orderingConfig.businessHours[day] || {
-                  open: '',
-                  close: '',
-                }
-              const isSaving = saving[`businessHours_${day}`]
-
-              return (
-                <div
-                  key={day}
-                  className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-md"
-                >
-                  <div className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">
-                    {day}
-                  </div>
-                  <div className="flex items-center gap-2 flex-1">
-                    <input
-                      type="time"
-                      value={hours.open || ''}
-                      onChange={e => {
-                        const updatedHours = {
-                          ...orderingConfig.businessHours,
-                          [day]: { ...hours, open: e.target.value },
-                        }
-                        setOrderingConfig(prev => ({
-                          ...prev,
-                          businessHours: updatedHours,
-                        }))
-                      }}
-                      onBlur={() => updateBusinessHours(day, 'open', hours.open)}
-                      disabled={isSaving}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
-                      placeholder="Open"
-                    />
-                    <span className="text-gray-500 dark:text-gray-400">to</span>
-                    <input
-                      type="time"
-                      value={hours.close || ''}
-                      onChange={e => {
-                        const updatedHours = {
-                          ...orderingConfig.businessHours,
-                          [day]: { ...hours, close: e.target.value },
-                        }
-                        setOrderingConfig(prev => ({
-                          ...prev,
-                          businessHours: updatedHours,
-                        }))
-                      }}
-                      onBlur={() => updateBusinessHours(day, 'close', hours.close)}
-                      disabled={isSaving}
-                      className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
-                      placeholder="Close"
-                    />
-                    {isSaving && (
-                      <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
-                    )}
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-          <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-            These hours are used across the site (footer, contact page, ordering validation) and can
-            be different from ordering availability flags.
-          </p>
-        </div>
-      </div>
-
-
-      {/* Theme Configuration */}
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Theme Configuration</h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Customize the look and feel of your restaurant's website.
-          </p>
-        </div>
-
-        <div className="p-6">
-          <p className="text-gray-600 dark:text-gray-300 mb-4">
-            Choose from professional templates and customize colors to match your brand.
-          </p>
-          <a
-            href="/admin/settings/theme"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-          >
-            Customize Theme
-          </a>
-        </div>
-      </div>
-
-      {/* Page Content Management */}
-      <PageContentManager />
+      <ModuleActivationModal
+        isOpen={activationModalOpen}
+        onClose={() => setActivationModalOpen(false)}
+        module={selectedModule}
+      />
     </div >
   )
 }
-

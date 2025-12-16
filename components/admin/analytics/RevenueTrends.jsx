@@ -70,25 +70,25 @@ export default function RevenueTrends({ barId }) {
           <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
             <button
               onClick={() => setGroupBy('day')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'day' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'day' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Daily
             </button>
             <button
               onClick={() => setGroupBy('week')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Weekly
             </button>
             <button
               onClick={() => setGroupBy('month')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Monthly
             </button>
             <button
               onClick={() => setGroupBy('hour')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'hour' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'hour' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Hourly
             </button>
@@ -111,7 +111,7 @@ export default function RevenueTrends({ barId }) {
           <button
             onClick={fetchTrends}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <TrendingUp className="w-4 h-4" />
             {loading ? 'Loading...' : 'Analyze'}

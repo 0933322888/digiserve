@@ -78,7 +78,7 @@ export default function AdminLoginPage() {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-primary dark:text-gold mb-2">TRIO Admin</h1>
+            <h1 className="text-3xl font-bold text-primary dark:text-gold mb-2">Restaurant Admin</h1>
             <p className="text-gray-600 dark:text-gray-400">Sign in to access the admin dashboard</p>
           </div>
 

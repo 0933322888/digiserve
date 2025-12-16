@@ -114,7 +114,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
         }
         if (formData.customDomain) {
             if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(formData.customDomain)) {
-                setError('Please enter a valid custom domain (example: triobistro.com)')
+                setError('Please enter a valid custom domain (example: abcrestaurant.com)')
                 return false
             }
         }
@@ -175,7 +175,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Building2 className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input name="businessName" value={formData.businessName} onChange={handleChange} required placeholder="Trio Bistro" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                    <input name="businessName" value={formData.businessName} onChange={handleChange} required placeholder="Business Name" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                 </div>
             </div>
 
@@ -205,7 +205,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
                 <label className="block text-sm font-medium text-gray-200 mb-2">Preferred subdomain</label>
                 <div className="flex items-center">
                     <div className="relative flex-1">
-                        <input name="subdomain" value={formData.subdomain} onChange={(e)=>{ setSubdomainTouched(true); const raw=(e.target.value||'').trim().toLowerCase(); const left=raw.split('.')[0]; const cleaned=slugify(left); setFormData(prev=>({...prev, subdomain: cleaned})); }} placeholder="triobistro" className="block w-full pr-28 pl-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                        <input name="subdomain" value={formData.subdomain} onChange={(e)=>{ setSubdomainTouched(true); const raw=(e.target.value||'').trim().toLowerCase(); const left=raw.split('.')[0]; const cleaned=slugify(left); setFormData(prev=>({...prev, subdomain: cleaned})); }} placeholder="abc-bar" className="block w-full pr-28 pl-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                         <div className="absolute right-28 top-1/2 -translate-y-1/2 text-xs" aria-live="polite">
                             {subdomainStatus === 'checking' && <span className="text-yellow-300">Checking…</span>}
                             {subdomainStatus === 'available' && <span className="text-green-300">Available</span>}

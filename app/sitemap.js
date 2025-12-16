@@ -5,7 +5,7 @@ import { siteConfig } from '@/config/siteConfig'
  * Automatically generates sitemap based on enabled features
  */
 export default function sitemap() {
-  const baseUrl = 'https://triobistro.com' // Update with your domain
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL
 
   const routes = [
     {

@@ -20,6 +20,7 @@ export async function POST(request, { params }) {
     }
 
     const item = await createMenuItem(menuId, sectionId, body)
+    console.log(`[API] POST item created: ${item.id} in section ${sectionId}`)
     return NextResponse.json({ success: true, item })
   } catch (error) {
     console.error('Create menu item error:', error)
@@ -45,6 +46,7 @@ export async function PUT(request, { params }) {
     }
 
     const item = await updateMenuItem(menuId, sectionId, itemId, updates)
+    console.log(`[API] PUT item updated: ${itemId}`)
     return NextResponse.json({ success: true, item })
   } catch (error) {
     console.error('Update menu item error:', error)
@@ -70,6 +72,7 @@ export async function DELETE(request, { params }) {
     }
 
     await deleteMenuItem(menuId, sectionId, itemId)
+    console.log(`[API] DELETE item deleted: ${itemId}`)
     return NextResponse.json({ success: true, message: 'Menu item deleted successfully' })
   } catch (error) {
     console.error('Delete menu item error:', error)

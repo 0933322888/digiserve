@@ -14,7 +14,7 @@ export const metadata = {
     description:
         'Discover our extensive collection of cocktails, wines, and spirits.',
     openGraph: {
-        title: 'Drinks Menu | TRIO BISTRO AND LOUNGE',
+        title: 'Drinks Menu | Restaurant',
         description:
             'Discover our extensive collection of cocktails, wines, and spirits.',
     },

@@ -5,7 +5,7 @@ import { siteConfig } from '@/config/siteConfig'
  * Controls search engine crawling
  */
 export default function robots() {
-  const baseUrl = 'https://triobistro.com' // Update with your domain
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL
 
   return {
     rules: [

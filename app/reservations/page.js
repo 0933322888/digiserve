@@ -34,13 +34,13 @@ export default function ReservationsPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://triobistro.com',
+        item: process.env.NEXT_PUBLIC_APP_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Reservations',
-        item: 'https://triobistro.com/reservations',
+        item: `${process.env.NEXT_PUBLIC_APP_URL}/reservations`,
       },
     ],
   }
@@ -60,11 +60,11 @@ export default function ReservationsPage() {
           />
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
+            <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
               <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-4">
                 Contact Information
               </h3>
-              <div className="space-y-2 text-gray-700 dark:text-gray-300">
+              <div className="space-y-2 text-secondary-text dark:text-gray-300">
                 <p>
                   <strong>Phone:</strong>{' '}
                   <a

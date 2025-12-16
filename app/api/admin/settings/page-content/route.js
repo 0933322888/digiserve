@@ -14,7 +14,7 @@ export async function GET() {
     // Return with defaults if not set
     const defaultHomeContent = {
       highlights: {
-        sectionTitle: 'Experience TRIO',
+        sectionTitle: 'Experience Restaurant',
         sectionSubtitle: 'Discover what makes us special',
         items: [
           {
@@ -61,7 +61,7 @@ export async function GET() {
           {
             year: '2015',
             title: 'The Beginning',
-            description: 'TRIO BISTRO AND LOUNGE opened its doors with a vision to blend vintage elegance with modern culinary innovation.',
+            description: 'RESTAURANT opened its doors with a vision to blend vintage elegance with modern culinary innovation.',
             enabled: true,
           },
           {

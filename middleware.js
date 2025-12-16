@@ -219,14 +219,23 @@ export async function middleware(request) {
 
   // E. Protected Admin API routes
   if (pathname.startsWith('/api/admin')) {
+    // SPECIAL CASE: multiple social OAuth callbacks might come back to the root domain 
+    // (localhost or main domain) because of strict redirect URI rules.
+    // We allow these through because they carry state/tenant info in the query params.
+    const isCallback = pathname === '/api/admin/social-posting/callback';
+
     // All other /api/admin routes require a tenant and valid session
-    if (!tenantId && !headers.get('x-custom-domain')) {
+    if (!tenantId && !headers.get('x-custom-domain') && !isCallback) {
       console.log('[Middleware] No tenant identified for protected API route. Responding 403.');
       return NextResponse.json({ error: 'Tenant required' }, { status: 403 });
     }
     console.log(`[Middleware] Path (${pathname}) is a protected Admin API route. Checking auth...`);
-    const authResponse = await authenticateAndAuthorizeApi(request, tenantId);
-    if (authResponse) return authResponse;
+
+    // Skip auth for social callback (it effectively comes cross-domain from FB to localhost)
+    if (!isCallback) {
+      const authResponse = await authenticateAndAuthorizeApi(request, tenantId);
+      if (authResponse) return authResponse;
+    }
     return NextResponse.next({ request: { headers } });
   }
 

@@ -88,7 +88,13 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
                     {templates.map(template => (
                         <div
                             key={template.id}
-                            onClick={() => setSelectedTemplate(template.id)}
+                            onClick={() => {
+                                setSelectedTemplate(template.id)
+                                if (template.theme) {
+                                    setPrimaryColor(template.theme.primaryColor)
+                                    setSecondaryColor(template.theme.secondaryColor)
+                                }
+                            }}
                             className={`
                         relative border-2 rounded-xl overflow-hidden cursor-pointer transition-all hover:shadow-lg
                         ${selectedTemplate === template.id ? 'border-primary ring-2 ring-primary/20' : 'border-gray-200 hover:border-primary/50'}
@@ -110,7 +116,16 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
                             </div>
                             <div className="p-4 bg-white dark:bg-gray-800">
                                 <h4 className="font-bold text-lg">{template.name}</h4>
-                                <p className="text-sm text-gray-500 line-clamp-2">{template.description}</p>
+                                <p className="text-sm text-gray-500 line-clamp-2 mb-3">{template.description}</p>
+                                {template.features && (
+                                    <div className="flex flex-wrap gap-1">
+                                        {template.features.slice(0, 3).map((feature, idx) => (
+                                            <span key={idx} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                                {feature}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}

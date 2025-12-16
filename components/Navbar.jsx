@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { siteConfig } from '@/config/siteConfig'
 import { cn } from '@/lib/utils'
 import CartDrawer from '@/components/ordering/CartDrawer'
+import { useTheme } from '@/components/ThemeProvider'
 
 /**
  * Main Navigation Component
@@ -24,6 +25,19 @@ export default function Navbar() {
     ordering: siteConfig.ordering?.enabled,
   })
   const pathname = usePathname()
+  const { theme } = useTheme()
+
+  // Hide on print routes
+  if (pathname?.startsWith('/print')) return null
+
+
+  const isRestaurantTemplate = theme?.templateId === 'restaurant'
+
+  console.log('DEBUG: Navbar', {
+    templateId: theme?.templateId,
+    isRestaurantTemplate,
+    primaryColor: theme?.primaryColor
+  })
 
   useEffect(() => {
     // Check for saved theme preference or default to light mode
@@ -88,14 +102,38 @@ export default function Navbar() {
 
   const showOrdering = moduleStatus.ordering
 
+  // Helper to convert hex to rgba
+  const hexToRgba = (hex, alpha) => {
+    if (!hex) return ''
+    const r = parseInt(hex.slice(1, 3), 16)
+    const g = parseInt(hex.slice(3, 5), 16)
+    const b = parseInt(hex.slice(5, 7), 16)
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  }
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-cream/95 dark:bg-gray-900/95 backdrop-blur-sm border-b border-primary/20">
+    <nav
+      className={cn(
+        "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
+        isRestaurantTemplate
+          ? "border-primary/20"
+          : "bg-secondary dark:bg-gray-900 border-primary/20"
+      )}
+      style={{
+        backgroundColor: isRestaurantTemplate
+          ? 'var(--primary)'
+          : undefined
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-2xl font-serif font-bold text-primary dark:text-gold">
-              {siteConfig.restaurant.name.split(' ')[0]}
+            <span className={cn(
+              "text-2xl font-serif font-bold transition-colors",
+              isRestaurantTemplate ? "text-white" : "text-primary dark:text-gold"
+            )}>
+              {siteConfig.restaurant.name}
             </span>
           </Link>
 
@@ -106,10 +144,10 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  'text-sm font-medium transition-colors hover:text-primary dark:hover:text-gold',
-                  isActive(link.href)
-                    ? 'text-primary dark:text-gold border-b-2 border-primary dark:border-gold'
-                    : 'text-gray-700 dark:text-gray-300'
+                  'text-sm font-medium transition-colors',
+                  isRestaurantTemplate
+                    ? (isActive(link.href) ? 'text-white border-b-2 border-white' : 'text-white/90 hover:text-white')
+                    : (isActive(link.href) ? 'text-primary dark:text-white border-b-2 border-primary dark:border-white' : 'text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-white')
                 )}
               >
                 {link.label}
@@ -118,13 +156,16 @@ export default function Navbar() {
             {showOrdering && <CartDrawer />}
             <button
               onClick={toggleDarkMode}
-              className="p-2 rounded-lg hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
+              className={cn(
+                "p-2 rounded-lg transition-colors",
+                isRestaurantTemplate ? "hover:bg-white/20 text-white" : "hover:bg-primary/10 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200"
+              )}
               aria-label="Toggle dark mode"
             >
               {isDark ? (
-                <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <Sun className="w-5 h-5" />
               ) : (
-                <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <Moon className="w-5 h-5" />
               )}
             </button>
           </div>
@@ -134,24 +175,30 @@ export default function Navbar() {
             {showOrdering && <CartDrawer />}
             <button
               onClick={toggleDarkMode}
-              className="p-2 rounded-lg hover:bg-primary/10 transition-colors"
+              className={cn(
+                "p-2 rounded-lg transition-colors",
+                isRestaurantTemplate ? "hover:bg-white/20 text-white" : "hover:bg-primary/10 text-gray-700 dark:text-gray-200"
+              )}
               aria-label="Toggle dark mode"
             >
               {isDark ? (
-                <Sun className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <Sun className="w-5 h-5" />
               ) : (
-                <Moon className="w-5 h-5 text-gray-700 dark:text-gray-300" />
+                <Moon className="w-5 h-5" />
               )}
             </button>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg hover:bg-primary/10 transition-colors"
+              className={cn(
+                "p-2 rounded-lg transition-colors",
+                isRestaurantTemplate ? "hover:bg-white/20 text-white" : "hover:bg-primary/10 text-gray-700 dark:text-gray-200"
+              )}
               aria-label="Toggle menu"
             >
               {isOpen ? (
-                <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                <X className="w-6 h-6" />
               ) : (
-                <Menu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
+                <Menu className="w-6 h-6" />
               )}
             </button>
           </div>
@@ -165,7 +212,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-cream dark:bg-gray-900 border-t border-primary/20"
+            className="md:hidden bg-secondary dark:bg-gray-900 border-t border-primary/20"
           >
             <div className="px-4 py-4 space-y-3">
               {navLinks.map(link => (
@@ -176,8 +223,8 @@ export default function Navbar() {
                   className={cn(
                     'block text-base font-medium transition-colors',
                     isActive(link.href)
-                      ? 'text-primary dark:text-gold'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-gold'
+                      ? 'text-primary dark:text-white'
+                      : 'text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-white'
                   )}
                 >
                   {link.label}

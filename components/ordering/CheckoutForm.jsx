@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, MapPin, Clock, UtensilsCrossed } from 'lucide-react'
 import { siteConfig } from '@/config/siteConfig'
@@ -10,7 +10,7 @@ import PaymentForm from './PaymentForm'
  * Checkout Form Component
  * Handles customer info, pickup/delivery selection, and payment
  */
-export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
+export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeEnabled, orderingSettings }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,7 +28,8 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const { ordering } = siteConfig
+  // Use props or fallback to siteConfig if somehow props are missing (though they shouldn't be)
+  const ordering = orderingSettings || siteConfig.ordering
   const taxRate = ordering?.taxRate || 0.13
   const tax = cartTotals.subtotal * taxRate
   const deliveryFee =
@@ -57,6 +58,24 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
       setErrors({ ...errors, [name]: '' })
     }
   }
+
+  // Ensure valid order type is selected when constraints change
+  useEffect(() => {
+    const isPickupAvailable = ordering?.pickup
+    const isDeliveryAvailable = ordering?.delivery && stripeEnabled
+    const isDineInAvailable = ordering?.dineIn
+
+    const currentTypeValid =
+      (formData.orderType === 'pickup' && isPickupAvailable) ||
+      (formData.orderType === 'delivery' && isDeliveryAvailable) ||
+      (formData.orderType === 'dineIn' && isDineInAvailable)
+
+    if (!currentTypeValid) {
+      if (isPickupAvailable) setFormData(prev => ({ ...prev, orderType: 'pickup' }))
+      else if (isDineInAvailable) setFormData(prev => ({ ...prev, orderType: 'dineIn' }))
+      else if (isDeliveryAvailable) setFormData(prev => ({ ...prev, orderType: 'delivery' }))
+    }
+  }, [ordering, stripeEnabled, formData.orderType])
 
   const validateForm = () => {
     const newErrors = {}
@@ -137,7 +156,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
           </h2>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
               Name *
             </label>
             <input
@@ -151,7 +170,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
               Email *
             </label>
             <input
@@ -165,7 +184,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
               Phone *
             </label>
             <input
@@ -180,35 +199,33 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
 
           {/* Order Type Selection */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
+            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-4">
               Order Type *
             </label>
             <div
-              className={`grid gap-4 ${ordering?.dineIn && ordering?.pickup && ordering?.delivery ? 'grid-cols-3' : ordering?.dineIn && (ordering?.pickup || ordering?.delivery) ? 'grid-cols-2' : 'grid-cols-2'}`}
+              className={`grid gap-4 ${ordering?.dineIn && ordering?.pickup && ordering?.delivery && stripeEnabled ? 'grid-cols-3' : 'grid-cols-2'}`}
             >
               {ordering?.pickup && (
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, orderType: 'pickup' })}
-                  className={`p-4 rounded-lg border-2 transition-colors ${
-                    formData.orderType === 'pickup'
-                      ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
-                      : 'border-gray-300 dark:border-gray-600'
-                  }`}
+                  className={`p-4 rounded-lg border-2 transition-colors ${formData.orderType === 'pickup'
+                    ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
+                    : 'border-gray-300 dark:border-gray-600'
+                    }`}
                 >
                   <Calendar className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
                   <span className="font-semibold">Pickup</span>
                 </button>
               )}
-              {ordering?.delivery && (
+              {ordering?.delivery && stripeEnabled && (
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, orderType: 'delivery' })}
-                  className={`p-4 rounded-lg border-2 transition-colors ${
-                    formData.orderType === 'delivery'
-                      ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
-                      : 'border-gray-300 dark:border-gray-600'
-                  }`}
+                  className={`p-4 rounded-lg border-2 transition-colors ${formData.orderType === 'delivery'
+                    ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
+                    : 'border-gray-300 dark:border-gray-600'
+                    }`}
                 >
                   <MapPin className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
                   <span className="font-semibold">Delivery</span>
@@ -218,11 +235,10 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
                 <button
                   type="button"
                   onClick={() => setFormData({ ...formData, orderType: 'dineIn' })}
-                  className={`p-4 rounded-lg border-2 transition-colors ${
-                    formData.orderType === 'dineIn'
-                      ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
-                      : 'border-gray-300 dark:border-gray-600'
-                  }`}
+                  className={`p-4 rounded-lg border-2 transition-colors ${formData.orderType === 'dineIn'
+                    ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
+                    : 'border-gray-300 dark:border-gray-600'
+                    }`}
                 >
                   <UtensilsCrossed className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
                   <span className="font-semibold">Dine In</span>
@@ -234,7 +250,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
           {/* Pickup Time */}
           {formData.orderType === 'pickup' && ordering?.pickup && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
                 <Clock className="w-4 h-4 inline mr-2" />
                 Pickup Time *
               </label>
@@ -255,7 +271,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
           {/* Dine-In Time */}
           {formData.orderType === 'dineIn' && ordering?.dineIn && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
                 <Clock className="w-4 h-4 inline mr-2" />
                 Preferred Dine-In Time *
               </label>
@@ -283,7 +299,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
                 Delivery Address
               </h3>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
                   Street Address *
                 </label>
                 <input
@@ -299,7 +315,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
                     City *
                   </label>
                   <input
@@ -314,7 +330,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
                     ZIP Code *
                   </label>
                   <input
@@ -335,21 +351,21 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
 
         {/* Order Summary & Payment */}
         <div>
-          <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md sticky top-24">
+          <div className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md sticky top-24">
             <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-6">
               Order Summary
             </h2>
             <div className="space-y-2 mb-6">
-              <div className="flex justify-between text-gray-700 dark:text-gray-300">
+              <div className="flex justify-between text-secondary-text dark:text-gray-300">
                 <span>Subtotal:</span>
                 <span>${cartTotals.subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-gray-700 dark:text-gray-300">
+              <div className="flex justify-between text-secondary-text dark:text-gray-300">
                 <span>Tax:</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
               {deliveryFee > 0 && (
-                <div className="flex justify-between text-gray-700 dark:text-gray-300">
+                <div className="flex justify-between text-secondary-text dark:text-gray-300">
                   <span>Delivery:</span>
                   <span>${deliveryFee.toFixed(2)}</span>
                 </div>
@@ -360,7 +376,12 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess }) {
               </div>
             </div>
 
-            <PaymentForm amount={total} onSuccess={handleSubmit} isSubmitting={isSubmitting} />
+            <PaymentForm
+              amount={total}
+              onSuccess={handleSubmit}
+              isSubmitting={isSubmitting}
+              stripeEnabled={stripeEnabled}
+            />
           </div>
         </div>
       </div>

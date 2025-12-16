@@ -9,6 +9,7 @@ export async function GET(request, { params }) {
   try {
     const { menuId } = params
     const sections = await getSections(menuId)
+    console.log(`[API] GET /api/admin/menus/${menuId}/sections found ${sections.length} sections`)
     return NextResponse.json({ sections })
   } catch (error) {
     console.error('Get sections error:', error)
@@ -31,6 +32,7 @@ export async function POST(request, { params }) {
     }
 
     const section = await createSection(menuId, { id, name, description })
+    console.log(`[API] POST /api/admin/menus/${menuId}/sections created: ${section.id}`)
     return NextResponse.json({ success: true, section })
   } catch (error) {
     console.error('Create section error:', error)
@@ -56,6 +58,7 @@ export async function PUT(request, { params }) {
     }
 
     const section = await updateSection(menuId, sectionId, updates)
+    console.log(`[API] PUT /api/admin/menus/${menuId}/sections updated: ${sectionId}`)
     return NextResponse.json({ success: true, section })
   } catch (error) {
     console.error('Update section error:', error)
@@ -81,6 +84,7 @@ export async function DELETE(request, { params }) {
     }
 
     await deleteSection(menuId, sectionId)
+    console.log(`[API] DELETE /api/admin/menus/${menuId}/sections deleted: ${sectionId}`)
     return NextResponse.json({ success: true, message: 'Section deleted successfully' })
   } catch (error) {
     console.error('Delete section error:', error)
@@ -109,6 +113,7 @@ export async function PATCH(request, { params }) {
     }
 
     const sections = await reorderSections(menuId, sectionIds)
+    console.log(`[API] PATCH /api/admin/menus/${menuId}/sections reordered`)
     return NextResponse.json({ success: true, sections })
   } catch (error) {
     console.error('Reorder sections error:', error)

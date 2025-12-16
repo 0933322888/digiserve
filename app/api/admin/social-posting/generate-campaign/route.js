@@ -17,13 +17,13 @@ export async function POST(request) {
       const templates = {
         fun: [
           "Who's ready for some fun tonight? 🥳 Come join us!",
-          'Good vibes only at Trio! ✨ See you soon!',
-          'Eat, drink, and be merry! 🍻 #TrioLife',
-          'Why cook when you can come to Trio? 🍕🍔',
+          'Good vibes only at Restaurant! ✨ See you soon!',
+          'Eat, drink, and be merry! 🍻 #RestaurantLife',
+          'Why cook when you can come to Restaurant? 🍕🍔',
           "Weekend mode: ON! 🚀 Let's party!",
         ],
         classy: [
-          'Experience the elegance of fine dining at Trio. 🍷',
+          'Experience the elegance of fine dining at Restaurant. 🍷',
           'A taste of sophistication in every bite. ✨',
           'Join us for an evening of exquisite flavors. 🍽️',
           'Elevate your dining experience with us tonight.',

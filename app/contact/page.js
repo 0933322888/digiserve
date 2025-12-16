@@ -43,13 +43,13 @@ export default async function ContactPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://triobistro.com',
+        item: process.env.NEXT_PUBLIC_APP_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Contact',
-        item: 'https://triobistro.com/contact',
+        item: `${process.env.NEXT_PUBLIC_APP_URL}/contact`,
       },
     ],
   }
@@ -70,7 +70,7 @@ export default async function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div>
-              <div className="bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
+              <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
                 <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-6">
                   Get in Touch
                 </h3>
@@ -81,7 +81,7 @@ export default async function ContactPage() {
                       <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
                         Address
                       </h4>
-                      <p className="text-gray-700 dark:text-gray-300">
+                      <p className="text-secondary-text dark:text-gray-300">
                         {restaurant.address.street}
                         <br />
                         {restaurant.address.city}, {restaurant.address.state}{' '}
@@ -120,7 +120,7 @@ export default async function ContactPage() {
                     <Clock className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
                     <div>
                       <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Hours</h4>
-                      <div className="space-y-1 text-gray-700 dark:text-gray-300">
+                      <div className="space-y-1 text-secondary-text dark:text-gray-300">
                         {Object.entries(businessHours).map(([day, hours]) => (
                           <div key={day} className="flex justify-between">
                             <span className="font-medium">{day}:</span>
@@ -136,7 +136,7 @@ export default async function ContactPage() {
               </div>
 
               {/* Map */}
-              <div className="bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+              <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg">
                 <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-6">
                   Find Us
                 </h3>
@@ -147,7 +147,7 @@ export default async function ContactPage() {
                     <MapPin className="w-5 h-5 text-primary dark:text-gold flex-shrink-0 mt-0.5" />
                     <div className="flex-1">
                       <p className="text-gray-900 dark:text-gray-100 font-medium mb-1">Address</p>
-                      <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+                      <p className="text-secondary-text dark:text-gray-300 text-sm leading-relaxed">
                         {restaurant.address.street}
                         <br />
                         {restaurant.address.city}, {restaurant.address.state} {restaurant.address.zip}

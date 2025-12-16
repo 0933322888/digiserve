@@ -12,7 +12,10 @@ import {
   Phone,
   Mail,
   DollarSign,
+  CreditCard,
+  Printer,
 } from 'lucide-react'
+import Link from 'next/link'
 import { formatPrice } from '@/lib/utils'
 import toast from 'react-hot-toast'
 
@@ -130,13 +133,12 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                   <h3 className="font-semibold text-gray-900 dark:text-white">Order #{order.id}</h3>
                   {getStatusBadge(order.status)}
                   <span
-                    className={`text-sm px-2 py-1 rounded ${
-                      order.orderType === 'pickup'
-                        ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
-                        : order.orderType === 'delivery'
-                          ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
-                          : 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
-                    }`}
+                    className={`text-sm px-2 py-1 rounded ${order.orderType === 'pickup'
+                      ? 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200'
+                      : order.orderType === 'delivery'
+                        ? 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200'
+                        : 'bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200'
+                      }`}
                   >
                     {order.orderType === 'pickup'
                       ? 'Pickup'
@@ -144,6 +146,16 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                         ? 'Delivery'
                         : 'Dine In'}
                   </span>
+                  {order.paymentStatus === 'paid' && (
+                    <span className="text-sm px-2 py-1 rounded bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 flex items-center gap-1">
+                      <CheckCircle className="w-3 h-3" /> Paid
+                    </span>
+                  )}
+                  {order.paymentStatus === 'refunded' && (
+                    <span className="text-sm px-2 py-1 rounded bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200">
+                      Refunded
+                    </span>
+                  )}
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600 dark:text-gray-400">
@@ -201,6 +213,63 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
               <div className="flex flex-col gap-2 ml-4">
                 {order.status !== 'completed' && order.status !== 'cancelled' && (
                   <>
+                    {/* Payment Actions */}
+                    {order.paymentStatus !== 'paid' && (
+                      <div className="flex gap-1">
+                        <button
+                          onClick={() => {
+                            if (confirm('Mark order as PAID via CASH?')) {
+                              // Custom update with payment fields
+                              fetch(`/api/admin/orders/${order.id}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  paymentStatus: 'paid',
+                                  paymentMethod: 'cash',
+                                  status: 'confirmed' // Auto confirm if paid
+                                })
+                              }).then(() => {
+                                toast.success('Paid (Cash)')
+                                if (onStatusUpdate) onStatusUpdate()
+                              })
+                            }
+                          }}
+                          className="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm flex items-center gap-1"
+                        >
+                          <DollarSign className="w-4 h-4" /> Cash
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (confirm('Mark order as PAID via CARD terminal?')) {
+                              fetch(`/api/admin/orders/${order.id}`, {
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  paymentStatus: 'paid',
+                                  paymentMethod: 'card',
+                                  status: 'confirmed'
+                                })
+                              }).then(() => {
+                                toast.success('Paid (Card)')
+                                if (onStatusUpdate) onStatusUpdate()
+                              })
+                            }
+                          }}
+                          className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm flex items-center gap-1"
+                        >
+                          <CreditCard className="w-4 h-4" /> Card
+                        </button>
+                      </div>
+                    )}
+
+                    <Link
+                      href={`/print/order/${order.id}`}
+                      target="_blank"
+                      className="px-3 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm flex items-center gap-1"
+                    >
+                      <Printer className="w-4 h-4" /> Print
+                    </Link>
+
                     {getNextStatus(order.status) && (
                       <button
                         onClick={() => handleStatusChange(order.id, getNextStatus(order.status))}
@@ -211,6 +280,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                           getNextStatus(order.status).slice(1)}
                       </button>
                     )}
+                    {/* ... (keep Mark Ready and Cancel) */}
                     {order.status !== 'ready' && (
                       <button
                         onClick={() => {

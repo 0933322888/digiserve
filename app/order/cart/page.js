@@ -33,7 +33,7 @@ export default function CartPage() {
           </p>
           <Link
             href="/order"
-            className="inline-block bg-primary dark:bg-gold text-cream dark:text-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+            className="inline-block bg-primary dark:bg-gold text-white dark:text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
           >
             Browse Menu
           </Link>
@@ -57,7 +57,7 @@ export default function CartPage() {
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
@@ -103,7 +103,7 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md sticky top-24">
+            <div className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md sticky top-24">
               <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-6">
                 Order Summary
               </h2>
@@ -123,7 +123,7 @@ export default function CartPage() {
               </div>
               <button
                 onClick={() => router.push('/order/checkout')}
-                className="w-full bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+                className="w-full bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
               >
                 Proceed to Checkout
               </button>

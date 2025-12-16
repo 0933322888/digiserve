@@ -44,7 +44,7 @@ export default function EventsCarousel({ events = [] }) {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="bg-cream dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+          <div className="bg-secondary dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
               {/* Event Image */}
               <div className="relative h-64 md:h-auto">
@@ -82,7 +82,7 @@ export default function EventsCarousel({ events = [] }) {
                 </p>
                 <Link
                   href="/events"
-                  className="inline-flex items-center gap-2 bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors w-fit group"
+                  className="inline-flex items-center gap-2 bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors w-fit group"
                 >
                   View All Events
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -120,11 +120,10 @@ export default function EventsCarousel({ events = [] }) {
               <button
                 key={index}
                 onClick={() => goToEvent(index)}
-                className={`h-2 rounded-full transition-all ${
-                  index === currentIndex
+                className={`h-2 rounded-full transition-all ${index === currentIndex
                     ? 'bg-primary dark:bg-gold w-8'
                     : 'bg-gray-300 dark:bg-gray-600 w-2 hover:bg-gray-400 dark:hover:bg-gray-500'
-                }`}
+                  }`}
                 aria-label={`Go to event ${index + 1}`}
               />
             ))}

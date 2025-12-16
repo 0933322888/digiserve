@@ -6,6 +6,11 @@ const nextConfig = {
     unoptimized: true, // For S3/CloudFront deployment
   },
   reactStrictMode: true,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb', // Increase from default 1MB to 10MB for image uploads
+    },
+  },
 }
 
 export default nextConfig

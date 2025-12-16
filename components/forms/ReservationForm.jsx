@@ -86,13 +86,13 @@ export default function ReservationForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+      className="max-w-2xl mx-auto bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2"
           >
             Name *
           </label>
@@ -109,7 +109,7 @@ export default function ReservationForm() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2"
           >
             Email *
           </label>
@@ -129,7 +129,7 @@ export default function ReservationForm() {
         <div>
           <label
             htmlFor="phone"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2"
           >
             Phone *
           </label>
@@ -146,7 +146,7 @@ export default function ReservationForm() {
         <div>
           <label
             htmlFor="partySize"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2"
           >
             Party Size *
           </label>
@@ -171,7 +171,7 @@ export default function ReservationForm() {
         <div>
           <label
             htmlFor="date"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2"
           >
             Date *
           </label>
@@ -189,7 +189,7 @@ export default function ReservationForm() {
         <div>
           <label
             htmlFor="time"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2"
           >
             Time *
           </label>
@@ -208,7 +208,7 @@ export default function ReservationForm() {
       <div className="mb-6">
         <label
           htmlFor="specialRequests"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2"
         >
           Special Requests
         </label>
@@ -227,11 +227,10 @@ export default function ReservationForm() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${
-            status.type === 'success'
+          className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${status.type === 'success'
               ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
               : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
-          }`}
+            }`}
         >
           {status.type === 'success' ? (
             <CheckCircle className="w-5 h-5" />
@@ -245,7 +244,7 @@ export default function ReservationForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+        className="w-full bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
       >
         {isSubmitting ? (
           <>

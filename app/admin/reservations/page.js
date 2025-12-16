@@ -11,7 +11,7 @@ export default async function AdminReservationsPage() {
   const barId = headersList.get('x-tenant-id')
 
   const reservations = await getReservations(barId)
-  const settings = getSettings() // TODO: Update settings service to be tenant aware
+  const settings = await getSettings(barId) // Updated to be tenant aware
 
   // Since this is a server component, we can't use client-side state for immediate UI updates without hydration.
   // However, for this prototype, we'll make the whole page a client component or use a client wrapper.

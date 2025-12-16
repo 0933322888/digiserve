@@ -70,7 +70,7 @@ export default function AdminGalleryPage() {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    
+
     if (!formData.url) {
       toast.error('Please upload an image first')
       return
@@ -321,50 +321,45 @@ export default function AdminGalleryPage() {
             {images.map(image => (
               <div
                 key={image.id}
-                className="bg-gray-50 dark:bg-gray-700 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden group"
               >
-                <div className="relative aspect-video bg-gray-200 dark:bg-gray-600">
+                <div className="relative h-48">
                   <img
                     src={image.url}
                     alt={image.alt || image.caption || 'Gallery image'}
                     className="w-full h-full object-cover"
                   />
                   {image.featured && (
-                    <div className="absolute top-2 right-2">
-                      <span className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full">
-                        <Star className="w-3 h-3" />
-                        Featured
-                      </span>
+                    <div className="absolute top-2 right-2 bg-yellow-500 text-white p-1 rounded-full shadow-md">
+                      <Star className="w-4 h-4 fill-current" />
                     </div>
                   )}
+                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <button
+                      onClick={() => handleEdit(image)}
+                      className="p-2 bg-white rounded-full hover:bg-gray-100 text-gray-900"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(image.id)}
+                      className="p-2 bg-red-500 rounded-full hover:bg-red-600 text-white"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
                 <div className="p-4">
                   {image.caption && (
-                    <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                    <p className="font-semibold text-lg text-gray-900 dark:text-white mb-1">
                       {image.caption}
                     </p>
                   )}
                   {image.category && (
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                      Category: {image.category}
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {image.category.charAt(0).toUpperCase() + image.category.slice(1)}
                     </p>
                   )}
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleEdit(image)}
-                      className="flex-1 px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
-                    >
-                      <Edit className="w-4 h-4 inline mr-1" />
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => handleDelete(image.id)}
-                      className="flex-1 px-3 py-1.5 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
-                    >
-                      <Trash2 className="w-4 h-4 inline mr-1" />
-                      Delete
-                    </button>
-                  </div>
                 </div>
               </div>
             ))}

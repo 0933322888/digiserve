@@ -61,3 +61,29 @@ export async function POST(request, context) {
         return NextResponse.json({ error: 'Failed to update theme' }, { status: 500 })
     }
 }
+
+export async function GET(request, context) {
+    const { id: barId } = await context.params
+
+    if (!barId) {
+        return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
+    }
+
+    try {
+        await connectDB()
+        const Restaurant = getRestaurantModel()
+
+        const tenant = await Restaurant.findOne({
+            $or: [{ barId }, { slug: barId }]
+        })
+
+        if (!tenant) {
+            return NextResponse.json({ error: 'Tenant not found' }, { status: 404 })
+        }
+
+        return NextResponse.json({ success: true, theme: tenant.theme })
+    } catch (error) {
+        console.error('Error fetching tenant theme:', error)
+        return NextResponse.json({ error: 'Failed to fetch theme' }, { status: 500 })
+    }
+}

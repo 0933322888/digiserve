@@ -83,19 +83,19 @@ export default function CustomDashboard({ barId }) {
         <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setPeriod('today')}
-            className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+            className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
           >
             Today
           </button>
           <button
             onClick={() => setPeriod('week')}
-            className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+            className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
           >
             Week
           </button>
           <button
             onClick={() => setPeriod('month')}
-            className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+            className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
           >
             Month
           </button>

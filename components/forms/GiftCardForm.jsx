@@ -138,7 +138,7 @@ export default function GiftCardForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+      className="max-w-2xl mx-auto bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg"
     >
       <div className="mb-6">
         <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-4">
@@ -278,11 +278,10 @@ export default function GiftCardForm() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${
-            status.type === 'success'
+          className={`mb-6 p-4 rounded-lg flex items-center space-x-2 ${status.type === 'success'
               ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
               : 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200'
-          }`}
+            }`}
         >
           {status.type === 'success' ? (
             <CheckCircle className="w-5 h-5" />
@@ -296,7 +295,7 @@ export default function GiftCardForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+        className="w-full bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
       >
         {isSubmitting ? (
           <>

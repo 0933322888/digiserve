@@ -4,9 +4,24 @@
 
 @layer base {
   :root {
+    /* Light mode colors */
+    --primary-light-bg: #8b0000;
+    --primary-light-text: #ffffff;
+    --secondary-light-bg: #f5f5dc;
+    --secondary-light-text: #2c3e50;
+
+    /* Dark mode colors */
+    --primary-dark-bg: #a00000;
+    --primary-dark-text: #ffffff;
+    --secondary-dark-bg: #2c2c2c;
+    --secondary-dark-text: #e8e8e8;
+
+    /* Legacy support (deprecated) */
     --primary: #8b0000;
+    --primary-text: #ffffff;
     --cream: #f5f5dc;
     --gold: #d4af37;
+    --gold-text: #000000;
   }
 
   html {
@@ -14,8 +29,14 @@
   }
 
   body {
-    @apply bg-cream dark:bg-gray-900 text-gray-900 dark:text-gray-100;
+    background-color: var(--secondary-light-bg);
+    color: var(--secondary-light-text);
     font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  .dark body {
+    background-color: var(--secondary-dark-bg);
+    color: var(--secondary-dark-text);
   }
 
   h1,
@@ -40,13 +61,22 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-cream dark:bg-gray-900;
+  background-color: var(--secondary-light-bg);
+}
+
+.dark ::-webkit-scrollbar-track {
+  background-color: var(--secondary-dark-bg);
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-primary dark:bg-gold rounded-full;
+  background-color: var(--primary-light-bg);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background-color: var(--primary-dark-bg);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-primary-dark dark:bg-gold-light;
+  opacity: 0.8;
 }

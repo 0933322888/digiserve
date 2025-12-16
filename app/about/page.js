@@ -50,7 +50,7 @@ export default async function AboutPage() {
       year: '2015',
       title: 'The Beginning',
       description:
-        'TRIO BISTRO AND LOUNGE opened its doors with a vision to blend vintage elegance with modern culinary innovation.',
+        'RESTAURANT opened its doors with a vision to blend vintage elegance with modern culinary innovation.',
     },
     {
       year: '2017',
@@ -98,13 +98,13 @@ export default async function AboutPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://triobistro.com',
+        item: process.env.NEXT_PUBLIC_APP_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'About Us',
-        item: 'https://triobistro.com/about',
+        item: `${process.env.NEXT_PUBLIC_APP_URL}/about`,
       },
     ],
   }
@@ -121,7 +121,7 @@ export default async function AboutPage() {
         <div className="absolute inset-0">
           <Image
             src="/images/trio_main.png"
-            alt="TRIO BISTRO & LOUNGE"
+            alt="about page hero section image"
             fill
             className="object-cover"
             priority
@@ -130,7 +130,7 @@ export default async function AboutPage() {
           <div className="absolute inset-0 bg-primary/20 dark:bg-gray-900/70" />
         </div>
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-cream mb-4">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-primary-text mb-4">
             {pageContent?.hero?.title || "Our Story"}
           </h1>
         </div>
@@ -144,7 +144,7 @@ export default async function AboutPage() {
               <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
                 <Image
                   src="/images/trio_main.png"
-                  alt="TRIO BISTRO & LOUNGE"
+                  alt="about page mission section image"
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
@@ -179,16 +179,16 @@ export default async function AboutPage() {
                 <div className="flex flex-col md:flex-row gap-6 items-start">
                   <div className="flex-shrink-0">
                     <div className="w-24 h-24 bg-primary dark:bg-gold rounded-full flex items-center justify-center">
-                      <span className="text-2xl font-serif font-bold text-cream dark:text-primary">
+                      <span className="text-2xl font-serif font-bold text-white dark:text-gray-900">
                         {item.year}
                       </span>
                     </div>
                   </div>
-                  <div className="flex-1 bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                  <div className="flex-1 bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md">
                     <h3 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-2">
                       {item.title}
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-300">{item.description}</p>
+                    <p className="text-secondary-text dark:text-gray-300">{item.description}</p>
                   </div>
                 </div>
               </AnimatedCard>
@@ -209,11 +209,11 @@ export default async function AboutPage() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               {principles.map((principle, index) => (
-                <div key={index} className="bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <div key={index} className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md">
                   <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-3">
                     {principle.title}
                   </h3>
-                  <p className="text-gray-700 dark:text-gray-300">
+                  <p className="text-secondary-text dark:text-gray-300">
                     {principle.description}
                   </p>
                 </div>

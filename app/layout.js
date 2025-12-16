@@ -6,6 +6,8 @@ import { ThemeProvider } from '@/components/ThemeProvider'
 import { siteConfig } from '@/config/siteConfig'
 import { getBusinessHours } from '@/lib/app-settings-service'
 import { Toaster } from 'react-hot-toast'
+import FooterWrapper from '@/components/FooterWrapper'
+// ...
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -14,7 +16,7 @@ const inter = Inter({ subsets: ['latin'] })
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  metadataBase: new URL('https://triobistro.com'), // Update with your domain
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL), // Update with your domain
   title: {
     default: siteConfig.seo.defaultTitle,
     template: `%s | ${siteConfig.seo.siteName}`,
@@ -33,7 +35,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://triobistro.com', // Update with your domain
+    url: process.env.NEXT_PUBLIC_APP_URL, // Update with your domain
     siteName: siteConfig.seo.siteName,
     title: siteConfig.seo.defaultTitle,
     description: siteConfig.seo.defaultDescription,
@@ -75,7 +77,7 @@ import { headers } from 'next/headers'
 // ... (imports)
 
 import { getTenantConfig } from '@/lib/tenant-service'
-import { getThemeVariables } from '@/lib/theme-utils'
+import { getThemeVariables, getSectionStyles } from '@/lib/theme-utils'
 
 // ... (previous imports)
 
@@ -96,17 +98,32 @@ export default async function RootLayout({ children }) {
 
   const businessHours = await getBusinessHours()
 
+  // Determine template ID: use configured one, or default to 'bar' if tenant exists but no ID set.
+  // If no tenant (root site), templateId will be undefined and no background applied.
+  // Determine template ID: use configured one, or default to 'bar' if tenant exists but no ID set.
+  // If no tenant (root site), templateId will be undefined and no background applied.
+  const templateId = initialTheme?.templateId || (tenantId ? 'bar' : undefined)
+  const sectionStyles = getSectionStyles(templateId)
+
+
+
   return (
     <html lang="en" suppressHydrationWarning>
       {/* ... (head) */}
-      <body className={inter.className} style={themeVariables}>
+      <body className={inter.className}>
         <CartProvider>
-// (imports cleaned up by task status)
 
           <ThemeProvider initialTheme={initialTheme}>
+
             {tenantId && <Navbar />}
-            <main className={tenantId ? "min-h-screen pt-20" : "min-h-screen"}>{children}</main>
-            {tenantId && <Footer />}
+            <main
+              style={templateId === 'bar' && sectionStyles?.pageBackground && sectionStyles.pageBackground !== 'none' ? { backgroundImage: sectionStyles.pageBackground } : {}}
+              className={tenantId ? "min-h-screen pt-20" : "min-h-screen"}>{children}</main>
+            {tenantId && (
+              <FooterWrapper>
+                <Footer />
+              </FooterWrapper>
+            )}
             <Toaster position="bottom-right" />
           </ThemeProvider>
         </CartProvider>

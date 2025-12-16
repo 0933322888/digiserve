@@ -54,13 +54,13 @@ export default async function EventsPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://triobistro.com',
+        item: process.env.NEXT_PUBLIC_APP_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Events',
-        item: 'https://triobistro.com/events',
+        item: `${process.env.NEXT_PUBLIC_APP_URL}/events`,
       },
     ],
   }

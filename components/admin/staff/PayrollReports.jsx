@@ -68,7 +68,7 @@ export default function PayrollReports({ barId }) {
           <button
             onClick={handleGenerate}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             {loading ? 'Generating...' : 'Generate Report'}
           </button>

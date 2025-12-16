@@ -167,7 +167,7 @@ export default async function HomePage() {
   // Fetch tenant configuration for theme and content
   // Note: getTenantConfig is cached so this is efficient
   const { getTenantConfig } = await import('@/lib/tenant-service')
-  const { getComponentVariants } = await import('@/lib/theme-utils')
+  const { getComponentVariants, getSectionStyles } = await import('@/lib/theme-utils')
   const tenant = await getTenantConfig(tenantId)
 
   // Determine Hero configuration
@@ -187,9 +187,21 @@ export default async function HomePage() {
       const variants = getComponentVariants(tenant.theme.templateId)
       heroConfig.variant = variants.hero
 
+      // Apply specific gradient for Modern Bar template
+      if (tenant.theme.templateId === 'bar') {
+        heroConfig.backgroundImage = 'radial-gradient(circle at center, #340809 0%, #0a0101 100%)'
+      }
+
       // Allow explicit override if we added it to schema later
       // if (tenant.theme.heroStyle) heroConfig.variant = tenant.theme.heroStyle
     }
+  }
+
+  // Get section styles
+  const sectionStyles = getSectionStyles(tenant?.theme?.templateId)
+  // Content override for Hero Image (Metadata/Content Settings)
+  if (pageContent?.heroImage) {
+    heroConfig.backgroundImage = pageContent.heroImage
   }
 
   return (
@@ -208,60 +220,64 @@ export default async function HomePage() {
       />
 
       {/* Upcoming Events Carousel Section */}
-      {upcomingEvents.length > 0 && (
-        <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/10 via-gold/5 to-primary/5 dark:from-gray-800/50 dark:via-gray-700/30 dark:to-gray-800/50">
-          <div className="max-w-7xl mx-auto">
-            <SectionTitle
-              title={upcomingEvents.length === 1 ? (pageContent?.eventsSection?.title || "Upcoming Event") : (pageContent?.eventsSection?.title || "Upcoming Events")}
-              subtitle={pageContent?.eventsSection?.subtitle || "Don't miss out on these special experiences"}
-            />
-            <AnimatedCard>
-              <EventsCarousel events={upcomingEvents} />
-            </AnimatedCard>
-          </div>
-        </section>
-      )}
+      {
+        upcomingEvents.length > 0 && (
+          <section className={`py-20 px-4 sm:px-6 lg:px-8 ${sectionStyles.events}`}>
+            <div className="max-w-7xl mx-auto">
+              <SectionTitle
+                title={upcomingEvents.length === 1 ? (pageContent?.eventsSection?.title || "Upcoming Event") : (pageContent?.eventsSection?.title || "Upcoming Events")}
+                subtitle={pageContent?.eventsSection?.subtitle || "Don't miss out on these special experiences"}
+              />
+              <AnimatedCard>
+                <EventsCarousel events={upcomingEvents} />
+              </AnimatedCard>
+            </div>
+          </section>
+        )
+      }
 
       {/* Highlights Section */}
-      {highlights.length > 0 && (
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">
-            <SectionTitle
-              title={pageContent?.highlights?.sectionTitle || "Experience TRIO"}
-              subtitle={pageContent?.highlights?.sectionSubtitle || "Discover what makes us special"}
-            />
-            <div className={getGridClasses(highlights.length)}>
-              {highlights.map((highlight, index) => {
-                const Icon = highlight.icon || Utensils
-                return (
-                  <AnimatedCard key={`${highlight.link}-${index}`} delay={index * 0.1}>
-                    <Link href={highlight.link}>
-                      <div className="group relative h-64 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                        <Image
-                          src={highlight.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop'}
-                          alt={highlight.title}
-                          fill
-                          className="object-cover group-hover:scale-110 transition-transform duration-300"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                        />
-                        <div className="absolute inset-0 bg-primary/10 dark:bg-gray-900/80 group-hover:bg-primary/90 dark:group-hover:bg-gray-900/90 transition-colors" />
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-cream">
-                          <Icon className="w-12 h-12 mb-4 text-gold" />
-                          <h3 className="text-2xl font-serif font-bold mb-2">{highlight.title}</h3>
-                          <p className="text-sm">{highlight.description}</p>
+      {
+        highlights.length > 0 && (
+          <section className={`py-20 px-4 sm:px-6 lg:px-8 ${sectionStyles.highlights}`}>
+            <div className="max-w-7xl mx-auto">
+              <SectionTitle
+                title={pageContent?.highlights?.sectionTitle || "Experience Restaurant"}
+                subtitle={pageContent?.highlights?.sectionSubtitle || "Discover what makes us special"}
+              />
+              <div className={getGridClasses(highlights.length)}>
+                {highlights.map((highlight, index) => {
+                  const Icon = highlight.icon || Utensils
+                  return (
+                    <AnimatedCard key={`${highlight.link}-${index}`} delay={index * 0.1}>
+                      <Link href={highlight.link}>
+                        <div className="group relative h-64 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
+                          <Image
+                            src={highlight.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop'}
+                            alt={highlight.title}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-300"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          />
+                          <div className="absolute inset-0 bg-primary/10 dark:bg-gray-900/80 group-hover:bg-primary/90 dark:group-hover:bg-gray-900/90 transition-colors" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-primary-text">
+                            <Icon className="w-12 h-12 mb-4 text-gold" />
+                            <h3 className="text-2xl font-serif font-bold mb-2">{highlight.title}</h3>
+                            <p className="text-sm">{highlight.description}</p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  </AnimatedCard>
-                )
-              })}
+                      </Link>
+                    </AnimatedCard>
+                  )
+                })}
+              </div>
             </div>
-          </div>
-        </section>
-      )}
+          </section>
+        )
+      }
 
       {/* About Preview Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary/5 dark:bg-gray-800/50">
+      <section className={`py-20 px-4 sm:px-6 lg:px-8 ${sectionStyles.aboutPreview}`}>
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <AnimatedCard>
@@ -284,7 +300,7 @@ export default async function HomePage() {
               </p>
               <Link
                 href={pageContent?.aboutPreview?.buttonLink || "/about"}
-                className="inline-block bg-primary dark:bg-gold text-cream dark:text-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+                className="inline-block bg-primary dark:bg-gold text-white dark:text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
               >
                 {pageContent?.aboutPreview?.buttonText || "Learn More About Us"}
               </Link>
@@ -294,26 +310,28 @@ export default async function HomePage() {
       </section>
 
       {/* CTA Section */}
-      {reservationsEnabled && (
-        <section className="py-20 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <AnimatedCard>
-              <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
-                {pageContent?.ctaSection?.title || "Reserve Your Table"}
-              </h2>
-              <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
-                {pageContent?.ctaSection?.description || "Experience the perfect blend of vintage elegance and modern flavor. Book your table today."}
-              </p>
-              <Link
-                href={pageContent?.ctaSection?.buttonLink || "/reservations"}
-                className="inline-block bg-primary dark:bg-gold text-cream dark:text-primary px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
-              >
-                {pageContent?.ctaSection?.buttonText || "Make a Reservation"}
-              </Link>
-            </AnimatedCard>
-          </div>
-        </section>
-      )}
+      {
+        reservationsEnabled && (
+          <section className="py-20 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto text-center">
+              <AnimatedCard>
+                <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
+                  {pageContent?.ctaSection?.title || "Reserve Your Table"}
+                </h2>
+                <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+                  {pageContent?.ctaSection?.description || "Experience the perfect blend of vintage elegance and modern flavor. Book your table today."}
+                </p>
+                <Link
+                  href={pageContent?.ctaSection?.buttonLink || "/reservations"}
+                  className="inline-block bg-primary dark:bg-gold text-white dark:text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+                >
+                  {pageContent?.ctaSection?.buttonText || "Make a Reservation"}
+                </Link>
+              </AnimatedCard>
+            </div>
+          </section>
+        )
+      }
     </>
   )
 }

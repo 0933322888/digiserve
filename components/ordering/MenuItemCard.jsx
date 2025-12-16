@@ -14,7 +14,7 @@ import Image from 'next/image'
  * @param {string} category - Category name
  * @param {boolean} showOrdering - Whether ordering is enabled (passed from parent)
  */
-export default function MenuItemCard({ item, category, showOrdering = false }) {
+export default function MenuItemCard({ item, category, showOrdering = false, variant = 'grid' }) {
   const { addItem } = useCart()
   const [quantity, setQuantity] = useState(1)
   const [selectedOption, setSelectedOption] = useState(
@@ -26,11 +26,11 @@ export default function MenuItemCard({ item, category, showOrdering = false }) {
   const handleAddToCart = () => {
     const itemToAdd = selectedOption
       ? {
-          ...item,
-          id: `${item.id}-${selectedOption.name}`,
-          name: `${item.name} (${selectedOption.name})`,
-          price: selectedOption.price,
-        }
+        ...item,
+        id: `${item.id}-${selectedOption.name}`,
+        name: `${item.name} (${selectedOption.name})`,
+        price: selectedOption.price,
+      }
       : item
 
     for (let i = 0; i < quantity; i++) {
@@ -45,12 +45,12 @@ export default function MenuItemCard({ item, category, showOrdering = false }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className={`bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full ${
-        item.unavailable ? 'opacity-60' : ''
-      }`}
+      className={`bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex ${variant === 'list' ? 'flex-col md:flex-row gap-6' : 'flex-col h-full'
+        } ${item.unavailable ? 'opacity-60' : ''}`}
     >
       {item.image && (
-        <div className="mb-4 rounded-lg overflow-hidden aspect-video relative">
+        <div className={`rounded-lg overflow-hidden relative shrink-0 ${variant === 'list' ? 'w-full md:w-48 aspect-video md:aspect-square mb-4 md:mb-0' : 'mb-4 aspect-video'
+          }`}>
           <Image
             src={item.image}
             alt={item.name}
@@ -80,13 +80,13 @@ export default function MenuItemCard({ item, category, showOrdering = false }) {
           )}
         </div>
         {item.description && (
-          <p className="text-gray-700 dark:text-gray-300 mb-4 text-sm">{item.description}</p>
+          <p className="text-secondary-text dark:text-gray-300 mb-4 text-sm">{item.description}</p>
         )}
 
         {/* Show size dropdown only when ordering is enabled */}
         {showOrdering && item.options && item.options.length > 0 && (
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-1">
               Select Size
             </label>
             <select
@@ -115,7 +115,7 @@ export default function MenuItemCard({ item, category, showOrdering = false }) {
                   key={idx}
                   className="flex justify-between items-center text-sm"
                 >
-                  <span className="text-gray-700 dark:text-gray-300">{option.name}</span>
+                  <span className="text-secondary-text dark:text-gray-300">{option.name}</span>
                   <span className="font-semibold text-primary dark:text-gold">
                     {formatPrice(option.price)}
                   </span>
@@ -166,7 +166,7 @@ export default function MenuItemCard({ item, category, showOrdering = false }) {
               </div>
               <button
                 onClick={handleAddToCart}
-                className="bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+                className="bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
               >
                 Add to Cart
               </button>

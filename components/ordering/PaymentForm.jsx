@@ -114,7 +114,7 @@ function PaymentFormInner({ amount, onSuccess, isSubmitting }) {
       <button
         type="submit"
         disabled={!stripe || processing || isSubmitting}
-        className="w-full bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {processing || isSubmitting ? 'Processing...' : `Pay $${amount.toFixed(2)}`}
       </button>
@@ -125,30 +125,30 @@ function PaymentFormInner({ amount, onSuccess, isSubmitting }) {
 /**
  * Payment Form Wrapper
  */
-export default function PaymentForm({ amount, onSuccess, isSubmitting }) {
-  // If Stripe is not configured, show a simple button to proceed without payment
-  if (!siteConfig.api.enableStripe || !siteConfig.api.stripePublicKey) {
+export default function PaymentForm({ amount, onSuccess, isSubmitting, stripeEnabled }) {
+  // If Stripe is not configured/enabled, show a button to verify order without payment (Pay at Pickup)
+  if (!stripeEnabled || !siteConfig.api.stripePublicKey) {
     return (
       <div className="space-y-4">
         <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg text-blue-800 dark:text-blue-200 text-sm">
-          <p className="font-semibold mb-1">Test Mode</p>
+          <p className="font-semibold mb-1">Payment</p>
           <p>
-            Stripe is not configured. Orders will be processed without payment for testing purposes.
+            Payment will be collected at the restaurant upon pickup or dine-in.
           </p>
         </div>
         <button
           type="button"
           onClick={async () => {
             const mockPaymentIntent = {
-              id: `pi_mock_${Date.now()}`,
+              id: `pi_pay_later_${Date.now()}`,
               status: 'succeeded',
             }
             await onSuccess(mockPaymentIntent)
           }}
           disabled={isSubmitting}
-          className="w-full bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? 'Processing...' : `Complete Order ($${amount.toFixed(2)})`}
+          {isSubmitting ? 'Processing...' : `Place Order ($${amount.toFixed(2)})`}
         </button>
       </div>
     )

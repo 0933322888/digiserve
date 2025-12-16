@@ -1,33 +1,50 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-import { useCart } from '@/providers/CartProvider'
-import CheckoutForm from '@/components/ordering/CheckoutForm'
-import { siteConfig } from '@/config/siteConfig'
+import { useEffect, useState } from 'react'
+import CheckoutClient from '@/components/ordering/CheckoutClient'
+import { Loader2 } from 'lucide-react'
 
 /**
- * Checkout Page
- * Customer info, pickup/delivery selection, and payment
+ * Checkout Page (Client Component)
+ * Fetches tenant configuration and renders the checkout client
  */
 export default function CheckoutPage() {
-  const router = useRouter()
-  const { cartItems, cartTotals } = useCart()
+  const [config, setConfig] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  if (cartItems.length === 0) {
-    router.push('/order')
-    return null
+  useEffect(() => {
+    async function fetchConfig() {
+      try {
+        const res = await fetch('/api/order/config')
+        if (res.ok) {
+          const data = await res.json()
+          setConfig(data)
+        }
+      } catch (error) {
+        console.error('Failed to fetch checkout config:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchConfig()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary dark:text-gold" />
+      </div>
+    )
   }
 
-  const handleSuccess = order => {
-    router.push(`/order/success?orderId=${order.id}`)
+  if (!config) {
+    return null // Or error state
   }
 
   return (
-    <div className="py-20 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-8">Checkout</h1>
-        <CheckoutForm cartItems={cartItems} cartTotals={cartTotals} onSuccess={handleSuccess} />
-      </div>
-    </div>
+    <CheckoutClient
+      stripeEnabled={config.stripeEnabled}
+      orderingSettings={config.orderingSettings}
+    />
   )
 }

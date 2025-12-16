@@ -178,21 +178,19 @@ export default function PageContentManager() {
         <div className="flex">
           <button
             onClick={() => setActiveTab('home')}
-            className={`px-6 py-3 text-sm font-medium ${
-              activeTab === 'home'
+            className={`px-6 py-3 text-sm font-medium ${activeTab === 'home'
                 ? 'border-b-2 border-primary dark:border-gold text-primary dark:text-gold'
                 : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-            }`}
+              }`}
           >
             Home Page
           </button>
           <button
             onClick={() => setActiveTab('about')}
-            className={`px-6 py-3 text-sm font-medium ${
-              activeTab === 'about'
+            className={`px-6 py-3 text-sm font-medium ${activeTab === 'about'
                 ? 'border-b-2 border-primary dark:border-gold text-primary dark:text-gold'
                 : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-            }`}
+              }`}
           >
             About Page
           </button>
@@ -202,6 +200,35 @@ export default function PageContentManager() {
       <div className="p-6">
         {activeTab === 'home' && (
           <div className="space-y-6">
+            {/* Hero Section */}
+            <div>
+              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+                Hero Section
+              </h3>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                    Hero Background Image (Optional)
+                  </label>
+                  <p className="text-xs text-gray-500 mb-2">
+                    Leave empty to use the default gradient or template background.
+                  </p>
+                  <input
+                    type="text"
+                    value={homeContent.heroImage || ''}
+                    onChange={e =>
+                      setHomeContent(prev => ({
+                        ...prev,
+                        heroImage: e.target.value,
+                      }))
+                    }
+                    placeholder="https://example.com/image.jpg"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+              </div>
+            </div>
+
             {/* Highlights Section */}
             <div>
               <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">

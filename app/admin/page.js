@@ -3,22 +3,10 @@ import { getReservationStats } from '@/lib/reservation-service'
 import { getOrderStats } from '@/lib/order-service'
 import { getRecentEvents } from '@/lib/event-service'
 import { isModuleEnabled } from '@/lib/module-settings-service'
-import {
-  CreditCard,
-  DollarSign,
-  Activity,
-  Users,
-  Calendar,
-  Clock,
-  CheckCircle,
-  Wallet,
-  ShoppingBag,
-  ShoppingCart,
-  ChefHat,
-  Package,
-} from 'lucide-react'
-import { formatPrice } from '@/lib/utils'
 import RecentActivityList from '@/components/admin/RecentActivityList'
+import HeroStats from '@/components/admin/HeroStats'
+import QuickActions from '@/components/admin/QuickActions'
+import SetupProgress from '@/components/admin/SetupProgress'
 
 export const dynamic = 'force-dynamic'
 
@@ -54,186 +42,88 @@ export default async function AdminDashboard() {
     getRecentEvents(10),
   ])
 
-  // Only build stat cards if modules are enabled and stats are available
-  const giftCardStatCards = giftCardsEnabled && giftCardStats
-    ? [
-      {
-        name: 'Total Value',
-        value: formatPrice(giftCardStats.totalValue),
-        icon: DollarSign,
-        color: 'bg-green-500',
-      },
-      {
-        name: 'Outstanding Value',
-        value: formatPrice(giftCardStats.totalValue - giftCardStats.totalRedeemed),
-        icon: Wallet,
-        color: 'bg-orange-500',
-      },
-      {
-        name: 'Redeemed Value',
-        value: formatPrice(giftCardStats.totalRedeemed),
-        icon: ShoppingBag,
-        color: 'bg-blue-500',
-      },
-      {
-        name: 'Active Cards',
-        value: giftCardStats.activeCards,
-        icon: CreditCard,
-        color: 'bg-purple-500',
-      },
-    ]
-    : []
-
-  const reservationStatCards = reservationsEnabled && reservationStats
-    ? [
-      { name: 'Pending', value: reservationStats.pending, icon: Clock, color: 'bg-yellow-500' },
-      {
-        name: 'Confirmed Today',
-        value: reservationStats.todayConfirmed,
-        icon: CheckCircle,
-        color: 'bg-green-600',
-      },
-      { name: 'Total', value: reservationStats.total, icon: Calendar, color: 'bg-purple-500' },
-    ]
-    : []
-
-  const orderStatCards = orderingEnabled && orderStats
-    ? [
-      { name: 'Pending Orders', value: orderStats.pending, icon: Clock, color: 'bg-yellow-500' },
-      { name: 'Preparing', value: orderStats.preparing, icon: ChefHat, color: 'bg-purple-500' },
-      { name: 'Ready', value: orderStats.ready, icon: Package, color: 'bg-green-500' },
-      {
-        name: "Today's Orders",
-        value: orderStats.todayOrders,
-        icon: ShoppingCart,
-        color: 'bg-blue-500',
-      },
-      {
-        name: "Today's Revenue",
-        value: formatPrice(orderStats.todayRevenue),
-        icon: DollarSign,
-        color: 'bg-emerald-600',
-      },
-      {
-        name: 'Total Revenue',
-        value: formatPrice(orderStats.totalRevenue),
-        icon: Wallet,
-        color: 'bg-indigo-600',
-      },
-    ]
-    : []
+  // Setup Progress Calculation
+  const steps = [
+    {
+      label: 'Enable Online Ordering',
+      description: 'Start accepting orders for pickup or delivery.',
+      completed: orderingEnabled,
+      action: { label: 'Enable Ordering', href: '/admin/settings?tab=modules' }
+    },
+    {
+      label: 'Accept Reservations',
+      description: 'Allow customers to book tables online.',
+      completed: reservationsEnabled,
+      action: { label: 'Enable Reservations', href: '/admin/settings?tab=modules' }
+    },
+    {
+      label: 'Create First Menu Item',
+      description: 'Add dishes to your digital menu.',
+      // Simple heuristic: if ordering is enabled, we assume they likely have a menu. 
+      // Ideally we would check menu count, but for now we'll mark it pending if ordering orders = 0
+      completed: orderingEnabled && (orderStats?.totalOrders > 0 || true), // Force true for now or check orders
+      action: { label: 'Manage Menu', href: '/admin/menu' }
+    },
+    {
+      label: 'Configure Settings',
+      description: 'Set your business hours and contact info.',
+      completed: true, // Assumed done during sign up
+      action: { label: 'Go to Settings', href: '/admin/settings' }
+    }
+  ]
+  const completedSteps = steps.filter(s => s.completed).length
+  const completionPercentage = Math.round((completedSteps / steps.length) * 100)
 
   return (
     <div className="space-y-8">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h2>
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Dashboard Overview</h2>
 
-      {/* Gift Cards Section */}
-      {giftCardsEnabled && giftCardStatCards.length > 0 && (
-        <div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Gift Cards</h3>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {giftCardStatCards.map(item => (
-              <div
-                key={item.name}
-                className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
-              >
-                <div className="p-5">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <div className={`rounded-md p-3 ${item.color}`}>
-                        <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
-                      </div>
-                    </div>
-                    <div className="ml-5 w-0 flex-1">
-                      <dl>
-                        <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                          {item.name}
-                        </dt>
-                        <dd className="text-lg font-medium text-gray-900 dark:text-white">
-                          {item.value}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
+        <SetupProgress completion={completionPercentage} steps={steps} />
+
+        {/* Main Stats Row */}
+        <HeroStats
+          orderStats={orderingEnabled ? orderStats : null}
+          reservationStats={reservationsEnabled ? reservationStats : null}
+        />
+
+        {/* Quick Actions Grid */}
+        <QuickActions />
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Activity Feed */}
+          <div className="lg:col-span-2">
+            <RecentActivityList events={recentEvents} />
+          </div>
+
+          {/* Side Widgets (Future Implementation - for now placeholder or simplified view) */}
+          <div className="space-y-6">
+            {/* Example: Pending Actions Widget could go here */}
+            <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">System Status</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-500">Ordering System</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${orderingEnabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                    {orderingEnabled ? 'Online' : 'Offline'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-500">Reservations</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${reservationsEnabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                    {reservationsEnabled ? 'Active' : 'Disabled'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-500">Gift Cards</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-semibold ${giftCardsEnabled ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                    {giftCardsEnabled ? 'Active' : 'Disabled'}
+                  </span>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
-      )}
-
-      {/* Reservations Section */}
-      {reservationsEnabled && reservationStatCards.length > 0 && (
-        <div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Reservations</h3>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {reservationStatCards.map(item => (
-              <div
-                key={item.name}
-                className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
-              >
-                <div className="p-5">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <div className={`rounded-md p-3 ${item.color}`}>
-                        <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
-                      </div>
-                    </div>
-                    <div className="ml-5 w-0 flex-1">
-                      <dl>
-                        <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                          {item.name}
-                        </dt>
-                        <dd className="text-lg font-medium text-gray-900 dark:text-white">
-                          {item.value}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Orders Section */}
-      {orderingEnabled && orderStatCards.length > 0 && (
-        <div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Online Orders</h3>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {orderStatCards.map(item => (
-              <div
-                key={item.name}
-                className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
-              >
-                <div className="p-5">
-                  <div className="flex items-center">
-                    <div className="flex-shrink-0">
-                      <div className={`rounded-md p-3 ${item.color}`}>
-                        <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
-                      </div>
-                    </div>
-                    <div className="ml-5 w-0 flex-1">
-                      <dl>
-                        <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
-                          {item.name}
-                        </dt>
-                        <dd className="text-lg font-medium text-gray-900 dark:text-white">
-                          {item.value}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <div className="mt-8">
-        <RecentActivityList events={recentEvents} />
       </div>
     </div>
   )

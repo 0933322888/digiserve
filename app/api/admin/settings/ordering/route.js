@@ -6,11 +6,13 @@ import { siteConfig } from '@/config/siteConfig'
  * GET /api/admin/settings/ordering
  * Get ordering configuration
  */
-export async function GET() {
+export async function GET(request) {
   try {
+    const barId = request.headers.get('x-tenant-id')
+
     // Get settings from database with fallback to siteConfig
     const getSettingValue = async (key, defaultValue) => {
-      const dbValue = await getSetting(key)
+      const dbValue = await getSetting(barId, key)
       return dbValue !== null ? dbValue : defaultValue
     }
 
@@ -40,21 +42,26 @@ export async function GET() {
  */
 export async function PUT(request) {
   try {
+    const barId = request.headers.get('x-tenant-id')
+    if (!barId) {
+      return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
+    }
+
     const body = await request.json()
     const { enabled, pickup, delivery, dineIn } = body
 
     // Update each setting
     if (enabled !== undefined) {
-      await setSetting('ORDERING_ENABLED', enabled, 'Ordering system enabled/disabled', 'ordering', 'admin')
+      await setSetting(barId, 'ORDERING_ENABLED', enabled, 'Ordering system enabled/disabled', 'ordering', 'admin')
     }
     if (pickup !== undefined) {
-      await setSetting('ORDERING_PICKUP', pickup, 'Pickup ordering enabled/disabled', 'ordering', 'admin')
+      await setSetting(barId, 'ORDERING_PICKUP', pickup, 'Pickup ordering enabled/disabled', 'ordering', 'admin')
     }
     if (delivery !== undefined) {
-      await setSetting('ORDERING_DELIVERY', delivery, 'Delivery ordering enabled/disabled', 'ordering', 'admin')
+      await setSetting(barId, 'ORDERING_DELIVERY', delivery, 'Delivery ordering enabled/disabled', 'ordering', 'admin')
     }
     if (dineIn !== undefined) {
-      await setSetting('ORDERING_DINEIN', dineIn, 'Dine-in ordering enabled/disabled', 'ordering', 'admin')
+      await setSetting(barId, 'ORDERING_DINEIN', dineIn, 'Dine-in ordering enabled/disabled', 'ordering', 'admin')
     }
 
     return NextResponse.json({

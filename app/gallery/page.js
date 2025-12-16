@@ -6,6 +6,7 @@ import { siteConfig } from '@/config/siteConfig'
 import { isModuleEnabled } from '@/lib/module-settings-service'
 import { db } from '@/lib/db'
 import { getTenantConfig } from '@/lib/tenant-service'
+import { getComponentVariants } from '@/lib/theme-utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -73,13 +74,13 @@ export default async function GalleryPage() {
         '@type': 'ListItem',
         position: 1,
         name: 'Home',
-        item: 'https://triobistro.com',
+        item: process.env.NEXT_PUBLIC_APP_URL,
       },
       {
         '@type': 'ListItem',
         position: 2,
         name: 'Gallery',
-        item: 'https://triobistro.com/gallery',
+        item: `${process.env.NEXT_PUBLIC_APP_URL}/gallery`,
       },
     ],
   }

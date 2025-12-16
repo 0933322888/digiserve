@@ -5,9 +5,10 @@ import { getActiveMenu } from '@/lib/menu-service'
  * GET /api/admin/menus/active
  * Get the active menu
  */
-export async function GET() {
+export async function GET(request) {
   try {
-    const menu = await getActiveMenu()
+    const barId = request.headers.get('x-tenant-id')
+    const menu = await getActiveMenu(barId)
     if (!menu) {
       return NextResponse.json({ error: 'No active menu found' }, { status: 404 })
     }

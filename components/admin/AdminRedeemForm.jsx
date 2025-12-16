@@ -57,7 +57,7 @@ export default function AdminRedeemForm() {
             id="code"
             required
             className="focus:ring-primary focus:border-primary block w-full pl-10 sm:text-sm border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white p-2"
-            placeholder="TRIO-XXXXXXX"
+            placeholder="RES-XXXXXXX"
             value={code}
             onChange={e => setCode(e.target.value)}
           />

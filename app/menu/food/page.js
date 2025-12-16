@@ -12,7 +12,7 @@ export const metadata = {
   description:
     'Explore our exquisite food menu featuring appetizers, main courses, and desserts crafted with premium ingredients.',
   openGraph: {
-    title: 'Food Menu | TRIO BISTRO AND LOUNGE',
+    title: 'Food Menu | Restaurant',
     description:
       'Explore our exquisite food menu featuring appetizers, main courses, and desserts.',
   },

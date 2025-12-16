@@ -17,7 +17,7 @@ export default function EventCard({ event, index = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="bg-cream dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+      className="bg-secondary dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
     >
       <div className="relative h-48 w-full">
         <Image
@@ -47,7 +47,7 @@ export default function EventCard({ event, index = 0 }) {
             <span className="text-sm">{event.time}</span>
           </div>
         </div>
-        <p className="text-gray-700 dark:text-gray-300">{event.description}</p>
+        <p className="text-secondary-text dark:text-gray-300">{event.description}</p>
       </div>
     </motion.div>
   )

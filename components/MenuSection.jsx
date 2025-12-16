@@ -45,8 +45,8 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
     : "grid grid-cols-1 md:grid-cols-2 gap-6"
 
   const cardClass = variant === 'list'
-    ? "bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700"
-    : "bg-cream dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
+    ? "bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700"
+    : "bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
 
   return (
     <motion.section
@@ -194,7 +194,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                       </div>
                       <button
                         onClick={() => handleAddToCart(item)}
-                        className="bg-primary dark:bg-gold text-cream dark:text-primary px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors text-sm whitespace-nowrap"
+                        className="bg-primary dark:bg-gold text-white dark:text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors text-sm whitespace-nowrap"
                       >
                         Add to Cart
                       </button>

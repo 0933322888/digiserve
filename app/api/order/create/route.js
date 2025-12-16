@@ -17,6 +17,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid tenant or domain' }, { status: 400 })
     }
 
+    console.log('[API] Creating order for barId:', barId)
+
     const tenantConfig = await getTenantConfig(barId)
     if (!tenantConfig) {
       return NextResponse.json({ error: 'Tenant configuration not found' }, { status: 404 })
@@ -183,7 +185,7 @@ export async function POST(request) {
       createdAt: new Date().toISOString(),
       barId, // Use validated tenant ID from request
       ...(orderType === 'pickup' && { pickupTime }),
-      ...(orderType === 'dineIn' && { dineInTime }),
+      ...(orderType === 'dineIn' && { dineInTime, tableId: customerInfo.tableId || body.tableId, seatNumber: body.seatNumber }),
       ...(orderType === 'delivery' && { deliveryAddress }),
     }
 

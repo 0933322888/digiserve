@@ -15,7 +15,7 @@ async function run() {
         if (tenant) {
             console.log(`Found tenant: ${tenant.name} (ID: ${tenant.barId}, Slug: ${tenant.slug})`);
         } else {
-            console.log("Tenant with slug 'trio' NOT found.");
+            console.log("Tenant with slug 'restaurant' NOT found.");
             // List all tenants to see what's available
             const allTenants = await restaurants.find({}, { projection: { name: 1, slug: 1, barId: 1 } }).toArray();
             console.log("Available tenants:", allTenants);

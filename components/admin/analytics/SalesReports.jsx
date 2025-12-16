@@ -83,25 +83,25 @@ export default function SalesReports({ barId }) {
           <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
             <button
               onClick={() => handlePeriodChange('today')}
-              className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Today
             </button>
             <button
               onClick={() => handlePeriodChange('week')}
-              className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Week
             </button>
             <button
               onClick={() => handlePeriodChange('month')}
-              className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Month
             </button>
             <button
               onClick={() => handlePeriodChange('custom')}
-              className={`px-3 py-1 text-xs rounded ${period === 'custom' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'custom' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Custom
             </button>
@@ -126,7 +126,7 @@ export default function SalesReports({ barId }) {
           <button
             onClick={fetchReport}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <Calendar className="w-4 h-4" />
             {loading ? 'Loading...' : 'Generate Report'}

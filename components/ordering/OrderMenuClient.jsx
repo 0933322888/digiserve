@@ -95,8 +95,8 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
         <button
           onClick={() => toggleDietaryFilter('vegetarian')}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${dietaryFilters.vegetarian
-              ? 'bg-green-600 text-white'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            ? 'bg-green-600 text-white'
+            : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
         >
           Vegetarian
@@ -104,8 +104,8 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
         <button
           onClick={() => toggleDietaryFilter('gluten-free')}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${dietaryFilters['gluten-free']
-              ? 'bg-green-600 text-white'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            ? 'bg-green-600 text-white'
+            : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
             }`}
         >
           Gluten-Free
@@ -126,8 +126,8 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
             key={category}
             onClick={() => setSelectedCategory(category)}
             className={`px-6 py-2 rounded-lg font-semibold transition-colors ${selectedCategory === category
-                ? 'bg-primary dark:bg-gold text-cream dark:text-primary'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              ? 'bg-primary dark:bg-gold text-white dark:text-gray-900'
+              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
               }`}
           >
             {category}
@@ -152,8 +152,7 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
                   item={item}
                   category={section.name}
                   showOrdering={showOrdering}
-                // We might need to pass variant to MenuItemCard too if we want row layout style
-                // But for now assume MenuItemCard handles itself or is flexible
+                  variant={variant}
                 />
               ))}
             </div>

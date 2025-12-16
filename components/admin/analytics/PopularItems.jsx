@@ -55,13 +55,13 @@ export default function PopularItems({ barId }) {
           <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
             <button
               onClick={() => setGroupBy('items')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'items' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'items' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               By Items
             </button>
             <button
               onClick={() => setGroupBy('category')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'category' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'category' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
             >
               By Category
             </button>
@@ -84,7 +84,7 @@ export default function PopularItems({ barId }) {
           <button
             onClick={fetchItems}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <Calendar className="w-4 h-4" />
             {loading ? 'Loading...' : 'Analyze'}

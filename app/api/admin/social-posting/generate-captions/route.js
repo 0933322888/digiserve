@@ -15,8 +15,17 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Prompt is required' }, { status: 400 })
     }
 
-    // Check if module is enabled
-    if (!siteConfig.modules?.socialPosting?.enabled) {
+    // Check if module is enabled (DB first, then fallback to siteConfig)
+    const dbEnabled = await getSetting(barId, 'MODULE_SOCIALPOSTING_ENABLED')
+    let isEnabled = false
+
+    if (dbEnabled !== null) {
+      isEnabled = dbEnabled === true || dbEnabled === 'true'
+    } else {
+      isEnabled = siteConfig.modules?.socialPosting?.enabled
+    }
+
+    if (!isEnabled) {
       return NextResponse.json({ error: 'Social posting module is not enabled' }, { status: 403 })
     }
 

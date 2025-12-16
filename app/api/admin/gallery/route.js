@@ -6,9 +6,13 @@ import crypto from 'crypto'
  * GET /api/admin/gallery
  * Get all gallery images
  */
-export async function GET() {
+export async function GET(request) {
   try {
-    const images = await db.collection('gallery').find()
+    const barId = request.headers.get('x-tenant-id')
+    if (!barId) {
+      return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
+    }
+    const images = await db.collection('gallery').find({ barId })
     // Sort by order, then by creation date
     images.sort((a, b) => {
       if (a.order !== b.order) return (a.order || 0) - (b.order || 0)
@@ -27,6 +31,11 @@ export async function GET() {
  */
 export async function POST(request) {
   try {
+    const barId = request.headers.get('x-tenant-id')
+    if (!barId) {
+      return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
+    }
+
     const body = await request.json()
     const { url, alt, caption, category, featured, order } = body
 
@@ -36,6 +45,7 @@ export async function POST(request) {
 
     const image = {
       id: crypto.randomUUID(),
+      barId,
       url,
       alt: alt || '',
       caption: caption || '',

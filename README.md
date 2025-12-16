@@ -1,4 +1,4 @@
-# TRIO BISTRO AND LOUNGE - Restaurant Website Template
+# Restaurant Website Template
 
 A fully modular, SEO-optimized, responsive Next.js 14 website template designed for restaurants and bars. This template can be easily customized for any restaurant by modifying the configuration file.
 

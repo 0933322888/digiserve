@@ -55,18 +55,22 @@ export default function Hero({
     visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
   }
 
-  // --- Variant: Centered (Default) ---
-  if (variant === 'centered') {
+  // --- Variant: Centered / Hero Slider (Default) ---
+  if (variant === 'centered' || variant === 'hero-slider') {
     return (
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image */}
+        {/* Background Image - Todo: Implement actual slider for 'hero-slider' */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: backgroundImage ? `url('${backgroundImage}')` : "url('/images/trio_main.png')",
+            backgroundImage: backgroundImage?.includes('gradient')
+              ? backgroundImage
+              : (backgroundImage ? `url('${backgroundImage}')` : "url('/images/trio_main.png')"),
           }}
         >
-          <div className="absolute inset-0 bg-black/40 dark:bg-gray-900/60" />
+          {!backgroundImage?.includes('gradient') && (
+            <div className="absolute inset-0 bg-black/40 dark:bg-gray-900/60" />
+          )}
         </div>
 
         {/* Content */}
@@ -76,16 +80,16 @@ export default function Hero({
             animate="visible"
             variants={containerVariants}
           >
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-cream mb-4 drop-shadow-lg">
+            <h1 className="text-9xl md:text-9xl font-serif font-bold text-primary-text mb-4 drop-shadow-lg">
               {title}
             </h1>
             {tagline && (
-              <p className="text-xl md:text-2xl text-gold mb-8 font-serif italic drop-shadow-md">
+              <h2 className="text-5xl md:text-5xl text-gold mb-8 font-serif italic drop-shadow-md">
                 {tagline}
-              </p>
+              </h2>
             )}
             {description && (
-              <p className="text-lg md:text-xl text-cream/90 mb-12 max-w-2xl mx-auto drop-shadow-sm">
+              <p className="text-lg md:text-xl text-primary-text mb-12 max-w-2xl mx-auto drop-shadow-sm">
                 {description}
               </p>
             )}
@@ -106,8 +110,8 @@ export default function Hero({
                         className={cn(
                           "inline-flex items-center space-x-2 px-8 py-4 rounded-lg font-semibold transition-all duration-300",
                           button.primary
-                            ? 'bg-gold text-primary hover:bg-gold-light'
-                            : 'bg-black/40 text-cream border-2 border-cream hover:bg-cream hover:text-primary backdrop-blur-sm'
+                            ? 'bg-gold text-secondary hover:bg-gold-light'
+                            : 'bg-black/40 text-primary-text border-2 border-primary-text hover:bg-secondary hover:text-primary backdrop-blur-sm'
                         )}
                       >
                         <Icon className="w-5 h-5" />
@@ -124,10 +128,10 @@ export default function Hero({
     )
   }
 
-  // --- Variant: Split (Text Left, Image Right) ---
-  if (variant === 'split') {
+  // --- Variant: Split / Hero Static (Text Left, Image Right) ---
+  if (variant === 'split' || variant === 'hero-static') {
     return (
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-cream dark:bg-gray-900">
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-secondary dark:bg-gray-900">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <motion.div
@@ -139,7 +143,7 @@ export default function Hero({
             <h1 className="text-5xl md:text-7xl font-serif font-bold text-primary dark:text-gold mb-6">
               {title}
             </h1>
-            <p className="text-xl text-gray-700 dark:text-cream/90 mb-8 font-light leading-relaxed">
+            <p className="text-xl text-gray-700 dark:text-primary-text/90 mb-8 font-light leading-relaxed">
               {description || tagline}
             </p>
             {ctaButtons.length > 0 && (
@@ -153,8 +157,8 @@ export default function Hero({
                       className={cn(
                         "inline-flex items-center space-x-2 px-8 py-4 rounded-none font-semibold transition-all duration-300 uppercase tracking-widest text-sm",
                         button.primary
-                          ? 'bg-primary text-cream hover:bg-primary/90'
-                          : 'border border-primary text-primary hover:bg-primary hover:text-cream'
+                          ? 'bg-primary text-primary-text dark:bg-primary-dark dark:text-primary-dark-text hover:bg-primary/90 dark:hover:bg-primary-dark/90'
+                          : 'border border-primary text-primary dark:border-primary-dark dark:text-primary-dark hover:bg-primary hover:text-primary-text dark:hover:bg-primary-dark dark:hover:text-primary-dark-text'
                       )}
                     >
                       <Icon className="w-4 h-4" />
@@ -180,8 +184,8 @@ export default function Hero({
     )
   }
 
-  // --- Variant: Minimal (Text Only / Simple) ---
-  if (variant === 'minimal') {
+  // --- Variant: Minimal / Hero Video (Text Only / Simple) ---
+  if (variant === 'minimal' || variant === 'hero-video') {
     return (
       <section className="relative min-h-[70vh] flex items-center justify-center bg-transparent pt-20">
         <div className="text-center max-w-4xl mx-auto px-4">
@@ -191,7 +195,7 @@ export default function Hero({
             variants={containerVariants}
           >
             <span className="text-gold uppercase tracking-[0.2em] mb-4 block">{tagline}</span>
-            <h1 className="text-6xl md:text-8xl font-serif font-medium text-primary dark:text-cream mb-8">
+            <h1 className="text-6xl md:text-8xl font-serif font-medium text-primary dark:text-primary-text mb-8">
               {title}
             </h1>
             <div className="w-24 h-1 bg-gold mx-auto mb-10" />

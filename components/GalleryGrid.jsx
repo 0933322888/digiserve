@@ -18,7 +18,7 @@ export default function GalleryGrid({ images = [] }) {
       : Array.from({ length: 8 }, (_, i) => ({
           id: i + 1,
           src: `/images/gall${i + 1}.jpg`,
-          alt: `TRIO BISTRO & LOUNGE - Gallery image ${i + 1}`,
+          alt: `Restaurant - Gallery image ${i + 1}`,
         }))
 
   return (

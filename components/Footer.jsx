@@ -14,7 +14,7 @@ export default async function Footer() {
   const businessHours = await getBusinessHours()
   const headersList = await headers()
   const tenantId = headersList.get('x-tenant-id')
-  
+
   // Check if modules are enabled
   const reservationsEnabled = await isModuleEnabled('reservations')
   const eventsEnabled = await isModuleEnabled('events')
@@ -32,37 +32,56 @@ export default async function Footer() {
     { href: '/contact', label: 'Contact' },
   ]
 
+  // Fetch tenant config for social links
+  let socialLinks = {
+    facebook: seo.facebookUrl,
+    instagram: seo.instagramUrl,
+    twitter: seo.twitterHandle ? `https://twitter.com/${seo.twitterHandle.replace('@', '')}` : null
+  }
+
+  if (tenantId) {
+    const { getTenantConfig } = await import('@/lib/tenant-service')
+    const tenant = await getTenantConfig(tenantId)
+    if (tenant?.social) {
+      if (tenant.social.facebook) socialLinks.facebook = tenant.social.facebook
+      if (tenant.social.instagram) socialLinks.instagram = tenant.social.instagram
+      if (tenant.social.twitter) socialLinks.twitter = tenant.social.twitter
+    }
+  }
+
   return (
-    <footer className="bg-primary dark:bg-gray-900 text-cream dark:text-gray-300">
+    <footer className="bg-primary dark:bg-gray-900 text-primary-text dark:text-gray-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* ... (previous layout code) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Restaurant Info */}
+          {/* ... (Restaurant Info) */}
           <div>
-            <h3 className="text-2xl font-serif font-bold text-gold mb-4">{restaurant.name}</h3>
-            <p className="text-cream/80 dark:text-gray-400 mb-4">{restaurant.tagline}</p>
+            <h3 className="text-2xl font-serif font-bold text-primary-text mb-4">{restaurant.name}</h3>
+            {/* ... */}
             <div className="space-y-2">
+              {/* ... (Address, Phone, Email) */}
               <div className="flex items-start space-x-2">
-                <MapPin className="w-5 h-5 text-gold mt-1 flex-shrink-0" />
-                <p className="text-sm">
+                <MapPin className="w-5 h-5 text-primary-text mt-1 flex-shrink-0" />
+                <p className="text-sm text-primary-text">
                   {restaurant.address.street}
                   <br />
                   {restaurant.address.city}, {restaurant.address.state} {restaurant.address.zip}
                 </p>
               </div>
               <div className="flex items-center space-x-2">
-                <Phone className="w-5 h-5 text-gold flex-shrink-0" />
+                <Phone className="w-5 h-5 text-primary-text flex-shrink-0" />
                 <a
                   href={`tel:${restaurant.phone}`}
-                  className="text-sm hover:text-gold transition-colors"
+                  className="text-sm text-primary-text hover:text-primary-text transition-colors"
                 >
                   {restaurant.phone}
                 </a>
               </div>
               <div className="flex items-center space-x-2">
-                <Mail className="w-5 h-5 text-gold flex-shrink-0" />
+                <Mail className="w-5 h-5 text-primary-text flex-shrink-0" />
                 <a
                   href={`mailto:${restaurant.email}`}
-                  className="text-sm hover:text-gold transition-colors"
+                  className="text-sm text-primary-text hover:text-primary-text transition-colors"
                 >
                   {restaurant.email}
                 </a>
@@ -72,12 +91,12 @@ export default async function Footer() {
 
           {/* Hours */}
           <div>
-            <h4 className="text-lg font-serif font-semibold text-gold mb-4">Hours</h4>
+            <h4 className="text-lg font-serif font-semibold text-primary-text mb-4">Hours</h4>
             <div className="space-y-2">
               {Object.entries(businessHours).map(([day, hours]) => (
                 <div key={day} className="flex justify-between text-sm">
-                  <span className="font-medium">{day}:</span>
-                  <span className="text-cream/80 dark:text-gray-400">
+                  <span className="font-medium text-primary-text">{day}:</span>
+                  <span className="text-primary-text/80 dark:text-gray-400">
                     {hours.closed ? 'Closed' : `${hours.open} - ${hours.close}`}
                   </span>
                 </div>
@@ -87,11 +106,11 @@ export default async function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-serif font-semibold text-gold mb-4">Quick Links</h4>
+            <h4 className="text-lg font-serif font-semibold text-primary-text mb-4">Quick Links</h4>
             <ul className="space-y-2">
               {footerLinks.map(link => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm hover:text-gold transition-colors">
+                  <Link href={link.href} className="text-sm hover:text-primary-text transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -101,34 +120,34 @@ export default async function Footer() {
 
           {/* Social Media */}
           <div>
-            <h4 className="text-lg font-serif font-semibold text-gold mb-4">Follow Us</h4>
+            <h4 className="text-lg font-serif font-semibold text-primary-text mb-4">Follow Us</h4>
             <div className="space-y-2">
-              {seo.facebookUrl && (
+              {socialLinks.facebook && (
                 <a
-                  href={seo.facebookUrl}
+                  href={socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-sm hover:text-gold transition-colors"
+                  className="block text-sm hover:text-primary-text transition-colors"
                 >
                   Facebook
                 </a>
               )}
-              {seo.instagramUrl && (
+              {socialLinks.instagram && (
                 <a
-                  href={seo.instagramUrl}
+                  href={socialLinks.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-sm hover:text-gold transition-colors"
+                  className="block text-sm hover:text-primary-text transition-colors"
                 >
                   Instagram
                 </a>
               )}
-              {seo.twitterHandle && (
+              {socialLinks.twitter && (
                 <a
-                  href={`https://twitter.com/${seo.twitterHandle.replace('@', '')}`}
+                  href={socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block text-sm hover:text-gold transition-colors"
+                  className="block text-sm hover:text-primary-text transition-colors"
                 >
                   Twitter
                 </a>
@@ -137,7 +156,7 @@ export default async function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-cream/20 dark:border-gray-700 text-center text-sm text-cream/60 dark:text-gray-500">
+        <div className="mt-8 pt-8 border-t border-primary-text/20 dark:border-gray-700 text-center text-sm text-primary-text/60 dark:text-gray-500">
           <div className="flex items-center justify-center space-x-4 flex-col sm:flex-row">
             <p>
               © {new Date().getFullYear()} {restaurant.name}. All rights reserved.
@@ -147,7 +166,7 @@ export default async function Footer() {
               <Link
                 href="/admin/login"
                 aria-label="Admin login"
-                className="mt-2 sm:mt-0 inline-flex items-center text-cream/60 hover:text-cream transition-colors"
+                className="mt-2 sm:mt-0 inline-flex items-center text-primary-text/60 hover:text-primary-text transition-colors"
               >
                 <LogIn className="w-4 h-4" />
                 <span className="sr-only">Admin Login</span>

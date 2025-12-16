@@ -14,12 +14,23 @@ export async function GET(request, { params }) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        const { id } = await params
+        let { id } = await params
+
+        // Handle "me" alias
+        if (id === 'me') {
+            const tenantId = request.headers.get('x-tenant-id')
+            if (tenantId) {
+                id = tenantId
+            }
+        }
 
         await connectDB()
         const Restaurant = getRestaurantModel()
 
-        const restaurant = await Restaurant.findOne({ barId: id })
+        // Find by barId (primary) or slug (subdomain)
+        const restaurant = await Restaurant.findOne({
+            $or: [{ barId: id }, { slug: id }]
+        })
 
         if (!restaurant) {
             return NextResponse.json({ error: 'Tenant not found' }, { status: 404 })
@@ -32,6 +43,8 @@ export async function GET(request, { params }) {
             slug: restaurant.slug,
             subdomain: restaurant.subdomain,
             theme: restaurant.theme,
+            social: restaurant.social,
+            contact: restaurant.contact,
             onboardingCompleted: !!restaurant.onboardingCompletedAt,
         })
     } catch (error) {

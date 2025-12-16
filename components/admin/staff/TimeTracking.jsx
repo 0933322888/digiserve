@@ -206,7 +206,7 @@ export default function TimeTracking({ barId }) {
                   ) : (
                     <button
                       onClick={() => handleTimeAction(employee.id, 'clock_in')}
-                      className="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center justify-center gap-2"
                     >
                       <Play className="w-4 h-4" />
                       Clock In

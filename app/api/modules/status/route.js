@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getTenantFromRequest } from '@/lib/tenant-service'
 import { headers } from 'next/headers'
+import { getSetting } from '@/lib/app-settings-service'
 
 /**
  * GET /api/modules/status
@@ -46,14 +47,44 @@ export async function GET(request) {
       )
     }
 
+    // Helper to check module status (DB -> Tenant Config -> Default)
+    const checkModule = async (key, configKey) => {
+      // Check AppSetting first (user toggle)
+      const dbKey = `MODULE_${key.toUpperCase()}_ENABLED`
+      const dbValue = await getSetting(barId, dbKey)
+
+      if (dbValue !== null) {
+        return dbValue === true || dbValue === 'true'
+      }
+
+      // Fallback to tenant config (provisioned modules)
+      return tenantConfig.modules?.includes(configKey) || false
+    }
+
+    const [
+      ordering,
+      reservations,
+      events,
+      gallery,
+      giftCards,
+      socialPosting
+    ] = await Promise.all([
+      checkModule('ordering', 'ordering'),
+      checkModule('reservations', 'reservations'),
+      checkModule('events', 'events'),
+      checkModule('gallery', 'gallery'),
+      checkModule('giftCards', 'gift-cards'),
+      checkModule('socialPosting', 'social')
+    ])
+
     // Convert modules array to status object
     const modules = {
-      ordering: tenantConfig.modules?.includes('ordering') || false,
-      reservations: tenantConfig.modules?.includes('reservations') || false,
-      events: tenantConfig.modules?.includes('events') || false,
-      gallery: tenantConfig.modules?.includes('gallery') || false,
-      giftCards: tenantConfig.modules?.includes('gift-cards') || false,
-      social: tenantConfig.modules?.includes('social') || false,
+      ordering,
+      reservations,
+      events,
+      gallery,
+      giftCards,
+      social: socialPosting,
     }
 
     return NextResponse.json({

@@ -25,7 +25,7 @@ export default function CartDrawer() {
       >
         <ShoppingCart className="w-6 h-6 text-gray-700 dark:text-gray-300" />
         {itemCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-primary dark:bg-gold text-cream dark:text-primary text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 bg-primary dark:bg-gold text-white dark:text-gray-900 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
             {itemCount}
           </span>
         )}
@@ -47,7 +47,7 @@ export default function CartDrawer() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 h-screen w-full max-w-2xl bg-cream dark:bg-gray-900 z-50 shadow-2xl flex flex-col"
+              className="fixed right-0 top-0 h-screen w-full max-w-2xl bg-secondary dark:bg-gray-900 z-50 shadow-2xl flex flex-col"
             >
               {/* Header */}
               <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
@@ -139,7 +139,7 @@ export default function CartDrawer() {
                   <Link
                     href="/order/cart"
                     onClick={() => setIsOpen(false)}
-                    className="block w-full bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-4 rounded-lg font-semibold text-center hover:bg-primary-dark dark:hover:bg-gold-light transition-colors text-lg"
+                    className="block w-full bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-4 rounded-lg font-semibold text-center hover:bg-primary-dark dark:hover:bg-gold-light transition-colors text-lg"
                   >
                     View Cart & Checkout
                   </Link>

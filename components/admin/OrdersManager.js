@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import OrderList from '@/components/admin/OrderList'
 import OrderStats from '@/components/admin/OrderStats'
+import CreateOrderModal from '@/components/admin/CreateOrderModal'
 
 export default function OrdersManager({ barId }) {
     const [orders, setOrders] = useState([])
@@ -10,6 +11,7 @@ export default function OrdersManager({ barId }) {
     const [loading, setLoading] = useState(true)
     const [filterStatus, setFilterStatus] = useState('all')
     const [filterType, setFilterType] = useState('all')
+    const [showCreateModal, setShowCreateModal] = useState(false)
 
     const fetchOrders = async () => {
         try {
@@ -55,12 +57,27 @@ export default function OrdersManager({ barId }) {
 
     return (
         <div className="space-y-8">
-            <div>
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Online Orders</h2>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    View and manage online orders from customers.
-                </p>
+            <div className="flex justify-between items-start">
+                <div>
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Orders</h2>
+                    <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                        View and manage all orders including Dine-in, Pickup, and Delivery.
+                    </p>
+                </div>
+                <button
+                    onClick={() => setShowCreateModal(true)}
+                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                >
+                    Create Order
+                </button>
             </div>
+
+            <CreateOrderModal
+                barId={barId}
+                isOpen={showCreateModal}
+                onClose={() => setShowCreateModal(false)}
+                onOrderCreated={handleStatusUpdate}
+            />
 
             {/* Stats */}
             {stats && <OrderStats stats={stats} />}

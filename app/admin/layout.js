@@ -22,10 +22,14 @@ import {
   Image,
   CalendarDays,
   AlertCircle,
+  ChevronLeft,
+  Monitor,
+  Grid,
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Toaster } from 'react-hot-toast'
+import CommandPalette from '@/components/admin/CommandPalette'
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname()
@@ -190,71 +194,85 @@ export default function AdminLayout({ children }) {
   const disableGallery = !moduleStatus.gallery
 
 
-  // Build navigation array with disabled flags
-  const navigationItems = [
-    { name: 'Overview', href: '/admin', icon: LayoutDashboard },
-    {
-      name: 'Gift Cards',
-      href: '/admin/gift-cards',
-      icon: Gift,
-      disabled: disableGiftCards,
-    },
-    {
-      name: 'Reservations',
-      href: '/admin/reservations',
-      icon: Calendar,
-      badge: pendingReservations,
-      disabled: disableReservations,
-    },
-    {
-      name: 'Online Orders',
-      href: '/admin/orders',
-      icon: ShoppingCart,
-      badge: pendingOrders,
-      disabled: disableOrders,
-    },
-    { name: 'Menu Management', href: '/admin/menu', icon: UtensilsCrossed },
-    { name: 'Social Media', href: '/admin/social-posting', icon: Share2 },
-    {
-      name: 'Events',
-      href: '/admin/events',
-      icon: CalendarDays,
-      disabled: disableEvents,
-    },
-    { name: 'Announcements', href: '/admin/announcements', icon: AlertCircle },
-    {
-      name: 'Gallery',
-      href: '/admin/gallery',
-      icon: Image,
-      disabled: disableGallery,
-    },
-    { name: 'Staff Management', href: '/admin/staff', icon: Users },
-    { divider: true },
-    { name: 'Analytics', disabled: false, href: '/admin/analytics', icon: BarChart3 },
-    { name: 'Inventory', disabled: true, href: '/admin/inventory', icon: Package },
-    { name: 'Loyalty Program', disabled: true, href: '/admin/loyalty', icon: Star },
-    { name: 'Happy Hour & Promo', disabled: true, href: '/admin/promotions', icon: Tag },
-  ]
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
 
-  // Filter out disabled items and preserve dividers
-  const navigation = []
-
-  for (const item of navigationItems) {
-    if (item.divider) {
-      // Only add divider if there are items before it
-      if (navigation.length > 0 && navigation[navigation.length - 1]?.divider !== true) {
-        navigation.push(item)
-      }
-    } else if (!item.disabled) {
-      // Only add items that are not disabled
-      navigation.push(item)
+  // Build navigation groups with disabled flags
+  const navigationGroups = [
+    {
+      title: 'Operations',
+      items: [
+        { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+        {
+          name: 'Orders',
+          href: '/admin/orders',
+          icon: ShoppingCart,
+          badge: pendingOrders,
+          disabled: disableOrders,
+        },
+        {
+          name: 'Reservations',
+          href: '/admin/reservations',
+          icon: Calendar,
+          badge: pendingReservations,
+          disabled: disableReservations,
+        },
+        {
+          name: 'Gift Cards',
+          href: '/admin/gift-cards',
+          icon: Gift,
+          disabled: disableGiftCards,
+        },
+        {
+          name: 'Kitchen View',
+          href: '/admin/kitchen',
+          icon: Monitor,
+          disabled: false,
+        },
+        {
+          name: 'Floor Plan',
+          href: '/admin/floor-plan',
+          icon: Grid,
+          disabled: false,
+        },
+      ]
+    },
+    {
+      title: 'Management',
+      items: [
+        { name: 'Menu', href: '/admin/menu', icon: UtensilsCrossed },
+        { name: 'Staff', href: '/admin/staff', icon: Users },
+        { name: 'Customers', href: '/admin/customers', icon: Users, disabled: true }, // Placeholder
+        { name: 'Inventory', disabled: true, href: '/admin/inventory', icon: Package },
+      ]
+    },
+    {
+      title: 'Content & Marketing',
+      items: [
+        { name: 'Social Media', href: '/admin/social-posting', icon: Share2 },
+        {
+          name: 'Events',
+          href: '/admin/events',
+          icon: CalendarDays,
+          disabled: disableEvents,
+        },
+        {
+          name: 'Gallery',
+          href: '/admin/gallery',
+          icon: Image,
+          disabled: disableGallery,
+        },
+        { name: 'Announcements', href: '/admin/announcements', icon: AlertCircle },
+        { name: 'Loyalty Program', disabled: true, href: '/admin/loyalty', icon: Star },
+        { name: 'Promotions', disabled: true, href: '/admin/promotions', icon: Tag },
+      ]
+    },
+    {
+      title: 'Analytics',
+      items: [
+        { name: 'Reports', disabled: false, href: '/admin/analytics', icon: BarChart3 },
+      ]
     }
-  }
-
-  // Remove trailing divider if present
-  if (navigation.length > 0 && navigation[navigation.length - 1]?.divider === true) {
-    navigation.pop()
-  }
+  ]
 
   // Show loading state while checking authentication (but not on login page)
   if (!isLoginPage && isAuthenticated === null) {
@@ -281,103 +299,120 @@ export default function AdminLayout({ children }) {
   // Only render sidebar and content when authenticated (and not on login page)
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
+      <CommandPalette />
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:static md:inset-0`}
+        className={`fixed inset-y-0 left-0 z-50 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+          } md:translate-x-0 md:sticky md:top-0 md:h-screen md:z-30 ${isSidebarCollapsed ? 'w-20' : 'w-64'
+          }`}
       >
-        <div className="flex items-center justify-center h-16 border-b border-gray-200 dark:border-gray-700 flex-shrink-0">
-          <h1 className="text-xl font-bold text-primary dark:text-gold">TRIO Admin</h1>
+        <div className="flex items-center justify-between h-16 border-b border-gray-200 dark:border-gray-700 flex-shrink-0 px-4">
+          {!isSidebarCollapsed && (
+            <h1 className="text-xl font-bold text-primary dark:text-gold truncate">Admin</h1>
+          )}
+          <button
+            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            className="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-500 hidden md:block"
+            title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {isSidebarCollapsed ? <Menu className="h-5 w-5" /> : <ChevronLeft className="h-5 w-5" />}
+          </button>
         </div>
-        <nav className="mt-5 px-2 space-y-1 flex-1 overflow-y-auto">
-          {navigation.map((item, index) => {
-            const isActive = pathname === item.href
-            const isDivider = item.divider
 
-            if (isDivider) {
-              return (
-                <div
-                  key={`divider-${index}`}
-                  className="my-2 border-t border-gray-200 dark:border-gray-700"
-                ></div>
-              )
-            }
+        <nav className="mt-5 px-2 space-y-4 flex-1 overflow-y-auto custom-scrollbar">
+          {navigationGroups.map((group, groupIndex) => (
+            <div key={group.title || groupIndex}>
+              {!isSidebarCollapsed && group.title && (
+                <h3 className="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                  {group.title}
+                </h3>
+              )}
+              <div className="space-y-1">
+                {group.items.map((item) => {
+                  const isActive = pathname === item.href
 
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`group flex items-center justify-between px-2 py-2 text-base font-medium rounded-md transition-colors ${isActive
-                  ? 'bg-primary text-white dark:bg-gold dark:text-primary'
-                  : item.disabled
-                    ? 'text-gray-400 cursor-not-allowed'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
-                  }`}
-                onClick={e => item.disabled && e.preventDefault()}
-              >
-                <div className="flex items-center">
-                  <item.icon
-                    className={`mr-4 h-6 w-6 ${isActive
-                      ? 'text-white dark:text-primary'
-                      : item.disabled
-                        ? 'text-gray-400'
-                        : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
-                      }`}
-                  />
-                  {item.name}
-                  {item.disabled && (
-                    <Lock className="ml-2 h-4 w-4 text-yellow-400" title="Module disabled" />
-                  )}
-                </div>
-                {item.badge > 0 && (
-                  <span
-                    className={`inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full ${isActive ? 'bg-red-500 text-white' : ''}`}
-                  >
-                    {item.badge}
-                  </span>
-                )}
-              </Link>
-            )
-          })}
+                  if (item.disabled) return null;
+
+                  return (
+                    <Link
+                      key={item.name}
+                      href={item.href}
+                      className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors ${isActive
+                        ? 'bg-primary text-white dark:bg-gold dark:text-gray-900'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+                        } ${isSidebarCollapsed ? 'justify-center' : ''}`}
+                      title={isSidebarCollapsed ? item.name : undefined}
+                    >
+                      <item.icon
+                        className={`h-6 w-6 flex-shrink-0 ${isActive
+                          ? 'text-white dark:text-gray-900'
+                          : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
+                          } ${!isSidebarCollapsed ? 'mr-3' : ''}`}
+                      />
+                      {!isSidebarCollapsed && (
+                        <span className="flex-1 truncate">{item.name}</span>
+                      )}
+
+                      {!isSidebarCollapsed && item.badge > 0 && (
+                        <span
+                          className={`inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full ${isActive ? 'bg-red-500 text-white' : ''
+                            }`}
+                        >
+                          {item.badge}
+                        </span>
+                      )}
+
+                      {isSidebarCollapsed && item.badge > 0 && (
+                        <span className="absolute top-0 right-0 block h-2.5 w-2.5 rounded-full ring-2 ring-white bg-red-600 transform translate-x-1/2 -translate-y-1/2" />
+                      )}
+                    </Link>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
 
         {/* Settings Section - at bottom before logout */}
-        <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+        <div className="mt-auto p-2 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
           <Link
             href="/admin/settings"
             className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors ${pathname === '/admin/settings'
-              ? 'bg-primary text-white dark:bg-gold dark:text-primary'
+              ? 'bg-primary text-white dark:bg-gold dark:text-gray-900'
               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
-              }`}
+              } ${isSidebarCollapsed ? 'justify-center' : ''}`}
+            title="Settings"
           >
             <Settings
-              className={`mr-4 h-6 w-6 ${pathname === '/admin/settings'
-                ? 'text-white dark:text-primary'
+              className={`h-6 w-6 flex-shrink-0 ${pathname === '/admin/settings'
+                ? 'text-white dark:text-gray-900'
                 : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
-                }`}
+                } ${!isSidebarCollapsed ? 'mr-3' : ''}`}
             />
-            Settings
+            {!isSidebarCollapsed && <span>Settings</span>}
           </Link>
         </div>
 
         {/* Logout Section */}
-        <div className="mt-auto p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
-          {username && (
+        <div className="p-4 border-t border-gray-200 dark:border-gray-700 flex-shrink-0">
+          {!isSidebarCollapsed && username && (
             <div className="mb-2 px-2 text-sm text-gray-500 dark:text-gray-400 truncate">
               {username}
             </div>
           )}
-          <LogoutButton />
+          <LogoutButton collapsed={isSidebarCollapsed} />
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Desktop Header */}
-        <div className="hidden md:flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+        <div className="hidden md:flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 sticky top-0 z-40 shadow-sm">
           <div className="flex items-center gap-4">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              {pathname === '/admin' ? 'Dashboard Overview' : pathname.split('/').pop()?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) || 'Admin'}
-            </h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Orders</h2>
+            <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              View and manage all orders including Dine-in, Pickup, and Delivery.
+            </p>
           </div>
           <div className="flex items-center gap-4">
             {username && (
@@ -389,7 +424,7 @@ export default function AdminLayout({ children }) {
 
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2">
-          <h1 className="text-lg font-bold text-primary dark:text-gold">TRIO Admin</h1>
+          <h1 className="text-lg font-bold text-primary dark:text-gold">Restaurant Admin</h1>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"

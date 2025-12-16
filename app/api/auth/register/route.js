@@ -224,7 +224,7 @@ export async function POST(request) {
             responsePayload.data.customDomain = domainToStore
             responsePayload.data.domainVerification = {
                 token: domainVerification.token,
-                instructions: `Add a TXT record to your DNS for ${domainToStore}: Name: _trio_verification, Value: ${domainVerification.token}`,
+                instructions: `Add a TXT record to your DNS for ${domainToStore}: Name: _bar_verification, Value: ${domainVerification.token}`,
             }
         }
 

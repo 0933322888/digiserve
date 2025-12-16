@@ -73,7 +73,7 @@ export default async function LoginPage() {
                         <div
                             className="h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center text-2xl font-bold text-white"
                             style={{
-                                backgroundColor: tenant.theme?.primaryColor || '#8B0000'
+                                backgroundColor: tenant.theme?.primaryColor
                             }}
                         >
                             {tenant.name.charAt(0).toUpperCase()}
@@ -88,7 +88,7 @@ export default async function LoginPage() {
                 </div>
 
                 {/* Login Form */}
-                <LoginForm primaryColor={tenant.theme?.primaryColor || '#8B0000'} />
+                <LoginForm primaryColor={tenant.theme?.primaryColor} />
             </div>
         </div>
     )

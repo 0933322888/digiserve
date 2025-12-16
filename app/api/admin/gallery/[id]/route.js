@@ -7,11 +7,16 @@ import { db } from '@/lib/db'
  */
 export async function PUT(request, { params }) {
   try {
+    const barId = request.headers.get('x-tenant-id')
+    if (!barId) {
+      return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
+    }
+
     const { id } = params
     const body = await request.json()
     const { url, alt, caption, category, featured, order } = body
 
-    const image = await db.collection('gallery').findOne({ id })
+    const image = await db.collection('gallery').findOne({ id, barId })
 
     if (!image) {
       return NextResponse.json({ error: 'Image not found' }, { status: 404 })
@@ -28,9 +33,9 @@ export async function PUT(request, { params }) {
     if (featured !== undefined) updates.featured = featured
     if (order !== undefined) updates.order = order
 
-    await db.collection('gallery').updateOne({ id }, updates)
+    await db.collection('gallery').updateOne({ id, barId }, updates)
 
-    const updatedImage = await db.collection('gallery').findOne({ id })
+    const updatedImage = await db.collection('gallery').findOne({ id, barId })
     return NextResponse.json({ success: true, image: updatedImage })
   } catch (error) {
     console.error('Update gallery image error:', error)
@@ -44,9 +49,14 @@ export async function PUT(request, { params }) {
  */
 export async function DELETE(request, { params }) {
   try {
+    const barId = request.headers.get('x-tenant-id')
+    if (!barId) {
+      return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
+    }
+
     const { id } = params
 
-    const result = await db.collection('gallery').deleteOne({ id })
+    const result = await db.collection('gallery').deleteOne({ id, barId })
 
     if (result.deletedCount === 0) {
       return NextResponse.json({ error: 'Image not found' }, { status: 404 })

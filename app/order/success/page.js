@@ -66,7 +66,7 @@ export default function OrderSuccessPage() {
           </p>
 
           {order && (
-            <div className="bg-cream dark:bg-gray-800 p-8 rounded-lg shadow-md mb-8 text-left">
+            <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-md mb-8 text-left">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold flex items-center">
                   <Receipt className="w-6 h-6 mr-2" />
@@ -144,7 +144,7 @@ export default function OrderSuccessPage() {
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/"
-              className="inline-flex items-center space-x-2 bg-primary dark:bg-gold text-cream dark:text-primary px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+              className="inline-flex items-center space-x-2 bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
             >
               <Home className="w-5 h-5" />
               <span>Return Home</span>

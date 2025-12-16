@@ -12,6 +12,7 @@ export async function GET(request, { params }) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
     }
     const menu = await getMenu(barId, params.menuId)
+    console.log(`[API] GET /api/admin/menus/${params.menuId} result:`, menu ? 'Found' : 'Not Found')
     return NextResponse.json({ menu })
   } catch (error) {
     console.error('Get menu error:', error)
@@ -35,6 +36,7 @@ export async function PUT(request, { params }) {
     // If specific field validation is needed, it should be re-added here.
 
     const updatedMenu = await updateMenu(barId, params.menuId, updates)
+    console.log(`[API] PUT /api/admin/menus/${params.menuId} updated`)
     return NextResponse.json({ success: true, menu: updatedMenu })
   } catch (error) {
     console.error('Update menu error:', error)
@@ -50,6 +52,7 @@ export async function DELETE(request, { params }) {
   try {
     const { menuId } = params
     await deleteMenu(menuId)
+    console.log(`[API] DELETE /api/admin/menus/${menuId} success`)
     return NextResponse.json({ success: true, message: 'Menu deleted successfully' })
   } catch (error) {
     console.error('Delete menu error:', error)

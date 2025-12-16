@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react'
 import SocialPostForm from '@/components/admin/SocialPostForm'
 import SocialPostList from '@/components/admin/SocialPostList'
-import SocialAccountManager from '@/components/admin/SocialAccountManager'
-import SocialMediaConfig from '@/components/admin/SocialMediaConfig'
 import CampaignForm from '@/components/admin/CampaignForm'
 import CampaignList from '@/components/admin/CampaignList'
 import SocialAnalytics from '@/components/admin/SocialAnalytics'
@@ -20,26 +18,23 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
     const [moduleEnabled, setModuleEnabled] = useState(true)
 
     useEffect(() => {
-        // Check if module is enabled by trying to generate captions
+        // Check if module is enabled via settings API
         const checkModuleEnabled = async () => {
             try {
-                const response = await fetch('/api/admin/social-posting/generate-captions', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ prompt: 'test', platform: 'facebook', barId }),
-                })
-                if (response.status === 403) {
-                    setModuleEnabled(false)
+                const response = await fetch('/api/admin/settings/modules')
+                const data = await response.json()
+                if (data.success && data.modules) {
+                    const socialModule = data.modules.find(m => m.key === 'socialPosting')
+                    if (socialModule) {
+                        setModuleEnabled(socialModule.enabled)
+                    }
                 }
             } catch (error) {
-                // Module might be enabled but API key not configured
                 console.error('Module check error:', error)
             }
         }
-        if (barId) {
-            checkModuleEnabled()
-        }
-    }, [barId])
+        checkModuleEnabled()
+    }, [])
 
     const fetchAccounts = async () => {
         try {
@@ -103,27 +98,6 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
 
     const handlePostDeleted = () => {
         fetchPosts()
-    }
-
-    const handleAccountConnected = () => {
-        fetchAccounts()
-    }
-
-    const handleTokenRefreshed = () => {
-        fetchAccounts()
-    }
-
-    const handleAccountDeleted = () => {
-        fetchAccounts()
-    }
-
-    // Handler to open connect modal from SocialMediaConfig
-    const [showConnectModal, setShowConnectModal] = useState(false)
-    const [connectingPlatform, setConnectingPlatform] = useState(null)
-
-    const handleOpenConnectModal = (platform) => {
-        setConnectingPlatform(platform)
-        setShowConnectModal(true)
     }
 
     const handleCampaignCreated = () => {
@@ -192,13 +166,10 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
                 <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
                     <p className="text-yellow-800 dark:text-yellow-200">
                         Social Media Posting module is disabled. Enable it in{' '}
-                        <code className="bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded">
-                            config/siteConfig.ts
-                        </code>{' '}
-                        by setting{' '}
-                        <code className="bg-yellow-100 dark:bg-yellow-900 px-2 py-1 rounded">
-                            modules.socialPosting.enabled = true
-                        </code>
+                        <a href="/admin/settings" className="font-medium underline hover:text-yellow-900 dark:hover:text-yellow-100">
+                            Settings &gt; Integrations
+                        </a>
+                        .
                     </p>
                 </div>
             </div>
@@ -224,21 +195,6 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
                     Process Scheduled
                 </button>
             </div>
-
-            {/* Social Media Configuration */}
-            <SocialMediaConfig onConnectAccount={handleOpenConnectModal} />
-
-            {/* Account Management */}
-            <SocialAccountManager
-                accounts={accounts}
-                barId={barId}
-                onAccountConnected={handleAccountConnected}
-                onTokenRefreshed={handleTokenRefreshed}
-                onAccountDeleted={handleAccountConnected}
-                isConnectModalOpen={showConnectModal}
-                connectPlatform={connectingPlatform}
-                onCloseConnectModal={() => setShowConnectModal(false)}
-            />
 
             {/* Tabs */}
             <div className="border-b border-gray-200 dark:border-gray-700">

@@ -42,7 +42,11 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname, require
   console.log(`[AuthPage] Checking auth for: ${pathname}`);
   const token = request.cookies.get('tenant_session')?.value;
   console.log(`[AuthPage] Token found: ${!!token}`);
-  const redirectPath = pathname.startsWith('/admin') ? '/admin/login' : '/login';
+  const redirectPath = pathname.startsWith('/super-admin')
+    ? '/super-admin/login'
+    : pathname.startsWith('/admin')
+      ? '/admin/login'
+      : '/login';
 
   if (!token) {
     console.log(`[AuthPage] No token found. Redirecting to ${redirectPath}.`);
@@ -59,6 +63,10 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname, require
 
   if (requiredRole && payload.role !== requiredRole) {
     console.log(`[AuthPage] User role (${payload.role}) is not authorized for ${pathname}. Responding 403.`);
+    if (pathname.startsWith('/super-admin')) {
+      const response = NextResponse.redirect(new URL(`${redirectPath}?from=${encodeURIComponent(pathname)}`, request.url));
+      return clearTenantSessionCookie(response);
+    }
     return new NextResponse('Forbidden', { status: 403 });
   }
 
@@ -177,11 +185,25 @@ export async function middleware(request) {
   const PUBLIC_API_ROUTES = [
     '/api/admin/auth/login',
     '/api/admin/auth/logout',
+    '/api/super-admin/auth/login',
+    '/api/super-admin/auth/logout',
+    '/api/super-admin/auth/session',
     '/api/auth/register',
     '/api/auth/activate'
   ];
   if (PUBLIC_API_ROUTES.some(route => pathname.startsWith(route))) {
     console.log(`[Middleware] Path (${pathname}) is a public API route. Allowing.`);
+    return NextResponse.next({ request: { headers } });
+  }
+
+  // B1. Super Admin Login Page (allowed on root domain without session check)
+  if (pathname === '/super-admin/login' || pathname.startsWith('/super-admin/login/')) {
+    console.log(`[Middleware] Path (${pathname}) is the super-admin login page.`);
+    if (!isRootDomain) {
+      console.log('[Middleware] Super admin login on tenant domain is forbidden. Redirecting to root.');
+      const rootDomainUrl = getRootDomainUrl(request, baseDomain, host);
+      return NextResponse.redirect(new URL(pathname, rootDomainUrl));
+    }
     return NextResponse.next({ request: { headers } });
   }
 

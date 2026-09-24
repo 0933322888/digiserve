@@ -1,4 +1,5 @@
 import TenantManager from '@/components/admin/tenants/TenantManager'
+import SuperAdminLogoutButton from './SuperAdminLogoutButton'
 import Link from 'next/link'
 import { ArrowLeft, Shield } from 'lucide-react'
 
@@ -34,6 +35,7 @@ export default function SuperAdminPage() {
             >
               <ArrowLeft className="w-3.5 h-3.5" /> Back to Platform
             </Link>
+            <SuperAdminLogoutButton />
           </div>
         </div>
       </header>

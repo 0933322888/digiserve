@@ -10,9 +10,9 @@ import {
  * GET /api/admin/social-posting/campaigns/[id]
  * Get a specific campaign
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = request.headers.get('x-tenant-id')
 
     if (!barId) {
@@ -41,9 +41,9 @@ export async function GET(request, { params }) {
  * PUT /api/admin/social-posting/campaigns/[id]
  * Update a campaign
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = request.headers.get('x-tenant-id')
 
     if (!barId) {
@@ -71,9 +71,9 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/social-posting/campaigns/[id]
  * Delete a campaign
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = request.headers.get('x-tenant-id')
 
     if (!barId) {

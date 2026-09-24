@@ -27,6 +27,13 @@ function TopBar({ floors, onCreateFloor, onDeleteFloor, onUpdateFloor }) {
 
             if (!res.ok) throw new Error('Failed to save')
 
+            // Sync updated objects back to parent floors array state
+            onUpdateFloor({
+                ...floors.find(f => f.id === state.currentFloorId),
+                id: state.currentFloorId,
+                objects: state.objects
+            })
+
             dispatch({ type: 'SAVE_SUCCESS' })
             toast.success('Saved floor plan', { id: toastId })
         } catch (error) {
@@ -153,17 +160,21 @@ function EditorContent({ initialFloors }) {
 
         const floor = floors.find(f => f.id === state.currentFloorId)
         if (floor) {
-            // In a real app we might fetch details here if list only had summaries
-            // But our API returned full objects
+            // Keep local state in sync when switching floors
             dispatch({ type: 'SET_OBJECTS', payload: floor.objects || [] })
         }
-    }, [state.currentFloorId, floors, dispatch])
+    }, [state.currentFloorId])
 
     const handleCreateFloor = async () => {
         const name = prompt("Enter floor name (e.g., 'Patio'):")
         if (!name) return
 
         try {
+            // First update current floor objects in local state before creating new one
+            const updatedFloors = floors.map(f =>
+                f.id === state.currentFloorId ? { ...f, objects: state.objects } : f
+            )
+
             const res = await fetch('/api/admin/floor-plans', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -171,8 +182,11 @@ function EditorContent({ initialFloors }) {
             })
             if (res.ok) {
                 const data = await res.json()
-                setFloors([...floors, data.floor])
+                const newFloors = [...updatedFloors, data.floor]
+                setFloors(newFloors)
+                dispatch({ type: 'SET_FLOORS', payload: newFloors })
                 dispatch({ type: 'SELECT_FLOOR', payload: data.floor.id })
+                dispatch({ type: 'SET_OBJECTS', payload: [] })
                 toast.success('Floor created')
             }
         } catch (e) {

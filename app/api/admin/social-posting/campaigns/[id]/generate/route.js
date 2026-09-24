@@ -5,9 +5,9 @@ import { getCampaign, generatePostsFromCampaigns } from '@/lib/social-posting-se
  * POST /api/admin/social-posting/campaigns/[id]/generate
  * Manually generate posts for a specific campaign
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = request.headers.get('x-tenant-id')
 
     if (!barId) {

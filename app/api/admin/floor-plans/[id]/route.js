@@ -6,14 +6,14 @@ import connectDB from '@/lib/db/mongodb-connection'
 // Force dynamic rendering
 export const dynamic = 'force-dynamic'
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
     try {
         const barId = await getTenantFromRequest(request)
         if (!barId) {
             return NextResponse.json({ error: 'Tenant context required' }, { status: 400 })
         }
 
-        const { id } = await params
+        const { id } = await context.params
         const body = await request.json()
         const { name, objects, dimensions } = body
 
@@ -67,14 +67,14 @@ export async function PUT(request, { params }) {
     }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
     try {
         const barId = await getTenantFromRequest(request)
         if (!barId) {
             return NextResponse.json({ error: 'Tenant context required' }, { status: 400 })
         }
 
-        const { id } = await params
+        const { id } = await context.params
 
         await connectDB()
         const FloorPlan = getFloorPlanModel()

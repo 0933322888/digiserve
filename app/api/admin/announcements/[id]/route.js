@@ -6,9 +6,9 @@ import { parseLocalDate } from '@/lib/utils'
  * GET /api/admin/announcements/[id]
  * Get a specific announcement
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const announcement = await db.collection('announcements').findOne({ id })
 
     if (!announcement) {
@@ -26,9 +26,9 @@ export async function GET(request, { params }) {
  * PUT /api/admin/announcements/[id]
  * Update an announcement
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
     const { title, message, startDate, endDate, type, active } = body
 
@@ -81,9 +81,9 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/announcements/[id]
  * Delete an announcement
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
 
     const result = await db.collection('announcements').deleteOne({ id })
 

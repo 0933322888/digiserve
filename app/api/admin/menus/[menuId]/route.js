@@ -5,8 +5,9 @@ import { getMenu, updateMenu, deleteMenu } from '@/lib/menu-service'
  * GET /api/admin/menus/[menuId]
  * Get a specific menu
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
+    const params = await context.params
     const barId = request.headers.get('x-tenant-id')
     if (!barId) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
@@ -24,8 +25,9 @@ export async function GET(request, { params }) {
  * PUT /api/admin/menus/[menuId]
  * Update a menu
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
+    const params = await context.params
     const barId = request.headers.get('x-tenant-id')
     if (!barId) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
@@ -48,10 +50,11 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/menus/[menuId]
  * Delete a menu
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { menuId } = params
-    await deleteMenu(menuId)
+    const { menuId } = await context.params
+    const barId = request.headers.get('x-tenant-id')
+    await deleteMenu(barId, menuId)
     console.log(`[API] DELETE /api/admin/menus/${menuId} success`)
     return NextResponse.json({ success: true, message: 'Menu deleted successfully' })
   } catch (error) {

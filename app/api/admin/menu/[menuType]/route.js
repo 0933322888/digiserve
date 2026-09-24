@@ -5,9 +5,9 @@ import { getMenu, getSections } from '@/lib/menu-service'
  * GET /api/admin/menu/[menuType]
  * Get all menu data for a specific menu type
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { menuType } = params
+    const { menuType } = await context.params
 
     if (!['food', 'drinks'].includes(menuType)) {
       return NextResponse.json(

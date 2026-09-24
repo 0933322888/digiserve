@@ -5,9 +5,9 @@ import { getSections, createSection, updateSection, deleteSection, reorderSectio
  * GET /api/admin/menus/[menuId]/sections
  * Get all sections for a menu
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { menuId } = params
+    const { menuId } = await context.params
     const sections = await getSections(menuId)
     console.log(`[API] GET /api/admin/menus/${menuId}/sections found ${sections.length} sections`)
     return NextResponse.json({ sections })
@@ -21,9 +21,9 @@ export async function GET(request, { params }) {
  * POST /api/admin/menus/[menuId]/sections
  * Create a new section
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { menuId } = params
+    const { menuId } = await context.params
     const body = await request.json()
     const { name, description, id } = body
 
@@ -47,9 +47,9 @@ export async function POST(request, { params }) {
  * PUT /api/admin/menus/[menuId]/sections
  * Update a section
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { menuId } = params
+    const { menuId } = await context.params
     const body = await request.json()
     const { sectionId, ...updates } = body
 
@@ -73,9 +73,9 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/menus/[menuId]/sections
  * Delete a section
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { menuId } = params
+    const { menuId } = await context.params
     const { searchParams } = new URL(request.url)
     const sectionId = searchParams.get('sectionId')
 
@@ -99,9 +99,9 @@ export async function DELETE(request, { params }) {
  * PATCH /api/admin/menus/[menuId]/sections
  * Reorder sections
  */
-export async function PATCH(request, { params }) {
+export async function PATCH(request, context) {
   try {
-    const { menuId } = params
+    const { menuId } = await context.params
     const body = await request.json()
     const { sectionIds } = body
 

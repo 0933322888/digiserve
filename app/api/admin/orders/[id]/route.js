@@ -6,9 +6,9 @@ import { getTenantFromRequest } from '@/lib/tenant-service'
  * GET /api/admin/orders/[id]
  * Get a specific order
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = await getTenantFromRequest(request)
 
     if (!barId) {
@@ -32,9 +32,9 @@ export async function GET(request, { params }) {
  * PUT /api/admin/orders/[id]
  * Update an order
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = await getTenantFromRequest(request)
 
     if (!barId) {

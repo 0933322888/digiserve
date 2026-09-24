@@ -5,9 +5,9 @@ import { getSections, createSection, updateSection, deleteSection } from '@/lib/
  * GET /api/admin/menu/[menuType]/sections
  * Get all sections for a menu type
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { menuType } = params
+    const { menuType } = await context.params
 
     if (!['food', 'drinks'].includes(menuType)) {
       return NextResponse.json(
@@ -28,9 +28,9 @@ export async function GET(request, { params }) {
  * POST /api/admin/menu/[menuType]/sections
  * Create a new section
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { menuType } = params
+    const { menuType } = await context.params
     const body = await request.json()
     const { name, description, id } = body
 
@@ -60,9 +60,9 @@ export async function POST(request, { params }) {
  * PUT /api/admin/menu/[menuType]/sections
  * Update a section
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { menuType } = params
+    const { menuType } = await context.params
     const body = await request.json()
     const { sectionId, ...updates } = body
 
@@ -92,9 +92,9 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/menu/[menuType]/sections
  * Delete a section
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { menuType } = params
+    const { menuType } = await context.params
     const { searchParams } = new URL(request.url)
     const sectionId = searchParams.get('sectionId')
 

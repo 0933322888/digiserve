@@ -5,9 +5,9 @@ import { getPost, updatePost, deletePost } from '@/lib/social-posting-service'
  * GET /api/admin/social-posting/posts/[id]
  * Get a specific post
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = request.headers.get('x-tenant-id')
 
     if (!barId) {
@@ -31,9 +31,9 @@ export async function GET(request, { params }) {
  * PUT /api/admin/social-posting/posts/[id]
  * Update a post
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = request.headers.get('x-tenant-id')
 
     if (!barId) {
@@ -79,9 +79,9 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/social-posting/posts/[id]
  * Delete a post
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const barId = request.headers.get('x-tenant-id')
 
     if (!barId) {

@@ -5,9 +5,9 @@ import { getPost, updatePost } from '@/lib/social-posting-service'
  * POST /api/admin/social-posting/posts/[id]/schedule
  * Schedule a post for future publishing
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
     const { barId, scheduledFor } = body
 

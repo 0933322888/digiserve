@@ -6,9 +6,9 @@ import { logEvent } from '@/lib/event-service'
  * POST /api/admin/orders/[id]/status
  * Update order status
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
     const { barId, status, adminId, adminName, reason } = body
 

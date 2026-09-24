@@ -7,14 +7,14 @@ import connectDB from '@/lib/db/mongodb-connection'
  * GET /api/tenants/[id]
  * Get tenant information
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
     try {
         const session = await getSession()
         if (!session) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
         }
 
-        let { id } = await params
+        let { id } = await context.params
 
         // Handle "me" alias
         if (id === 'me') {

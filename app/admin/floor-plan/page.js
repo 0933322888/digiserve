@@ -11,7 +11,20 @@ async function getFloors(barId) {
     try {
         await connectDB()
         const FloorPlan = getFloorPlanModel()
-        const floors = await FloorPlan.find({ barId }).sort({ order: 1 }).lean()
+        let floors = await FloorPlan.find({ barId }).sort({ order: 1 }).lean()
+
+        // If tenant has no floors created yet, auto-create default 'Main' floor
+        if (floors.length === 0) {
+            const defaultFloor = await FloorPlan.create({
+                id: crypto.randomUUID(),
+                barId,
+                name: 'Main',
+                order: 1,
+                dimensions: { width: 800, height: 600 },
+                objects: []
+            })
+            floors = [defaultFloor.toObject()]
+        }
 
         return floors.map(floor => ({
             ...floor,

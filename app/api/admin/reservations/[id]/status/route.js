@@ -15,9 +15,9 @@ const transporter = nodemailer.createTransport({
   },
 })
 
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const { status } = await request.json()
 
     const reservation = await updateReservationStatus(id, status)

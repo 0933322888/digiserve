@@ -17,7 +17,20 @@ export async function GET(request) {
         const FloorPlan = getFloorPlanModel()
 
         // Fetch all floors for this tenant, sorted by order
-        const floors = await FloorPlan.find({ barId }).sort({ order: 1 }).lean()
+        let floors = await FloorPlan.find({ barId }).sort({ order: 1 }).lean()
+
+        // Auto-create default 'Main' floor if none exist
+        if (floors.length === 0) {
+            const defaultFloor = await FloorPlan.create({
+                id: crypto.randomUUID(),
+                barId,
+                name: 'Main',
+                order: 1,
+                dimensions: { width: 800, height: 600 },
+                objects: []
+            })
+            floors = [defaultFloor.toObject()]
+        }
 
         // Transform _id to id string for frontend
         const serializedFloors = floors.map(floor => ({

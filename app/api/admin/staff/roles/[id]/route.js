@@ -3,9 +3,9 @@ import { getRole, updateRole, deleteRole } from '@/lib/staff-service'
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const role = await getRole(id)
 
     if (!role) {
@@ -19,9 +19,9 @@ export async function GET(request, { params }) {
   }
 }
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
 
     const role = await updateRole(id, body)
@@ -32,9 +32,9 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     await deleteRole(id)
     return NextResponse.json({ success: true, message: 'Role deleted successfully' })
   } catch (error) {

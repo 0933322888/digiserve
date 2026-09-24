@@ -5,13 +5,13 @@ import { db } from '@/lib/db'
  * PUT /api/admin/events/[id]
  * Update an event
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
     const barId = request.headers.get('x-tenant-id')
     if (!barId) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
     }
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
     const { title, date, time, description, image, featured } = body
 
@@ -46,13 +46,13 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/events/[id]
  * Delete an event
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
     const barId = request.headers.get('x-tenant-id')
     if (!barId) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
     }
-    const { id } = params
+    const { id } = await context.params
 
     const result = await db.collection('events').deleteOne({ id, barId })
 

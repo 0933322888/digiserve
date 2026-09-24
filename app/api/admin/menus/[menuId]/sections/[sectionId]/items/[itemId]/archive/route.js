@@ -5,9 +5,9 @@ import { toggleMenuItemArchive } from '@/lib/menu-service'
  * POST /api/admin/menus/[menuId]/sections/[sectionId]/items/[itemId]/archive
  * Toggle archive status of a menu item
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { menuId, sectionId, itemId } = params
+    const { menuId, sectionId, itemId } = await context.params
 
     if (!itemId) {
       return NextResponse.json({ error: 'itemId is required' }, { status: 400 })

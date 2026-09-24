@@ -1,10 +1,10 @@
 'use client'
 
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { useDraggable } from '@dnd-kit/core'
 import { ResizableBox } from 'react-resizable'
 import { useFloorPlan } from './FloorPlanContext'
-import { Trash2, RotateCw } from 'lucide-react'
+import { Trash2, RotateCw, Edit2 } from 'lucide-react'
 
 // Styles for resizable handles
 import 'react-resizable/css/styles.css'
@@ -33,14 +33,30 @@ export default function DraggableObject({ id, obj, isSelected }) {
         e.stopPropagation()
     }
 
-    const onResizeStop = (e, { size }) => {
+    const onResizeStop = (e, { size, handle }) => {
+        let newX = obj.x
+        let newY = obj.y
+
+        // Adjust position when resizing from west (left) or north (top) sides
+        const deltaW = size.width - (obj.width * zoom)
+        const deltaH = size.height - (obj.height * zoom)
+
+        if (handle.includes('w')) {
+            newX -= deltaW / zoom
+        }
+        if (handle.includes('n')) {
+            newY -= deltaH / zoom
+        }
+
         dispatch({
             type: 'UPDATE_OBJECT',
             payload: {
                 id: id,
                 updates: {
-                    width: size.width,
-                    height: size.height
+                    x: newX,
+                    y: newY,
+                    width: size.width / zoom,
+                    height: size.height / zoom
                 }
             }
         })
@@ -66,9 +82,25 @@ export default function DraggableObject({ id, obj, isSelected }) {
         dispatch({ type: 'REMOVE_OBJECTS', payload: [id] })
     }
 
+    // Handle Edit Label
+    const onEditLabel = (e) => {
+        e.stopPropagation()
+        const newLabel = prompt("Enter text label:", obj.label || '')
+        if (newLabel !== null) {
+            dispatch({
+                type: 'UPDATE_OBJECT',
+                payload: {
+                    id: id,
+                    updates: { label: newLabel }
+                }
+            })
+        }
+    }
+
     // Handle Select
     const onMouseDown = (e) => {
-        // Don't deselect if clicking tool buttons
+        // Prevent clearing selection from canvas background listener
+        e.stopPropagation()
         dispatch({ type: 'SELECT_OBJECTS', payload: [id] })
     }
 
@@ -108,6 +140,33 @@ export default function DraggableObject({ id, obj, isSelected }) {
         height: '100%',
     }
 
+    // Positioning helper for resize handle coordinates
+    const getHandlePositionStyle = (handleAxis) => {
+        const base = {
+            position: 'absolute',
+            width: '12px',
+            height: '12px',
+            backgroundColor: '#2563eb', // Vivid blue
+            border: '2px solid white',
+            borderRadius: '50%',
+            zIndex: 100,
+            cursor: `${handleAxis}-resize`,
+            boxShadow: '0 1px 3px rgba(0,0,0,0.3)',
+        }
+
+        switch (handleAxis) {
+            case 'se': return { ...base, bottom: '-6px', right: '-6px' }
+            case 'sw': return { ...base, bottom: '-6px', left: '-6px' }
+            case 'ne': return { ...base, top: '-6px', right: '-6px' }
+            case 'nw': return { ...base, top: '-6px', left: '-6px' }
+            case 'e':  return { ...base, top: 'calc(50% - 6px)', right: '-6px' }
+            case 'w':  return { ...base, top: 'calc(50% - 6px)', left: '-6px' }
+            case 's':  return { ...base, bottom: '-6px', left: 'calc(50% - 6px)' }
+            case 'n':  return { ...base, top: '-6px', left: 'calc(50% - 6px)' }
+            default:   return base
+        }
+    }
+
     return (
         <div
             ref={setNodeRef}
@@ -119,8 +178,6 @@ export default function DraggableObject({ id, obj, isSelected }) {
                 zIndex: isSelected || isDragging ? 50 : 1,
                 touchAction: 'none' // For DND
             }}
-            {...listeners}
-            {...attributes}
             onMouseDown={onMouseDown}
         >
             <ResizableBox
@@ -129,24 +186,48 @@ export default function DraggableObject({ id, obj, isSelected }) {
                 onResize={onResize}
                 onResizeStop={onResizeStop}
                 draggableOpts={{ grid: [gridSize * zoom, gridSize * zoom] }}
-                minConstraints={[20 * zoom, 20 * zoom]}
+                minConstraints={obj.type === 'wall' ? [10 * zoom, 10 * zoom] : [20 * zoom, 20 * zoom]}
                 maxConstraints={[1000 * zoom, 1000 * zoom]}
-                handle={
-                    isSelected ? (
-                        <span className="react-resizable-handle react-resizable-handle-se" />
-                    ) : <span />
-                }
+                resizeHandles={isSelected ? ['sw', 'se', 'nw', 'ne', 'w', 'e', 'n', 's'] : []}
+                handle={(handleAxis, ref) => (
+                    <span
+                        ref={ref}
+                        onMouseDown={(e) => e.stopPropagation()}
+                        className={`react-resizable-handle react-resizable-handle-${handleAxis}`}
+                        style={getHandlePositionStyle(handleAxis)}
+                    />
+                )}
             >
                 <div
+                    {...listeners}
+                    {...attributes}
                     className={getObjectStyles()}
                     style={rotationStyle}
                 >
                     {obj.type === 'table' && <span className="font-bold text-sm pointer-events-none select-none">{obj.label}</span>}
-                    {obj.type === 'text' && <span className="text-xl font-bold select-none">{obj.label}</span>}
+                    {obj.type === 'text' && (
+                        <span 
+                            onDoubleClick={onEditLabel}
+                            className="text-xl font-bold select-none cursor-text px-1 rounded hover:bg-gray-100/50"
+                            title="Double-click to edit text"
+                        >
+                            {obj.label || 'Text Label'}
+                        </span>
+                    )}
 
                     {/* Controls Overlay - Only show if selected */}
                     {isSelected && (
-                        <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 flex gap-1 bg-white shadow-md rounded p-1">
+                        <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 flex gap-1 bg-white shadow-md rounded p-1 z-50">
+                            {(obj.type === 'text' || obj.type === 'table') && (
+                                <button
+                                    onMouseDown={(e) => e.stopPropagation()}
+                                    onClick={onEditLabel}
+                                    className="p-1 hover:bg-gray-100 rounded text-gray-700"
+                                    title="Edit Text / Label"
+                                >
+                                    <Edit2 size={14} />
+                                </button>
+                            )}
                             <button
                                 onMouseDown={(e) => e.stopPropagation()}
                                 onClick={onRotate}

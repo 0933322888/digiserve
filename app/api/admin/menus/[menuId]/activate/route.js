@@ -5,8 +5,9 @@ import { activateMenu } from '@/lib/menu-service'
  * POST /api/admin/menus/[menuId]/activate
  * Activate a menu (deactivates all others)
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
+    const params = await context.params
     const barId = request.headers.get('x-tenant-id')
     if (!barId) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })

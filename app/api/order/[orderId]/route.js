@@ -5,9 +5,9 @@ import { siteConfig } from '@/config/siteConfig'
  * Get Order API Route
  * Retrieves order details by ID
  */
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { orderId } = params
+    const { orderId } = await context.params
 
     if (!orderId) {
       return NextResponse.json({ error: 'Order ID is required' }, { status: 400 })

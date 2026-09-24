@@ -56,10 +56,18 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname) {
     return clearTenantSessionCookie(response);
   }
 
-  if (tenantId && payload.tenantId !== tenantId && payload.tenantSubdomain !== tenantId) {
-    console.log(`[AuthPage] Token tenant (${payload.tenantId}) does not match domain tenant (${tenantId}). Redirecting to ${redirectPath}.`);
-    const response = NextResponse.redirect(new URL(redirectPath, request.url));
-    return clearTenantSessionCookie(response);
+  if (tenantId) {
+    const isTenantMatch = payload.tenantId === tenantId ||
+      payload.tenantSubdomain === tenantId ||
+      payload.slug === tenantId ||
+      payload.barId === tenantId ||
+      (payload.tenantSubdomain && payload.tenantSubdomain.toLowerCase() === tenantId.toLowerCase());
+
+    if (!isTenantMatch) {
+      console.log(`[AuthPage] Token tenant (${payload.tenantId} / subdomain: ${payload.tenantSubdomain}) does not match domain tenant (${tenantId}). Redirecting to ${redirectPath}.`);
+      const response = NextResponse.redirect(new URL(redirectPath, request.url));
+      return clearTenantSessionCookie(response);
+    }
   }
   return null; // Success
 }
@@ -79,9 +87,17 @@ async function authenticateAndAuthorizeApi(request, tenantId) {
   if (!token) { console.log('[AuthApi] No token found. Responding 401.'); return clearTenantSessionCookie(NextResponse.json({ error: 'Unauthorized' }, { status: 401 })); }
   const payload = await verifySessionToken(token);
   if (!payload) { console.log('[AuthApi] Invalid token. Responding 401.'); return clearTenantSessionCookie(NextResponse.json({ error: 'Unauthorized' }, { status: 401 })); }
-  if (tenantId && payload.tenantId !== tenantId && payload.tenantSubdomain !== tenantId) {
-    console.log(`[AuthApi] Token tenant (${payload.tenantId}) does not match domain tenant (${tenantId}). Responding 403.`);
-    return NextResponse.json({ error: 'Unauthorized access to this tenant' }, { status: 403 });
+  if (tenantId) {
+    const isTenantMatch = payload.tenantId === tenantId ||
+      payload.tenantSubdomain === tenantId ||
+      payload.slug === tenantId ||
+      payload.barId === tenantId ||
+      (payload.tenantSubdomain && payload.tenantSubdomain.toLowerCase() === tenantId.toLowerCase());
+
+    if (!isTenantMatch) {
+      console.log(`[AuthApi] Token tenant (${payload.tenantId} / subdomain: ${payload.tenantSubdomain}) does not match domain tenant (${tenantId}). Responding 403.`);
+      return NextResponse.json({ error: 'Unauthorized access to this tenant' }, { status: 403 });
+    }
   }
   return null; // Success
 }
@@ -186,19 +202,28 @@ export async function middleware(request) {
 
   // C. Root domain public routes (landing page, marketing, etc. - no auth required)
   // These routes are only served on the root domain.
-  const MARKETING_ONLY_ROUTES = ['/', '/pricing', '/features', '/terms', '/privacy'];
+  const MARKETING_ONLY_ROUTES = ['/', '/pricing', '/features', '/terms', '/privacy', '/super-admin'];
   // The root path '/' is only a marketing route if it's on the root domain.
   // Other marketing routes are checked with startsWith.
   const isMarketingRoute = (isRootDomain && pathname === '/') ||
     MARKETING_ONLY_ROUTES.slice(1).some(route => pathname.startsWith(route));
 
   if (isMarketingRoute) {
-    console.log(`[Middleware] Path (${pathname}) is a marketing-only route.`);
+    console.log(`[Middleware] Path (${pathname}) is a marketing/root-only route.`);
     if (!isRootDomain) {
       // Redirect to root domain
-      console.log('[Middleware] Marketing route on tenant domain is forbidden. Redirecting to root.');
+      console.log('[Middleware] Marketing/root route on tenant domain is forbidden. Redirecting to root.');
       const rootDomainUrl = getRootDomainUrl(request, baseDomain, host);
       return NextResponse.redirect(new URL(pathname, rootDomainUrl));
+    }
+    return NextResponse.next({ request: { headers } });
+  }
+
+  // C2. Root Domain Super Admin API routes
+  if (pathname.startsWith('/api/super-admin')) {
+    if (!isRootDomain) {
+      console.log('[Middleware] Super-admin API on tenant domain is forbidden. Responding 403.');
+      return NextResponse.json({ error: 'Super-admin API is only available on root platform domain' }, { status: 403 });
     }
     return NextResponse.next({ request: { headers } });
   }

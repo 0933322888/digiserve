@@ -5,14 +5,14 @@ import { db } from '@/lib/db'
  * PUT /api/admin/gallery/[id]
  * Update a gallery image
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
     const barId = request.headers.get('x-tenant-id')
     if (!barId) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
     }
 
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
     const { url, alt, caption, category, featured, order } = body
 
@@ -47,14 +47,14 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/gallery/[id]
  * Delete a gallery image
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
     const barId = request.headers.get('x-tenant-id')
     if (!barId) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
     }
 
-    const { id } = params
+    const { id } = await context.params
 
     const result = await db.collection('gallery').deleteOne({ id, barId })
 

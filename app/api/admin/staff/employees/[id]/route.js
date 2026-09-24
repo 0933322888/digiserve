@@ -3,9 +3,9 @@ import { getEmployee, updateEmployee, deleteEmployee } from '@/lib/staff-service
 
 export const dynamic = 'force-dynamic'
 
-export async function GET(request, { params }) {
+export async function GET(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const employee = await getEmployee(id)
 
     if (!employee) {
@@ -19,9 +19,9 @@ export async function GET(request, { params }) {
   }
 }
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
 
     const employee = await updateEmployee(id, body)
@@ -35,9 +35,9 @@ export async function PUT(request, { params }) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     await deleteEmployee(id)
     return NextResponse.json({ success: true, message: 'Employee deleted successfully' })
   } catch (error) {

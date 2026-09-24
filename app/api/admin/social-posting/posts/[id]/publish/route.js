@@ -15,9 +15,9 @@ import {
  * POST /api/admin/social-posting/posts/[id]/publish
  * Publish a post immediately
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
     const { barId } = body
 

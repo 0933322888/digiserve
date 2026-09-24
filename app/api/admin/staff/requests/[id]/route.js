@@ -3,9 +3,9 @@ import { updateShiftRequest } from '@/lib/staff-service'
 
 export const dynamic = 'force-dynamic'
 
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { id } = params
+    const { id } = await context.params
     const body = await request.json()
     const { reviewedBy = 'admin', ...updates } = body
 

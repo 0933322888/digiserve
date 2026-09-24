@@ -10,9 +10,9 @@ import {
  * POST /api/admin/menus/[menuId]/sections/[sectionId]/items
  * Create a new menu item
  */
-export async function POST(request, { params }) {
+export async function POST(request, context) {
   try {
-    const { menuId, sectionId } = params
+    const { menuId, sectionId } = await context.params
     const body = await request.json()
 
     if (!body.name || body.price === undefined) {
@@ -35,9 +35,9 @@ export async function POST(request, { params }) {
  * PUT /api/admin/menus/[menuId]/sections/[sectionId]/items
  * Update a menu item
  */
-export async function PUT(request, { params }) {
+export async function PUT(request, context) {
   try {
-    const { menuId, sectionId } = params
+    const { menuId, sectionId } = await context.params
     const body = await request.json()
     const { itemId, ...updates } = body
 
@@ -61,9 +61,9 @@ export async function PUT(request, { params }) {
  * DELETE /api/admin/menus/[menuId]/sections/[sectionId]/items
  * Delete a menu item
  */
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
   try {
-    const { menuId, sectionId } = params
+    const { menuId, sectionId } = await context.params
     const { searchParams } = new URL(request.url)
     const itemId = searchParams.get('itemId')
 
@@ -87,9 +87,9 @@ export async function DELETE(request, { params }) {
  * PATCH /api/admin/menus/[menuId]/sections/[sectionId]/items
  * Toggle unavailable status
  */
-export async function PATCH(request, { params }) {
+export async function PATCH(request, context) {
   try {
-    const { menuId, sectionId } = params
+    const { menuId, sectionId } = await context.params
     const body = await request.json()
     const { itemId } = body
 

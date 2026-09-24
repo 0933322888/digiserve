@@ -44,7 +44,7 @@ export default function EventsCarousel({ events = [] }) {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="bg-secondary dark:bg-gray-800 rounded-lg overflow-hidden shadow-xl">
+          <div className="bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] rounded-lg overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
               {/* Event Image */}
               <div className="relative h-64 md:h-auto">
@@ -56,7 +56,7 @@ export default function EventsCarousel({ events = [] }) {
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {currentEvent.featured && (
-                  <div className="absolute top-4 right-4 bg-gold text-primary px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+                  <div className="absolute top-4 right-4 bg-gold text-[var(--primary-light-bg)] px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
                     Featured
                   </div>
                 )}
@@ -64,25 +64,25 @@ export default function EventsCarousel({ events = [] }) {
 
               {/* Event Details */}
               <div className="p-8 flex flex-col justify-center">
-                <h3 className="text-3xl font-serif font-bold text-primary dark:text-gold mb-4">
+                <h3 className="text-3xl font-serif font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-4">
                   {currentEvent.title}
                 </h3>
-                <div className="flex items-center space-x-6 mb-4 text-gray-600 dark:text-gray-400">
+                <div className="flex items-center space-x-6 mb-4 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]">
                   <div className="flex items-center space-x-2">
-                    <Calendar className="w-5 h-5 text-primary dark:text-gold" />
+                    <Calendar className="w-5 h-5 text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]" />
                     <span className="font-medium">{formatDate(currentEvent.date)}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Clock className="w-5 h-5 text-primary dark:text-gold" />
+                    <Clock className="w-5 h-5 text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]" />
                     <span className="font-medium">{currentEvent.time}</span>
                   </div>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 mb-6 text-lg leading-relaxed">
+                <p className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] mb-6 text-lg leading-relaxed">
                   {currentEvent.description}
                 </p>
                 <Link
                   href="/events"
-                  className="inline-flex items-center gap-2 bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors w-fit group"
+                  className="inline-flex items-center gap-2 bg-[var(--primary-light-bg)] dark:bg-gold text-[var(--primary-light-text)] dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-[var(--primary-dark-bg)] dark:hover:bg-gold-light transition-colors w-fit group"
                 >
                   View All Events
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

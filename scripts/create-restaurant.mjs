@@ -45,6 +45,7 @@ async function createRestaurant() {
     // Note: Other features (events, gallery, reservations, etc.) are managed via AppSettings
     // Only analytics is stored here as it's multi-tenant specific
     const restaurant = await Restaurant.create({
+      id: `tenant_${Date.now()}`,
       name: 'TRIO BISTRO AND LOUNGE',
       slug: 'triobistro',
       barId: 'bar_1',

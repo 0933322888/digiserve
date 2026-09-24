@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth-service'
 import { getUserModel, getRestaurantModel } from '@/lib/db/models'
 import connectDB from '@/lib/db/mongodb-connection'
+import { clearTenantCache } from '@/lib/tenant-service'
 
 /**
  * PATCH /api/onboarding/branding
@@ -44,6 +45,9 @@ export async function PATCH(request) {
                 },
             }
         )
+
+        // Clear tenant cache so subsequent requests get fresh theme data
+        clearTenantCache()
 
         // Update user onboarding progress
         await User.updateOne(

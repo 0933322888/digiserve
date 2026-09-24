@@ -80,7 +80,7 @@ export default function Hero({
             animate="visible"
             variants={containerVariants}
           >
-            <h1 className="text-9xl md:text-9xl font-serif font-bold text-primary-text mb-4 drop-shadow-lg">
+            <h1 className="text-9xl md:text-9xl font-serif font-bold text-[var(--primary-light-text)] mb-4 drop-shadow-lg">
               {title}
             </h1>
             {tagline && (
@@ -89,7 +89,7 @@ export default function Hero({
               </h2>
             )}
             {description && (
-              <p className="text-lg md:text-xl text-primary-text mb-12 max-w-2xl mx-auto drop-shadow-sm">
+              <p className="text-lg md:text-xl text-[var(--primary-light-text)] mb-12 max-w-2xl mx-auto drop-shadow-sm">
                 {description}
               </p>
             )}
@@ -110,8 +110,8 @@ export default function Hero({
                         className={cn(
                           "inline-flex items-center space-x-2 px-8 py-4 rounded-lg font-semibold transition-all duration-300",
                           button.primary
-                            ? 'bg-gold text-secondary hover:bg-gold-light'
-                            : 'bg-black/40 text-primary-text border-2 border-primary-text hover:bg-secondary hover:text-primary backdrop-blur-sm'
+                            ? 'bg-gold text-[var(--secondary-light-bg)] hover:bg-gold-light'
+                            : 'bg-black/40 text-[var(--primary-light-text)] border-2 border-[var(--primary-light-text)] hover:bg-[var(--secondary-light-bg)] hover:text-[var(--primary-light-text)] backdrop-blur-sm'
                         )}
                       >
                         <Icon className="w-5 h-5" />
@@ -131,7 +131,7 @@ export default function Hero({
   // --- Variant: Split / Hero Static (Text Left, Image Right) ---
   if (variant === 'split' || variant === 'hero-static') {
     return (
-      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-secondary dark:bg-gray-900">
+      <section className="relative min-h-[90vh] flex items-center overflow-hidden bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <motion.div
@@ -140,10 +140,10 @@ export default function Hero({
             animate="visible"
             variants={containerVariants}
           >
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-primary dark:text-gold mb-6">
+            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-6">
               {title}
             </h1>
-            <p className="text-xl text-gray-700 dark:text-primary-text/90 mb-8 font-light leading-relaxed">
+            <p className="text-xl text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]/90 mb-8 font-light leading-relaxed">
               {description || tagline}
             </p>
             {ctaButtons.length > 0 && (
@@ -157,8 +157,8 @@ export default function Hero({
                       className={cn(
                         "inline-flex items-center space-x-2 px-8 py-4 rounded-none font-semibold transition-all duration-300 uppercase tracking-widest text-sm",
                         button.primary
-                          ? 'bg-primary text-primary-text dark:bg-primary-dark dark:text-primary-dark-text hover:bg-primary/90 dark:hover:bg-primary-dark/90'
-                          : 'border border-primary text-primary dark:border-primary-dark dark:text-primary-dark hover:bg-primary hover:text-primary-text dark:hover:bg-primary-dark dark:hover:text-primary-dark-text'
+                          ? 'bg-[var(--primary-light-bg)] text-[var(--primary-light-text)] dark:bg-[var(--primary-dark-bg)] dark:text-[var(--primary-dark-text)] hover:bg-[var(--primary-light-bg)]/90 dark:hover:bg-[var(--primary-dark-bg)]/90'
+                          : 'border border-[var(--primary-light-text)] text-[var(--primary-light-text)] dark:border-[var(--primary-dark-text)] dark:text-[var(--primary-dark-text)] hover:bg-[var(--primary-light-bg)] hover:text-[var(--primary-light-text)] dark:hover:bg-[var(--primary-dark-bg)] dark:hover:text-[var(--primary-dark-text)]'
                       )}
                     >
                       <Icon className="w-4 h-4" />
@@ -195,7 +195,7 @@ export default function Hero({
             variants={containerVariants}
           >
             <span className="text-gold uppercase tracking-[0.2em] mb-4 block">{tagline}</span>
-            <h1 className="text-6xl md:text-8xl font-serif font-medium text-primary dark:text-primary-text mb-8">
+            <h1 className="text-6xl md:text-8xl font-serif font-medium text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-8">
               {title}
             </h1>
             <div className="w-24 h-1 bg-gold mx-auto mb-10" />
@@ -206,7 +206,7 @@ export default function Hero({
                   <Link
                     key={button.href}
                     href={button.href}
-                    className="text-lg font-serif italic text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-gold transition-colors underline decoration-1 underline-offset-4"
+                    className="text-lg font-serif italic text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] hover:text-[var(--primary-light-text)] dark:hover:text-[var(--primary-dark-text)] transition-colors underline decoration-1 underline-offset-4"
                   >
                     {button.label}
                   </Link>

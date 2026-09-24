@@ -19,7 +19,7 @@ import {
 export async function POST(request) {
     try {
         const body = await request.json()
-    const { email, password, businessName, phone, subdomain: requestedSubdomain, domain: customDomain, theme: themeFromBody } = body
+    const { email, password, businessName, phone, subdomain: requestedSubdomain, domain: customDomain, theme: themeFromBody, template: templateFromBody } = body
 
         // Validation
         if (!email || !password || !businessName) {
@@ -38,10 +38,10 @@ export async function POST(request) {
             )
         }
 
-        // Validate password strength (minimum 8 characters)
-        if (password.length < 8) {
+        // Validate password strength (minimum 5 characters)
+        if (password.length < 5) {
             return NextResponse.json(
-                { error: 'Password must be at least 8 characters long' },
+                { error: 'Password must be at least 5 characters long' },
                 { status: 400 }
             )
         }
@@ -131,23 +131,28 @@ export async function POST(request) {
 
         // Determine theme: prefer submitted theme, fall back to default
         let themeToStore = null
+        const templateId = templateFromBody || (themeFromBody && themeFromBody.templateId) || 'bar'
         if (themeFromBody && typeof themeFromBody === 'object') {
             themeToStore = {
+                templateId,
                 type: themeFromBody.type || 'custom',
                 primaryColor: themeFromBody.primaryColor || null,
                 secondaryColor: themeFromBody.secondaryColor || null,
             }
         } else {
-            themeToStore = getDefaultTheme('vintage')
+            themeToStore = {
+                templateId,
+                ...getDefaultTheme('vintage')
+            }
         }
 
         // Create tenant/restaurant record
-        const restaurant = await Restaurant.create({
+        const restaurantData = {
+            id: `tenant_${Date.now()}_${Math.random().toString(36).substring(7)}`,
             barId,
             name: businessName,
             slug,
             subdomain: subdomainLabel,
-            domain: domainToStore,
             customDomains: domainToStore ? [domainToStore] : [],
             domainVerification,
             onboardingCompletedAt: null,
@@ -182,7 +187,13 @@ export async function POST(request) {
             },
             createdAt: new Date(),
             updatedAt: new Date(),
-        })
+        }
+
+        if (domainToStore) {
+            restaurantData.domain = domainToStore
+        }
+
+        const restaurant = await Restaurant.create(restaurantData)
 
         // Create user record
         const user = await User.create({

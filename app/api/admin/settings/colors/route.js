@@ -3,6 +3,7 @@ import { getRestaurantModel } from '@/lib/db/models'
 import connectDB from '@/lib/db/mongodb-connection'
 import { generateCompleteThemeColors, validateColorObject } from '@/lib/color-utils'
 import { resolveTenantId } from '@/lib/tenant-resolver'
+import { clearTenantCache } from '@/lib/tenant-service'
 
 /**
  * GET /api/admin/settings/colors
@@ -129,6 +130,9 @@ export async function PUT(request) {
         restaurant.updatedAt = new Date()
 
         await restaurant.save()
+
+        // Clear tenant cache so subsequent requests get fresh theme data
+        clearTenantCache()
 
         return NextResponse.json({
             success: true,

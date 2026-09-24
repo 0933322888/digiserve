@@ -4,6 +4,7 @@ import { getSession } from '@/lib/auth-service'
 import { getUserModel, getRestaurantModel, getEventModel, getGalleryImageModel } from '@/lib/db/models'
 import connectDB from '@/lib/db/mongodb-connection'
 import { getSampleEvents, getSampleGalleryImages } from '@/lib/sample-data'
+import { clearTenantCache } from '@/lib/tenant-service'
 
 /**
  * POST /api/onboarding/complete
@@ -77,6 +78,9 @@ export async function POST(request) {
                 }
             )
         }
+
+        // Clear tenant cache so subsequent requests get fresh theme data
+        clearTenantCache()
 
         // Update user onboarding status
         await User.updateOne(

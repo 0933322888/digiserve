@@ -18,6 +18,7 @@ import {
 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import SignupForm from '@/components/onboarding/SignupForm'
+import { TEMPLATES } from '@/config/templates'
 
 export default function PlatformLandingPage() {
     const [showWizard, setShowWizard] = useState(false)
@@ -287,12 +288,12 @@ export default function PlatformLandingPage() {
                         Join thousands of restaurateurs who are taking control of their digital presence with DigiServe.
                     </p>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                                <button
-                                    onClick={() => setShowWizard(true)}
-                                    className="w-full sm:w-auto inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-xl font-bold text-xl transition-all shadow-2xl hover:scale-105"
-                                >
-                                    Get Started Free
-                                </button>
+                        <button
+                            onClick={() => setShowWizard(true)}
+                            className="w-full sm:w-auto inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-xl font-bold text-xl transition-all shadow-2xl hover:scale-105"
+                        >
+                            Get Started Free
+                        </button>
                     </div>
                     <p className="mt-6 text-sm text-gray-500">No credit card required • Cancel anytime</p>
                 </div>
@@ -366,13 +367,8 @@ function WizardModal({ onClose }) {
     // SignupForm will own all form state; we keep a ref to read values when finishing
     const signupRef = useRef(null)
 
-    // Website templates (visual/layout choices)
-    const templates = [
-        { id: 'classic', name: 'Classic', description: 'Warm, classic layout for neighborhood restaurants' },
-        { id: 'showcase', name: 'Showcase', description: 'Image-forward layout for modern eateries' },
-        { id: 'minimal', name: 'Minimal', description: 'Clean, minimal layout for cafés and bars' },
-    ]
-    const [selectedTemplate, setSelectedTemplate] = useState(templates[0].id)
+    // Website templates from registry (matches /admin/settings template view)
+    const [selectedTemplate, setSelectedTemplate] = useState(TEMPLATES[0]?.id || 'bar')
 
     // Theme options (colors + small stylistic differences)
     const themes = [
@@ -383,6 +379,18 @@ function WizardModal({ onClose }) {
     const [selectedTheme, setSelectedTheme] = useState(themes[0].id)
     const [primaryColor, setPrimaryColor] = useState(themes[0].primary)
     const [secondaryColor, setSecondaryColor] = useState(themes[0].secondary)
+
+    // When a template is selected, sync default colors if available
+    const handleTemplateSelect = (templateId) => {
+        setSelectedTemplate(templateId)
+        const t = TEMPLATES.find(x => x.id === templateId)
+        if (t?.colors?.light) {
+            setPrimaryColor(t.colors.light.primary.bg)
+            if (t.colors.light.secondary?.bg) {
+                setSecondaryColor(t.colors.light.secondary.bg)
+            }
+        }
+    }
 
     // When a theme is selected, reset the color pickers to its defaults (but allow manual tweak afterwards)
     useEffect(() => {
@@ -441,49 +449,64 @@ function WizardModal({ onClose }) {
                         <div>
                             <div className="mb-2 text-sm text-gray-300">Website templates</div>
                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
-                                {templates.map((t) => {
-                                    // simple visual preview per template id
-                                    const preview = t.id === 'classic'
-                                        ? 'linear-gradient(135deg,#6b21a8 0%,#0ea5e9 100%)'
-                                        : t.id === 'showcase'
-                                            ? 'linear-gradient(135deg,#0ea5e9 0%,#10b981 100%)'
-                                            : 'linear-gradient(135deg,#111 0%,#444 100%)'
+                                {TEMPLATES.map((template) => (
+                                    <button
+                                        key={template.id}
+                                        type="button"
+                                        onClick={() => handleTemplateSelect(template.id)}
+                                        className={`rounded-xl border transition-all text-left overflow-hidden ${selectedTemplate === template.id
+                                            ? 'border-blue-500 ring-2 ring-blue-500/50 bg-blue-500/10'
+                                            : 'border-white/10 bg-[#121212] hover:border-white/20'
+                                            }`}
+                                    >
+                                        {/* Template Thumbnail */}
+                                        <div className="aspect-video bg-gray-900 relative overflow-hidden">
+                                            <img
+                                                src={template.thumbnail}
+                                                alt={template.name}
+                                                className="w-full h-full object-cover"
+                                            />
+                                            {selectedTemplate === template.id && (
+                                                <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-0.5 rounded text-xs font-medium flex items-center gap-1 shadow">
+                                                    <Check className="w-3 h-3" />
+                                                    Selected
+                                                </div>
+                                            )}
+                                        </div>
 
-                                    return (
-                                        <button
-                                            key={t.id}
-                                            type="button"
-                                            onClick={() => { setSelectedTemplate(t.id) }}
-                                            className={`p-4 border rounded-lg cursor-pointer text-left ${selectedTemplate === t.id ? 'border-blue-500 bg-white/5' : 'border-white/5'}`}
-                                        >
-                                            <div className="h-32 mb-3 rounded overflow-hidden" style={{ background: preview }} />
-                                            <div className="font-bold text-white">{t.name}</div>
-                                            <div className="text-sm text-gray-400">{t.description}</div>
-                                        </button>
-                                    )
-                                })}
-                            </div>
+                                        {/* Template Info */}
+                                        <div className="p-3.5">
+                                            <div className="font-semibold text-white mb-1">
+                                                {template.name}
+                                            </div>
+                                            <p className="text-xs text-gray-400 line-clamp-2 mb-3">
+                                                {template.description}
+                                            </p>
 
-                            <div className="mb-2 text-sm text-gray-300">Themes</div>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-3">
-                                {themes.map((th) => (
-                                    <button key={th.id} type="button" onClick={() => setSelectedTheme(th.id)} className={`p-3 border rounded-lg text-left ${selectedTheme === th.id ? 'border-blue-500 bg-white/5' : 'border-white/5'}`}>
-                                        <div className="h-20 mb-3 rounded overflow-hidden" style={{ background: `linear-gradient(135deg, ${th.primary} 0%, ${th.secondary} 100%)` }} />
-                                        <div className="font-bold text-white">{th.name}</div>
+                                            {/* Color Swatches */}
+                                            {template.colors?.light && (
+                                                <div className="flex items-center gap-1.5">
+                                                    <div
+                                                        className="w-5 h-5 rounded border border-white/20"
+                                                        style={{ backgroundColor: template.colors.light.primary.bg }}
+                                                        title="Primary color"
+                                                    />
+                                                    <div
+                                                        className="w-5 h-5 rounded border border-white/20"
+                                                        style={{ backgroundColor: template.colors.light.secondary.bg }}
+                                                        title="Secondary color"
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
                                     </button>
                                 ))}
                             </div>
 
-                            <div>
-                                <div className="mb-2 text-sm text-gray-300">Primary / Secondary colors</div>
-                                <div className="flex gap-3 items-center">
-                                    <input type="color" value={primaryColor} onChange={(e)=>setPrimaryColor(e.target.value)} className="w-12 h-12 rounded" />
-                                    <input type="color" value={secondaryColor} onChange={(e)=>setSecondaryColor(e.target.value)} className="w-12 h-12 rounded" />
-                                    <div className="ml-4 text-sm text-gray-400">Preview: </div>
-                                    <div className="w-12 h-8 rounded ml-2" style={{ background: primaryColor }} />
-                                    <div className="w-12 h-8 rounded ml-2" style={{ background: secondaryColor }} />
-                                </div>
+                            <div className="rounded-lg bg-white/5 border border-white/10 px-4 py-3 flex items-center gap-2.5 text-xs text-gray-400">
+                                <span>You can customize colors, switch templates, or edit your template later at any time in your dashboard settings.</span>
                             </div>
+
                         </div>
 
                         {error && <div className="text-sm text-red-400">{error}</div>}
@@ -500,21 +523,21 @@ function WizardModal({ onClose }) {
                                         const values = signupRef.current?.getValues ? signupRef.current.getValues() : {}
 
                                         const res = await fetch('/api/auth/register', {
-                                            method: 'POST', headers: {'Content-Type':'application/json'},
+                                            method: 'POST', headers: { 'Content-Type': 'application/json' },
                                             body: JSON.stringify({
-                                                    email: values.email,
-                                                    password: values.password,
-                                                    businessName: values.businessName,
-                                                    phone: values.phone,
-                                                    subdomain: values.subdomain || undefined,
-                                                    domain: values.customDomain || undefined,
-                                                    template: selectedTemplate,
-                                                    theme: {
-                                                        type: selectedTheme,
-                                                        primaryColor,
-                                                        secondaryColor,
-                                                    },
-                                                })
+                                                email: values.email,
+                                                password: values.password,
+                                                businessName: values.businessName,
+                                                phone: values.phone,
+                                                subdomain: values.subdomain || undefined,
+                                                domain: values.customDomain || undefined,
+                                                template: selectedTemplate,
+                                                theme: {
+                                                    type: selectedTheme,
+                                                    primaryColor,
+                                                    secondaryColor,
+                                                },
+                                            })
                                         })
                                         const data = await res.json()
                                         if (!res.ok) {

@@ -45,8 +45,8 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
     : "grid grid-cols-1 md:grid-cols-2 gap-6"
 
   const cardClass = variant === 'list'
-    ? "bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 border-b border-gray-200 dark:border-gray-700"
-    : "bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
+    ? "bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 border-b border-[var(--primary-light-bg)]/20 dark:border-[var(--primary-dark-bg)]/20"
+    : "bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
 
   return (
     <motion.section
@@ -57,11 +57,11 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
       className="mb-16"
     >
       <div className="mb-8">
-        <h3 className="text-3xl font-serif font-bold text-primary dark:text-gold mb-2">
+        <h3 className="text-3xl font-serif font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-2">
           {section.name}
         </h3>
         {section.description && (
-          <p className="text-gray-600 dark:text-gray-400 italic">{section.description}</p>
+          <p className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] italic">{section.description}</p>
         )}
       </div>
 
@@ -97,7 +97,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex-1">
                     <h4
-                      className="text-xl font-serif font-semibold text-primary dark:text-gold"
+                      className="text-xl font-serif font-semibold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]"
                       itemProp="name"
                     >
                       {item.name}
@@ -112,7 +112,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                   {/* Only show main price if ordering is enabled OR item has no size variants */}
                   {showOrdering || !item.options || item.options.length === 0 ? (
                     <span
-                      className="text-lg font-bold text-primary dark:text-gold ml-4"
+                      className="text-lg font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] ml-4"
                       itemProp="offers"
                       itemScope
                       itemType="https://schema.org/Offer"
@@ -123,7 +123,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                     </span>
                   ) : null}
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 mb-2" itemProp="description">
+                <p className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] mb-2" itemProp="description">
                   {item.description}
                 </p>
                 {/* Show all size variants when ordering is disabled and item has options */}
@@ -135,8 +135,8 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                           key={idx}
                           className="flex justify-between items-center text-sm"
                         >
-                          <span className="text-gray-700 dark:text-gray-300">{option.name}</span>
-                          <span className="font-semibold text-primary dark:text-gold">
+                          <span className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]">{option.name}</span>
+                          <span className="font-semibold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]">
                             {formatPrice(option.price)}
                           </span>
                         </div>

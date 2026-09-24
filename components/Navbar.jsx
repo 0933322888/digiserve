@@ -27,10 +27,6 @@ export default function Navbar() {
   const pathname = usePathname()
   const { theme } = useTheme()
 
-  // Hide on print routes
-  if (pathname?.startsWith('/print')) return null
-
-
   const isRestaurantTemplate = theme?.templateId === 'restaurant'
 
   console.log('DEBUG: Navbar', {
@@ -67,6 +63,9 @@ export default function Navbar() {
         // Keep default values from siteConfig
       })
   }, [])
+
+  // Hide on print routes
+  if (pathname?.startsWith('/print')) return null
 
   const toggleDarkMode = () => {
     const newTheme = !isDark
@@ -116,12 +115,12 @@ export default function Navbar() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
         isRestaurantTemplate
-          ? "border-primary/20"
-          : "bg-secondary dark:bg-gray-900 border-primary/20"
+          ? "border-[var(--primary-light-bg)]/20"
+          : "bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] border-[var(--primary-light-bg)]/20 dark:border-[var(--primary-dark-bg)]/20"
       )}
       style={{
         backgroundColor: isRestaurantTemplate
-          ? 'var(--primary)'
+          ? 'var(--primary-light-bg)'
           : undefined
       }}
     >
@@ -131,7 +130,9 @@ export default function Navbar() {
           <Link href="/" className="flex items-center space-x-2">
             <span className={cn(
               "text-2xl font-serif font-bold transition-colors",
-              isRestaurantTemplate ? "text-white" : "text-primary dark:text-gold"
+              isRestaurantTemplate 
+                ? "text-white" 
+                : "text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]"
             )}>
               {siteConfig.restaurant.name}
             </span>
@@ -147,7 +148,9 @@ export default function Navbar() {
                   'text-sm font-medium transition-colors',
                   isRestaurantTemplate
                     ? (isActive(link.href) ? 'text-white border-b-2 border-white' : 'text-white/90 hover:text-white')
-                    : (isActive(link.href) ? 'text-primary dark:text-white border-b-2 border-primary dark:border-white' : 'text-gray-700 dark:text-gray-200 hover:text-primary dark:hover:text-white')
+                    : (isActive(link.href) 
+                        ? 'text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] border-b-2 border-[var(--primary-light-text)] dark:border-[var(--primary-dark-text)]' 
+                        : 'text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] hover:text-[var(--primary-light-text)] dark:hover:text-[var(--primary-dark-text)]')
                 )}
               >
                 {link.label}
@@ -158,7 +161,9 @@ export default function Navbar() {
               onClick={toggleDarkMode}
               className={cn(
                 "p-2 rounded-lg transition-colors",
-                isRestaurantTemplate ? "hover:bg-white/20 text-white" : "hover:bg-primary/10 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200"
+                isRestaurantTemplate 
+                  ? "hover:bg-white/20 text-white" 
+                  : "hover:bg-primary/10 dark:hover:bg-gray-800 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]"
               )}
               aria-label="Toggle dark mode"
             >
@@ -177,7 +182,9 @@ export default function Navbar() {
               onClick={toggleDarkMode}
               className={cn(
                 "p-2 rounded-lg transition-colors",
-                isRestaurantTemplate ? "hover:bg-white/20 text-white" : "hover:bg-primary/10 text-gray-700 dark:text-gray-200"
+                isRestaurantTemplate 
+                  ? "hover:bg-white/20 text-white" 
+                  : "hover:bg-primary/10 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]"
               )}
               aria-label="Toggle dark mode"
             >
@@ -191,7 +198,9 @@ export default function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
                 "p-2 rounded-lg transition-colors",
-                isRestaurantTemplate ? "hover:bg-white/20 text-white" : "hover:bg-primary/10 text-gray-700 dark:text-gray-200"
+                isRestaurantTemplate 
+                  ? "hover:bg-white/20 text-white" 
+                  : "hover:bg-primary/10 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]"
               )}
               aria-label="Toggle menu"
             >
@@ -212,7 +221,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-secondary dark:bg-gray-900 border-t border-primary/20"
+            className="md:hidden bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] border-t border-[var(--primary-light-bg)]/20 dark:border-[var(--primary-dark-bg)]/20"
           >
             <div className="px-4 py-4 space-y-3">
               {navLinks.map(link => (
@@ -223,8 +232,8 @@ export default function Navbar() {
                   className={cn(
                     'block text-base font-medium transition-colors',
                     isActive(link.href)
-                      ? 'text-primary dark:text-white'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-white'
+                      ? 'text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]'
+                      : 'text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] hover:text-[var(--primary-light-text)] dark:hover:text-[var(--primary-dark-text)]'
                   )}
                 >
                   {link.label}

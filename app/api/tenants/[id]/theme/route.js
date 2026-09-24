@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import connectDB from '@/lib/db/mongodb-connection'
 import { getRestaurantModel, getActivityLogModel } from '@/lib/db/models'
+import { clearTenantCache } from '@/lib/tenant-service'
 
 export async function POST(request, context) {
     // Use await for context.params in Next.js 15
@@ -43,6 +44,10 @@ export async function POST(request, context) {
 
         tenant.markModified('theme')
         await tenant.save()
+
+        // Clear tenant cache so subsequent requests get fresh theme data
+        clearTenantCache()
+
         console.log(`[Theme API] Saved tenant theme:`, tenant.theme)
 
         // Log activity

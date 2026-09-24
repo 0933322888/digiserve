@@ -182,6 +182,9 @@ export async function POST(request) {
 
     await tenant.save()
 
+    // Clear tenant cache so subsequent requests get fresh theme data
+    clearTenantCache()
+
     // Provision admin user if requested
     let createdAdmin = null
     if (adminName && adminEmail && adminPassword) {

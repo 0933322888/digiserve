@@ -35,9 +35,10 @@ function getRootDomainUrl(request, baseDomain, host) {
  * @param {Request} request
  * @param {string | null} tenantId
  * @param {string} pathname
+ * @param {string | null} requiredRole
  * @returns {Promise<NextResponse | null>}
  */
-async function authenticateAndAuthorizePage(request, tenantId, pathname) {
+async function authenticateAndAuthorizePage(request, tenantId, pathname, requiredRole = null) {
   console.log(`[AuthPage] Checking auth for: ${pathname}`);
   const token = request.cookies.get('tenant_session')?.value;
   console.log(`[AuthPage] Token found: ${!!token}`);
@@ -56,6 +57,11 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname) {
     return clearTenantSessionCookie(response);
   }
 
+  if (requiredRole && payload.role !== requiredRole) {
+    console.log(`[AuthPage] User role (${payload.role}) is not authorized for ${pathname}. Responding 403.`);
+    return new NextResponse('Forbidden', { status: 403 });
+  }
+
   if (tenantId && payload.tenantId !== tenantId && payload.tenantSubdomain !== tenantId) {
     console.log(`[AuthPage] Token tenant (${payload.tenantId}) does not match domain tenant (${tenantId}). Redirecting to ${redirectPath}.`);
     const response = NextResponse.redirect(new URL(redirectPath, request.url));
@@ -69,9 +75,10 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname) {
  * Returns a NextResponse (401/403) if authentication/authorization fails, otherwise null.
  * @param {Request} request
  * @param {string | null} tenantId
+ * @param {string | null} requiredRole
  * @returns {Promise<NextResponse | null>}
  */
-async function authenticateAndAuthorizeApi(request, tenantId) {
+async function authenticateAndAuthorizeApi(request, tenantId, requiredRole = null) {
   const { pathname } = request.nextUrl;
   console.log(`[AuthApi] Checking auth for: ${pathname}`);
   const token = request.cookies.get('tenant_session')?.value;
@@ -79,6 +86,10 @@ async function authenticateAndAuthorizeApi(request, tenantId) {
   if (!token) { console.log('[AuthApi] No token found. Responding 401.'); return clearTenantSessionCookie(NextResponse.json({ error: 'Unauthorized' }, { status: 401 })); }
   const payload = await verifySessionToken(token);
   if (!payload) { console.log('[AuthApi] Invalid token. Responding 401.'); return clearTenantSessionCookie(NextResponse.json({ error: 'Unauthorized' }, { status: 401 })); }
+  if (requiredRole && payload.role !== requiredRole) {
+    console.log(`[AuthApi] User role (${payload.role}) is not authorized for ${pathname}. Responding 403.`);
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
   if (tenantId && payload.tenantId !== tenantId && payload.tenantSubdomain !== tenantId) {
     console.log(`[AuthApi] Token tenant (${payload.tenantId}) does not match domain tenant (${tenantId}). Responding 403.`);
     return NextResponse.json({ error: 'Unauthorized access to this tenant' }, { status: 403 });
@@ -143,6 +154,18 @@ export async function middleware(request) {
   // A. Static files and Next.js internals (always public)
   if (pathname.startsWith('/_next') || pathname.startsWith('/favicon')) {
     console.log(`[Middleware] Path (${pathname}) is a static/internal file. Allowing.`);
+    return NextResponse.next({ request: { headers } });
+  }
+
+  // Super Admin routes must be evaluated before any public route handling.
+  if (pathname === '/super-admin' || pathname.startsWith('/super-admin/') ||
+      pathname === '/api/super-admin' || pathname.startsWith('/api/super-admin/')) {
+    const isApiRoute = pathname === '/api/super-admin' || pathname.startsWith('/api/super-admin/');
+    console.log(`[Middleware] Path (${pathname}) is a protected Super Admin ${isApiRoute ? 'API' : 'UI'} route. Checking auth...`);
+    const authResponse = isApiRoute
+      ? await authenticateAndAuthorizeApi(request, null, 'super-admin')
+      : await authenticateAndAuthorizePage(request, null, pathname, 'super-admin');
+    if (authResponse) return authResponse;
     return NextResponse.next({ request: { headers } });
   }
 

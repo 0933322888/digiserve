@@ -35,9 +35,10 @@ function getRootDomainUrl(request, baseDomain, host) {
  * @param {Request} request
  * @param {string | null} tenantId
  * @param {string} pathname
+ * @param {string | null} requiredRole
  * @returns {Promise<NextResponse | null>}
  */
-async function authenticateAndAuthorizePage(request, tenantId, pathname) {
+async function authenticateAndAuthorizePage(request, tenantId, pathname, requiredRole = null) {
   console.log(`[AuthPage] Checking auth for: ${pathname}`);
   const token = request.cookies.get('tenant_session')?.value;
   console.log(`[AuthPage] Token found: ${!!token}`);
@@ -54,6 +55,11 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname) {
     console.log(`[AuthPage] Invalid token. Redirecting to ${redirectPath}.`);
     const response = NextResponse.redirect(new URL(redirectPath, request.url));
     return clearTenantSessionCookie(response);
+  }
+
+  if (requiredRole && payload.role !== requiredRole) {
+    console.log(`[AuthPage] User role (${payload.role}) is not authorized for ${pathname}. Responding 403.`);
+    return new NextResponse('Forbidden', { status: 403 });
   }
 
   if (tenantId) {
@@ -77,9 +83,10 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname) {
  * Returns a NextResponse (401/403) if authentication/authorization fails, otherwise null.
  * @param {Request} request
  * @param {string | null} tenantId
+ * @param {string | null} requiredRole
  * @returns {Promise<NextResponse | null>}
  */
-async function authenticateAndAuthorizeApi(request, tenantId) {
+async function authenticateAndAuthorizeApi(request, tenantId, requiredRole = null) {
   const { pathname } = request.nextUrl;
   console.log(`[AuthApi] Checking auth for: ${pathname}`);
   const token = request.cookies.get('tenant_session')?.value;
@@ -87,6 +94,10 @@ async function authenticateAndAuthorizeApi(request, tenantId) {
   if (!token) { console.log('[AuthApi] No token found. Responding 401.'); return clearTenantSessionCookie(NextResponse.json({ error: 'Unauthorized' }, { status: 401 })); }
   const payload = await verifySessionToken(token);
   if (!payload) { console.log('[AuthApi] Invalid token. Responding 401.'); return clearTenantSessionCookie(NextResponse.json({ error: 'Unauthorized' }, { status: 401 })); }
+  if (requiredRole && payload.role !== requiredRole) {
+    console.log(`[AuthApi] User role (${payload.role}) is not authorized for ${pathname}. Responding 403.`);
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
   if (tenantId) {
     const isTenantMatch = payload.tenantId === tenantId ||
       payload.tenantSubdomain === tenantId ||
@@ -200,9 +211,21 @@ export async function middleware(request) {
     return NextResponse.next({ request: { headers } });
   }
 
+  // C. Protected Super Admin routes
+  if (pathname === '/super-admin' || pathname.startsWith('/super-admin/') ||
+      pathname === '/api/super-admin' || pathname.startsWith('/api/super-admin/')) {
+    const isApiRoute = pathname === '/api/super-admin' || pathname.startsWith('/api/super-admin/');
+    console.log(`[Middleware] Path (${pathname}) is a protected Super Admin ${isApiRoute ? 'API' : 'UI'} route. Checking auth...`);
+    const authResponse = isApiRoute
+      ? await authenticateAndAuthorizeApi(request, null, 'super-admin')
+      : await authenticateAndAuthorizePage(request, null, pathname, 'super-admin');
+    if (authResponse) return authResponse;
+    return NextResponse.next({ request: { headers } });
+  }
+
   // C. Root domain public routes (landing page, marketing, etc. - no auth required)
   // These routes are only served on the root domain.
-  const MARKETING_ONLY_ROUTES = ['/', '/pricing', '/features', '/terms', '/privacy', '/super-admin'];
+  const MARKETING_ONLY_ROUTES = ['/', '/pricing', '/features', '/terms', '/privacy'];
   // The root path '/' is only a marketing route if it's on the root domain.
   // Other marketing routes are checked with startsWith.
   const isMarketingRoute = (isRootDomain && pathname === '/') ||
@@ -215,15 +238,6 @@ export async function middleware(request) {
       console.log('[Middleware] Marketing/root route on tenant domain is forbidden. Redirecting to root.');
       const rootDomainUrl = getRootDomainUrl(request, baseDomain, host);
       return NextResponse.redirect(new URL(pathname, rootDomainUrl));
-    }
-    return NextResponse.next({ request: { headers } });
-  }
-
-  // C2. Root Domain Super Admin API routes
-  if (pathname.startsWith('/api/super-admin')) {
-    if (!isRootDomain) {
-      console.log('[Middleware] Super-admin API on tenant domain is forbidden. Responding 403.');
-      return NextResponse.json({ error: 'Super-admin API is only available on root platform domain' }, { status: 403 });
     }
     return NextResponse.next({ request: { headers } });
   }

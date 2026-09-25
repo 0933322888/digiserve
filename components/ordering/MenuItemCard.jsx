@@ -45,7 +45,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className={`bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex ${variant === 'list' ? 'flex-col md:flex-row gap-6' : 'flex-col h-full'
+      className={`bg-secondary dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex ${variant === 'list' ? 'flex-col md:flex-row gap-6' : 'flex-col h-full'
         } ${item.unavailable ? 'opacity-60' : ''}`}
     >
       {item.image && (

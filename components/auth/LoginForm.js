@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Mail, Lock } from 'lucide-react'
 
-export default function LoginForm({ primaryColor = '#8B0000' }) {
+export default function LoginForm({ primary = '#8B0000' }) {
     const router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -61,7 +61,7 @@ export default function LoginForm({ primaryColor = '#8B0000' }) {
                             required
                             placeholder="you@example.com"
                             className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent"
-                            style={{ '--tw-ring-color': primaryColor }}
+                            style={{ '--tw-ring-color': primary }}
                         />
                     </div>
                 </div>
@@ -83,7 +83,7 @@ export default function LoginForm({ primaryColor = '#8B0000' }) {
                             required
                             placeholder="Enter your password"
                             className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent"
-                            style={{ '--tw-ring-color': primaryColor }}
+                            style={{ '--tw-ring-color': primary }}
                         />
                     </div>
                 </div>
@@ -101,8 +101,8 @@ export default function LoginForm({ primaryColor = '#8B0000' }) {
                     disabled={loading}
                     className="w-full text-white py-3 px-4 rounded-lg font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                     style={{
-                        backgroundColor: primaryColor,
-                        '--tw-ring-color': primaryColor
+                        backgroundColor: primary,
+                        '--tw-ring-color': primary
                     }}
                 >
                     {loading ? 'Signing in...' : 'Sign In'}

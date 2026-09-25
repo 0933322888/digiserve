@@ -25,7 +25,7 @@ export async function GET(request) {
         { name: { $regex: search, $options: 'i' } },
         { slug: { $regex: search, $options: 'i' } },
         { barId: { $regex: search, $options: 'i' } },
-        { domain: { $regex: search, $options: 'i' } },
+        { customDomains: { $regex: search, $options: 'i' } },
       ]
     }
 
@@ -34,17 +34,14 @@ export async function GET(request) {
     }
 
     const tenants = await Restaurant.find(query)
-      .select('barId name slug subdomain domain customDomains modules subscription theme contact createdAt updatedAt')
+      .select('barId name slug customDomains modules subscription theme contact createdAt updatedAt')
       .sort({ createdAt: -1 })
       .lean()
-
-    const baseDomain = process.env.NEXT_PUBLIC_BASE_DOMAIN || 'digiserve.com'
 
     return NextResponse.json({
       success: true,
       tenants: tenants.map(t => ({
         ...t,
-        subdomain: t.subdomain || (t.slug ? `${t.slug}.${baseDomain}` : null),
         modules: t.modules || ['ordering', 'reservations', 'events', 'gallery', 'social'],
         subscription: t.subscription || { plan: 'basic', status: 'active' },
       })),
@@ -72,7 +69,6 @@ export async function POST(request) {
       adminName,
       adminEmail,
       adminPassword,
-      domain,
       customDomains = [],
       modules = ['ordering', 'reservations', 'events', 'gallery', 'social'],
       subscriptionPlan = 'basic',
@@ -111,13 +107,15 @@ export async function POST(request) {
     }
 
     // Check custom domain collision
-    if (domain) {
-      const existingDomain = await Restaurant.findOne({
-        $or: [{ domain }, { customDomains: domain }]
-      })
+    const normalizedDomains = Array.isArray(customDomains)
+      ? customDomains.map(domain => domain.trim().toLowerCase()).filter(Boolean)
+      : []
+
+    if (normalizedDomains.length > 0) {
+      const existingDomain = await Restaurant.findOne({ customDomains: { $in: normalizedDomains } })
       if (existingDomain) {
         return NextResponse.json(
-          { error: `The domain "${domain}" is already assigned to another tenant.` },
+          { error: 'One or more custom domains are already assigned to another tenant.' },
           { status: 409 }
         )
       }
@@ -135,17 +133,11 @@ export async function POST(request) {
     }
 
     const barId = `bar_${crypto.randomUUID().substring(0, 8)}`
-    const baseDomain = process.env.NEXT_PUBLIC_BASE_DOMAIN || 'digiserve.com'
-    const subdomain = `${cleanSlug}.${baseDomain}`
-
     const tenant = new Restaurant({
-      id: crypto.randomUUID(),
       barId,
       name: name.trim(),
       slug: cleanSlug,
-      subdomain,
-      domain: domain ? domain.trim() : null,
-      customDomains: Array.isArray(customDomains) ? customDomains : (domain ? [domain.trim()] : []),
+      customDomains: normalizedDomains,
       modules,
       theme: {
         templateId: templateId || 'bar',
@@ -212,7 +204,7 @@ export async function POST(request) {
         barId: tenant.barId,
         name: tenant.name,
         slug: tenant.slug,
-        subdomain: tenant.subdomain,
+        customDomains: tenant.customDomains,
         modules: tenant.modules,
         subscription: tenant.subscription,
       },

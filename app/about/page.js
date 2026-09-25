@@ -127,10 +127,10 @@ export default async function AboutPage() {
             priority
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-primary/20 dark:bg-gray-900/70" />
+          <div className="absolute inset-0 bg-primary/20 dark:bg-[var(--secondary-dark-bg)]/70" />
         </div>
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-primary-text mb-4">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-primary mb-4">
             {pageContent?.hero?.title || "Our Story"}
           </h1>
         </div>
@@ -167,7 +167,7 @@ export default async function AboutPage() {
       </section>
 
       {/* Timeline Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary/5 dark:bg-gray-800/50">
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary/5 dark:bg-[var(--secondary-dark-bg)]/50">
         <div className="max-w-7xl mx-auto">
           <SectionTitle
             title={pageContent?.timeline?.sectionTitle || "Our Journey"}
@@ -184,7 +184,7 @@ export default async function AboutPage() {
                       </span>
                     </div>
                   </div>
-                  <div className="flex-1 bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                  <div className="flex-1 bg-secondary dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md">
                     <h3 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-2">
                       {item.title}
                     </h3>
@@ -209,7 +209,7 @@ export default async function AboutPage() {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               {principles.map((principle, index) => (
-                <div key={index} className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <div key={index} className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md">
                   <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-3">
                     {principle.title}
                   </h3>

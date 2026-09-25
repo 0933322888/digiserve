@@ -138,7 +138,7 @@ export default function GiftCardForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+      className="max-w-2xl mx-auto bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg"
     >
       <div className="mb-6">
         <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-4">

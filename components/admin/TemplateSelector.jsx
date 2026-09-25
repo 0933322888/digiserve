@@ -14,14 +14,14 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
     const [isSaving, setIsSaving] = useState(false)
 
     const [selectedTemplate, setSelectedTemplate] = useState(initialTheme?.templateId || 'bar')
-    const [primaryColor, setPrimaryColor] = useState(initialTheme?.primaryColor || '#8B0000')
-    const [secondaryColor, setSecondaryColor] = useState(initialTheme?.secondaryColor || '#F5F5DC')
+    const [primary, setPrimary] = useState(initialTheme?.colors?.primary || '#1C0F0B')
+    const [accent, setAccent] = useState(initialTheme?.colors?.accent || '#C88A3D')
 
     useEffect(() => {
         if (initialTheme) {
             setSelectedTemplate(initialTheme.templateId || 'bar')
-            setPrimaryColor(initialTheme.primaryColor || '#8B0000')
-            setSecondaryColor(initialTheme.secondaryColor || '#F5F5DC')
+            setPrimary(initialTheme.colors?.primary || '#1C0F0B')
+            setAccent(initialTheme.colors?.accent || '#C88A3D')
         }
     }, [initialTheme])
 
@@ -48,8 +48,7 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
                 },
                 body: JSON.stringify({
                     templateId: selectedTemplate,
-                    primaryColor,
-                    secondaryColor,
+                    colors: { primary, accent },
                 }),
             })
 
@@ -90,9 +89,9 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
                             key={template.id}
                             onClick={() => {
                                 setSelectedTemplate(template.id)
-                                if (template.theme) {
-                                    setPrimaryColor(template.theme.primaryColor)
-                                    setSecondaryColor(template.theme.secondaryColor)
+                                if (template.palettes?.[0]) {
+                                    setPrimary(template.palettes[0].primary)
+                                    setAccent(template.palettes[0].accent)
                                 }
                             }}
                             className={`
@@ -132,36 +131,31 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
                 </div>
             </div>
 
-            {/* Color Overrides */}
+            {/* Template palette */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
-                <h3 className="text-xl font-bold mb-4">Theme Colors</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div>
-                        <label className="block text-sm font-medium mb-2">Primary Color</label>
-                        <div className="flex items-center gap-3">
-                            <input
-                                type="color"
-                                value={primaryColor}
-                                onChange={(e) => setPrimaryColor(e.target.value)}
-                                className="h-10 w-20 rounded border border-gray-300 cursor-pointer"
-                            />
-                            <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">{primaryColor}</span>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-2">Used for buttons, links, and accents.</p>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-2">Secondary / Background Color</label>
-                        <div className="flex items-center gap-3">
-                            <input
-                                type="color"
-                                value={secondaryColor}
-                                onChange={(e) => setSecondaryColor(e.target.value)}
-                                className="h-10 w-20 rounded border border-gray-300 cursor-pointer"
-                            />
-                            <span className="font-mono text-sm bg-gray-100 px-2 py-1 rounded">{secondaryColor}</span>
-                        </div>
-                        <p className="text-xs text-gray-500 mt-2">Used for backgrounds and secondary elements.</p>
-                    </div>
+                <h3 className="text-xl font-bold mb-4">Color Palette</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {(templates.find(template => template.id === selectedTemplate)?.palettes || []).map(palette => {
+                        const isSelected = primary.toUpperCase() === palette.primary && accent.toUpperCase() === palette.accent
+                        return (
+                            <button
+                                key={palette.name}
+                                type="button"
+                                onClick={() => {
+                                    setPrimary(palette.primary)
+                                    setAccent(palette.accent)
+                                }}
+                                aria-pressed={isSelected}
+                                className={`flex items-center gap-3 p-3 rounded-lg border-2 text-left ${isSelected ? 'border-primary ring-2 ring-primary/20' : 'border-gray-200 hover:border-primary/50'}`}
+                            >
+                                <span className="flex shrink-0">
+                                    <span className="w-7 h-7 rounded-l border border-gray-300" style={{ backgroundColor: palette.primary }} />
+                                    <span className="w-7 h-7 rounded-r border-y border-r border-gray-300" style={{ backgroundColor: palette.accent }} />
+                                </span>
+                                <span className="text-sm font-medium">{palette.name}</span>
+                            </button>
+                        )
+                    })}
                 </div>
             </div>
 

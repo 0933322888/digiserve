@@ -3,18 +3,18 @@
 import { useState } from 'react'
 import { Palette, Upload } from 'lucide-react'
 import { useTheme } from '../ThemeProvider'
+import { TEMPLATES } from '@/config/templates'
 
-const themes = [
-    { id: 'vintage', name: 'Vintage', primary: '#8B0000', secondary: '#F5F5DC' },
-    { id: 'modern', name: 'Modern', primary: '#2C3E50', secondary: '#ECF0F1' },
-    { id: 'minimalist', name: 'Minimalist', primary: '#000000', secondary: '#FFFFFF' },
-]
+const themes = TEMPLATES.map(template => ({
+    id: template.id,
+    name: template.name,
+    palettes: template.palettes,
+}))
 
 export default function BrandingStep({ tenantId, onNext }) {
     const { refreshTheme } = useTheme()
-    const [selectedTheme, setSelectedTheme] = useState('vintage')
-    const [primaryColor, setPrimaryColor] = useState('#8B0000')
-    const [secondaryColor, setSecondaryColor] = useState('#F5F5DC')
+    const [selectedTheme, setSelectedTheme] = useState('bar')
+    const [selectedPalette, setSelectedPalette] = useState(themes[0].palettes[0])
     const [logo, setLogo] = useState(null)
     const [logoPreview, setLogoPreview] = useState(null)
     const [loading, setLoading] = useState(false)
@@ -23,8 +23,7 @@ export default function BrandingStep({ tenantId, onNext }) {
     const handleThemeChange = (themeId) => {
         const theme = themes.find(t => t.id === themeId)
         setSelectedTheme(themeId)
-        setPrimaryColor(theme.primary)
-        setSecondaryColor(theme.secondary)
+        setSelectedPalette(theme.palettes[0])
     }
 
     const handleLogoUpload = (e) => {
@@ -56,9 +55,11 @@ export default function BrandingStep({ tenantId, onNext }) {
                 body: JSON.stringify({
                     tenantId,
                     theme: {
-                        type: selectedTheme,
-                        primaryColor,
-                        secondaryColor,
+                        templateId: selectedTheme,
+                        colors: {
+                            primary: selectedPalette.primary,
+                            accent: selectedPalette.accent,
+                        },
                         logo: logoUrl,
                     },
                 }),
@@ -90,7 +91,7 @@ export default function BrandingStep({ tenantId, onNext }) {
         <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20">
             <div className="mb-8">
                 <h2 className="text-3xl font-bold text-white mb-2">Customize Your Brand</h2>
-                <p className="text-gray-400">Choose your theme and colors to match your restaurant's style</p>
+                <p className="text-gray-400">Choose your theme and colors to match your restaurant&apos;s style</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -141,14 +142,8 @@ export default function BrandingStep({ tenantId, onNext }) {
                                     }`}
                             >
                                 <div className="flex gap-2 mb-2">
-                                    <div
-                                        className="w-8 h-8 rounded"
-                                        style={{ backgroundColor: theme.primary }}
-                                    />
-                                    <div
-                                        className="w-8 h-8 rounded"
-                                        style={{ backgroundColor: theme.secondary }}
-                                    />
+                                    <div className="w-8 h-8 rounded" style={{ backgroundColor: theme.palettes[0].primary }} />
+                                    <div className="w-8 h-8 rounded" style={{ backgroundColor: theme.palettes[0].accent }} />
                                 </div>
                                 <div className="text-sm font-medium text-white">{theme.name}</div>
                             </button>
@@ -156,65 +151,8 @@ export default function BrandingStep({ tenantId, onNext }) {
                     </div>
                 </div>
 
-                {/* Color Customization */}
-                <div className="grid grid-cols-2 gap-6">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-200 mb-3">
-                            Primary Color
-                        </label>
-                        <div className="flex gap-3">
-                            <input
-                                type="color"
-                                value={primaryColor}
-                                onChange={(e) => setPrimaryColor(e.target.value)}
-                                className="w-16 h-12 rounded cursor-pointer"
-                            />
-                            <input
-                                type="text"
-                                value={primaryColor}
-                                onChange={(e) => setPrimaryColor(e.target.value)}
-                                className="flex-1 px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white"
-                            />
-                        </div>
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-200 mb-3">
-                            Secondary Color
-                        </label>
-                        <div className="flex gap-3">
-                            <input
-                                type="color"
-                                value={secondaryColor}
-                                onChange={(e) => setSecondaryColor(e.target.value)}
-                                className="w-16 h-12 rounded cursor-pointer"
-                            />
-                            <input
-                                type="text"
-                                value={secondaryColor}
-                                onChange={(e) => setSecondaryColor(e.target.value)}
-                                className="flex-1 px-4 py-2 bg-gray-800/50 border border-gray-600 rounded-lg text-white"
-                            />
-                        </div>
-                    </div>
-                </div>
-
-                {/* Preview */}
-                <div className="p-6 rounded-lg border border-gray-600 bg-gray-800/30">
-                    <div className="text-sm text-gray-400 mb-3">Preview</div>
-                    <div className="flex items-center gap-4">
-                        <div
-                            className="w-32 h-32 rounded-lg flex items-center justify-center text-white font-bold"
-                            style={{ backgroundColor: primaryColor }}
-                        >
-                            Primary
-                        </div>
-                        <div
-                            className="w-32 h-32 rounded-lg flex items-center justify-center font-bold"
-                            style={{ backgroundColor: secondaryColor, color: primaryColor }}
-                        >
-                            Secondary
-                        </div>
-                    </div>
+                <div className="p-4 rounded-lg border border-gray-600 bg-gray-800/30 text-sm text-gray-300">
+                    Selected palette: <span className="font-semibold text-white">{selectedPalette.name}</span>
                 </div>
 
                 {/* Error Message */}

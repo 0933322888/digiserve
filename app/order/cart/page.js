@@ -25,7 +25,7 @@ export default function CartPage() {
       <div className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <ShoppingBag className="w-24 h-24 text-gray-400 mx-auto mb-6" />
-          <h2 className="text-3xl font-serif font-bold text-primary dark:text-gold mb-4">
+          <h2 className="text-3xl font-serif font-bold text-primary  mb-4">
             Your Cart is Empty
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
@@ -45,7 +45,7 @@ export default function CartPage() {
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-8">
+        <h1 className="text-4xl font-serif font-bold text-primary  mb-8">
           Your Cart
         </h1>
 
@@ -57,15 +57,15 @@ export default function CartPage() {
                 key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                className="bg-[var(--primary-light-bg)] p-6 rounded-lg shadow-md"
               >
                 <div className="flex justify-between items-start mb-4">
                   <div className="flex-1">
-                    <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-1">
+                    <h3 className="text-xl font-serif font-semibold text-[var(--navbar-footer-text)] mb-1">
                       {item.name}
                     </h3>
                     {item.description && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400">{item.description}</p>
+                      <p className="text-sm text-[var(--navbar-footer-text)]">{item.description}</p>
                     )}
                   </div>
                   <button
@@ -81,19 +81,21 @@ export default function CartPage() {
                   <div className="flex items-center space-x-3">
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="w-10 h-10 rounded-full border-2 border-primary dark:border-gold flex items-center justify-center hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
+                      className="w-10 h-10 rounded-full border-2 border-primary border-gold flex items-center justify-center hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
                     >
-                      <Minus className="w-4 h-4 text-primary dark:text-gold" />
+                      <Minus className="w-4 h-4 text-[var(--navbar-footer-text)]" />
                     </button>
-                    <span className="text-lg font-semibold w-8 text-center">{item.quantity}</span>
+                    <span className="text-lg font-semibold w-8 text-center text-[var(--navbar-footer-text)]">
+                      {item.quantity}
+                    </span>
                     <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-10 h-10 rounded-full border-2 border-primary dark:border-gold flex items-center justify-center hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
+                      className="w-10 h-10 rounded-full border-2 border-primary border-gold flex items-center justify-center hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
                     >
-                      <Plus className="w-4 h-4 text-primary dark:text-gold" />
+                      <Plus className="w-4 h-4 text-[var(--navbar-footer-text)] " />
                     </button>
                   </div>
-                  <span className="text-xl font-bold text-primary dark:text-gold">
+                  <span className="text-xl font-bold text-[var(--navbar-footer-text)]">
                     {formatPrice(item.price * item.quantity)}
                   </span>
                 </div>
@@ -103,27 +105,27 @@ export default function CartPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md sticky top-24">
-              <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-6">
+            <div className="bg-[var(--primary-light-bg)] p-6 rounded-lg shadow-md sticky top-24">
+              <h2 className="text-2xl font-serif font-bold text-[var(--navbar-footer-text)] mb-6">
                 Order Summary
               </h2>
               <div className="space-y-4 mb-6">
-                <div className="flex justify-between text-gray-700 dark:text-gray-300">
+                <div className="flex justify-between text-[var(--navbar-footer-text)]">
                   <span>Subtotal:</span>
                   <span>{formatPrice(cartTotals.subtotal)}</span>
                 </div>
-                <div className="flex justify-between text-gray-700 dark:text-gray-300">
+                <div className="flex justify-between text-[var(--navbar-footer-text)]">
                   <span>Tax:</span>
                   <span>{formatPrice(tax)}</span>
                 </div>
-                <div className="border-t border-gray-300 dark:border-gray-600 pt-4 flex justify-between text-xl font-bold text-primary dark:text-gold">
+                <div className="border-t border-gray-300 dark:border-gray-600 pt-4 flex justify-between text-xl font-bold text-[var(--navbar-footer-text)] ">
                   <span>Total:</span>
                   <span>{formatPrice(total)}</span>
                 </div>
               </div>
               <button
                 onClick={() => router.push('/order/checkout')}
-                className="w-full bg-primary dark:bg-gold text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+                className="w-full bg-[var(--secondary-dark-bg)] text-white dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
               >
                 Proceed to Checkout
               </button>

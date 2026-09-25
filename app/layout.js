@@ -108,7 +108,7 @@ export default async function RootLayout({ children }) {
 
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning style={themeVariables}>
       {/* ... (head) */}
       <body className={inter.className}>
         <CartProvider>

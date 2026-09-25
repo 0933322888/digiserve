@@ -11,6 +11,7 @@ import {
     getDefaultContactInfo,
     getDefaultSEO
 } from '@/lib/sample-data'
+import { getTemplateById } from '@/config/templates'
 
 /**
  * POST /api/auth/register
@@ -115,7 +116,7 @@ export async function POST(request) {
             }
 
             // Check uniqueness of domain
-            const existingDomain = await Restaurant.findOne({ domain: d })
+            const existingDomain = await Restaurant.findOne({ customDomains: d })
             if (existingDomain) {
                 return NextResponse.json({ error: 'This domain is already registered.' }, { status: 409 })
             }
@@ -133,11 +134,11 @@ export async function POST(request) {
         let themeToStore = null
         const templateId = templateFromBody || (themeFromBody && themeFromBody.templateId) || 'bar'
         if (themeFromBody && typeof themeFromBody === 'object') {
+            const defaultPalette = getTemplateById(templateId).palettes[0]
             themeToStore = {
                 templateId,
                 type: themeFromBody.type || 'custom',
-                primaryColor: themeFromBody.primaryColor || null,
-                secondaryColor: themeFromBody.secondaryColor || null,
+                colors: themeFromBody.colors || defaultPalette,
             }
         } else {
             themeToStore = {
@@ -148,11 +149,9 @@ export async function POST(request) {
 
         // Create tenant/restaurant record
         const restaurantData = {
-            id: `tenant_${Date.now()}_${Math.random().toString(36).substring(7)}`,
             barId,
             name: businessName,
             slug,
-            subdomain: subdomainLabel,
             customDomains: domainToStore ? [domainToStore] : [],
             domainVerification,
             onboardingCompletedAt: null,
@@ -189,10 +188,6 @@ export async function POST(request) {
             updatedAt: new Date(),
         }
 
-        if (domainToStore) {
-            restaurantData.domain = domainToStore
-        }
-
         const restaurant = await Restaurant.create(restaurantData)
 
         // Create user record
@@ -226,7 +221,6 @@ export async function POST(request) {
                 userId: user.id,
                 tenantId: restaurant.barId,
                 slug,
-                subdomain: subdomainLabel,
                 businessName,
             },
         }

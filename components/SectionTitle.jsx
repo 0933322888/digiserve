@@ -17,11 +17,11 @@ export default function SectionTitle({ title, subtitle, className = '' }) {
       transition={{ duration: 0.6 }}
       className={`text-center mb-12 ${className}`}
     >
-      <h2 className="text-4xl md:text-5xl font-serif font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-4">
+      <h2 className="inline-block text-4xl md:text-5xl font-serif font-bold text-primary-text bg-accent/90 rounded-md px-4 py-2 mb-4">
         {title}
       </h2>
       {subtitle && (
-        <p className="text-lg text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] max-w-2xl mx-auto">{subtitle}</p>
+        <p className="w-fit text-lg text-primary-text bg-primary/90 rounded-md px-3 py-1 max-w-2xl mx-auto">{subtitle}</p>
       )}
     </motion.div>
   )

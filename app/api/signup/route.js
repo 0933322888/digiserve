@@ -85,7 +85,7 @@ export async function POST(request) {
 
         // Check if custom domain is already taken
         if (domain) {
-            const existingDomain = await Restaurant.findOne({ domain })
+            const existingDomain = await Restaurant.findOne({ customDomains: domain })
             if (existingDomain) {
                 return NextResponse.json(
                     { error: 'This domain is already registered.' },
@@ -109,11 +109,10 @@ export async function POST(request) {
 
         // Create Restaurant (Tenant)
         const newRestaurant = new Restaurant({
-            id: crypto.randomUUID(),
             barId,
             name: restaurantName,
             slug,
-            domain: domain || null,
+            customDomains: domain ? [domain] : [],
             modules: enabledModules,
 
             // Populate configuration from siteConfig template

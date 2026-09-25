@@ -64,7 +64,6 @@ export async function PUT(request, context) {
 
     const {
       name,
-      domain,
       customDomains,
       modules,
       subscription,
@@ -75,25 +74,19 @@ export async function PUT(request, context) {
 
     if (name !== undefined) tenant.name = name.trim()
 
-    // Domain update check
-    if (domain !== undefined) {
-      if (domain && domain !== tenant.domain) {
-        const domainExists = await Restaurant.findOne({
-          _id: { $ne: tenant._id },
-          $or: [{ domain }, { customDomains: domain }]
-        })
-        if (domainExists) {
-          return NextResponse.json(
-            { error: `Domain "${domain}" is already assigned to another tenant.` },
-            { status: 409 }
-          )
-        }
-      }
-      tenant.domain = domain ? domain.trim() : null
-    }
-
     if (customDomains !== undefined && Array.isArray(customDomains)) {
-      tenant.customDomains = customDomains.map(d => d.trim()).filter(Boolean)
+      const normalizedDomains = customDomains.map(d => d.trim().toLowerCase()).filter(Boolean)
+      const domainExists = await Restaurant.findOne({
+        _id: { $ne: tenant._id },
+        customDomains: { $in: normalizedDomains },
+      })
+      if (domainExists) {
+        return NextResponse.json(
+          { error: 'One or more custom domains are already assigned to another tenant.' },
+          { status: 409 }
+        )
+      }
+      tenant.customDomains = normalizedDomains
     }
 
     if (modules !== undefined && Array.isArray(modules)) {

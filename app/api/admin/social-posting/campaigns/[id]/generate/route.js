@@ -27,7 +27,9 @@ export async function POST(request, context) {
     }
 
     // Generate posts for this specific campaign
-    const generatedPosts = generatePostsFromCampaigns(barId).filter(post => post.campaignId === id)
+    const generatedPosts = (await generatePostsFromCampaigns(barId)).filter(
+      post => post.campaignId === id
+    )
 
     return NextResponse.json({
       success: true,

@@ -79,13 +79,13 @@ export default function ContactForm() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
       onSubmit={handleSubmit}
-      className="max-w-2xl mx-auto bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+      className="max-w-2xl mx-auto bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div>
           <label
             htmlFor="name"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium   text-primary-text mb-2"
           >
             Name *
           </label>
@@ -102,7 +102,7 @@ export default function ContactForm() {
         <div>
           <label
             htmlFor="email"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            className="block text-sm font-medium   text-primary-text mb-2"
           >
             Email *
           </label>
@@ -121,7 +121,7 @@ export default function ContactForm() {
       <div className="mb-6">
         <label
           htmlFor="phone"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium   text-primary-text mb-2"
         >
           Phone
         </label>
@@ -138,7 +138,7 @@ export default function ContactForm() {
       <div className="mb-6">
         <label
           htmlFor="subject"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium   text-primary-text mb-2"
         >
           Subject *
         </label>
@@ -156,7 +156,7 @@ export default function ContactForm() {
       <div className="mb-6">
         <label
           htmlFor="message"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+          className="block text-sm font-medium   text-primary-text mb-2"
         >
           Message *
         </label>

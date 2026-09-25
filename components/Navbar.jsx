@@ -3,12 +3,11 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Moon, Sun } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { siteConfig } from '@/config/siteConfig'
 import { cn } from '@/lib/utils'
 import CartDrawer from '@/components/ordering/CartDrawer'
-import { useTheme } from '@/components/ThemeProvider'
 
 /**
  * Main Navigation Component
@@ -16,7 +15,6 @@ import { useTheme } from '@/components/ThemeProvider'
  */
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isDark, setIsDark] = useState(false)
   const [moduleStatus, setModuleStatus] = useState({
     events: siteConfig.features.events,
     gallery: siteConfig.features.gallery,
@@ -25,28 +23,9 @@ export default function Navbar() {
     ordering: siteConfig.ordering?.enabled,
   })
   const pathname = usePathname()
-  const { theme } = useTheme()
-
-  const isRestaurantTemplate = theme?.templateId === 'restaurant'
-
-  console.log('DEBUG: Navbar', {
-    templateId: theme?.templateId,
-    isRestaurantTemplate,
-    primaryColor: theme?.primaryColor
-  })
-
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme')
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-    const shouldBeDark = savedTheme === 'dark' || (!savedTheme && prefersDark)
-
-    setIsDark(shouldBeDark)
-    if (shouldBeDark) {
-      document.documentElement.classList.add('dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-    }
+    // Apply dark mode by default for all templates
+    document.documentElement.classList.add('dark')
   }, [])
 
   useEffect(() => {
@@ -66,18 +45,6 @@ export default function Navbar() {
 
   // Hide on print routes
   if (pathname?.startsWith('/print')) return null
-
-  const toggleDarkMode = () => {
-    const newTheme = !isDark
-    setIsDark(newTheme)
-    if (newTheme) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
-    } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
-    }
-  }
 
   // Build navigation links based on enabled features from DB
   const navLinks = [
@@ -113,15 +80,10 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-colors duration-300",
-        isRestaurantTemplate
-          ? "border-[var(--primary-light-bg)]/20"
-          : "bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] border-[var(--primary-light-bg)]/20 dark:border-[var(--primary-dark-bg)]/20"
+        "fixed top-0 left-0 right-0 z-50 transition-colors duration-300 bg-[var(--primary-light-bg)] border-b border-[var(--gold)]/30"
       )}
       style={{
-        backgroundColor: isRestaurantTemplate
-          ? 'var(--primary-light-bg)'
-          : undefined
+        backgroundColor: 'var(--primary-light-bg)'
       }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -130,9 +92,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center space-x-2">
             <span className={cn(
               "text-2xl font-serif font-bold transition-colors",
-              isRestaurantTemplate 
-                ? "text-white" 
-                : "text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]"
+              "text-[var(--navbar-footer-text)]"
             )}>
               {siteConfig.restaurant.name}
             </span>
@@ -146,61 +106,25 @@ export default function Navbar() {
                 href={link.href}
                 className={cn(
                   'text-sm font-medium transition-colors',
-                  isRestaurantTemplate
-                    ? (isActive(link.href) ? 'text-white border-b-2 border-white' : 'text-white/90 hover:text-white')
-                    : (isActive(link.href) 
-                        ? 'text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] border-b-2 border-[var(--primary-light-text)] dark:border-[var(--primary-dark-text)]' 
-                        : 'text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] hover:text-[var(--primary-light-text)] dark:hover:text-[var(--primary-dark-text)]')
+                    isActive(link.href)
+                      ? 'text-[var(--gold)] border-b-2 border-[var(--gold)]'
+                      : 'text-[var(--navbar-footer-text)] hover:text-[var(--gold)]'
                 )}
               >
                 {link.label}
               </Link>
             ))}
             {showOrdering && <CartDrawer />}
-            <button
-              onClick={toggleDarkMode}
-              className={cn(
-                "p-2 rounded-lg transition-colors",
-                isRestaurantTemplate 
-                  ? "hover:bg-white/20 text-white" 
-                  : "hover:bg-primary/10 dark:hover:bg-gray-800 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]"
-              )}
-              aria-label="Toggle dark mode"
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-4">
             {showOrdering && <CartDrawer />}
             <button
-              onClick={toggleDarkMode}
-              className={cn(
-                "p-2 rounded-lg transition-colors",
-                isRestaurantTemplate 
-                  ? "hover:bg-white/20 text-white" 
-                  : "hover:bg-primary/10 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]"
-              )}
-              aria-label="Toggle dark mode"
-            >
-              {isDark ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </button>
-            <button
               onClick={() => setIsOpen(!isOpen)}
               className={cn(
                 "p-2 rounded-lg transition-colors",
-                isRestaurantTemplate 
-                  ? "hover:bg-white/20 text-white" 
-                  : "hover:bg-primary/10 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]"
+                "hover:bg-[var(--gold)]/20 text-[var(--navbar-footer-text)]"
               )}
               aria-label="Toggle menu"
             >
@@ -221,7 +145,9 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] border-t border-[var(--primary-light-bg)]/20 dark:border-[var(--primary-dark-bg)]/20"
+            className={cn(
+              "md:hidden bg-[var(--primary-light-bg)] border-t border-[var(--gold)]/30"
+            )}
           >
             <div className="px-4 py-4 space-y-3">
               {navLinks.map(link => (
@@ -232,8 +158,8 @@ export default function Navbar() {
                   className={cn(
                     'block text-base font-medium transition-colors',
                     isActive(link.href)
-                      ? 'text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]'
-                      : 'text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] hover:text-[var(--primary-light-text)] dark:hover:text-[var(--primary-dark-text)]'
+                      ? 'text-[var(--gold)]'
+                      : 'text-[var(--navbar-footer-text)] hover:text-[var(--gold)]'
                   )}
                 >
                   {link.label}

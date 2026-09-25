@@ -105,7 +105,7 @@ export async function POST(request) {
             message: 'Onboarding completed successfully',
             redirectUrl,
             tenantId,
-            subdomain: restaurant.subdomain,
+            slug: restaurant.slug,
         })
     } catch (error) {
         console.error('Onboarding completion error:', error)

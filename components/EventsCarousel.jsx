@@ -44,7 +44,7 @@ export default function EventsCarousel({ events = [] }) {
           exit={{ opacity: 0, x: -20 }}
           transition={{ duration: 0.3 }}
         >
-          <div className="bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] rounded-lg overflow-hidden shadow-xl">
+          <div className="bg-[var(--secondary-dark-bg)] rounded-lg overflow-hidden shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-0">
               {/* Event Image */}
               <div className="relative h-64 md:h-auto">
@@ -56,7 +56,7 @@ export default function EventsCarousel({ events = [] }) {
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
                 {currentEvent.featured && (
-                  <div className="absolute top-4 right-4 bg-gold text-[var(--primary-light-bg)] px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+                  <div className="absolute top-4 right-4 bg-gold text-[var(--primary-dark-bg)] px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
                     Featured
                   </div>
                 )}
@@ -64,25 +64,25 @@ export default function EventsCarousel({ events = [] }) {
 
               {/* Event Details */}
               <div className="p-8 flex flex-col justify-center">
-                <h3 className="text-3xl font-serif font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-4">
+                <h3 className="text-3xl font-serif font-bold text-[var(--primary-dark-text)] mb-4">
                   {currentEvent.title}
                 </h3>
-                <div className="flex items-center space-x-6 mb-4 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]">
+                <div className="flex items-center space-x-6 mb-4 text-[var(--secondary-dark-text)]">
                   <div className="flex items-center space-x-2">
-                    <Calendar className="w-5 h-5 text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]" />
+                    <Calendar className="w-5 h-5 text-[var(--primary-dark-text)]" />
                     <span className="font-medium">{formatDate(currentEvent.date)}</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <Clock className="w-5 h-5 text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]" />
+                    <Clock className="w-5 h-5 text-[var(--primary-dark-text)]" />
                     <span className="font-medium">{currentEvent.time}</span>
                   </div>
                 </div>
-                <p className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] mb-6 text-lg leading-relaxed">
+                <p className="text-[var(--secondary-dark-text)] mb-6 text-lg leading-relaxed">
                   {currentEvent.description}
                 </p>
                 <Link
                   href="/events"
-                  className="inline-flex items-center gap-2 bg-[var(--primary-light-bg)] dark:bg-gold text-[var(--primary-light-text)] dark:text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-[var(--primary-dark-bg)] dark:hover:bg-gold-light transition-colors w-fit group"
+                  className="inline-flex items-center gap-2 bg-[var(--primary-dark-bg)] text-[var(--primary-dark-text)] px-6 py-3 rounded-lg font-semibold hover:bg-[var(--primary-dark-bg)]/90 transition-colors w-fit group"
                 >
                   View All Events
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -99,7 +99,7 @@ export default function EventsCarousel({ events = [] }) {
           {/* Previous Button */}
           <button
             onClick={prevEvent}
-            className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 text-primary dark:text-gold p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
+            className="absolute left-4 top-1/2 -translate-y-1/2 bg-[var(--secondary-dark-bg)]/90 hover:bg-[var(--secondary-dark-bg)] text-[var(--primary-dark-text)] p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
             aria-label="Previous event"
           >
             <ChevronLeft className="w-6 h-6" />
@@ -108,7 +108,7 @@ export default function EventsCarousel({ events = [] }) {
           {/* Next Button */}
           <button
             onClick={nextEvent}
-            className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 dark:bg-gray-800/90 hover:bg-white dark:hover:bg-gray-800 text-primary dark:text-gold p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
+            className="absolute right-4 top-1/2 -translate-y-1/2 bg-[var(--secondary-dark-bg)]/90 hover:bg-[var(--secondary-dark-bg)] text-[var(--primary-dark-text)] p-3 rounded-full shadow-lg transition-all hover:scale-110 z-10"
             aria-label="Next event"
           >
             <ChevronRight className="w-6 h-6" />
@@ -121,8 +121,8 @@ export default function EventsCarousel({ events = [] }) {
                 key={index}
                 onClick={() => goToEvent(index)}
                 className={`h-2 rounded-full transition-all ${index === currentIndex
-                    ? 'bg-primary dark:bg-gold w-8'
-                    : 'bg-gray-300 dark:bg-gray-600 w-2 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    ? 'bg-[var(--primary-dark-text)] w-8'
+                    : 'bg-[var(--secondary-dark-text)]/40 w-2 hover:bg-[var(--secondary-dark-text)]/60'
                   }`}
                 aria-label={`Go to event ${index + 1}`}
               />

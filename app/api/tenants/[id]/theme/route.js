@@ -13,9 +13,13 @@ export async function POST(request, context) {
 
     try {
         const body = await request.json()
-        const { templateId, primaryColor, secondaryColor, overrides } = body
+        const { templateId, colors, overrides } = body
 
-        console.log(`[Theme API] Updating theme for ${barId}`, { templateId, primaryColor, secondaryColor })
+        if (colors && (!colors.primary || !colors.accent)) {
+            return NextResponse.json({ error: 'Primary and accent colors are required' }, { status: 400 })
+        }
+
+        console.log(`[Theme API] Updating theme for ${barId}`, { templateId, colors })
 
         await connectDB()
         const Restaurant = getRestaurantModel()
@@ -32,9 +36,9 @@ export async function POST(request, context) {
 
         // Update theme config
         // We only update fields that are provided
+        tenant.theme = tenant.theme || {}
         if (templateId) tenant.theme.templateId = templateId
-        if (primaryColor) tenant.theme.primaryColor = primaryColor
-        if (secondaryColor) tenant.theme.secondaryColor = secondaryColor
+        if (colors) tenant.theme.colors = colors
 
         // Handle overrides map
         if (overrides && typeof overrides === 'object') {
@@ -57,7 +61,7 @@ export async function POST(request, context) {
             type: 'THEME_UPDATE',
             description: `Updated theme to template: ${templateId || tenant.theme.templateId}`,
             status: 'SUCCESS',
-            metadata: { templateId, primaryColor, secondaryColor }
+            metadata: { templateId, colors }
         })
 
         return NextResponse.json({ success: true, theme: tenant.theme })

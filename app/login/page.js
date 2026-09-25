@@ -55,8 +55,8 @@ export default async function LoginPage() {
         <div
             className="min-h-screen flex items-center justify-center px-4 py-12"
             style={{
-                background: tenant.theme?.primaryColor
-                    ? `linear-gradient(135deg, ${tenant.theme.primaryColor}15 0%, ${tenant.theme.primaryColor}05 100%)`
+                background: tenant.theme?.colors?.primary
+                    ? `linear-gradient(135deg, ${tenant.theme.colors.primary}15 0%, ${tenant.theme.colors.primary}05 100%)`
                     : 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)'
             }}
         >
@@ -73,7 +73,7 @@ export default async function LoginPage() {
                         <div
                             className="h-16 w-16 mx-auto mb-4 rounded-full flex items-center justify-center text-2xl font-bold text-white"
                             style={{
-                                backgroundColor: tenant.theme?.primaryColor
+                                backgroundColor: tenant.theme?.colors?.primary
                             }}
                         >
                             {tenant.name.charAt(0).toUpperCase()}
@@ -88,7 +88,7 @@ export default async function LoginPage() {
                 </div>
 
                 {/* Login Form */}
-                <LoginForm primaryColor={tenant.theme?.primaryColor} />
+                <LoginForm primary={tenant.theme?.colors?.primary} />
             </div>
         </div>
     )

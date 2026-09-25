@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { getTenantFromRequest } from '@/lib/tenant-service'
-import { headers } from 'next/headers'
 import { getSetting } from '@/lib/app-settings-service'
 
 /**
@@ -9,26 +8,8 @@ import { getSetting } from '@/lib/app-settings-service'
  */
 export async function GET(request) {
   try {
-    const headersList = await headers()
-    const host = headersList.get('host')
-    const tenantIdHeader = headersList.get('x-tenant-id')
-    const { getTenantFromHost, getTenantConfig } = await import('@/lib/tenant-service')
-
-    // Determine canonical barId. tenantIdHeader may be a barId OR a subdomain slug.
-    let barId = null
-
-    if (tenantIdHeader) {
-      // Try to treat header as a barId first
-      const candidate = await getTenantConfig(tenantIdHeader)
-      if (candidate) {
-        barId = tenantIdHeader
-      } else {
-        // header might be a subdomain slug; fall back to host-based resolution
-        barId = await getTenantFromHost(host)
-      }
-    } else {
-      barId = await getTenantFromHost(host)
-    }
+    // Resolve slugs and bar IDs to the canonical database barId used by settings.
+    const barId = await getTenantFromRequest(request)
 
     if (!barId) {
       return NextResponse.json(
@@ -38,6 +19,7 @@ export async function GET(request) {
     }
 
     // Get tenant configuration
+    const { getTenantConfig } = await import('@/lib/tenant-service')
     const tenantConfig = await getTenantConfig(barId)
 
     if (!tenantConfig) {

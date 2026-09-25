@@ -41,22 +41,20 @@ async function testRegistrationSimulation() {
     console.log(`\nSimulating multiple Restaurant.create calls WITHOUT custom domain:`);
     try {
         const restaurant1 = await Restaurant.create({
-            id: `tenant_${Date.now()}_${Math.random().toString(36).substring(7)}`,
             barId: barId1,
             name: businessName1,
             slug: slug1,
-            subdomain: slug1,
+            customDomains: [],
             createdAt: new Date(),
             updatedAt: new Date(),
         });
         console.log('✅ Created restaurant 1 successfully (no domain):', restaurant1._id, restaurant1.id, restaurant1.barId);
 
         const restaurant2 = await Restaurant.create({
-            id: `tenant_${Date.now()}_${Math.random().toString(36).substring(7)}`,
             barId: barId2,
             name: businessName2,
             slug: slug2,
-            subdomain: slug2,
+            customDomains: [],
             createdAt: new Date(),
             updatedAt: new Date(),
         });
@@ -66,16 +64,14 @@ async function testRegistrationSimulation() {
         const timestamp3 = Date.now() + 20;
         const customDom = `mycustom-${timestamp3}.com`;
         const restaurant3 = await Restaurant.create({
-            id: `tenant_${Date.now()}_${Math.random().toString(36).substring(7)}`,
             barId: `tenant_${timestamp3}_${Math.random().toString(36).substring(7)}`,
             name: `Test Bistro 3 ${timestamp3}`,
             slug: `test-bistro-3-${timestamp3}`,
-            subdomain: `test-bistro-3-${timestamp3}`,
-            domain: customDom,
+            customDomains: [customDom],
             createdAt: new Date(),
             updatedAt: new Date(),
         });
-        console.log('✅ Created restaurant 3 successfully (with domain):', restaurant3._id, restaurant3.domain);
+        console.log('✅ Created restaurant 3 successfully (with domain):', restaurant3._id, restaurant3.customDomains);
 
         // Cleanup
         await Restaurant.deleteOne({ _id: restaurant1._id });

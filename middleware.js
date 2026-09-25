@@ -94,7 +94,7 @@ async function authenticateAndAuthorizePage(request, tenantId, pathname, require
  * @param {string | null} requiredRole
  * @returns {Promise<NextResponse | null>}
  */
-async function authenticateAndAuthorizeApi(request, tenantId, requiredRole = null) {
+async function authenticateAndAuthorizeApi(request, tenantId, requiredRole = null, requestHeaders = null) {
   const { pathname } = request.nextUrl;
   console.log(`[AuthApi] Checking auth for: ${pathname}`);
   const token = request.cookies.get('tenant_session')?.value;
@@ -118,6 +118,12 @@ async function authenticateAndAuthorizeApi(request, tenantId, requiredRole = nul
       return NextResponse.json({ error: 'Unauthorized access to this tenant' }, { status: 403 });
     }
   }
+  if (pathname.startsWith('/api/admin/') && requiredRole === null) {
+    if (!payload.tenantId) {
+      return NextResponse.json({ error: 'Tenant session required' }, { status: 403 });
+    }
+    requestHeaders?.set('x-tenant-id', payload.tenantId);
+  }
   return null; // Success
 }
 
@@ -132,6 +138,9 @@ export async function middleware(request) {
   const host = request.headers.get('host') || ''
   console.log(`\n[Middleware] === New Request: ${request.method} ${pathname} | Host: ${host} ===`);
   const headers = new Headers(request.headers)
+  if (pathname.startsWith('/api/admin/')) {
+    headers.delete('x-tenant-id')
+  }
 
   // 1. TENANT RESOLUTION
   let tenantId = null
@@ -294,7 +303,7 @@ export async function middleware(request) {
 
     // Skip auth for social callback (it effectively comes cross-domain from FB to localhost)
     if (!isCallback) {
-      const authResponse = await authenticateAndAuthorizeApi(request, tenantId);
+      const authResponse = await authenticateAndAuthorizeApi(request, tenantId, null, headers);
       if (authResponse) return authResponse;
     }
     return NextResponse.next({ request: { headers } });

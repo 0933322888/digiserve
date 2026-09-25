@@ -34,7 +34,7 @@ export default function TemplateStep({ tenantId, onNext, onBack }) {
                     tenantId={tenantId}
                     onSave={onNext}
                     saveLabel="Next: Go Live"
-                    initialTheme={{ templateId: 'bar', primaryColor: '#8B0000', secondaryColor: '#F5F5DC' }} // Default
+                    initialTheme={{ templateId: 'bar', colors: { primary: '#1C0F0B', accent: '#C88A3D' } }}
                 />
             </div>
         </motion.div>

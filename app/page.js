@@ -189,7 +189,7 @@ export default async function HomePage() {
 
       // Apply specific gradient for Modern Bar template
       if (tenant.theme.templateId === 'bar') {
-        heroConfig.backgroundImage = 'radial-gradient(circle at center, #340809 0%, #0a0101 100%)'
+        heroConfig.backgroundImage = 'radial-gradient(circle at center, var(--primary-dark-bg) 0%, var(--secondary-dark-bg) 100%)'
       }
 
       // Allow explicit override if we added it to schema later
@@ -250,7 +250,7 @@ export default async function HomePage() {
                   const Icon = highlight.icon || Utensils
                   return (
                     <AnimatedCard key={`${highlight.link}-${index}`} delay={index * 0.1}>
-                      <Link href={highlight.link}>
+                      <Link href={highlight.link} className="group">
                         <div className="group relative h-64 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
                           <Image
                             src={highlight.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop'}
@@ -259,11 +259,15 @@ export default async function HomePage() {
                             className="object-cover group-hover:scale-110 transition-transform duration-300"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                           />
-                          <div className="absolute inset-0 bg-primary/10 dark:bg-gray-900/80 group-hover:bg-primary/90 dark:group-hover:bg-gray-900/90 transition-colors" />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-primary-text">
-                            <Icon className="w-12 h-12 mb-4 text-gold" />
-                            <h3 className="text-2xl font-serif font-bold mb-2">{highlight.title}</h3>
-                            <p className="text-sm">{highlight.description}</p>
+                          <div className="absolute inset-0 bg-primary/10 dark:bg-[var(--secondary-dark-bg)]/80 group-hover:bg-primary/90 dark:group-hover:bg-[var(--primary-dark-bg)]/90 transition-colors" />
+                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-primary group-hover:text-[var(--accent-text)]">
+                            <Icon className="w-12 h-12 mb-4 text-gold group-hover:text-[var(--accent-text)]" />
+                            <h3 className="inline-block text-2xl font-serif font-bold mb-2 bg-gold text-gold-text py-2 px-4 rounded-md">
+                              {highlight.title}
+                            </h3>
+                            <p className="inline-block text-sm bg-gold text-gold-text py-1 px-3 rounded-md">
+                              {highlight.description}
+                            </p>
                           </div>
                         </div>
                       </Link>
@@ -292,15 +296,15 @@ export default async function HomePage() {
               </div>
             </AnimatedCard>
             <AnimatedCard delay={0.2}>
-              <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
+              <h2 className="text-4xl font-serif font-bold text-primary-text mb-6">
                 {pageContent?.aboutPreview?.title || restaurant.tagline}
               </h2>
-              <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+              <p className="text-lg text-primary-text mb-6">
                 {pageContent?.aboutPreview?.description || restaurant.description}
               </p>
               <Link
                 href={pageContent?.aboutPreview?.buttonLink || "/about"}
-                className="inline-block bg-primary dark:bg-gold text-white dark:text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+                className="inline-block bg-primary dark:bg-gold text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light hover:text-[var(--accent-text)] transition-colors"
               >
                 {pageContent?.aboutPreview?.buttonText || "Learn More About Us"}
               </Link>
@@ -315,15 +319,15 @@ export default async function HomePage() {
           <section className="py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
               <AnimatedCard>
-                <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
+                <h2 className="text-4xl font-serif font-bold text-primary-text mb-6">
                   {pageContent?.ctaSection?.title || "Reserve Your Table"}
                 </h2>
-                <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+                <p className="text-lg text-primary-text mb-8">
                   {pageContent?.ctaSection?.description || "Experience the perfect blend of vintage elegance and modern flavor. Book your table today."}
                 </p>
                 <Link
                   href={pageContent?.ctaSection?.buttonLink || "/reservations"}
-                  className="inline-block bg-primary dark:bg-gold text-white dark:text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors"
+                  className="inline-block bg-primary dark:bg-gold text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light hover:text-[var(--accent-text)] transition-colors"
                 >
                   {pageContent?.ctaSection?.buttonText || "Make a Reservation"}
                 </Link>

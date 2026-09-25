@@ -70,18 +70,18 @@ export default async function ContactPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Information */}
             <div>
-              <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
-                <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-6">
+              <div className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg mb-8">
+                <h3 className="text-2xl font-serif font-semibold text-primary-text mb-6">
                   Get in Touch
                 </h3>
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4">
-                    <MapPin className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
+                    <MapPin className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">
+                      <h4 className="font-semibold text-gray-900  mb-1">
                         Address
                       </h4>
-                      <p className="text-secondary-text dark:text-gray-300">
+                      <p className="text-primary-text">
                         {restaurant.address.street}
                         <br />
                         {restaurant.address.city}, {restaurant.address.state}{' '}
@@ -91,12 +91,12 @@ export default async function ContactPage() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <Phone className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
+                    <Phone className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Phone</h4>
+                      <h4 className="font-semibold text-gray-900  mb-1">Phone</h4>
                       <a
                         href={`tel:${restaurant.phone}`}
-                        className="text-primary dark:text-gold hover:underline"
+                        className="text-primary-text hover:underline"
                       >
                         {restaurant.phone}
                       </a>
@@ -104,12 +104,12 @@ export default async function ContactPage() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <Mail className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
+                    <Mail className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Email</h4>
+                      <h4 className="font-semibold mb-1">Email</h4>
                       <a
                         href={`mailto:${restaurant.email}`}
-                        className="text-primary dark:text-gold hover:underline"
+                        className="text-primary-text hover:underline"
                       >
                         {restaurant.email}
                       </a>
@@ -117,10 +117,10 @@ export default async function ContactPage() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <Clock className="w-6 h-6 text-primary dark:text-gold flex-shrink-0 mt-1" />
+                    <Clock className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Hours</h4>
-                      <div className="space-y-1 text-secondary-text dark:text-gray-300">
+                      <h4 className="font-semibold text-gray-900  mb-1">Hours</h4>
+                      <div className="space-y-1 text-primary-text">
                         {Object.entries(businessHours).map(([day, hours]) => (
                           <div key={day} className="flex justify-between">
                             <span className="font-medium">{day}:</span>
@@ -136,25 +136,10 @@ export default async function ContactPage() {
               </div>
 
               {/* Map */}
-              <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-6">
+              <div className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg">
+                <h3 className="text-2xl font-serif font-semibold text-primary">
                   Find Us
                 </h3>
-
-                {/* Address Display */}
-                <div className="mb-6 p-4 bg-white dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
-                  <div className="flex items-start space-x-3">
-                    <MapPin className="w-5 h-5 text-primary dark:text-gold flex-shrink-0 mt-0.5" />
-                    <div className="flex-1">
-                      <p className="text-gray-900 dark:text-gray-100 font-medium mb-1">Address</p>
-                      <p className="text-secondary-text dark:text-gray-300 text-sm leading-relaxed">
-                        {restaurant.address.street}
-                        <br />
-                        {restaurant.address.city}, {restaurant.address.state} {restaurant.address.zip}
-                      </p>
-                    </div>
-                  </div>
-                </div>
 
                 {/* Map */}
                 <div className="relative w-full h-96 rounded-lg overflow-hidden mb-6 border border-gray-200 dark:border-gray-600 shadow-md">
@@ -166,8 +151,8 @@ export default async function ContactPage() {
 
                 {/* Get Directions */}
                 <div className="space-y-3">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-                    <Navigation className="w-5 h-5 text-primary dark:text-gold" />
+                  <h4 className="text-lg font-semibold flex items-center gap-2">
+                    <Navigation className="w-5 h-5 text-primary" />
                     Get Directions
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -203,7 +188,7 @@ export default async function ContactPage() {
                     href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(fullAddress)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-gold transition-colors"
+                    className="inline-flex items-center gap-2 text-sm hover:text-primary dark:hover:text-gold transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
                     View on OpenStreetMap

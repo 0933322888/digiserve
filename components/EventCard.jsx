@@ -17,7 +17,7 @@ export default function EventCard({ event, index = 0 }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+      className="rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow"
     >
       <div className="relative h-48 w-full">
         <Image
@@ -28,26 +28,26 @@ export default function EventCard({ event, index = 0 }) {
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {event.featured && (
-          <div className="absolute top-4 right-4 bg-gold text-[var(--primary-light-bg)] px-3 py-1 rounded-full text-sm font-semibold">
+          <div className="absolute top-4 right-4 bg-gold text-[var(--primary-dark-bg)] px-3 py-1 rounded-full text-sm font-semibold">
             Featured
           </div>
         )}
       </div>
       <div className="p-6">
-        <h3 className="text-2xl font-serif font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-3">
+        <h3 className="text-2xl font-serif font-bold text-[var(--primary-dark-text)] mb-3">
           {event.title}
         </h3>
-        <div className="flex items-center space-x-4 mb-3 text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]">
+        <div className="flex items-center space-x-4 mb-3 text-[var(--secondary-dark-text)]">
           <div className="flex items-center space-x-1">
-            <Calendar className="w-4 h-4 text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]" />
+            <Calendar className="w-4 h-4 text-[var(--primary-dark-text)]" />
             <span className="text-sm">{formatDate(event.date)}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <Clock className="w-4 h-4 text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]" />
+            <Clock className="w-4 h-4 text-[var(--primary-dark-text)]" />
             <span className="text-sm">{event.time}</span>
           </div>
         </div>
-        <p className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]">{event.description}</p>
+        <p className="text-[var(--secondary-dark-text)]">{event.description}</p>
       </div>
     </motion.div>
   )

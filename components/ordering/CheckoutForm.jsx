@@ -148,15 +148,15 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 bg-[var(--primary-light-bg)] p-6 rounded-lg shadow-md">
         {/* Customer Information */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold">
+          <h2 className="text-2xl font-serif font-bold text-[var(--navbar-footer-text)] ">
             Customer Information
           </h2>
 
           <div>
-            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[var(--navbar-footer-text)]  mb-2">
               Name *
             </label>
             <input
@@ -170,7 +170,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[var(--navbar-footer-text)] mb-2">
               Email *
             </label>
             <input
@@ -184,7 +184,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[var(--navbar-footer-text)] mb-2">
               Phone *
             </label>
             <input
@@ -199,7 +199,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
 
           {/* Order Type Selection */}
           <div>
-            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-4">
+            <label className="block text-sm font-medium text-[var(--navbar-footer-text)]  mb-4">
               Order Type *
             </label>
             <div
@@ -210,12 +210,12 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
                   type="button"
                   onClick={() => setFormData({ ...formData, orderType: 'pickup' })}
                   className={`p-4 rounded-lg border-2 transition-colors ${formData.orderType === 'pickup'
-                    ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
-                    : 'border-gray-300 dark:border-gray-600'
+                    ? 'border-primary bg-[var(--secondary-light-bg)] '
+                    : 'border-gray-300 bg-[var(--primary-light-bg)]'
                     }`}
                 >
-                  <Calendar className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
-                  <span className="font-semibold">Pickup</span>
+                  <Calendar className="w-6 h-6 mx-auto mb-2 text-[var(--navbar-footer-text)] " />
+                  <span className="font-semibold text-[var(--navbar-footer-text)]">Pickup</span>
                 </button>
               )}
               {ordering?.delivery && stripeEnabled && (
@@ -223,12 +223,12 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
                   type="button"
                   onClick={() => setFormData({ ...formData, orderType: 'delivery' })}
                   className={`p-4 rounded-lg border-2 transition-colors ${formData.orderType === 'delivery'
-                    ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
-                    : 'border-gray-300 dark:border-gray-600'
+                    ? 'border-primary bg-[var(--secondary-light-bg)]'
+                    : 'border-gray-300 bg-[var(--primary-light-bg)]'
                     }`}
                 >
-                  <MapPin className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
-                  <span className="font-semibold">Delivery</span>
+                  <MapPin className="w-6 h-6 mx-auto mb-2 text-[var(--navbar-footer-text)] " />
+                  <span className="font-semibold text-[var(--navbar-footer-text)]">Delivery</span>
                 </button>
               )}
               {ordering?.dineIn && (
@@ -236,12 +236,12 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
                   type="button"
                   onClick={() => setFormData({ ...formData, orderType: 'dineIn' })}
                   className={`p-4 rounded-lg border-2 transition-colors ${formData.orderType === 'dineIn'
-                    ? 'border-primary dark:border-gold bg-primary/10 dark:bg-gold/10'
-                    : 'border-gray-300 dark:border-gray-600'
+                    ? 'border-primary bg-[var(--secondary-light-bg)]'
+                    : 'border-gray-300 bg-[var(--primary-light-bg)]'
                     }`}
                 >
-                  <UtensilsCrossed className="w-6 h-6 mx-auto mb-2 text-primary dark:text-gold" />
-                  <span className="font-semibold">Dine In</span>
+                  <UtensilsCrossed className="w-6 h-6 mx-auto mb-2 text-[var(--navbar-footer-text)] " />
+                  <span className="font-semibold text-[var(--navbar-footer-text)]">Dine In</span>
                 </button>
               )}
             </div>
@@ -250,7 +250,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
           {/* Pickup Time */}
           {formData.orderType === 'pickup' && ordering?.pickup && (
             <div>
-              <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-[var(--navbar-footer-text)]  mb-2">
                 <Clock className="w-4 h-4 inline mr-2" />
                 Pickup Time *
               </label>
@@ -260,7 +260,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
                 value={formData.pickupTime}
                 onChange={handleChange}
                 min={new Date().toISOString().slice(0, 16)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-gray-900"
               />
               {errors.pickupTime && (
                 <p className="text-red-600 text-sm mt-1">{errors.pickupTime}</p>
@@ -271,7 +271,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
           {/* Dine-In Time */}
           {formData.orderType === 'dineIn' && ordering?.dineIn && (
             <div>
-              <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-[var(--navbar-footer-text)]  mb-2">
                 <Clock className="w-4 h-4 inline mr-2" />
                 Preferred Dine-In Time *
               </label>
@@ -295,11 +295,11 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
           {/* Delivery Address */}
           {formData.orderType === 'delivery' && ordering?.delivery && (
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold text-primary dark:text-gold">
+              <h3 className="text-lg font-semibold text-[var(--navbar-footer-text)] ">
                 Delivery Address
               </h3>
               <div>
-                <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-[var(--navbar-footer-text)]  mb-2">
                   Street Address *
                 </label>
                 <input
@@ -315,7 +315,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-[var(--navbar-footer-text)]  mb-2">
                     City *
                   </label>
                   <input
@@ -330,7 +330,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
                   )}
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-[var(--navbar-footer-text)]  mb-2">
                     ZIP Code *
                   </label>
                   <input
@@ -351,26 +351,26 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
 
         {/* Order Summary & Payment */}
         <div>
-          <div className="bg-secondary dark:bg-gray-800 p-6 rounded-lg shadow-md sticky top-24">
-            <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-6">
+          <div className="bg-[var(--primary-dark-bg)] p-6 rounded-lg shadow-md sticky top-24">
+            <h2 className="text-2xl font-serif font-bold text-[var(--navbar-footer-text)]  mb-6">
               Order Summary
             </h2>
             <div className="space-y-2 mb-6">
-              <div className="flex justify-between text-secondary-text dark:text-gray-300">
+              <div className="flex justify-between text-[var(--navbar-footer-text)] ">
                 <span>Subtotal:</span>
                 <span>${cartTotals.subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-secondary-text dark:text-gray-300">
+              <div className="flex justify-between text-[var(--navbar-footer-text)] ">
                 <span>Tax:</span>
                 <span>${tax.toFixed(2)}</span>
               </div>
               {deliveryFee > 0 && (
-                <div className="flex justify-between text-secondary-text dark:text-gray-300">
+                <div className="flex justify-between text-[var(--navbar-footer-text)] ">
                   <span>Delivery:</span>
                   <span>${deliveryFee.toFixed(2)}</span>
                 </div>
               )}
-              <div className="border-t border-gray-300 dark:border-gray-600 pt-4 flex justify-between text-xl font-bold text-primary dark:text-gold">
+              <div className="border-t border-gray-300 pt-4 flex justify-between text-xl font-bold text-[var(--navbar-footer-text)] ">
                 <span>Total:</span>
                 <span>${total.toFixed(2)}</span>
               </div>

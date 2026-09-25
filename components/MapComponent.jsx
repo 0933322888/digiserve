@@ -99,12 +99,12 @@ export default function MapComponent({ address, coordinates: providedCoordinates
         className: 'custom-marker',
         html: `
           <div style="
-            background: linear-gradient(135deg, #8B0000 0%, #A52A2A 100%);
+            background: linear-gradient(135deg, var(--primary-dark-bg) 0%, var(--primary-dark-bg) 100%);
             width: 40px;
             height: 40px;
             border-radius: 50% 50% 50% 0;
             transform: rotate(-45deg);
-            border: 3px solid #D4AF37;
+            border: 3px solid var(--gold);
             box-shadow: 0 2px 8px rgba(0,0,0,0.3);
             display: flex;
             align-items: center;
@@ -113,7 +113,7 @@ export default function MapComponent({ address, coordinates: providedCoordinates
           ">
             <div style="
               transform: rotate(45deg);
-              color: #D4AF37;
+              color: var(--gold);
               font-size: 20px;
               font-weight: bold;
               line-height: 1;
@@ -282,9 +282,9 @@ export default function MapComponent({ address, coordinates: providedCoordinates
               <div style="
                 font-weight: bold;
                 font-size: 16px;
-                color: #8B0000;
+                color: var(--primary-dark-bg);
                 margin-bottom: 6px;
-                border-bottom: 2px solid #D4AF37;
+                border-bottom: 2px solid var(--gold);
                 padding-bottom: 4px;
               ">TRIO BISTRO & LOUNGE</div>
               <div style="
@@ -318,7 +318,7 @@ export default function MapComponent({ address, coordinates: providedCoordinates
           markerRef.current.setLatLng([coordinates.lat, coordinates.lon])
           const popupContent = `
             <div style="padding: 8px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-              <div style="font-weight: bold; font-size: 16px; color: #8B0000; margin-bottom: 6px; border-bottom: 2px solid #D4AF37; padding-bottom: 4px;">TRIO BISTRO & LOUNGE</div>
+              <div style="font-weight: bold; font-size: 16px; color: var(--primary-dark-bg); margin-bottom: 6px; border-bottom: 2px solid var(--gold); padding-bottom: 4px;">TRIO BISTRO & LOUNGE</div>
               <div style="font-size: 13px; color: #333; line-height: 1.5;">${address}</div>
             </div>
           `

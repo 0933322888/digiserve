@@ -20,7 +20,6 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
       return {
         name: tenant.name || '',
         slug: tenant.slug || '',
-        domain: tenant.domain || '',
         customDomains: tenant.customDomains || [],
         modules: tenant.modules || ['ordering', 'reservations', 'events', 'gallery', 'social'],
         subscriptionPlan: tenant.subscription?.plan || 'basic',
@@ -36,7 +35,6 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
       adminName: '',
       adminEmail: '',
       adminPassword: '',
-      domain: '',
       customDomains: [],
       modules: ['ordering', 'reservations', 'events', 'gallery', 'social'],
       subscriptionPlan: 'basic',
@@ -114,7 +112,6 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
           id: tenant.barId || tenant.slug,
           data: {
             name: formData.name,
-            domain: formData.domain || null,
             customDomains: formData.customDomains,
             modules: formData.modules,
             subscription: {
@@ -138,7 +135,6 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
             adminName: formData.adminName,
             adminEmail: formData.adminEmail,
             adminPassword: formData.adminPassword,
-            domain: formData.domain || null,
             customDomains: formData.customDomains,
             modules: formData.modules,
             subscriptionPlan: formData.subscriptionPlan,

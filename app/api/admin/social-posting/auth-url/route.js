@@ -1,3 +1,5 @@
+import crypto from 'crypto'
+import { SignJWT } from 'jose'
 import { NextResponse } from 'next/server'
 import { getFacebookAppCredentials } from '@/lib/app-settings-service'
 import { siteConfig } from '@/config/siteConfig'
@@ -30,6 +32,7 @@ export async function GET(request) {
         // Determine redirect URI
         let protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
         let host = request.headers.get('host');
+        const tenantHost = host;
 
         // FIX: Facebook requires HTTPS for all domains except strictly "localhost".
         // "trio.localhost" counts as a custom domain and fails insecure checks.
@@ -42,10 +45,16 @@ export async function GET(request) {
         const redirectUri = `${protocol}://${host}/api/admin/social-posting/callback`;
         console.log('Generating Facebook Auth URL with Redirect URI:', redirectUri); // DEBUG LOG
 
-        // State parameter to prevent CSRF and pass context
-        // In a real app, sign this or store in DB to verify
-        const state = JSON.stringify({ barId, nonce: Math.random().toString(36).substring(7) });
-        const encodedState = Buffer.from(state).toString('base64');
+        const secret = process.env.AUTH_SECRET
+        if (!secret) {
+            throw new Error('AUTH_SECRET is required to start social account authorization')
+        }
+        const nonce = crypto.randomBytes(32).toString('base64url')
+        const state = await new SignJWT({ barId, nonce, tenantHost })
+            .setProtectedHeader({ alg: 'HS256' })
+            .setIssuedAt()
+            .setExpirationTime('10m')
+            .sign(new TextEncoder().encode(secret))
 
         // Scopes
         const scopes = [
@@ -57,9 +66,23 @@ export async function GET(request) {
             // 'instagram_content_publish'     // Enable these after adding "Instagram Graph API" product in FB App Dashboard
         ].join(',');
 
-        const authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${facebookAppId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${encodedState}&scope=${scopes}`;
+        const authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${facebookAppId}&redirect_uri=${encodeURIComponent(redirectUri)}&state=${state}&scope=${scopes}`;
 
-        return NextResponse.json({ url: authUrl });
+        const response = NextResponse.json({ url: authUrl })
+        const cookieOptions = {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            path: '/',
+            maxAge: 600,
+        }
+        const cleanHost = request.headers.get('host')?.split(':')[0].toLowerCase()
+        const baseDomain = process.env.NEXT_PUBLIC_BASE_DOMAIN || 'digiserve.com'
+        if (cleanHost === baseDomain || cleanHost?.endsWith(`.${baseDomain}`)) {
+            cookieOptions.domain = `.${baseDomain}`
+        }
+        response.cookies.set(`social_oauth_state_${nonce}`, nonce, cookieOptions)
+        return response
 
     } catch (error) {
         console.error('Auth URL generation error:', error);

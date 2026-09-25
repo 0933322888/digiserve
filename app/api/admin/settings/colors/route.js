@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server'
 import { getRestaurantModel } from '@/lib/db/models'
 import connectDB from '@/lib/db/mongodb-connection'
-import { generateCompleteThemeColors, validateColorObject } from '@/lib/color-utils'
 import { resolveTenantId } from '@/lib/tenant-resolver'
 import { clearTenantCache } from '@/lib/tenant-service'
+import { getTemplateById } from '@/config/templates'
 
 /**
  * GET /api/admin/settings/colors
@@ -31,13 +31,18 @@ export async function GET(request) {
 
         const restaurant = await Restaurant.findOne({ barId })
 
-        // Return current color configuration
-        const colors = restaurant.theme?.colors || null
+        const templateId = restaurant.theme?.templateId || 'bar'
+        const template = getTemplateById(templateId)
+        const defaultPalette = template?.palettes?.[0]
+        const colors = restaurant.theme?.colors || {
+            primary: defaultPalette.primary,
+            accent: defaultPalette.accent,
+        }
 
         return NextResponse.json({
             success: true,
             colors,
-            templateId: restaurant.theme?.templateId || 'bar'
+            templateId
         })
     } catch (error) {
         console.error('Get colors error:', error)
@@ -57,10 +62,13 @@ export async function PUT(request) {
         }
 
         const body = await request.json()
-        const { colors, autoCalculate, templateId } = body
+        const { colors, templateId } = body
 
         if (!colors) {
             return NextResponse.json({ error: 'Colors are required' }, { status: 400 })
+        }
+        if (!colors.primary || !colors.accent) {
+            return NextResponse.json({ error: 'Primary and accent colors are required' }, { status: 400 })
         }
 
         // Resolve tenant identifier to actual barId
@@ -88,41 +96,16 @@ export async function PUT(request) {
             }, { status: 404 })
         }
 
-        console.log('[ColorSettings PUT] Found restaurant:', { barId: restaurant.barId, subdomain: restaurant.subdomain, name: restaurant.name })
+        console.log('[ColorSettings PUT] Found restaurant:', { barId: restaurant.barId, slug: restaurant.slug, name: restaurant.name })
 
-        let finalColors = colors
-
-        // Auto-calculate missing colors if requested
-        if (autoCalculate && colors.light?.primary?.bg && colors.light?.secondary?.bg) {
-            finalColors = generateCompleteThemeColors(
-                colors.light.primary.bg,
-                colors.light.secondary.bg
-            )
-        } else {
-            // Validate and normalize each color object
-            finalColors = {
-                light: {
-                    primary: validateColorObject(colors.light?.primary),
-                    secondary: validateColorObject(colors.light?.secondary)
-                },
-                dark: {
-                    primary: validateColorObject(colors.dark?.primary),
-                    secondary: validateColorObject(colors.dark?.secondary)
-                }
-            }
+        const finalColors = {
+            primary: colors.primary,
+            accent: colors.accent,
         }
 
         // Update restaurant theme colors
         restaurant.theme = restaurant.theme || {}
         restaurant.theme.colors = finalColors
-
-        // Sync legacy fields for backward compatibility
-        if (finalColors.light?.primary?.bg) {
-            restaurant.theme.primaryColor = finalColors.light.primary.bg
-        }
-        if (finalColors.light?.secondary?.bg) {
-            restaurant.theme.secondaryColor = finalColors.light.secondary.bg
-        }
 
         if (templateId) {
             restaurant.theme.templateId = templateId

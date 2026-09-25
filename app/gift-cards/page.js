@@ -58,7 +58,7 @@ export default function GiftCardsPage() {
           />
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
+            <div className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg mb-8">
               <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-4">
                 Perfect for Any Occasion
               </h3>

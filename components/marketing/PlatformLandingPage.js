@@ -384,11 +384,9 @@ function WizardModal({ onClose }) {
     const handleTemplateSelect = (templateId) => {
         setSelectedTemplate(templateId)
         const t = TEMPLATES.find(x => x.id === templateId)
-        if (t?.colors?.light) {
-            setPrimaryColor(t.colors.light.primary.bg)
-            if (t.colors.light.secondary?.bg) {
-                setSecondaryColor(t.colors.light.secondary.bg)
-            }
+        if (t?.palettes?.[0]) {
+            setPrimaryColor(t.palettes[0].primary)
+            setSecondaryColor(t.palettes[0].accent)
         }
     }
 
@@ -484,16 +482,16 @@ function WizardModal({ onClose }) {
                                             </p>
 
                                             {/* Color Swatches */}
-                                            {template.colors?.light && (
+                                            {template.palettes?.[0] && (
                                                 <div className="flex items-center gap-1.5">
                                                     <div
                                                         className="w-5 h-5 rounded border border-white/20"
-                                                        style={{ backgroundColor: template.colors.light.primary.bg }}
+                                                        style={{ backgroundColor: template.palettes[0].primary }}
                                                         title="Primary color"
                                                     />
                                                     <div
                                                         className="w-5 h-5 rounded border border-white/20"
-                                                        style={{ backgroundColor: template.colors.light.secondary.bg }}
+                                                        style={{ backgroundColor: template.palettes[0].accent }}
                                                         title="Secondary color"
                                                     />
                                                 </div>
@@ -534,8 +532,10 @@ function WizardModal({ onClose }) {
                                                 template: selectedTemplate,
                                                 theme: {
                                                     type: selectedTheme,
-                                                    primaryColor,
-                                                    secondaryColor,
+                                                    colors: {
+                                                        primary: primaryColor,
+                                                        accent: secondaryColor,
+                                                    },
                                                 },
                                             })
                                         })

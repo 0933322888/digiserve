@@ -58,18 +58,11 @@ export async function GET(request) {
               const theme = json.theme
               if (theme && typeof document !== 'undefined') {
                 const root = document.documentElement
-                if (theme.primaryColor) root.style.setProperty('--primary', theme.primaryColor)
-                if (theme.secondaryColor) root.style.setProperty('--secondary', theme.secondaryColor)
-                // cream & gold based on type (mirrors ThemeProvider.applyTheme logic)
-                if (theme.type === 'vintage') {
-                  if (theme.secondaryColor) root.style.setProperty('--cream', theme.secondaryColor)
-                  root.style.setProperty('--gold', '#d4af37')
-                } else if (theme.type === 'modern') {
-                  if (theme.secondaryColor) root.style.setProperty('--cream', theme.secondaryColor)
-                  root.style.setProperty('--gold', '#3498db')
-                } else if (theme.type === 'minimalist') {
-                  if (theme.secondaryColor) root.style.setProperty('--cream', theme.secondaryColor)
-                  root.style.setProperty('--gold', '#666666')
+                if (theme.colors?.primary) root.style.setProperty('--primary', theme.colors.primary)
+                if (theme.colors?.accent) {
+                  root.style.setProperty('--secondary', theme.colors.accent)
+                  root.style.setProperty('--gold', theme.colors.accent)
+                  root.style.setProperty('--accent', theme.colors.accent)
                 }
               }
             } catch (e) {
@@ -132,7 +125,7 @@ export async function POST(request) {
 
     // Create session token and set cookie using auth-service
     const { createSessionToken, setSession } = await import('@/lib/auth-service')
-    const sessionToken = await createSessionToken(user, tenantId, restaurant?.subdomain || null)
+    const sessionToken = await createSessionToken(user, tenantId, restaurant?.slug || null)
 
     const hostname = request.headers.get('host')
     await setSession(sessionToken, hostname)
@@ -142,9 +135,8 @@ export async function POST(request) {
 
     // Include restaurant theme in response so the activation page can apply it immediately
     const theme = (restaurant && restaurant.theme) ? restaurant.theme : {
-      type: 'vintage',
-      primaryColor: '#8B0000',
-      secondaryColor: '#F5F5DC',
+      templateId: 'bar',
+      colors: { primary: '#1C0F0B', accent: '#C88A3D' },
       logo: null,
     }
 

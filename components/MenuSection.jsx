@@ -45,8 +45,8 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
     : "grid grid-cols-1 md:grid-cols-2 gap-6"
 
   const cardClass = variant === 'list'
-    ? "bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 border-b border-[var(--primary-light-bg)]/20 dark:border-[var(--primary-dark-bg)]/20"
-    : "bg-[var(--secondary-light-bg)] dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
+    ? "bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 border-b border-[var(--primary-dark-bg)]/20"
+    : "bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex flex-col h-full"
 
   return (
     <motion.section
@@ -57,11 +57,11 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
       className="mb-16"
     >
       <div className="mb-8">
-        <h3 className="text-3xl font-serif font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] mb-2">
+        <h3 className="text-3xl font-serif font-bold text-[var(--primary-dark-text)] mb-2">
           {section.name}
         </h3>
         {section.description && (
-          <p className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] italic">{section.description}</p>
+          <p className="text-[var(--secondary-dark-text)] italic">{section.description}</p>
         )}
       </div>
 
@@ -97,7 +97,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex-1">
                     <h4
-                      className="text-xl font-serif font-semibold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]"
+                      className="text-xl font-serif font-semibold text-[var(--primary-dark-text)]"
                       itemProp="name"
                     >
                       {item.name}
@@ -112,7 +112,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                   {/* Only show main price if ordering is enabled OR item has no size variants */}
                   {showOrdering || !item.options || item.options.length === 0 ? (
                     <span
-                      className="text-lg font-bold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)] ml-4"
+                      className="text-lg font-bold text-[var(--primary-dark-text)] ml-4"
                       itemProp="offers"
                       itemScope
                       itemType="https://schema.org/Offer"
@@ -123,7 +123,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                     </span>
                   ) : null}
                 </div>
-                <p className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)] mb-2" itemProp="description">
+                <p className="text-[var(--secondary-dark-text)] mb-2" itemProp="description">
                   {item.description}
                 </p>
                 {/* Show all size variants when ordering is disabled and item has options */}
@@ -135,8 +135,8 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                           key={idx}
                           className="flex justify-between items-center text-sm"
                         >
-                          <span className="text-[var(--secondary-light-text)] dark:text-[var(--secondary-dark-text)]">{option.name}</span>
-                          <span className="font-semibold text-[var(--primary-light-text)] dark:text-[var(--primary-dark-text)]">
+                          <span className="text-[var(--secondary-dark-text)]">{option.name}</span>
+                          <span className="font-semibold text-[var(--primary-dark-text)]">
                             {formatPrice(option.price)}
                           </span>
                         </div>
@@ -149,7 +149,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                     {item.dietary.map(diet => (
                       <span
                         key={diet}
-                        className="text-xs px-2 py-1 bg-gold/20 text-primary dark:text-gold rounded"
+                        className="text-xs px-2 py-1 bg-[var(--gold)]/20 text-[var(--primary-dark-text)] rounded"
                       >
                         {diet}
                       </span>
@@ -157,18 +157,18 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                   </div>
                 )}
                 {item.serves && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+                  <p className="text-sm text-[var(--secondary-dark-text)]/70 mt-2">
                     Serves {item.serves}
                   </p>
                 )}
                 {item.size && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{item.size}</p>
+                  <p className="text-sm text-[var(--secondary-dark-text)]/70 mt-2">{item.size}</p>
                 )}
               </div>
               {showOrdering && (
-                <div className={`flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700 ${variant === 'list' ? 'mt-4 md:mt-0 md:ml-6 md:flex-col md:border-t-0 md:border-l md:pl-6 bg-transparent' : 'mt-auto'}`}>
+                <div className={`flex items-center justify-between pt-4 border-t border-[var(--primary-dark-bg)]/20 ${variant === 'list' ? 'mt-4 md:mt-0 md:ml-6 md:flex-col md:border-t-0 md:border-l md:pl-6 bg-transparent' : 'mt-auto'}`}>
                   {item.unavailable ? (
-                    <div className="w-full text-center py-2 text-sm text-gray-500 dark:text-gray-400 italic">
+                    <div className="w-full text-center py-2 text-sm text-[var(--secondary-dark-text)]/60 italic">
                       This item is temporarily unavailable
                     </div>
                   ) : (
@@ -176,25 +176,25 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                       <div className="flex items-center space-x-3 mb-0 md:mb-4">
                         <button
                           onClick={() => handleQuantityChange(item.id, -1)}
-                          className="p-1 rounded-lg hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
+                          className="p-1 rounded-lg hover:bg-[var(--primary-dark-bg)]/10 transition-colors"
                           aria-label="Decrease quantity"
                         >
-                          <Minus className="w-4 h-4 text-primary dark:text-gold" />
+                          <Minus className="w-4 h-4 text-[var(--primary-dark-text)]" />
                         </button>
-                        <span className="text-lg font-semibold w-8 text-center">
+                        <span className="text-lg font-semibold w-8 text-center text-[var(--secondary-dark-text)]">
                           {quantities[item.id] || 1}
                         </span>
                         <button
                           onClick={() => handleQuantityChange(item.id, 1)}
-                          className="p-1 rounded-lg hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
+                          className="p-1 rounded-lg hover:bg-[var(--primary-dark-bg)]/10 transition-colors"
                           aria-label="Increase quantity"
                         >
-                          <Plus className="w-4 h-4 text-primary dark:text-gold" />
+                          <Plus className="w-4 h-4 text-[var(--primary-dark-text)]" />
                         </button>
                       </div>
                       <button
                         onClick={() => handleAddToCart(item)}
-                        className="bg-primary dark:bg-gold text-white dark:text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light transition-colors text-sm whitespace-nowrap"
+                        className="bg-[var(--primary-dark-bg)] text-[var(--primary-dark-text)] px-4 py-2 rounded-lg font-semibold hover:bg-[var(--primary-dark-bg)]/90 transition-colors text-sm whitespace-nowrap"
                       >
                         Add to Cart
                       </button>

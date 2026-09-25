@@ -60,16 +60,16 @@ export default function ReservationsPage() {
           />
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-lg mb-8">
-              <h3 className="text-2xl font-serif font-semibold text-primary dark:text-gold mb-4">
+            <div className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg mb-8">
+              <h3 className="text-2xl font-serif font-semibold text-primary-text mb-4">
                 Contact Information
               </h3>
-              <div className="space-y-2 text-secondary-text dark:text-gray-300">
+              <div className="space-y-2 text-primary-text">
                 <p>
                   <strong>Phone:</strong>{' '}
                   <a
                     href={`tel:${restaurant.phone}`}
-                    className="text-primary dark:text-gold hover:underline"
+                    className="text-primary-text hover:underline"
                   >
                     {restaurant.phone}
                   </a>
@@ -78,7 +78,7 @@ export default function ReservationsPage() {
                   <strong>Email:</strong>{' '}
                   <a
                     href={`mailto:${restaurant.email}`}
-                    className="text-primary dark:text-gold hover:underline"
+                    className="text-primary-text hover:underline"
                   >
                     {restaurant.email}
                   </a>

@@ -18,12 +18,10 @@ export async function POST(request) {
     await connectDB()
     const Restaurant = getRestaurantModel()
 
-    // Check slug, subdomain, domain and customDomains
+    // Check the public slug and custom domains.
     const existing = await Restaurant.findOne({
       $or: [
         { slug: clean },
-        { subdomain: clean },
-        { domain: clean },
         { customDomains: clean },
       ],
     })

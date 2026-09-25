@@ -41,7 +41,7 @@ export async function GET(request, context) {
             barId: restaurant.barId,
             name: restaurant.name,
             slug: restaurant.slug,
-            subdomain: restaurant.subdomain,
+            customDomains: restaurant.customDomains || [],
             theme: restaurant.theme,
             social: restaurant.social,
             contact: restaurant.contact,

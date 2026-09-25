@@ -14,7 +14,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Tenant ID is required' }, { status: 400 })
     }
 
-    const generatedPosts = generatePostsFromCampaigns(barId)
+    const generatedPosts = await generatePostsFromCampaigns(barId)
 
     return NextResponse.json({
       success: true,

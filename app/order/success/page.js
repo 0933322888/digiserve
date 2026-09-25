@@ -66,7 +66,7 @@ export default function OrderSuccessPage() {
           </p>
 
           {order && (
-            <div className="bg-secondary dark:bg-gray-800 p-8 rounded-lg shadow-md mb-8 text-left">
+            <div className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-md mb-8 text-left">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold flex items-center">
                   <Receipt className="w-6 h-6 mr-2" />

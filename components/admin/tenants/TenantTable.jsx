@@ -111,7 +111,7 @@ export default function TenantTable({
             {tenants.map((tenant) => {
               const isCurrent = currentTenantId === tenant.barId || currentTenantId === tenant.slug
               const modulesList = tenant.modules || []
-              const primaryDomain = tenant.domain || (tenant.customDomains && tenant.customDomains[0])
+              const primaryDomain = tenant.customDomains && tenant.customDomains[0]
 
               return (
                 <tr
@@ -145,7 +145,7 @@ export default function TenantTable({
                     <div className="space-y-1">
                       <div className="flex items-center gap-1.5 text-xs text-gray-700 dark:text-gray-300 font-mono">
                         <Globe className="w-3.5 h-3.5 text-gray-400" />
-                        {tenant.subdomain || `${tenant.slug}.digiserve.com`}
+                        {tenant.slug}.digiserve.com
                       </div>
                       {primaryDomain ? (
                         <div className="flex items-center gap-1.5 text-xs text-primary dark:text-gold font-mono">

@@ -1,4 +1,6 @@
 import { NextResponse } from 'next/server'
+import { jwtVerify } from 'jose'
+import { getTenantFromHost } from '@/lib/tenant-service'
 import { getFacebookAppCredentials } from '@/lib/app-settings-service'
 import { exchangeCodeForToken, getFacebookPage, getInstagramBusinessAccount } from '@/lib/social-api-client'
 import { saveAccount, getConnectedAccounts } from '@/lib/social-posting-service'
@@ -10,35 +12,80 @@ export const dynamic = 'force-dynamic'
  * Handle Facebook OAuth callback
  */
 export async function GET(request) {
+    let stateCookieName = null
+    let stateCookieDomain = null
+    let redirectOrigin = new URL(request.url).origin
+    const redirectToAdmin = (query = {}) => {
+        const url = new URL('/admin/social-posting', redirectOrigin)
+        for (const [key, value] of Object.entries(query)) {
+            url.searchParams.set(key, value)
+        }
+        const response = NextResponse.redirect(url)
+        if (stateCookieName) {
+            response.cookies.set(stateCookieName, '', {
+                path: '/',
+                maxAge: 0,
+                ...(stateCookieDomain ? { domain: stateCookieDomain } : {}),
+            })
+        }
+        return response
+    }
+
     try {
         const { searchParams } = new URL(request.url)
         const code = searchParams.get('code')
         const state = searchParams.get('state')
         const error = searchParams.get('error')
 
+        if (!state || !process.env.AUTH_SECRET) {
+            return redirectToAdmin({ error: 'invalid_state' })
+        }
+
+        let statePayload
+        try {
+            const verifiedState = await jwtVerify(
+                state,
+                new TextEncoder().encode(process.env.AUTH_SECRET),
+                { algorithms: ['HS256'] }
+            )
+            statePayload = verifiedState.payload
+        } catch (e) {
+            console.error('Invalid OAuth state', e)
+        }
+        const { barId, nonce, tenantHost } = statePayload || {}
+        if (typeof barId !== 'string' || typeof nonce !== 'string' || typeof tenantHost !== 'string') {
+            return redirectToAdmin({ error: 'invalid_state' })
+        }
+        if (await getTenantFromHost(tenantHost) !== barId) {
+            return redirectToAdmin({ error: 'invalid_state' })
+        }
+        stateCookieName = `social_oauth_state_${nonce}`
+        const baseDomain = process.env.NEXT_PUBLIC_BASE_DOMAIN || 'digiserve.com'
+        const cleanTenantHost = tenantHost.split(':')[0].toLowerCase()
+        if (cleanTenantHost === baseDomain || cleanTenantHost.endsWith(`.${baseDomain}`)) {
+            stateCookieDomain = `.${baseDomain}`
+        }
+        const tenantProtocol = process.env.NODE_ENV === 'production' ? 'https' : 'http'
+        redirectOrigin = `${tenantProtocol}://${tenantHost}`
+        const stateCookie = request.cookies.get(stateCookieName)?.value
+        if ((process.env.NODE_ENV === 'production' && stateCookie !== nonce) ||
+            (stateCookie && stateCookie !== nonce)) {
+            return redirectToAdmin({ error: 'invalid_state' })
+        }
+
         if (error) {
             console.error('Facebook OAuth Error:', error, searchParams.get('error_description'))
-            return NextResponse.redirect(new URL('/admin/social-posting?error=' + error, request.url))
+            return redirectToAdmin({ error })
         }
 
-        if (!code || !state) {
-            return NextResponse.redirect(new URL('/admin/social-posting?error=missing_params', request.url))
-        }
-
-        // Decode state
-        let barId;
-        try {
-            const decodedState = JSON.parse(Buffer.from(state, 'base64').toString('ascii'));
-            barId = decodedState.barId;
-        } catch (e) {
-            console.error('Invalid state param', e);
-            return NextResponse.redirect(new URL('/admin/social-posting?error=invalid_state', request.url))
+        if (!code) {
+            return redirectToAdmin({ error: 'missing_params' })
         }
 
         // Get Credentials
         const { facebookAppId, facebookAppSecret } = await getFacebookAppCredentials(barId)
         if (!facebookAppId || !facebookAppSecret) {
-            return NextResponse.redirect(new URL('/admin/social-posting?error=missing_credentials', request.url))
+            return redirectToAdmin({ error: 'missing_credentials' })
         }
 
         // Construct Redirect URI (Same as in auth-url)
@@ -105,10 +152,10 @@ export async function GET(request) {
             }
         }
 
-        return NextResponse.redirect(new URL(`/admin/social-posting?success=true&connected=${connectedCount}`, request.url))
+        return redirectToAdmin({ success: 'true', connected: String(connectedCount) })
 
     } catch (error) {
         console.error('Callback error:', error)
-        return NextResponse.redirect(new URL('/admin/social-posting?error=' + encodeURIComponent(error.message), request.url))
+        return redirectToAdmin({ error: error.message || 'callback_failed' })
     }
 }

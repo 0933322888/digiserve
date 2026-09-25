@@ -1,9 +1,8 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Palette, RefreshCw, Save, RotateCcw } from 'lucide-react'
+import { Palette, Save, RotateCcw } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { generateCompleteThemeColors } from '@/lib/color-utils'
 import { TEMPLATES } from '@/config/templates'
 
 export default function ColorSettings() {
@@ -29,18 +28,15 @@ export default function ColorSettings() {
                     setSelectedTemplate(data.templateId)
                 }
             } else {
-                const defaultColors = {
-                    light: {
-                        primary: { bg: '#8B0000', text: '#FFFFFF' },
-                        secondary: { bg: '#F5F5DC', text: '#2C3E50' }
-                    },
-                    dark: {
-                        primary: { bg: '#1a0505', text: '#FFFFFF' },
-                        secondary: { bg: '#2C2C2C', text: '#E8E8E8' }
-                    }
-                }
+                const defaultPalette = TEMPLATES.find(template => template.id === (data.templateId || 'bar'))?.palettes?.[0]
+                const defaultColors = defaultPalette
+                    ? { primary: defaultPalette.primary, accent: defaultPalette.accent }
+                    : null
                 setColors(defaultColors)
                 setOriginalColors(JSON.parse(JSON.stringify(defaultColors)))
+                if (data.templateId) {
+                    setSelectedTemplate(data.templateId)
+                }
             }
         } catch (error) {
             console.error('Failed to fetch colors:', error)
@@ -53,43 +49,17 @@ export default function ColorSettings() {
     const handleTemplateChange = (templateId) => {
         setSelectedTemplate(templateId)
         const template = TEMPLATES.find(t => t.id === templateId)
-        if (template && template.colors) {
-            setColors(JSON.parse(JSON.stringify(template.colors)))
-            toast.success(`Applied ${template.name} template colors`)
+        if (template?.palettes?.[0]) {
+            setColors(template.palettes[0])
         }
     }
 
-    const handleColorChange = (mode, type, property, value) => {
-        setColors(prev => ({
-            ...prev,
-            [mode]: {
-                ...prev[mode],
-                [type]: {
-                    ...prev[mode][type],
-                    [property]: value
-                }
-            }
-        }))
-    }
-
-    const handleAutoCalculate = () => {
-        if (!colors?.light?.primary?.bg || !colors?.light?.secondary?.bg) {
-            toast.error('Please set light mode primary and secondary background colors first')
-            return
-        }
-
-        const calculated = generateCompleteThemeColors(
-            colors.light.primary.bg,
-            colors.light.secondary.bg
-        )
-
-        setColors(calculated)
-        toast.success('Colors auto-calculated!')
+    const handlePaletteChange = (palette) => {
+        setColors({ primary: palette.primary, accent: palette.accent })
     }
 
     const handleReset = () => {
         setColors(JSON.parse(JSON.stringify(originalColors)))
-        toast.success('Colors reset to saved values')
     }
 
     const handleSave = async () => {
@@ -134,62 +104,6 @@ export default function ColorSettings() {
         )
     }
 
-    const ColorPicker = ({ label, value, onChange, showAuto = false, onAuto }) => (
-        <div className="flex items-center gap-3">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300 min-w-[100px]">
-                {label}
-            </label>
-            <div className="flex items-center gap-2 flex-1">
-                <input
-                    type="color"
-                    value={value || '#000000'}
-                    onChange={(e) => onChange(e.target.value)}
-                    className="w-12 h-10 rounded border border-gray-300 dark:border-gray-600 cursor-pointer"
-                />
-                <input
-                    type="text"
-                    value={value || ''}
-                    onChange={(e) => onChange(e.target.value)}
-                    placeholder="#000000"
-                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 font-mono text-sm"
-                />
-                {showAuto && (
-                    <button
-                        onClick={onAuto}
-                        className="px-3 py-2 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors border border-gray-200 dark:border-gray-600"
-                        title="Auto-calculate contrasting color"
-                    >
-                        Auto
-                    </button>
-                )}
-            </div>
-        </div>
-    )
-
-    const ColorSection = ({ title, mode, type }) => (
-        <div className="space-y-3">
-            <h4 className="font-medium text-gray-900 dark:text-white capitalize">{type}</h4>
-            <div className="space-y-2 pl-4 border-l-2 border-gray-200 dark:border-gray-700">
-                <ColorPicker
-                    label="Background"
-                    value={colors[mode][type].bg}
-                    onChange={(value) => handleColorChange(mode, type, 'bg', value)}
-                />
-                <ColorPicker
-                    label="Text"
-                    value={colors[mode][type].text}
-                    onChange={(value) => handleColorChange(mode, type, 'text', value)}
-                    showAuto
-                    onAuto={() => {
-                        const { getContrastingTextColor } = require('@/lib/color-utils')
-                        const textColor = getContrastingTextColor(colors[mode][type].bg)
-                        handleColorChange(mode, type, 'text', textColor)
-                    }}
-                />
-            </div>
-        </div>
-    )
-
     return (
         <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
             <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
@@ -201,18 +115,10 @@ export default function ColorSettings() {
                                 Theme & Color Settings
                             </h3>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                                Choose a template and customize colors for light and dark modes
+                                Choose a template and its color palette
                             </p>
                         </div>
                     </div>
-                    <button
-                        onClick={handleAutoCalculate}
-                        className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm"
-                        style={{ backgroundColor: colors?.light?.primary?.bg, color: colors?.light?.primary?.text }}
-                    >
-                        <RefreshCw className="w-4 h-4" />
-                        Auto-Calculate All
-                    </button>
                 </div>
             </div>
 
@@ -230,8 +136,7 @@ export default function ColorSettings() {
                                 className={`rounded-lg border-2 transition-all text-left overflow-hidden ${selectedTemplate === template.id
                                     ? 'border-blue-600 ring-2 ring-blue-600 ring-offset-2'
                                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
-                                    }`}
-                            >
+                                    }`}                            >
                                 {/* Template Thumbnail */}
                                 <div className="aspect-video bg-gray-100 dark:bg-gray-800 relative overflow-hidden">
                                     <img
@@ -255,17 +160,17 @@ export default function ColorSettings() {
                                         {template.description}
                                     </p>
 
-                                    {/* Color Swatches */}
+                                    {/* Default palette preview */}
                                     <div className="flex gap-2">
                                         <div
                                             className="w-6 h-6 rounded border border-gray-300 dark:border-gray-600"
-                                            style={{ backgroundColor: template.colors.light.primary.bg }}
+                                            style={{ backgroundColor: template.palettes[0].primary }}
                                             title="Primary"
                                         />
                                         <div
                                             className="w-6 h-6 rounded border border-gray-300 dark:border-gray-600"
-                                            style={{ backgroundColor: template.colors.light.secondary.bg }}
-                                            title="Secondary"
+                                            style={{ backgroundColor: template.palettes[0].accent }}
+                                            title="Accent"
                                         />
                                     </div>
                                 </div>
@@ -274,80 +179,38 @@ export default function ColorSettings() {
                     </div>
                 </div>
 
-                {/* Color Customization */}
-                <div className="grid md:grid-cols-2 gap-6">
-                    {/* Light Mode */}
-                    <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-6 space-y-4">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-yellow-400"></span>
-                            Light Mode
-                        </h3>
-                        <ColorSection title="Primary" mode="light" type="primary" />
-                        <ColorSection title="Secondary" mode="light" type="secondary" />
-                    </div>
+                {/* Predefined palettes for the selected template */}
+                <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                        Color Palette
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {(TEMPLATES.find(template => template.id === selectedTemplate)?.palettes || []).map((palette) => {
+                            const isSelected = colors.primary?.toUpperCase() === palette.primary &&
+                                colors.accent?.toUpperCase() === palette.accent
 
-                    {/* Dark Mode */}
-                    <div className="bg-gray-900 dark:bg-gray-950 rounded-lg border border-gray-700 p-6 space-y-4">
-                        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                            <span className="w-3 h-3 rounded-full bg-indigo-400"></span>
-                            Dark Mode
-                        </h3>
-                        <ColorSection title="Primary" mode="dark" type="primary" />
-                        <ColorSection title="Secondary" mode="dark" type="secondary" />
-                    </div>
-                </div>
-
-                {/* Preview Section */}
-                <div className="bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                        Preview
-                    </h3>
-                    <div className="grid md:grid-cols-2 gap-4">
-                        {/* Light Mode Preview */}
-                        <div className="space-y-2">
-                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Light Mode</p>
-                            <div
-                                className="p-4 rounded-lg"
-                                style={{
-                                    backgroundColor: colors.light.secondary.bg,
-                                    color: colors.light.secondary.text
-                                }}
-                            >
-                                <p className="mb-2">Secondary Background</p>
+                            return (
                                 <button
-                                    className="px-4 py-2 rounded-md font-medium"
-                                    style={{
-                                        backgroundColor: colors.light.primary.bg,
-                                        color: colors.light.primary.text
-                                    }}
+                                    key={palette.name}
+                                    type="button"
+                                    onClick={() => handlePaletteChange(palette)}
+                                    aria-pressed={isSelected}
+                                    className={`flex items-center gap-3 p-3 rounded-lg border-2 text-left transition-all ${isSelected
+                                        ? 'border-blue-600 ring-2 ring-blue-600 ring-offset-1'
+                                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500'
+                                        }`}
                                 >
-                                    Primary Button
+                                    <span className="flex shrink-0">
+                                        <span className="w-7 h-7 rounded-l border border-gray-300 dark:border-gray-600" style={{ backgroundColor: palette.primary }} />
+                                        <span className="w-7 h-7 rounded-r border-y border-r border-gray-300 dark:border-gray-600" style={{ backgroundColor: palette.accent }} />
+                                    </span>
+                                    <span className="min-w-0">
+                                        <span className="block text-sm font-medium text-gray-900 dark:text-white truncate">{palette.name}</span>
+                                        {isSelected && <span className="block text-xs text-blue-600 dark:text-blue-400">Selected</span>}
+                                    </span>
                                 </button>
-                            </div>
-                        </div>
-
-                        {/* Dark Mode Preview */}
-                        <div className="space-y-2">
-                            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Dark Mode</p>
-                            <div
-                                className="p-4 rounded-lg"
-                                style={{
-                                    backgroundColor: colors.dark.secondary.bg,
-                                    color: colors.dark.secondary.text
-                                }}
-                            >
-                                <p className="mb-2">Secondary Background</p>
-                                <button
-                                    className="px-4 py-2 rounded-md font-medium"
-                                    style={{
-                                        backgroundColor: colors.dark.primary.bg,
-                                        color: colors.dark.primary.text
-                                    }}
-                                >
-                                    Primary Button
-                                </button>
-                            </div>
-                        </div>
+                            )
+                        })}
                     </div>
                 </div>
 

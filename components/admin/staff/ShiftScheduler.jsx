@@ -262,7 +262,7 @@ export default function ShiftScheduler({ barId }) {
                         [location]: e.target.checked,
                       }))
                     }}
-                    className="rounded border-gray-300 dark:border-gray-600 text-primary dark:text-gold focus:ring-primary dark:focus:ring-gold w-3 h-3"
+                    className="rounded border-gray-300 dark:border-gray-600 text-primary-text  focus:ring-primary dark:focus:ring-gold w-3 h-3"
                   />
                   <span>{labels[location]}</span>
                 </label>
@@ -879,7 +879,7 @@ export default function ShiftScheduler({ barId }) {
                     <div className="flex justify-between items-start mb-1">
                       <span
                         className={`text-sm font-medium ${isToday
-                          ? 'text-primary dark:text-gold bg-primary/10 dark:bg-gold/10 px-1.5 rounded-full'
+                          ? 'text-primary-text  bg-primary/10 dark:bg-gold/10 px-1.5 rounded-full'
                           : isCurrentMonth
                             ? 'text-gray-900 dark:text-white'
                             : 'text-gray-400 dark:text-gray-500'

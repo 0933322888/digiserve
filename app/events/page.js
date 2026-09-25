@@ -91,7 +91,7 @@ export default async function EventsPage() {
 
           {regularEvents.length > 0 && (
             <div>
-              <h2 className="text-3xl font-serif font-bold text-primary dark:text-gold mb-8">
+              <h2 className="text-3xl font-serif font-bold text-primary-text  mb-8">
                 All Events
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

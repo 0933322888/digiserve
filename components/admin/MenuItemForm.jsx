@@ -250,7 +250,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
               options: [...formData.options, { name: '', price: '' }],
             })
           }
-          className="text-sm text-primary dark:text-gold hover:underline flex items-center gap-1"
+          className="text-sm text-primary-text  hover:underline flex items-center gap-1"
         >
           <Plus className="w-3 h-3" /> Add Size Variant
         </button>
@@ -282,7 +282,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
             {formData.dietary.map(diet => (
               <span
                 key={diet}
-                className="inline-flex items-center gap-1 px-2 py-1 bg-gold/20 text-primary dark:text-gold rounded text-sm"
+                className="inline-flex items-center gap-1 px-2 py-1 bg-gold/20 text-primary-text  rounded text-sm"
               >
                 {diet}
                 <button
@@ -304,7 +304,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           id="unavailable"
           checked={formData.unavailable}
           onChange={e => setFormData({ ...formData, unavailable: e.target.checked })}
-          className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
+          className="h-4 w-4 text-primary-text focus:ring-primary border-gray-300 rounded"
         />
         <label htmlFor="unavailable" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
           Temporarily Unavailable

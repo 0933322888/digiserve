@@ -146,7 +146,7 @@ export default function AdminAnnouncementsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-primary dark:text-gold" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary-text " />
       </div>
     )
   }
@@ -255,7 +255,7 @@ export default function AdminAnnouncementsPage() {
                 id="active"
                 checked={formData.active}
                 onChange={e => setFormData({ ...formData, active: e.target.checked })}
-                className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary dark:focus:ring-gold"
+                className="w-4 h-4 text-primary-text border-gray-300 rounded focus:ring-primary dark:focus:ring-gold"
               />
               <label htmlFor="active" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                 Active

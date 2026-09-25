@@ -67,7 +67,7 @@ export default function EventsCarousel({ events = [] }) {
                 <h3 className="text-3xl font-serif font-bold text-[var(--primary-dark-text)] mb-4">
                   {currentEvent.title}
                 </h3>
-                <div className="flex items-center space-x-6 mb-4 text-[var(--secondary-dark-text)]">
+                <div className="flex items-center space-x-6 mb-4 text-primary-text">
                   <div className="flex items-center space-x-2">
                     <Calendar className="w-5 h-5 text-[var(--primary-dark-text)]" />
                     <span className="font-medium">{formatDate(currentEvent.date)}</span>
@@ -77,7 +77,7 @@ export default function EventsCarousel({ events = [] }) {
                     <span className="font-medium">{currentEvent.time}</span>
                   </div>
                 </div>
-                <p className="text-[var(--secondary-dark-text)] mb-6 text-lg leading-relaxed">
+                <p className="text-primary-text mb-6 text-lg leading-relaxed">
                   {currentEvent.description}
                 </p>
                 <Link

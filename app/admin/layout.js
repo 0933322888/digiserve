@@ -308,7 +308,7 @@ export default function AdminLayout({ children }) {
       >
         <div className="flex items-center justify-between h-16 border-b border-gray-200 dark:border-gray-700 flex-shrink-0 px-4">
           {!isSidebarCollapsed && (
-            <h1 className="text-xl font-bold text-primary dark:text-gold truncate">Admin</h1>
+            <h1 className="text-xl font-bold text-primary-text  truncate">Admin</h1>
           )}
           <button
             onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
@@ -412,7 +412,7 @@ export default function AdminLayout({ children }) {
 
         {/* Mobile Header */}
         <div className="md:hidden flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2">
-          <h1 className="text-lg font-bold text-primary dark:text-gold">Restaurant Admin</h1>
+          <h1 className="text-lg font-bold text-primary-text ">Restaurant Admin</h1>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"

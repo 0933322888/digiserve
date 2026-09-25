@@ -65,7 +65,7 @@ export default function SetupProgress({
                             {!step.completed && step.action && (
                                 <Link
                                     href={step.action.href}
-                                    className="text-xs font-semibold text-primary dark:text-gold hover:underline"
+                                    className="text-xs font-semibold text-primary-text  hover:underline"
                                 >
                                     {step.action.label} →
                                 </Link>

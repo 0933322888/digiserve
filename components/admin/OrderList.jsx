@@ -200,7 +200,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                 </div>
 
                 <div className="mt-3 flex items-center gap-4">
-                  <div className="flex items-center gap-2 text-lg font-bold text-primary dark:text-gold">
+                  <div className="flex items-center gap-2 text-lg font-bold text-primary-text ">
                     <DollarSign className="w-5 h-5" />
                     {formatPrice(order.totals?.total || 0)}
                   </div>
@@ -368,7 +368,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                   )}
                   <div className="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-700 font-bold">
                     <span className="text-gray-900 dark:text-white">Total:</span>
-                    <span className="text-primary dark:text-gold">
+                    <span className="text-primary-text ">
                       {formatPrice(order.totals?.total || 0)}
                     </span>
                   </div>

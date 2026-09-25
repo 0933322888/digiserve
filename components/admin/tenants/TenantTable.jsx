@@ -120,7 +120,7 @@ export default function TenantTable({
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
-                      <div className="w-10 h-10 rounded-lg bg-primary/10 dark:bg-gold/10 text-primary dark:text-gold flex items-center justify-center font-bold text-sm uppercase mr-3 shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-primary/10 dark:bg-gold/10 text-primary-text  flex items-center justify-center font-bold text-sm uppercase mr-3 shrink-0">
                         {tenant.name ? tenant.name.substring(0, 2) : 'TR'}
                       </div>
                       <div>
@@ -129,7 +129,7 @@ export default function TenantTable({
                             {tenant.name}
                           </span>
                           {isCurrent && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-primary/10 text-primary dark:bg-gold/20 dark:text-gold">
+                            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-primary/10 text-primary-text dark:bg-gold/20 ">
                               Current Session
                             </span>
                           )}
@@ -148,7 +148,7 @@ export default function TenantTable({
                         {tenant.slug}.digiserve.com
                       </div>
                       {primaryDomain ? (
-                        <div className="flex items-center gap-1.5 text-xs text-primary dark:text-gold font-mono">
+                        <div className="flex items-center gap-1.5 text-xs text-primary-text  font-mono">
                           <ExternalLink className="w-3.5 h-3.5" />
                           <span>{primaryDomain}</span>
                         </div>
@@ -185,7 +185,7 @@ export default function TenantTable({
                     <div className="flex items-center justify-end gap-2">
                       <button
                         onClick={() => onEdit(tenant)}
-                        className="p-1.5 text-gray-500 hover:text-primary dark:hover:text-gold rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+                        className="p-1.5 text-gray-500 hover:text-primary-text dark:hover:text-gold rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
                         title="Edit tenant"
                       >
                         <Edit2 className="w-4 h-4" />

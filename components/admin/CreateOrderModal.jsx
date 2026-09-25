@@ -196,7 +196,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                                     >
                                         <div className="flex justify-between w-full mb-2">
                                             <span className="font-medium text-gray-900 dark:text-white line-clamp-1">{item.name}</span>
-                                            <span className="font-bold text-primary">${item.price}</span>
+                                            <span className="font-bold text-primary-text">${item.price}</span>
                                         </div>
                                         <p className="text-xs text-gray-500 line-clamp-2 mb-2">{item.description}</p>
                                     </button>

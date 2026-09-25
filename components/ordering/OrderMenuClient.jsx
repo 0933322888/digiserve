@@ -139,7 +139,7 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
       <div className="space-y-12">
         {filteredSections.map(section => (
           <div key={section.id}>
-            <h3 className="text-3xl font-serif font-bold text-primary dark:text-gold mb-6">
+            <h3 className="text-3xl font-serif font-bold text-primary-text  mb-6">
               {section.name}
             </h3>
             {section.description && (

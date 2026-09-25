@@ -32,7 +32,7 @@ export default function CheckoutPage() {
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary dark:text-gold" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary-text " />
       </div>
     )
   }

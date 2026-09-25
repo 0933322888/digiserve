@@ -141,7 +141,7 @@ export default function GiftCardForm() {
       className="max-w-2xl mx-auto bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg"
     >
       <div className="mb-6">
-        <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-4">
+        <h3 className="text-xl font-serif font-semibold text-primary-text  mb-4">
           Recipient Information
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -183,7 +183,7 @@ export default function GiftCardForm() {
       </div>
 
       <div className="mb-6">
-        <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-4">
+        <h3 className="text-xl font-serif font-semibold text-primary-text  mb-4">
           Your Information
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

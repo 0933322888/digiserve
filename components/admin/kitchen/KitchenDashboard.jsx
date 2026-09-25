@@ -10,7 +10,7 @@ export default function KitchenPage({ barId }) {
     if (loading && orders.length === 0) {
         return (
             <div className="flex h-screen items-center justify-center">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-text" />
                 <span className="ml-2 text-lg text-gray-600">Loading KDS...</span>
             </div>
         )

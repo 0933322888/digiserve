@@ -83,7 +83,7 @@ export default function GiftCardList({ giftCards }) {
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <button
                     onClick={() => setSelectedCard(card)}
-                    className="text-primary hover:text-primary-dark dark:text-gold dark:hover:text-yellow-400"
+                    className="text-primary-text hover:text-primary-text-dark  dark:hover:text-yellow-400"
                     title="View History"
                   >
                     <History className="h-5 w-5" />

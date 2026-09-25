@@ -163,7 +163,7 @@ export default function EventsManager({ barId }) {
     if (loading) {
         return (
             <div className="flex justify-center p-8">
-                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                <Loader2 className="w-8 h-8 animate-spin text-primary-text" />
             </div>
         )
     }
@@ -232,7 +232,7 @@ export default function EventsManager({ barId }) {
                                     id="featured"
                                     checked={formData.featured}
                                     onChange={e => setFormData({ ...formData, featured: e.target.checked })}
-                                    className="rounded border-gray-300 text-primary focus:ring-primary"
+                                    className="rounded border-gray-300 text-primary-text focus:ring-primary"
                                 />
                                 <label htmlFor="featured" className="text-sm font-medium text-gray-700 dark:text-gray-300">
                                     Feature this event (show on homepage)
@@ -340,7 +340,7 @@ export default function EventsManager({ barId }) {
                     <div className="col-span-full py-12 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
                         <Calendar className="w-12 h-12 mx-auto mb-3 opacity-20" />
                         <p>No upcoming events</p>
-                        <button onClick={() => setShowForm(true)} className="text-primary hover:underline mt-2">
+                        <button onClick={() => setShowForm(true)} className="text-primary-text hover:underline mt-2">
                             Create your first event
                         </button>
                     </div>

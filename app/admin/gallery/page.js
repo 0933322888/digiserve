@@ -158,7 +158,7 @@ export default function AdminGalleryPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-primary dark:text-gold" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary-text " />
       </div>
     )
   }
@@ -282,7 +282,7 @@ export default function AdminGalleryPage() {
                 id="featured"
                 checked={formData.featured}
                 onChange={e => setFormData({ ...formData, featured: e.target.checked })}
-                className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary dark:focus:ring-gold"
+                className="w-4 h-4 text-primary-text border-gray-300 rounded focus:ring-primary dark:focus:ring-gold"
               />
               <label htmlFor="featured" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
                 Featured Image

@@ -63,7 +63,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
       <div className="flex-1 flex flex-col">
         <div className="flex justify-between items-start mb-2">
           <div className="flex-1">
-            <h4 className="text-xl font-serif font-semibold text-primary dark:text-gold">
+            <h4 className="text-xl font-serif font-semibold text-primary-text ">
               {item.name}
             </h4>
             {item.unavailable && (
@@ -74,7 +74,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
           </div>
           {/* Only show main price if ordering is enabled OR item has no size variants */}
           {(showOrdering || !item.options || item.options.length === 0) && (
-            <span className="text-lg font-bold text-primary dark:text-gold ml-4">
+            <span className="text-lg font-bold text-primary-text  ml-4">
               {formatPrice(currentPrice)}
             </span>
           )}
@@ -116,7 +116,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
                   className="flex justify-between items-center text-sm"
                 >
                   <span className="text-secondary-text dark:text-gray-300">{option.name}</span>
-                  <span className="font-semibold text-primary dark:text-gold">
+                  <span className="font-semibold text-primary-text ">
                     {formatPrice(option.price)}
                   </span>
                 </div>
@@ -130,7 +130,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
             {item.dietary.map(diet => (
               <span
                 key={diet}
-                className="text-xs px-2 py-1 bg-gold/20 text-primary dark:text-gold rounded"
+                className="text-xs px-2 py-1 bg-gold/20 text-primary-text  rounded"
               >
                 {diet}
               </span>
@@ -153,7 +153,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
                   className="p-1 rounded-full hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
                   aria-label="Decrease quantity"
                 >
-                  <Minus className="w-4 h-4 text-primary dark:text-gold" />
+                  <Minus className="w-4 h-4 text-primary-text " />
                 </button>
                 <span className="text-lg font-semibold w-8 text-center">{quantity}</span>
                 <button
@@ -161,7 +161,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
                   className="p-1 rounded-full hover:bg-primary/10 dark:hover:bg-gold/10 transition-colors"
                   aria-label="Increase quantity"
                 >
-                  <Plus className="w-4 h-4 text-primary dark:text-gold" />
+                  <Plus className="w-4 h-4 text-primary-text " />
                 </button>
               </div>
               <button

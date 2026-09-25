@@ -58,7 +58,7 @@ export default function OrderSuccessPage() {
           >
             <CheckCircle className="w-24 h-24 text-green-500 mx-auto mb-6" />
           </motion.div>
-          <h1 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-4">
+          <h1 className="text-4xl font-serif font-bold text-primary-text  mb-4">
             Order Confirmed!
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
@@ -68,7 +68,7 @@ export default function OrderSuccessPage() {
           {order && (
             <div className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-md mb-8 text-left">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-serif font-bold text-primary dark:text-gold flex items-center">
+                <h2 className="text-2xl font-serif font-bold text-primary-text  flex items-center">
                   <Receipt className="w-6 h-6 mr-2" />
                   Order Receipt
                 </h2>
@@ -131,7 +131,7 @@ export default function OrderSuccessPage() {
                         <span>${order.totals.delivery.toFixed(2)}</span>
                       </div>
                     )}
-                    <div className="flex justify-between text-lg font-bold text-primary dark:text-gold pt-2 border-t border-gray-300 dark:border-gray-600">
+                    <div className="flex justify-between text-lg font-bold text-primary-text  pt-2 border-t border-gray-300 dark:border-gray-600">
                       <span>Total:</span>
                       <span>${order.totals.total.toFixed(2)}</span>
                     </div>

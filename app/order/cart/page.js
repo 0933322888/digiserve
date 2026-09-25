@@ -25,7 +25,7 @@ export default function CartPage() {
       <div className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <ShoppingBag className="w-24 h-24 text-gray-400 mx-auto mb-6" />
-          <h2 className="text-3xl font-serif font-bold text-primary  mb-4">
+          <h2 className="text-3xl font-serif font-bold text-primary-text  mb-4">
             Your Cart is Empty
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-8">
@@ -45,7 +45,7 @@ export default function CartPage() {
   return (
     <div className="py-20 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-serif font-bold text-primary  mb-8">
+        <h1 className="text-4xl font-serif font-bold text-primary-text  mb-8">
           Your Cart
         </h1>
 
@@ -70,7 +70,7 @@ export default function CartPage() {
                   </div>
                   <button
                     onClick={() => removeItem(item.id)}
-                    className="p-2 text-red-600 hover:text-red-700 transition-colors"
+                    className="p-2 text-red-600 hover:text-red-700 transition-colors bg-[var(--primary-dark-bg)] rounded-lg flex-shrink-0 "
                     aria-label="Remove item"
                   >
                     <Trash2 className="w-5 h-5" />

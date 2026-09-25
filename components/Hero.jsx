@@ -193,7 +193,7 @@ export default function Hero({
             animate="visible"
             variants={containerVariants}
           >
-            <span className="text-gold uppercase tracking-[0.2em] mb-4 block">{tagline}</span>
+            <span className="text-primary-text uppercase tracking-[0.2em] mb-4 block">{tagline}</span>
             <h1 className="text-6xl md:text-8xl font-serif font-medium text-primary-text mb-8">
               {title}
             </h1>

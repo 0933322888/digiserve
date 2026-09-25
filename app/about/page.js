@@ -130,7 +130,7 @@ export default async function AboutPage() {
           <div className="absolute inset-0 bg-primary/20 dark:bg-[var(--secondary-dark-bg)]/70" />
         </div>
         <div className="relative z-10 text-center px-4">
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-primary mb-4">
+          <h1 className="text-5xl md:text-6xl font-serif font-bold text-primary-text mb-4">
             {pageContent?.hero?.title || "Our Story"}
           </h1>
         </div>
@@ -152,7 +152,7 @@ export default async function AboutPage() {
               </div>
             </AnimatedCard>
             <AnimatedCard delay={0.2}>
-              <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
+              <h2 className="text-4xl font-serif font-bold text-primary-text  mb-6">
                 {pageContent?.mission?.title || "Our Mission"}
               </h2>
               <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
@@ -185,7 +185,7 @@ export default async function AboutPage() {
                     </div>
                   </div>
                   <div className="flex-1 bg-secondary dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md">
-                    <h3 className="text-2xl font-serif font-bold text-primary dark:text-gold mb-2">
+                    <h3 className="text-2xl font-serif font-bold text-primary-text  mb-2">
                       {item.title}
                     </h3>
                     <p className="text-secondary-text dark:text-gray-300">{item.description}</p>
@@ -201,7 +201,7 @@ export default async function AboutPage() {
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <AnimatedCard>
-            <h2 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-6">
+            <h2 className="text-4xl font-serif font-bold text-primary-text  mb-6">
               {pageContent?.philosophy?.title || "Our Philosophy"}
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300 mb-4">
@@ -210,7 +210,7 @@ export default async function AboutPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
               {principles.map((principle, index) => (
                 <div key={index} className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md">
-                  <h3 className="text-xl font-serif font-semibold text-primary dark:text-gold mb-3">
+                  <h3 className="text-xl font-serif font-semibold text-primary-text  mb-3">
                     {principle.title}
                   </h3>
                   <p className="text-secondary-text dark:text-gray-300">

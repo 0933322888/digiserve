@@ -33,21 +33,21 @@ export default function EventCard({ event, index = 0 }) {
           </div>
         )}
       </div>
-      <div className="p-6">
+      <div className="p-6 bg-[var(--primary-light-bg)]">
         <h3 className="text-2xl font-serif font-bold text-[var(--primary-dark-text)] mb-3">
           {event.title}
         </h3>
-        <div className="flex items-center space-x-4 mb-3 text-[var(--secondary-dark-text)]">
+        <div className="flex items-center space-x-4 mb-3 text-primary-text">
           <div className="flex items-center space-x-1">
-            <Calendar className="w-4 h-4 text-[var(--primary-dark-text)]" />
-            <span className="text-sm">{formatDate(event.date)}</span>
+            <Calendar className="w-4 h-4 text-secondary-text" />
+            <span className="text-sm text-secondary-text">{formatDate(event.date)}</span>
           </div>
           <div className="flex items-center space-x-1">
-            <Clock className="w-4 h-4 text-[var(--primary-dark-text)]" />
-            <span className="text-sm">{event.time}</span>
+            <Clock className="w-4 h-4 text-secondary-text" />
+            <span className="text-sm text-secondary-text">{event.time}</span>
           </div>
         </div>
-        <p className="text-[var(--secondary-dark-text)]">{event.description}</p>
+        <p className="text-[var(--primary-light-text)]">{event.description}</p>
       </div>
     </motion.div>
   )

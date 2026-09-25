@@ -260,7 +260,7 @@ export default async function HomePage() {
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                           />
                           <div className="absolute inset-0 bg-primary/10 dark:bg-[var(--secondary-dark-bg)]/80 group-hover:bg-primary/90 dark:group-hover:bg-[var(--primary-dark-bg)]/90 transition-colors" />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-primary group-hover:text-[var(--accent-text)]">
+                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-primary-text group-hover:text-[var(--accent-text)]">
                             <Icon className="w-12 h-12 mb-4 text-gold group-hover:text-[var(--accent-text)]" />
                             <h3 className="inline-block text-2xl font-serif font-bold mb-2 bg-gold text-gold-text py-2 px-4 rounded-md">
                               {highlight.title}

@@ -73,7 +73,7 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
     }
 
     if (isLoading) {
-        return <div className="flex justify-center p-12"><Loader2 className="animate-spin w-8 h-8 text-primary" /></div>
+        return <div className="flex justify-center p-12"><Loader2 className="animate-spin w-8 h-8 text-primary-text" /></div>
     }
 
     return (
@@ -136,7 +136,8 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
                 <h3 className="text-xl font-bold mb-4">Color Palette</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {(templates.find(template => template.id === selectedTemplate)?.palettes || []).map(palette => {
-                        const isSelected = primary.toUpperCase() === palette.primary && accent.toUpperCase() === palette.accent
+                        const isSelected = primary.toUpperCase() === palette.primary.toUpperCase() &&
+                            accent.toUpperCase() === palette.accent.toUpperCase()
                         return (
                             <button
                                 key={palette.name}

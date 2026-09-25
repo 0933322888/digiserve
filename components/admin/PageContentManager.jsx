@@ -155,7 +155,7 @@ export default function PageContentManager() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <Loader2 className="w-8 h-8 animate-spin text-primary dark:text-gold" />
+        <Loader2 className="w-8 h-8 animate-spin text-primary-text " />
       </div>
     )
   }
@@ -179,7 +179,7 @@ export default function PageContentManager() {
           <button
             onClick={() => setActiveTab('home')}
             className={`px-6 py-3 text-sm font-medium ${activeTab === 'home'
-                ? 'border-b-2 border-primary dark:border-gold text-primary dark:text-gold'
+                ? 'border-b-2 border-primary dark:border-gold text-primary-text '
                 : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
               }`}
           >
@@ -188,7 +188,7 @@ export default function PageContentManager() {
           <button
             onClick={() => setActiveTab('about')}
             className={`px-6 py-3 text-sm font-medium ${activeTab === 'about'
-                ? 'border-b-2 border-primary dark:border-gold text-primary dark:text-gold'
+                ? 'border-b-2 border-primary dark:border-gold text-primary-text '
                 : 'text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
               }`}
           >
@@ -274,7 +274,7 @@ export default function PageContentManager() {
                     </label>
                     <button
                       onClick={addHighlight}
-                      className="flex items-center gap-1 px-3 py-1 text-sm text-primary dark:text-gold hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="flex items-center gap-1 px-3 py-1 text-sm text-primary-text  hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                     >
                       <Plus className="w-4 h-4" />
                       Add
@@ -348,7 +348,7 @@ export default function PageContentManager() {
                             type="checkbox"
                             checked={item.enabled}
                             onChange={e => updateHighlight(index, 'enabled', e.target.checked)}
-                            className="rounded border-gray-300 text-primary focus:ring-primary"
+                            className="rounded border-gray-300 text-primary-text focus:ring-primary"
                           />
                           <span className="text-xs text-gray-600 dark:text-gray-400">Enabled</span>
                         </label>
@@ -553,7 +553,7 @@ export default function PageContentManager() {
             <button
               onClick={() => savePageContent('home', homeContent)}
               disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-white dark:text-primary rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-white dark:text-primary-text rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
             >
               {saving ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -694,7 +694,7 @@ export default function PageContentManager() {
                     </label>
                     <button
                       onClick={addTimelineItem}
-                      className="flex items-center gap-1 px-3 py-1 text-sm text-primary dark:text-gold hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+                      className="flex items-center gap-1 px-3 py-1 text-sm text-primary-text  hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                     >
                       <Plus className="w-4 h-4" />
                       Add
@@ -757,7 +757,7 @@ export default function PageContentManager() {
                             type="checkbox"
                             checked={item.enabled}
                             onChange={e => updateTimelineItem(index, 'enabled', e.target.checked)}
-                            className="rounded border-gray-300 text-primary focus:ring-primary"
+                            className="rounded border-gray-300 text-primary-text focus:ring-primary"
                           />
                           <span className="text-xs text-gray-600 dark:text-gray-400">Enabled</span>
                         </label>
@@ -843,7 +843,7 @@ export default function PageContentManager() {
                             type="checkbox"
                             checked={principle.enabled}
                             onChange={e => updatePrinciple(index, 'enabled', e.target.checked)}
-                            className="rounded border-gray-300 text-primary focus:ring-primary"
+                            className="rounded border-gray-300 text-primary-text focus:ring-primary"
                           />
                           <span className="text-xs text-gray-600 dark:text-gray-400">Enabled</span>
                         </label>
@@ -857,7 +857,7 @@ export default function PageContentManager() {
             <button
               onClick={() => savePageContent('about', aboutContent)}
               disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-white dark:text-primary rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-white dark:text-primary-text rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
             >
               {saving ? (
                 <Loader2 className="w-4 h-4 animate-spin" />

@@ -62,7 +62,7 @@ function TopBar({ floors, onCreateFloor, onDeleteFloor, onUpdateFloor }) {
                     ))}
                     <button
                         onClick={onCreateFloor}
-                        className="px-2 py-1 ml-1 text-gray-500 hover:text-primary transition-colors hover:bg-white rounded-md"
+                        className="px-2 py-1 ml-1 text-gray-500 hover:text-primary-text transition-colors hover:bg-white rounded-md"
                         title="Add Floor"
                     >
                         <Plus size={16} />

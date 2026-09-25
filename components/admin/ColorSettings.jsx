@@ -186,8 +186,8 @@ export default function ColorSettings() {
                     </label>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {(TEMPLATES.find(template => template.id === selectedTemplate)?.palettes || []).map((palette) => {
-                            const isSelected = colors.primary?.toUpperCase() === palette.primary &&
-                                colors.accent?.toUpperCase() === palette.accent
+                            const isSelected = colors.primary?.toUpperCase() === palette.primary.toUpperCase() &&
+                                colors.accent?.toUpperCase() === palette.accent.toUpperCase()
 
                             return (
                                 <button

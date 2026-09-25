@@ -338,7 +338,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
       {/* Image Upload */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Images {mediaUrls.length > 1 && <span className="text-primary">(Carousel)</span>}
+          Images {mediaUrls.length > 1 && <span className="text-primary-text">(Carousel)</span>}
           {platform === 'facebook' && (
             <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">(Optional)</span>
           )}

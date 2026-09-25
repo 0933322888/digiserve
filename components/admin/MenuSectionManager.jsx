@@ -223,7 +223,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
               type="checkbox"
               checked={showArchived}
               onChange={e => setShowArchived(e.target.checked)}
-              className="rounded border-gray-300 dark:border-gray-600 text-primary dark:text-gold focus:ring-primary dark:focus:ring-gold"
+              className="rounded border-gray-300 dark:border-gray-600 text-primary-text  focus:ring-primary dark:focus:ring-gold"
             />
             <span className="text-sm text-gray-700 dark:text-gray-300">Show archived items</span>
           </label>

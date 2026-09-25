@@ -23,7 +23,7 @@ export default function CartDrawer() {
         className="relative p-2 rounded-lg hover:bg-[var(--primary-dark-bg)]/10 transition-colors text-[var(--navbar-footer-text)] "
         aria-label="Open cart"
       >
-        <ShoppingCart className="w-6 h-6 text-[var(--navbar-footer-text)]" />
+        <ShoppingCart className="w-6 h-6 text-[var(--secondary-text)]" />
         {itemCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-[var(--primary-dark-bg)] text-[var(--navbar-footer-text)] text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
             {itemCount}
@@ -93,7 +93,7 @@ export default function CartDrawer() {
                           </div>
                           <button
                             onClick={() => removeItem(item.id)}
-                            className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex-shrink-0"
+                            className="p-2 text-red-600 bg-[var(--primary-dark-bg)] hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex-shrink-0"
                             aria-label="Remove item"
                           >
                             <Trash2 className="w-5 h-5" />

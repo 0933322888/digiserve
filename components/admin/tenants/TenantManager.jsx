@@ -142,7 +142,7 @@ export default function TenantManager({ currentTenantId }) {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
-              <Building2 className="w-7 h-7 text-primary dark:text-gold" />
+              <Building2 className="w-7 h-7 text-primary-text " />
               Tenant Management
             </h1>
           </div>
@@ -181,7 +181,7 @@ export default function TenantManager({ currentTenantId }) {
               {totalCount}
             </p>
           </div>
-          <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary dark:bg-gold/10 dark:text-gold flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary-text dark:bg-gold/10  flex items-center justify-center">
             <Layers className="w-5 h-5" />
           </div>
         </div>

@@ -137,7 +137,7 @@ export default function Toolbox() {
                         onClick={() => handleAddObject(template)}
                         className="flex items-center w-full p-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg transition-colors group text-left"
                     >
-                        <div className="p-2 bg-white rounded border border-gray-200 text-gray-600 group-hover:text-primary transition-colors">
+                        <div className="p-2 bg-white rounded border border-gray-200 text-gray-600 group-hover:text-primary-text transition-colors">
                             <template.icon size={20} />
                         </div>
                         <span className="ml-3 text-sm font-medium text-gray-700">{template.name}</span>
@@ -186,7 +186,7 @@ export default function Toolbox() {
                         onClick={() => handleAddObject(template)}
                         className="flex items-center w-full p-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-lg transition-colors group text-left"
                     >
-                        <div className="p-2 bg-white rounded border border-gray-200 text-gray-600 group-hover:text-primary transition-colors">
+                        <div className="p-2 bg-white rounded border border-gray-200 text-gray-600 group-hover:text-primary-text transition-colors">
                             <template.icon size={20} />
                         </div>
                         <span className="ml-3 text-sm font-medium text-gray-700">{template.name}</span>

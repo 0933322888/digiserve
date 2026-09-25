@@ -99,7 +99,7 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   restaurant: {
-    name: 'Your Bar',
+    name: 'Your Place',
     restaurantId: 'default',
     tagline: 'Your Tagline',
     description: 'Restaurant description goes here.',

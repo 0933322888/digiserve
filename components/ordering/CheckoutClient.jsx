@@ -24,7 +24,7 @@ export default function CheckoutClient({ stripeEnabled, orderingSettings }) {
     return (
         <div className="py-20 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
-                <h1 className="text-4xl font-serif font-bold text-primary dark:text-gold mb-8">Checkout</h1>
+                <h1 className="text-4xl font-serif font-bold text-primary-text  mb-8">Checkout</h1>
                 <CheckoutForm
                     cartItems={cartItems}
                     cartTotals={cartTotals}

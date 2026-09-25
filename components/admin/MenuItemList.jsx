@@ -148,7 +148,7 @@ export default function MenuItemList({ items, sectionId, menuId, onRefresh, onEd
                   className={`text-lg font-bold ${
                     item.archived
                       ? 'text-gray-400 dark:text-gray-500 line-through'
-                      : 'text-primary dark:text-gold'
+                      : 'text-primary-text '
                   }`}
                 >
                   {formatPrice(item.price)}
@@ -166,7 +166,7 @@ export default function MenuItemList({ items, sectionId, menuId, onRefresh, onEd
                     {item.dietary.map(diet => (
                       <span
                         key={diet}
-                        className="text-xs px-2 py-0.5 bg-gold/20 text-primary dark:text-gold rounded"
+                        className="text-xs px-2 py-0.5 bg-gold/20 text-primary-text  rounded"
                       >
                         {diet}
                       </span>

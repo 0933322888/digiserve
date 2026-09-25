@@ -409,7 +409,7 @@ export default function MapComponent({ address, coordinates: providedCoordinates
                 circleRef.current = null
               }
             }}
-            className="text-sm text-primary dark:text-gold hover:underline"
+            className="text-sm text-primary-text  hover:underline"
           >
             Retry
           </button>

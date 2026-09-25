@@ -76,7 +76,7 @@ export default async function ContactPage() {
                 </h3>
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4">
-                    <MapPin className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <MapPin className="w-6 h-6 text-primary-text flex-shrink-0 mt-1" />
                     <div>
                       <h4 className="font-semibold text-gray-900  mb-1">
                         Address
@@ -91,7 +91,7 @@ export default async function ContactPage() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <Phone className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <Phone className="w-6 h-6 text-primary-text flex-shrink-0 mt-1" />
                     <div>
                       <h4 className="font-semibold text-gray-900  mb-1">Phone</h4>
                       <a
@@ -104,7 +104,7 @@ export default async function ContactPage() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <Mail className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <Mail className="w-6 h-6 text-primary-text flex-shrink-0 mt-1" />
                     <div>
                       <h4 className="font-semibold mb-1">Email</h4>
                       <a
@@ -117,7 +117,7 @@ export default async function ContactPage() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <Clock className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                    <Clock className="w-6 h-6 text-primary-text flex-shrink-0 mt-1" />
                     <div>
                       <h4 className="font-semibold text-gray-900  mb-1">Hours</h4>
                       <div className="space-y-1 text-primary-text">
@@ -137,7 +137,7 @@ export default async function ContactPage() {
 
               {/* Map */}
               <div className="bg-secondary dark:bg-[var(--secondary-dark-bg)] p-8 rounded-lg shadow-lg">
-                <h3 className="text-2xl font-serif font-semibold text-primary">
+                <h3 className="text-2xl font-serif font-semibold text-primary-text">
                   Find Us
                 </h3>
 
@@ -152,7 +152,7 @@ export default async function ContactPage() {
                 {/* Get Directions */}
                 <div className="space-y-3">
                   <h4 className="text-lg font-semibold flex items-center gap-2">
-                    <Navigation className="w-5 h-5 text-primary" />
+                    <Navigation className="w-5 h-5 text-primary-text" />
                     Get Directions
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -188,7 +188,7 @@ export default async function ContactPage() {
                     href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(fullAddress)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm hover:text-primary dark:hover:text-gold transition-colors"
+                    className="inline-flex items-center gap-2 text-sm hover:text-primary-text dark:hover:text-gold transition-colors"
                   >
                     <ExternalLink className="w-4 h-4" />
                     View on OpenStreetMap

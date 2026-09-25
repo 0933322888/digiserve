@@ -61,7 +61,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
           {section.name}
         </h3>
         {section.description && (
-          <p className="text-[var(--secondary-dark-text)] italic">{section.description}</p>
+          <p className="text-primary-text italic">{section.description}</p>
         )}
       </div>
 
@@ -123,7 +123,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                     </span>
                   ) : null}
                 </div>
-                <p className="text-[var(--secondary-dark-text)] mb-2" itemProp="description">
+                <p className="text-primary-text mb-2" itemProp="description">
                   {item.description}
                 </p>
                 {/* Show all size variants when ordering is disabled and item has options */}
@@ -135,7 +135,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                           key={idx}
                           className="flex justify-between items-center text-sm"
                         >
-                          <span className="text-[var(--secondary-dark-text)]">{option.name}</span>
+                          <span className="text-primary-text">{option.name}</span>
                           <span className="font-semibold text-[var(--primary-dark-text)]">
                             {formatPrice(option.price)}
                           </span>
@@ -157,18 +157,18 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                   </div>
                 )}
                 {item.serves && (
-                  <p className="text-sm text-[var(--secondary-dark-text)]/70 mt-2">
+                  <p className="text-sm text-primary-text/70 mt-2">
                     Serves {item.serves}
                   </p>
                 )}
                 {item.size && (
-                  <p className="text-sm text-[var(--secondary-dark-text)]/70 mt-2">{item.size}</p>
+                  <p className="text-sm text-primary-text/70 mt-2">{item.size}</p>
                 )}
               </div>
               {showOrdering && (
                 <div className={`flex items-center justify-between pt-4 border-t border-[var(--primary-dark-bg)]/20 ${variant === 'list' ? 'mt-4 md:mt-0 md:ml-6 md:flex-col md:border-t-0 md:border-l md:pl-6 bg-transparent' : 'mt-auto'}`}>
                   {item.unavailable ? (
-                    <div className="w-full text-center py-2 text-sm text-[var(--secondary-dark-text)]/60 italic">
+                    <div className="w-full text-center py-2 text-sm text-primary-text/60 italic">
                       This item is temporarily unavailable
                     </div>
                   ) : (
@@ -181,7 +181,7 @@ export default function MenuSection({ section, index = 0, showOrdering = false, 
                         >
                           <Minus className="w-4 h-4 text-[var(--primary-dark-text)]" />
                         </button>
-                        <span className="text-lg font-semibold w-8 text-center text-[var(--secondary-dark-text)]">
+                        <span className="text-lg font-semibold w-8 text-center text-primary-text">
                           {quantities[item.id] || 1}
                         </span>
                         <button

@@ -150,14 +150,14 @@ export default function CommandPalette() {
                                                 <li
                                                     key={cmd.name}
                                                     className={`group flex cursor-default select-none items-center rounded-md px-3 py-2 ${isActive
-                                                            ? 'bg-primary/10 text-primary dark:bg-gold/10 dark:text-gold'
+                                                            ? 'bg-primary/10 text-primary-text dark:bg-gold/10 '
                                                             : 'hover:bg-gray-100 dark:hover:bg-gray-700'
                                                         }`}
                                                     onClick={() => handleSelect(cmd)}
                                                     onMouseEnter={() => setSelectedIndex(filteredCommands.indexOf(cmd))}
                                                 >
                                                     <cmd.icon
-                                                        className={`h-5 w-5 flex-none mr-3 ${isActive ? 'text-primary dark:text-gold' : 'text-gray-400'
+                                                        className={`h-5 w-5 flex-none mr-3 ${isActive ? 'text-primary-text ' : 'text-gray-400'
                                                             }`}
                                                     />
                                                     <span className="flex-auto truncate">{cmd.name}</span>

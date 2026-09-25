@@ -34,14 +34,14 @@ export default function StaffManager({ barId }) {
                                 className={`
                   group inline-flex items-center py-4 px-1 border-b-2 font-medium text-sm whitespace-nowrap
                   ${activeTab === tab.id
-                                        ? 'border-primary text-primary'
+                                        ? 'border-primary text-primary-text'
                                         : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
                                     }
                 `}
                             >
                                 <Icon className={`
                   -ml-0.5 mr-2 h-5 w-5
-                  ${activeTab === tab.id ? 'text-primary' : 'text-gray-400 group-hover:text-gray-500'}
+                  ${activeTab === tab.id ? 'text-primary-text' : 'text-gray-400 group-hover:text-gray-500'}
                 `} />
                                 {tab.label}
                             </button>

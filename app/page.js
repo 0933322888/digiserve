@@ -1,15 +1,10 @@
-import Hero from '@/components/Hero'
-import SectionTitle from '@/components/SectionTitle'
-import AnimatedCard from '@/components/AnimatedCard'
-import EventsCarousel from '@/components/EventsCarousel'
 import Announcements from '@/components/Announcements'
+import HomeTemplate from '@/components/home/HomeTemplate'
 import { siteConfig } from '@/config/siteConfig'
 import { isModuleEnabled } from '@/lib/module-settings-service'
-import { getSetting } from '@/lib/app-settings-service'
+import { getBusinessHours, getSetting } from '@/lib/app-settings-service'
 import { db } from '@/lib/db'
-import Link from 'next/link'
 import { Utensils, Wine, Calendar, Gift } from 'lucide-react'
-import Image from 'next/image'
 import { parseLocalDate } from '@/lib/utils'
 
 /**
@@ -153,189 +148,57 @@ export default async function HomePage() {
 
   const highlights = getHighlights()
 
-  // Generate grid classes based on number of highlights
-  const getGridClasses = (count) => {
-    const gridMap = {
-      1: 'grid grid-cols-1 gap-8',
-      2: 'grid grid-cols-1 md:grid-cols-2 gap-8',
-      3: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8',
-      4: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8',
-    }
-    return gridMap[count] || gridMap[4] // Default to 4 columns if more than 4
-  }
-
   // Fetch tenant configuration for theme and content
   // Note: getTenantConfig is cached so this is efficient
   const { getTenantConfig } = await import('@/lib/tenant-service')
-  const { getComponentVariants, getSectionStyles } = await import('@/lib/theme-utils')
   const tenant = await getTenantConfig(tenantId)
+  const templateId = tenant?.theme?.templateId || 'bar'
+  const { getActiveMenu } = await import('@/lib/menu-service')
+  const galleryEnabled = await isModuleEnabled('gallery', tenantId)
+  const [activeMenu, galleryImages, businessHours] = await Promise.all([
+    getActiveMenu(tenant?.barId || tenantId).catch(error => {
+      console.error('Failed to fetch active menu:', error)
+      return null
+    }),
+    galleryEnabled
+      ? db.collection('gallery').find().catch(error => {
+        console.error('Failed to fetch gallery images:', error)
+        return []
+      })
+      : Promise.resolve([]),
+    getBusinessHours(),
+  ])
 
-  // Determine Hero configuration
-  const heroConfig = {
-    title: siteConfig.restaurant.name, // Fallback
-    tagline: siteConfig.restaurant.tagline,
-    description: siteConfig.restaurant.description,
-    backgroundImage: "/images/trio_main.png",
-    variant: 'centered'
-  }
-
-  if (tenant) {
-    if (tenant.name) heroConfig.title = tenant.name
-    // TODO: Add tagline/description to Tenant schema if needed, or use appSettings
-
-    if (tenant.theme) {
-      const variants = getComponentVariants(tenant.theme.templateId)
-      heroConfig.variant = variants.hero
-
-      // Apply specific gradient for Modern Bar template
-      if (tenant.theme.templateId === 'bar') {
-        heroConfig.backgroundImage = 'radial-gradient(circle at center, var(--primary-dark-bg) 0%, var(--secondary-dark-bg) 100%)'
-      }
-
-      // Allow explicit override if we added it to schema later
-      // if (tenant.theme.heroStyle) heroConfig.variant = tenant.theme.heroStyle
-    }
-  }
-
-  // Get section styles
-  const sectionStyles = getSectionStyles(tenant?.theme?.templateId)
-  // Content override for Hero Image (Metadata/Content Settings)
-  if (pageContent?.heroImage) {
-    heroConfig.backgroundImage = pageContent.heroImage
-  }
+  const gallery = galleryImages
+    .sort((a, b) => {
+      if (a.order !== b.order) return (a.order || 0) - (b.order || 0)
+      return new Date(b.createdAt) - new Date(a.createdAt)
+    })
+    .map(image => ({
+      id: image.id,
+      src: image.url,
+      alt: image.alt || image.caption || 'Restaurant gallery image',
+      caption: image.caption,
+    }))
 
   return (
     <>
-      {/* Announcements Section */}
       <Announcements />
-
-      <Hero
-        title={heroConfig.title}
-        tagline={heroConfig.tagline}
-        description={heroConfig.description}
-        backgroundImage={heroConfig.backgroundImage}
-        variant={heroConfig.variant}
+      <HomeTemplate
+        templateId={templateId}
+        title={tenant?.name || restaurant.name}
+        tagline={restaurant.tagline}
+        description={restaurant.description}
+        restaurant={restaurant}
+        pageContent={pageContent}
         reservationsEnabled={reservationsEnabled}
         giftCardsEnabled={features.giftCards}
+        events={upcomingEvents}
+        highlights={highlights}
+        menuSections={activeMenu?.sections || []}
+        galleryImages={gallery}
+        businessHours={businessHours}
       />
-
-      {/* Upcoming Events Carousel Section */}
-      {
-        upcomingEvents.length > 0 && (
-          <section className={`py-20 px-4 sm:px-6 lg:px-8 ${sectionStyles.events}`}>
-            <div className="max-w-7xl mx-auto">
-              <SectionTitle
-                title={upcomingEvents.length === 1 ? (pageContent?.eventsSection?.title || "Upcoming Event") : (pageContent?.eventsSection?.title || "Upcoming Events")}
-                subtitle={pageContent?.eventsSection?.subtitle || "Don't miss out on these special experiences"}
-              />
-              <AnimatedCard>
-                <EventsCarousel events={upcomingEvents} />
-              </AnimatedCard>
-            </div>
-          </section>
-        )
-      }
-
-      {/* Highlights Section */}
-      {
-        highlights.length > 0 && (
-          <section className={`py-20 px-4 sm:px-6 lg:px-8 ${sectionStyles.highlights}`}>
-            <div className="max-w-7xl mx-auto">
-              <SectionTitle
-                title={pageContent?.highlights?.sectionTitle || "Experience Restaurant"}
-                subtitle={pageContent?.highlights?.sectionSubtitle || "Discover what makes us special"}
-              />
-              <div className={getGridClasses(highlights.length)}>
-                {highlights.map((highlight, index) => {
-                  const Icon = highlight.icon || Utensils
-                  return (
-                    <AnimatedCard key={`${highlight.link}-${index}`} delay={index * 0.1}>
-                      <Link href={highlight.link} className="group">
-                        <div className="group relative h-64 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow">
-                          <Image
-                            src={highlight.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&h=600&fit=crop'}
-                            alt={highlight.title}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-300"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                          />
-                          <div className="absolute inset-0 bg-primary/10 dark:bg-[var(--secondary-dark-bg)]/80 group-hover:bg-primary/90 dark:group-hover:bg-[var(--primary-dark-bg)]/90 transition-colors" />
-                          <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 text-primary-text group-hover:text-[var(--accent-text)]">
-                            <Icon className="w-12 h-12 mb-4 text-gold group-hover:text-[var(--accent-text)]" />
-                            <h3 className="inline-block text-2xl font-serif font-bold mb-2 bg-gold text-gold-text py-2 px-4 rounded-md">
-                              {highlight.title}
-                            </h3>
-                            <p className="inline-block text-sm bg-gold text-gold-text py-1 px-3 rounded-md">
-                              {highlight.description}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    </AnimatedCard>
-                  )
-                })}
-              </div>
-            </div>
-          </section>
-        )
-      }
-
-      {/* About Preview Section */}
-      <section className={`py-20 px-4 sm:px-6 lg:px-8 ${sectionStyles.aboutPreview}`}>
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <AnimatedCard>
-              <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
-                <Image
-                  src={pageContent?.aboutPreview?.image || "/images/interior.jpg"}
-                  alt="Restaurant interior"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            </AnimatedCard>
-            <AnimatedCard delay={0.2}>
-              <h2 className="text-4xl font-serif font-bold text-primary-text mb-6">
-                {pageContent?.aboutPreview?.title || restaurant.tagline}
-              </h2>
-              <p className="text-lg text-primary-text mb-6">
-                {pageContent?.aboutPreview?.description || restaurant.description}
-              </p>
-              <Link
-                href={pageContent?.aboutPreview?.buttonLink || "/about"}
-                className="inline-block bg-primary dark:bg-gold text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light hover:text-[var(--accent-text)] transition-colors"
-              >
-                {pageContent?.aboutPreview?.buttonText || "Learn More About Us"}
-              </Link>
-            </AnimatedCard>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      {
-        reservationsEnabled && (
-          <section className="py-20 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto text-center">
-              <AnimatedCard>
-                <h2 className="text-4xl font-serif font-bold text-primary-text mb-6">
-                  {pageContent?.ctaSection?.title || "Reserve Your Table"}
-                </h2>
-                <p className="text-lg text-primary-text mb-8">
-                  {pageContent?.ctaSection?.description || "Experience the perfect blend of vintage elegance and modern flavor. Book your table today."}
-                </p>
-                <Link
-                  href={pageContent?.ctaSection?.buttonLink || "/reservations"}
-                  className="inline-block bg-primary dark:bg-gold text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-dark dark:hover:bg-gold-light hover:text-[var(--accent-text)] transition-colors"
-                >
-                  {pageContent?.ctaSection?.buttonText || "Make a Reservation"}
-                </Link>
-              </AnimatedCard>
-            </div>
-          </section>
-        )
-      }
     </>
   )
 }

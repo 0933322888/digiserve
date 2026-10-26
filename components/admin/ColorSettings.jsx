@@ -91,7 +91,7 @@ export default function ColorSettings() {
     if (loading) {
         return (
             <div className="flex items-center justify-center p-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-100"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 dark:border-gray-300"></div>
             </div>
         )
     }
@@ -105,13 +105,13 @@ export default function ColorSettings() {
     }
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-            <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 shadow rounded-lg">
+            <div className="px-6 py-4 border-b border-gray-200 ">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <Palette className="w-6 h-6 text-gray-700 dark:text-gray-300" />
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            <h3 className="text-lg font-semibold text-primary dark:text-primary">
                                 Theme & Color Settings
                             </h3>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
@@ -135,17 +135,17 @@ export default function ColorSettings() {
                                 onClick={() => handleTemplateChange(template.id)}
                                 className={`rounded-lg border-2 transition-all text-left overflow-hidden ${selectedTemplate === template.id
                                     ? 'border-blue-600 ring-2 ring-blue-600 ring-offset-2'
-                                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                                    : 'border-gray-200  hover:border-gray-300 dark:hover:border-gray-600'
                                     }`}                            >
                                 {/* Template Thumbnail */}
-                                <div className="aspect-video bg-gray-100 dark:bg-gray-800 relative overflow-hidden">
+                                <div className="aspect-video bg-gray-100 -800 relative overflow-hidden">
                                     <img
                                         src={template.thumbnail}
                                         alt={template.name}
                                         className="w-full h-full object-cover"
                                     />
                                     {selectedTemplate === template.id && (
-                                        <div className="absolute top-2 right-2 bg-blue-600 text-white px-2 py-1 rounded-md text-xs font-medium">
+                                        <div className="absolute top-2 right-2 bg-blue-600 text-primary px-2 py-1 rounded-md text-xs font-medium">
                                             Selected
                                         </div>
                                     )}
@@ -153,7 +153,7 @@ export default function ColorSettings() {
 
                                 {/* Template Info */}
                                 <div className="p-4">
-                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-1">
+                                    <h4 className="font-semibold text-primary dark:text-primary mb-1">
                                         {template.name}
                                     </h4>
                                     <p className="text-xs text-gray-500 dark:text-gray-400 line-clamp-2 mb-3">
@@ -197,7 +197,7 @@ export default function ColorSettings() {
                                     aria-pressed={isSelected}
                                     className={`flex items-center gap-3 p-3 rounded-lg border-2 text-left transition-all ${isSelected
                                         ? 'border-blue-600 ring-2 ring-blue-600 ring-offset-1'
-                                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500'
+                                        : 'border-gray-200  hover:border-gray-400 dark:hover:border-gray-500'
                                         }`}
                                 >
                                     <span className="flex shrink-0">
@@ -205,7 +205,7 @@ export default function ColorSettings() {
                                         <span className="w-7 h-7 rounded-r border-y border-r border-gray-300 dark:border-gray-600" style={{ backgroundColor: palette.accent }} />
                                     </span>
                                     <span className="min-w-0">
-                                        <span className="block text-sm font-medium text-gray-900 dark:text-white truncate">{palette.name}</span>
+                                        <span className="block text-sm font-medium text-primary dark:text-primary truncate">{palette.name}</span>
                                         {isSelected && <span className="block text-xs text-blue-600 dark:text-blue-400">Selected</span>}
                                     </span>
                                 </button>
@@ -215,10 +215,10 @@ export default function ColorSettings() {
                 </div>
 
                 {/* Action Buttons */}
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-gray-200 ">
                     <button
                         onClick={handleReset}
-                        className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors border border-gray-200 dark:border-gray-600"
+                        className="flex items-center gap-2 px-4 py-2 bg-gray-100 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors border border-gray-200 dark:border-gray-600"
                     >
                         <RotateCcw className="w-4 h-4" />
                         Reset

@@ -41,7 +41,7 @@ export default function HeroStats({ orderStats, reservationStats }) {
             {stats.map((item) => (
                 <div
                     key={item.name}
-                    className="relative overflow-hidden rounded-xl bg-white dark:bg-gray-800 p-6 shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow"
+                    className="relative overflow-hidden rounded-xl bg-white -800 p-6 shadow-sm border border-gray-300  hover:shadow-md transition-shadow"
                 >
                     <dt>
                         <div className={`absolute rounded-md p-3 ${item.color} bg-opacity-10 dark:bg-opacity-20`}>
@@ -52,7 +52,7 @@ export default function HeroStats({ orderStats, reservationStats }) {
                         </p>
                     </dt>
                     <dd className="ml-16 flex items-baseline pb-1 sm:pb-2">
-                        <p className="text-2xl font-semibold text-gray-900 dark:text-white">
+                        <p className="text-2xl font-semibold text-primary dark:text-primary">
                             {item.value}
                         </p>
                         {item.change && (

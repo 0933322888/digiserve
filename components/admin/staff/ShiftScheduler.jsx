@@ -233,10 +233,10 @@ export default function ShiftScheduler({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Shift Scheduling</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Shift Scheduling</h3>
         <div className="flex items-center gap-4 flex-wrap">
           {/* Location Filters */}
-          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-2 bg-white -800 p-2 rounded-md border border-gray-200 ">
             <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Show:</span>
             {['kitchen', 'bar', 'serving'].map(location => {
               const labels = { kitchen: 'Kitchen', bar: 'Bar', serving: 'Serving' }
@@ -249,8 +249,8 @@ export default function ShiftScheduler({ barId }) {
                 <label
                   key={location}
                   className={`flex items-center gap-1.5 px-2 py-1 rounded cursor-pointer text-xs border transition-colors ${visibleLocations[location]
-                    ? `${colors[location]} text-gray-900 dark:text-white`
-                    : 'bg-gray-100 dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400'
+                    ? `${colors[location]} text-primary dark:text-primary`
+                    : 'bg-gray-100 -700 border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400'
                     }`}
                 >
                   <input
@@ -274,7 +274,7 @@ export default function ShiftScheduler({ barId }) {
             <select
               value={viewMode}
               onChange={e => setViewMode(e.target.value)}
-              className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             >
               <option value="day">Day</option>
               <option value="week">Week</option>
@@ -293,7 +293,7 @@ export default function ShiftScheduler({ barId }) {
               type="date"
               value={selectedDate}
               onChange={e => setSelectedDate(e.target.value)}
-              className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
             <button
               onClick={() => handleNavigate(1)}
@@ -306,7 +306,7 @@ export default function ShiftScheduler({ barId }) {
           {!showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2"
+              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Add Shift
@@ -316,7 +316,7 @@ export default function ShiftScheduler({ barId }) {
       </div>
 
       {showForm && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
           <ShiftForm
             shift={editingShift}
             employees={employees}
@@ -334,16 +334,16 @@ export default function ShiftScheduler({ barId }) {
       )}
 
       {viewMode !== 'month' && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white -800 rounded-lg shadow border border-gray-200  overflow-hidden">
           {/* Header */}
-          <div className="grid grid-cols-8 border-b border-gray-200 dark:border-gray-700">
-            <div className="p-3 font-medium text-gray-700 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700">
+          <div className="grid grid-cols-8 border-b border-gray-200 ">
+            <div className="p-3 font-medium text-gray-700 dark:text-gray-300 border-r border-gray-200 ">
               Time
             </div>
             {getDisplayDates().map((date, idx) => (
               <div
                 key={idx}
-                className={`p-3 text-center font-medium border-r border-gray-200 dark:border-gray-700 ${viewMode === 'day' ? 'col-span-7' : ''
+                className={`p-3 text-center font-medium border-r border-gray-200  ${viewMode === 'day' ? 'col-span-7' : ''
                   } ${date.toDateString() === new Date().toDateString()
                     ? 'bg-primary/10 dark:bg-gold/10'
                     : ''
@@ -352,7 +352,7 @@ export default function ShiftScheduler({ barId }) {
                 <div className="text-sm text-gray-600 dark:text-gray-400">
                   {date.toLocaleDateString('en-US', { weekday: 'short' })}
                 </div>
-                <div className="text-lg text-gray-900 dark:text-white">{date.getDate()}</div>
+                <div className="text-lg text-primary dark:text-primary">{date.getDate()}</div>
               </div>
             ))}
           </div>
@@ -459,7 +459,7 @@ export default function ShiftScheduler({ barId }) {
               const rowHeight = Math.max(40, maxOverlaps * 30) // Minimum 40px, or 30px per overlapping request
 
               return (
-                <div className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/30">
+                <div className="border-b border-gray-200  bg-gray-50 dark:bg-white/30">
                   {/* Time-off header */}
                   <div className="grid grid-cols-8 border-b border-gray-300 dark:border-gray-600">
                     <div className="p-2 text-xs font-semibold text-gray-700 dark:text-gray-300 border-r border-gray-300 dark:border-gray-600">
@@ -475,7 +475,7 @@ export default function ShiftScheduler({ barId }) {
 
                   {/* Time-off blocks */}
                   <div className="grid grid-cols-8" style={{ minHeight: `${rowHeight}px` }}>
-                    <div className="p-2 text-xs text-gray-500 dark:text-gray-400 border-r border-b border-gray-200 dark:border-gray-700">
+                    <div className="p-2 text-xs text-gray-500 dark:text-gray-400 border-r border-b border-gray-200 ">
                       All Day
                     </div>
                     {getDisplayDates().map((date, dateIdx) => {
@@ -515,7 +515,7 @@ export default function ShiftScheduler({ barId }) {
                       return (
                         <div
                           key={dateIdx}
-                          className={`p-1 border-r border-b border-gray-200 dark:border-gray-700 relative ${viewMode === 'day' ? 'col-span-7' : ''}`}
+                          className={`p-1 border-r border-b border-gray-200  relative ${viewMode === 'day' ? 'col-span-7' : ''}`}
                           style={{ minHeight: `${rowHeight}px` }}
                         >
                           {sortedDayTimeOffs.map(req => {
@@ -607,7 +607,7 @@ export default function ShiftScheduler({ barId }) {
               return (
                 <div
                   key={location}
-                  className={`border-b border-gray-200 dark:border-gray-700 ${colors.bg}`}
+                  className={`border-b border-gray-200  ${colors.bg}`}
                 >
                   {/* Location header */}
                   <div className="grid grid-cols-8 border-b border-gray-300 dark:border-gray-600">
@@ -635,7 +635,7 @@ export default function ShiftScheduler({ barId }) {
                               : `${hour - 12} PM`
                       return (
                         <div key={hour} className="contents">
-                          <div className="p-1 text-xs text-gray-500 dark:text-gray-400 border-r border-b border-gray-200 dark:border-gray-700 min-h-[25px]">
+                          <div className="p-1 text-xs text-gray-500 dark:text-gray-400 border-r border-b border-gray-200  min-h-[25px]">
                             {timeLabel}
                           </div>
                           {getDisplayDates().map((date, dateIdx) => {
@@ -704,7 +704,7 @@ export default function ShiftScheduler({ barId }) {
                             return (
                               <div
                                 key={dateIdx}
-                                className={`p-0.5 border-r border-b border-gray-200 dark:border-gray-700 min-h-[25px] relative ${viewMode === 'day' ? 'col-span-7' : ''}`}
+                                className={`p-0.5 border-r border-b border-gray-200  min-h-[25px] relative ${viewMode === 'day' ? 'col-span-7' : ''}`}
                               >
                                 {cellShifts.map((shift, shiftIdx) => {
                                   const shiftStart = new Date(shift.startTime)
@@ -821,13 +821,13 @@ export default function ShiftScheduler({ barId }) {
       )}
 
       {viewMode === 'month' && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white -800 rounded-lg shadow border border-gray-200  overflow-hidden">
           {/* Month Header */}
-          <div className="grid grid-cols-7 border-b border-gray-200 dark:border-gray-700">
+          <div className="grid grid-cols-7 border-b border-gray-200 ">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
               <div
                 key={day}
-                className="p-3 text-center font-medium text-gray-700 dark:text-gray-300 border-r border-gray-200 dark:border-gray-700 last:border-r-0"
+                className="p-3 text-center font-medium text-gray-700 dark:text-gray-300 border-r border-gray-200  last:border-r-0"
               >
                 {day}
               </div>
@@ -872,7 +872,7 @@ export default function ShiftScheduler({ barId }) {
                 return (
                   <div
                     key={idx}
-                    className={`min-h-[100px] p-2 border-b border-r border-gray-200 dark:border-gray-700 ${!isCurrentMonth ? 'bg-gray-50 dark:bg-gray-900/50' : ''
+                    className={`min-h-[100px] p-2 border-b border-r border-gray-200  ${!isCurrentMonth ? 'bg-gray-50 dark:bg-white/50' : ''
                       } ${isToday ? 'bg-primary/5 dark:bg-gold/5' : ''} ${(idx + 1) % 7 === 0 ? 'border-r-0' : ''
                       }`}
                   >
@@ -881,7 +881,7 @@ export default function ShiftScheduler({ barId }) {
                         className={`text-sm font-medium ${isToday
                           ? 'text-primary-text  bg-primary/10 dark:bg-gold/10 px-1.5 rounded-full'
                           : isCurrentMonth
-                            ? 'text-gray-900 dark:text-white'
+                            ? 'text-primary dark:text-primary'
                             : 'text-gray-400 dark:text-gray-500'
                           }`}
                       >
@@ -949,13 +949,13 @@ export default function ShiftScheduler({ barId }) {
         {shifts.map(shift => (
           <div
             key={shift.id}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-4"
+            className="bg-white -800 rounded-lg shadow border border-gray-200  p-4"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
                   <User className="w-5 h-5 text-gray-400" />
-                  <h4 className="font-semibold text-gray-900 dark:text-white">
+                  <h4 className="font-semibold text-primary dark:text-primary">
                     {shift.employeeName}
                   </h4>
                   <span className="text-sm px-2 py-0.5 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded">
@@ -966,7 +966,7 @@ export default function ShiftScheduler({ barId }) {
                       ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
                       : shift.status === 'completed'
                         ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                        : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                        : 'bg-gray-100 -700 text-gray-800 dark:text-gray-200'
                       }`}
                   >
                     {shift.status}

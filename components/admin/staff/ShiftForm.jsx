@@ -112,7 +112,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="flex items-center justify-between mb-4">
-        <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h4 className="text-lg font-semibold text-primary dark:text-primary">
           {shift ? 'Edit Shift' : 'Add New Shift'}
         </h4>
         <button
@@ -134,7 +134,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
             value={formData.employeeId}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           >
             <option value="">Select an employee</option>
             {employees.map(emp => (
@@ -153,7 +153,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
             name="role"
             value={formData.role}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
             readOnly
           />
         </div>
@@ -166,7 +166,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
             value={formData.location}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           >
             <option value="kitchen">Kitchen</option>
             <option value="bar">Bar</option>
@@ -183,7 +183,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
             value={formData.startTime}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -196,7 +196,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
             value={formData.endTime}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -209,7 +209,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
             value={formData.breakDuration}
             onChange={handleChange}
             min="0"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
       </div>
@@ -223,7 +223,7 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
           value={formData.notes}
           onChange={handleChange}
           rows={2}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
         />
       </div>
 
@@ -231,14 +231,14 @@ export default function ShiftForm({ shift, employees, onSuccess, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSaving}
-          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
         >
           {isSaving ? (
             <>

@@ -165,16 +165,16 @@ export default function PageContentManager() {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Page Content</h2>
+    <div className="bg-white -800 shadow rounded-lg">
+      <div className="px-6 py-4 border-b border-gray-200 ">
+        <h2 className="text-lg font-semibold text-primary dark:text-primary">Page Content</h2>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
           Configure all text and links on the Home and About pages
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b border-gray-200 ">
         <div className="flex">
           <button
             onClick={() => setActiveTab('home')}
@@ -202,7 +202,7 @@ export default function PageContentManager() {
           <div className="space-y-6">
             {/* Hero Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Hero Section
               </h3>
               <div className="space-y-4">
@@ -223,7 +223,7 @@ export default function PageContentManager() {
                       }))
                     }
                     placeholder="https://example.com/image.jpg"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
               </div>
@@ -231,7 +231,7 @@ export default function PageContentManager() {
 
             {/* Highlights Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Highlights Section
               </h3>
               <div className="space-y-4">
@@ -248,7 +248,7 @@ export default function PageContentManager() {
                         highlights: { ...prev.highlights, sectionTitle: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -264,7 +264,7 @@ export default function PageContentManager() {
                         highlights: { ...prev.highlights, sectionSubtitle: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -284,7 +284,7 @@ export default function PageContentManager() {
                     {homeContent.highlights.items.map((item, index) => (
                       <div
                         key={index}
-                        className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg space-y-3"
+                        className="p-4 border border-gray-200  rounded-lg space-y-3"
                       >
                         <div className="flex items-center justify-between">
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -306,7 +306,7 @@ export default function PageContentManager() {
                               type="text"
                               value={item.title}
                               onChange={e => updateHighlight(index, 'title', e.target.value)}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                             />
                           </div>
                           <div>
@@ -317,7 +317,7 @@ export default function PageContentManager() {
                               type="text"
                               value={item.link}
                               onChange={e => updateHighlight(index, 'link', e.target.value)}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                             />
                           </div>
                         </div>
@@ -329,7 +329,7 @@ export default function PageContentManager() {
                             value={item.description}
                             onChange={e => updateHighlight(index, 'description', e.target.value)}
                             rows={2}
-                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                           />
                         </div>
                         <div>
@@ -340,7 +340,7 @@ export default function PageContentManager() {
                             type="text"
                             value={item.image}
                             onChange={e => updateHighlight(index, 'image', e.target.value)}
-                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                           />
                         </div>
                         <label className="flex items-center gap-2">
@@ -361,7 +361,7 @@ export default function PageContentManager() {
 
             {/* About Preview Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 About Preview Section
               </h3>
               <div className="space-y-4">
@@ -378,7 +378,7 @@ export default function PageContentManager() {
                         aboutPreview: { ...prev.aboutPreview, title: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -394,7 +394,7 @@ export default function PageContentManager() {
                       }))
                     }
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -411,7 +411,7 @@ export default function PageContentManager() {
                           aboutPreview: { ...prev.aboutPreview, buttonText: e.target.value },
                         }))
                       }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                     />
                   </div>
                   <div>
@@ -427,7 +427,7 @@ export default function PageContentManager() {
                           aboutPreview: { ...prev.aboutPreview, buttonLink: e.target.value },
                         }))
                       }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                     />
                   </div>
                 </div>
@@ -436,7 +436,7 @@ export default function PageContentManager() {
 
             {/* Events Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Events Section
               </h3>
               <div className="space-y-4">
@@ -453,7 +453,7 @@ export default function PageContentManager() {
                         eventsSection: { ...prev.eventsSection, title: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -469,7 +469,7 @@ export default function PageContentManager() {
                         eventsSection: { ...prev.eventsSection, subtitle: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
               </div>
@@ -477,7 +477,7 @@ export default function PageContentManager() {
 
             {/* CTA Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Reservation CTA Section
               </h3>
               <div className="space-y-4">
@@ -494,7 +494,7 @@ export default function PageContentManager() {
                         ctaSection: { ...prev.ctaSection, title: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -510,7 +510,7 @@ export default function PageContentManager() {
                       }))
                     }
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
@@ -527,7 +527,7 @@ export default function PageContentManager() {
                           ctaSection: { ...prev.ctaSection, buttonText: e.target.value },
                         }))
                       }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                     />
                   </div>
                   <div>
@@ -543,7 +543,7 @@ export default function PageContentManager() {
                           ctaSection: { ...prev.ctaSection, buttonLink: e.target.value },
                         }))
                       }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                     />
                   </div>
                 </div>
@@ -553,7 +553,7 @@ export default function PageContentManager() {
             <button
               onClick={() => savePageContent('home', homeContent)}
               disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-white dark:text-primary-text rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-primary dark:text-primary-text rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
             >
               {saving ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -569,7 +569,7 @@ export default function PageContentManager() {
           <div className="space-y-6">
             {/* Hero Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Hero Section
               </h3>
               <div>
@@ -585,14 +585,14 @@ export default function PageContentManager() {
                       hero: { ...prev.hero, title: e.target.value },
                     }))
                   }
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                 />
               </div>
             </div>
 
             {/* Mission Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Mission Section
               </h3>
               <div className="space-y-4">
@@ -609,7 +609,7 @@ export default function PageContentManager() {
                         mission: { ...prev.mission, title: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -625,7 +625,7 @@ export default function PageContentManager() {
                       }))
                     }
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -641,7 +641,7 @@ export default function PageContentManager() {
                       }))
                     }
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
               </div>
@@ -649,7 +649,7 @@ export default function PageContentManager() {
 
             {/* Timeline Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Timeline Section
               </h3>
               <div className="space-y-4">
@@ -667,7 +667,7 @@ export default function PageContentManager() {
                           timeline: { ...prev.timeline, sectionTitle: e.target.value },
                         }))
                       }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                     />
                   </div>
                   <div>
@@ -683,7 +683,7 @@ export default function PageContentManager() {
                           timeline: { ...prev.timeline, sectionSubtitle: e.target.value },
                         }))
                       }
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                     />
                   </div>
                 </div>
@@ -704,7 +704,7 @@ export default function PageContentManager() {
                     {aboutContent.timeline.items.map((item, index) => (
                       <div
                         key={index}
-                        className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg space-y-3"
+                        className="p-4 border border-gray-200  rounded-lg space-y-3"
                       >
                         <div className="flex items-center justify-between">
                           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -726,7 +726,7 @@ export default function PageContentManager() {
                               type="text"
                               value={item.year}
                               onChange={e => updateTimelineItem(index, 'year', e.target.value)}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                             />
                           </div>
                           <div className="col-span-2">
@@ -737,7 +737,7 @@ export default function PageContentManager() {
                               type="text"
                               value={item.title}
                               onChange={e => updateTimelineItem(index, 'title', e.target.value)}
-                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                              className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                             />
                           </div>
                         </div>
@@ -749,7 +749,7 @@ export default function PageContentManager() {
                             value={item.description}
                             onChange={e => updateTimelineItem(index, 'description', e.target.value)}
                             rows={2}
-                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                           />
                         </div>
                         <label className="flex items-center gap-2">
@@ -770,7 +770,7 @@ export default function PageContentManager() {
 
             {/* Philosophy Section */}
             <div>
-              <h3 className="text-base font-semibold text-gray-900 dark:text-white mb-4">
+              <h3 className="text-base font-semibold text-primary dark:text-primary mb-4">
                 Philosophy Section
               </h3>
               <div className="space-y-4">
@@ -787,7 +787,7 @@ export default function PageContentManager() {
                         philosophy: { ...prev.philosophy, title: e.target.value },
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -803,7 +803,7 @@ export default function PageContentManager() {
                       }))
                     }
                     rows={2}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                   />
                 </div>
                 <div>
@@ -814,7 +814,7 @@ export default function PageContentManager() {
                     {aboutContent.philosophy.principles.map((principle, index) => (
                       <div
                         key={index}
-                        className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg space-y-3"
+                        className="p-4 border border-gray-200  rounded-lg space-y-3"
                       >
                         <div>
                           <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
@@ -824,7 +824,7 @@ export default function PageContentManager() {
                             type="text"
                             value={principle.title}
                             onChange={e => updatePrinciple(index, 'title', e.target.value)}
-                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                           />
                         </div>
                         <div>
@@ -835,7 +835,7 @@ export default function PageContentManager() {
                             value={principle.description}
                             onChange={e => updatePrinciple(index, 'description', e.target.value)}
                             rows={2}
-                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                            className="w-full px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                           />
                         </div>
                         <label className="flex items-center gap-2">
@@ -857,7 +857,7 @@ export default function PageContentManager() {
             <button
               onClick={() => savePageContent('about', aboutContent)}
               disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-white dark:text-primary-text rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-primary dark:text-primary-text rounded-md hover:bg-primary-dark dark:hover:bg-gold-light transition-colors disabled:opacity-50"
             >
               {saving ? (
                 <Loader2 className="w-4 h-4 animate-spin" />

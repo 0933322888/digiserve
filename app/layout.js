@@ -115,13 +115,13 @@ export default async function RootLayout({ children }) {
 
           <ThemeProvider initialTheme={initialTheme}>
 
-            {tenantId && <Navbar />}
+            {tenantId && <Navbar templateId={templateId} />}
             <main
               style={templateId === 'bar' && sectionStyles?.pageBackground && sectionStyles.pageBackground !== 'none' ? { backgroundImage: sectionStyles.pageBackground } : {}}
               className={tenantId ? "min-h-screen pt-20" : "min-h-screen"}>{children}</main>
             {tenantId && (
               <FooterWrapper>
-                <Footer />
+                <Footer templateId={templateId} />
               </FooterWrapper>
             )}
             <Toaster position="bottom-right" />

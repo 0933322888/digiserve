@@ -167,7 +167,7 @@ export default function AdminGalleryPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Gallery Management</h2>
+          <h2 className="text-2xl font-bold text-primary dark:text-primary">Gallery Management</h2>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage gallery images for your restaurant
           </p>
@@ -184,17 +184,17 @@ export default function AdminGalleryPage() {
       </div>
 
       {showForm && (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+        <div className="bg-white  shadow rounded-lg p-6">
+          <h3 className="text-lg font-medium text-primary dark:text-primary mb-4">
             {editingImage ? 'Edit Image' : 'Add New Image'}
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700  mb-2">
                 Upload Image {!editingImage && <span className="text-red-600">*</span>}
               </label>
               <div className="flex items-center gap-4">
-                <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
+                <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700  rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
                   <Upload className="w-5 h-5 mr-2" />
                   {uploading ? 'Uploading...' : 'Choose File'}
                   <input
@@ -220,7 +220,7 @@ export default function AdminGalleryPage() {
             )}
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700  mb-2">
                 Alt Text
               </label>
               <input
@@ -228,12 +228,12 @@ export default function AdminGalleryPage() {
                 value={formData.alt}
                 onChange={e => setFormData({ ...formData, alt: e.target.value })}
                 placeholder="Description for accessibility"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-primary dark:text-gray-100"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700  mb-2">
                 Caption
               </label>
               <input
@@ -241,19 +241,19 @@ export default function AdminGalleryPage() {
                 value={formData.caption}
                 onChange={e => setFormData({ ...formData, caption: e.target.value })}
                 placeholder="Image caption"
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-primary dark:text-gray-100"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700  mb-2">
                   Category
                 </label>
                 <select
                   value={formData.category}
                   onChange={e => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-primary dark:text-gray-100"
                 >
                   <option value="">Select category</option>
                   <option value="food">Food</option>
@@ -264,14 +264,14 @@ export default function AdminGalleryPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700  mb-2">
                   Display Order
                 </label>
                 <input
                   type="number"
                   value={formData.order}
                   onChange={e => setFormData({ ...formData, order: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-primary dark:text-gray-100"
                 />
               </div>
             </div>
@@ -284,7 +284,7 @@ export default function AdminGalleryPage() {
                 onChange={e => setFormData({ ...formData, featured: e.target.checked })}
                 className="w-4 h-4 text-primary-text border-gray-300 rounded focus:ring-primary dark:focus:ring-gold"
               />
-              <label htmlFor="featured" className="ml-2 text-sm text-gray-700 dark:text-gray-300">
+              <label htmlFor="featured" className="ml-2 text-sm text-gray-700 ">
                 Featured Image
               </label>
             </div>
@@ -299,7 +299,7 @@ export default function AdminGalleryPage() {
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700  rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
               >
                 Cancel
               </button>
@@ -308,9 +308,9 @@ export default function AdminGalleryPage() {
         </div>
       )}
 
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
+      <div className="bg-white  shadow rounded-lg overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Gallery Images</h3>
+          <h3 className="text-lg font-medium text-primary dark:text-primary">Gallery Images</h3>
         </div>
         {images.length === 0 ? (
           <div className="p-6 text-center text-gray-500 dark:text-gray-400">
@@ -321,7 +321,7 @@ export default function AdminGalleryPage() {
             {images.map(image => (
               <div
                 key={image.id}
-                className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden group"
+                className="bg-white  rounded-lg shadow overflow-hidden group"
               >
                 <div className="relative h-48">
                   <img
@@ -330,20 +330,20 @@ export default function AdminGalleryPage() {
                     className="w-full h-full object-cover"
                   />
                   {image.featured && (
-                    <div className="absolute top-2 right-2 bg-yellow-500 text-white p-1 rounded-full shadow-md">
+                    <div className="absolute top-2 right-2 bg-yellow-500 text-primary p-1 rounded-full shadow-md">
                       <Star className="w-4 h-4 fill-current" />
                     </div>
                   )}
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     <button
                       onClick={() => handleEdit(image)}
-                      className="p-2 bg-white rounded-full hover:bg-gray-100 text-gray-900"
+                      className="p-2 bg-white rounded-full hover:bg-gray-100 text-primary"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDelete(image.id)}
-                      className="p-2 bg-red-500 rounded-full hover:bg-red-600 text-white"
+                      className="p-2 bg-red-500 rounded-full hover:bg-red-600 text-primary"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -351,7 +351,7 @@ export default function AdminGalleryPage() {
                 </div>
                 <div className="p-4">
                   {image.caption && (
-                    <p className="font-semibold text-lg text-gray-900 dark:text-white mb-1">
+                    <p className="font-semibold text-lg text-primary dark:text-primary mb-1">
                       {image.caption}
                     </p>
                   )}

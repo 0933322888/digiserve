@@ -119,12 +119,12 @@ export default function CommandPalette() {
             />
 
             {/* Palette Modal */}
-            <div className="mx-auto max-w-xl transform divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden rounded-xl bg-white dark:bg-gray-800 shadow-2xl ring-1 ring-black/5 transition-all">
+            <div className="mx-auto max-w-xl transform divide-y divide-gray-100 dark:divide-gray-700 overflow-hidden rounded-xl bg-white -800 shadow-2xl ring-1 ring-black/5 transition-all">
                 <div className="relative">
                     <Search className="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400" />
                     <input
                         type="text"
-                        className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 dark:text-white placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                        className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-primary dark:text-primary placeholder:text-gray-400 focus:ring-0 sm:text-sm"
                         placeholder="Search commands... (Navigation, Actions)"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
@@ -176,20 +176,20 @@ export default function CommandPalette() {
                     </div>
                 ) : (
                     <div className="px-6 py-14 text-center text-sm sm:px-14">
-                        <p className="mt-4 font-semibold text-gray-900 dark:text-white">No results found</p>
+                        <p className="mt-4 font-semibold text-primary dark:text-primary">No results found</p>
                         <p className="mt-2 text-gray-500">
                             No components or actions found for &quot;{query}&quot;. Please try again.
                         </p>
                     </div>
                 )}
 
-                <div className="flex flex-wrap items-center bg-gray-50 dark:bg-gray-900/50 px-4 py-2.5 text-xs text-gray-700 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700">
+                <div className="flex flex-wrap items-center bg-gray-50 dark:bg-white/50 px-4 py-2.5 text-xs text-gray-700 dark:text-gray-400 border-t border-gray-300 ">
                     Viewing {filteredCommands.length} results
                     <span className="mx-2 text-gray-300 dark:text-gray-600">|</span>
-                    Use <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[20px] inline-flex justify-center bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">↑</kbd>
-                    <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[20px] inline-flex justify-center bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">↓</kbd>
-                    to navigate, <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[30px] inline-flex justify-center bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">Enter</kbd>
-                    to select, <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[30px] inline-flex justify-center bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600">Esc</kbd>
+                    Use <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[20px] inline-flex justify-center bg-white -800 border-gray-200 dark:border-gray-600">↑</kbd>
+                    <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[20px] inline-flex justify-center bg-white -800 border-gray-200 dark:border-gray-600">↓</kbd>
+                    to navigate, <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[30px] inline-flex justify-center bg-white -800 border-gray-200 dark:border-gray-600">Enter</kbd>
+                    to select, <kbd className="mx-1 font-sans font-semibold border rounded px-1 min-w-[30px] inline-flex justify-center bg-white -800 border-gray-200 dark:border-gray-600">Esc</kbd>
                     to close
                 </div>
             </div>

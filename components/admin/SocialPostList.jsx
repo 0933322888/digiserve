@@ -26,7 +26,7 @@ export default function SocialPostList({ posts, barId, onPostUpdated, onPostDele
   const getStatusBadge = status => {
     const badges = {
       draft: {
-        bg: 'bg-gray-100 dark:bg-gray-700',
+        bg: 'bg-gray-100 -700',
         text: 'text-gray-800 dark:text-gray-200',
         icon: Edit,
       },
@@ -64,15 +64,15 @@ export default function SocialPostList({ posts, barId, onPostUpdated, onPostDele
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
-      <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+    <div className="bg-white -800 shadow rounded-lg">
+      <div className="p-6 border-b border-gray-200 ">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Post History</h3>
+          <h3 className="text-lg font-medium text-primary dark:text-primary">Post History</h3>
           <div className="flex gap-2">
             <select
               value={filterStatus}
               onChange={e => setFilterStatus(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary text-sm"
             >
               <option value="all">All Status</option>
               <option value="draft">Draft</option>
@@ -83,7 +83,7 @@ export default function SocialPostList({ posts, barId, onPostUpdated, onPostDele
             <select
               value={filterPlatform}
               onChange={e => setFilterPlatform(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary text-sm"
             >
               <option value="all">All Platforms</option>
               <option value="facebook">Facebook</option>
@@ -102,7 +102,7 @@ export default function SocialPostList({ posts, barId, onPostUpdated, onPostDele
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-sm font-medium text-gray-900 dark:text-white">
+                    <span className="text-sm font-medium text-primary dark:text-primary">
                       {post.platform === 'facebook' ? '📘 Facebook' : '📷 Instagram'}
                     </span>
                     {getStatusBadge(post.status)}
@@ -122,7 +122,7 @@ export default function SocialPostList({ posts, barId, onPostUpdated, onPostDele
                         />
                       ))}
                       {post.mediaUrls.length > 3 && (
-                        <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 flex items-center justify-center">
+                        <div className="w-16 h-16 bg-gray-100 -700 rounded border border-gray-300 dark:border-gray-600 flex items-center justify-center">
                           <span className="text-xs text-gray-500 dark:text-gray-400">
                             +{post.mediaUrls.length - 3}
                           </span>

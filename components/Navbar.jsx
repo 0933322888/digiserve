@@ -13,7 +13,7 @@ import CartDrawer from '@/components/ordering/CartDrawer'
  * Main Navigation Component
  * Automatically generates navigation links based on enabled features
  */
-export default function Navbar() {
+export default function Navbar({ templateId = 'bar' }) {
   const [isOpen, setIsOpen] = useState(false)
   const [moduleStatus, setModuleStatus] = useState({
     events: siteConfig.features.events,
@@ -23,11 +23,6 @@ export default function Navbar() {
     ordering: siteConfig.ordering?.enabled,
   })
   const pathname = usePathname()
-  useEffect(() => {
-    // Apply dark mode by default for all templates
-    document.documentElement.classList.add('dark')
-  }, [])
-
   useEffect(() => {
     // Fetch module status from API
     fetch('/api/modules/status')
@@ -78,39 +73,39 @@ export default function Navbar() {
   }
 
   return (
-    <nav
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-colors duration-300 bg-[var(--primary-light-bg)] border-b border-[var(--gold)]/30"
-      )}
-      style={{
-        backgroundColor: 'var(--primary-light-bg)'
-      }}
-    >
+    <nav className={cn(
+      'fixed left-0 right-0 top-0 z-50 transition-colors duration-300',
+      templateId === 'bar' && 'border-b border-white/15 bg-[var(--primary-dark-bg)] text-[var(--navbar-footer-text)]',
+      templateId === 'sushi' && 'border-b border-black/10 bg-[var(--primary-light-bg)]',
+      templateId === 'restaurant' && 'border-b-2 border-double border-[var(--gold)]/50 bg-[var(--primary-light-bg)]'
+    )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <span className={cn(
-              "text-2xl font-serif font-bold transition-colors",
-              "text-[var(--navbar-footer-text)]"
-            )}>
-              {siteConfig.restaurant.name}
-            </span>
-          </Link>
+        <div className={cn('flex items-center', templateId === 'sushi' ? 'h-auto flex-col py-3 md:grid md:h-[5.5rem] md:grid-cols-[1fr_auto_1fr] md:py-0' : 'h-20 justify-between')}>
+          {templateId === 'sushi' && (
+            <div className="hidden w-full justify-start md:flex">
+              <div className="flex items-center gap-5">
+                {navLinks.slice(0, 4).map(link => <Link key={link.href} href={link.href} className={cn('text-xs transition-colors', isActive(link.href) ? 'text-[var(--gold)]' : 'text-[var(--navbar-footer-text)] hover:text-[var(--gold)]')}>{link.label}</Link>)}
+              </div>
+            </div>
+          )}
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map(link => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={cn(
-                  'text-sm font-medium transition-colors',
-                    isActive(link.href)
-                      ? 'text-[var(--gold)] border-b-2 border-[var(--gold)]'
-                      : 'text-[var(--navbar-footer-text)] hover:text-[var(--gold)]'
-                )}
-              >
+          {templateId !== 'sushi' && (
+            <Link href="/" className="flex items-center">
+              <span className={cn('font-serif font-bold transition-colors', templateId === 'bar' ? 'text-xl uppercase tracking-wider text-white' : 'text-2xl text-[var(--navbar-footer-text)]')}>
+                {siteConfig.restaurant.name}
+              </span>
+            </Link>
+          )}
+
+          {templateId === 'sushi' && <Link href="/" className="font-serif text-xl text-[var(--navbar-footer-text)] md:text-center">{siteConfig.restaurant.name}</Link>}
+
+          <div className={cn('hidden items-center md:flex', templateId === 'sushi' ? 'justify-end gap-5' : 'space-x-6')}>
+            {(templateId === 'sushi' ? navLinks.slice(4) : navLinks).map(link => (
+              <Link key={link.href} href={link.href} className={cn(
+                'transition-colors',
+                templateId === 'bar' ? 'text-xs uppercase tracking-wider' : 'text-sm',
+                isActive(link.href) ? 'text-[var(--gold)]' : cn(templateId === 'bar' ? 'text-[var(--navbar-footer-text)]/80 hover:text-[var(--navbar-footer-text)]' : 'text-[var(--navbar-footer-text)] hover:text-[var(--gold)]')
+              )}>
                 {link.label}
               </Link>
             ))}
@@ -122,10 +117,7 @@ export default function Navbar() {
             {showOrdering && <CartDrawer />}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={cn(
-                "p-2 rounded-lg transition-colors",
-                "hover:bg-[var(--gold)]/20 text-[var(--navbar-footer-text)]"
-              )}
+              className={cn('p-2 transition-colors', templateId !== 'bar' && 'rounded-lg', templateId === 'bar' ? 'text-[var(--navbar-footer-text)] hover:bg-white/10' : 'text-[var(--navbar-footer-text)] hover:bg-[var(--gold)]/20')}
               aria-label="Toggle menu"
             >
               {isOpen ? (
@@ -145,9 +137,7 @@ export default function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className={cn(
-              "md:hidden bg-[var(--primary-light-bg)] border-t border-[var(--gold)]/30"
-            )}
+            className={cn('md:hidden border-t', templateId === 'bar' ? 'border-white/15 bg-[var(--primary-dark-bg)] text-[var(--navbar-footer-text)]' : templateId === 'sushi' ? 'border-black/10 bg-[var(--primary-light-bg)]' : 'border-[var(--gold)]/40 bg-[var(--primary-light-bg)]')}
           >
             <div className="px-4 py-4 space-y-3">
               {navLinks.map(link => (
@@ -155,11 +145,11 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className={cn(
-                    'block text-base font-medium transition-colors',
+                    className={cn(
+                    'block py-1 text-base font-medium transition-colors',
                     isActive(link.href)
                       ? 'text-[var(--gold)]'
-                      : 'text-[var(--navbar-footer-text)] hover:text-[var(--gold)]'
+                      : templateId === 'bar' ? 'text-[var(--navbar-footer-text)]/80 hover:text-[var(--navbar-footer-text)]' : 'text-[var(--navbar-footer-text)] hover:text-[var(--gold)]'
                   )}
                 >
                   {link.label}

@@ -94,7 +94,7 @@ export default function SocialMediaConfig({ onConnectAccount }) {
     }
 
     return (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="bg-white -800 shadow rounded-lg border border-gray-200  overflow-hidden">
             {/* Header - Always Visible */}
             <button
                 type="button"
@@ -103,7 +103,7 @@ export default function SocialMediaConfig({ onConnectAccount }) {
             >
                 <div className="flex items-center gap-3">
                     <div>
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white text-left">
+                        <h3 className="text-lg font-medium text-primary dark:text-primary text-left">
                             Social Media Configuration
                         </h3>
                         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400 text-left">
@@ -120,23 +120,23 @@ export default function SocialMediaConfig({ onConnectAccount }) {
 
             {/* Expandable Content */}
             {isExpanded && (
-                <div className="border-t border-gray-200 dark:border-gray-700 p-6 space-y-6">
+                <div className="border-t border-gray-200  p-6 space-y-6">
                     {/* Connect Accounts Section */}
                     <div>
-                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                        <h4 className="text-sm font-semibold text-primary dark:text-primary mb-3">
                             Connect Accounts
                         </h4>
                         <div className="flex gap-2">
                             <button
                                 onClick={() => onConnectAccount('facebook')}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center gap-2 transition-colors text-sm"
+                                className="px-4 py-2 bg-blue-600 text-primary rounded-md hover:bg-blue-700 flex items-center gap-2 transition-colors text-sm"
                             >
                                 <Plus className="w-4 h-4" />
                                 Connect Facebook
                             </button>
                             <button
                                 onClick={() => onConnectAccount('instagram')}
-                                className="px-4 py-2 bg-pink-600 text-white rounded-md hover:bg-pink-700 flex items-center gap-2 transition-colors text-sm"
+                                className="px-4 py-2 bg-pink-600 text-primary rounded-md hover:bg-pink-700 flex items-center gap-2 transition-colors text-sm"
                             >
                                 <Plus className="w-4 h-4" />
                                 Connect Instagram

@@ -76,7 +76,7 @@ export default function RoleForm({ role, availablePermissions, onSuccess, onCanc
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="flex items-center justify-between mb-4">
-        <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h4 className="text-lg font-semibold text-primary dark:text-primary">
           {role ? 'Edit Role' : 'Add New Role'}
         </h4>
         <button
@@ -99,7 +99,7 @@ export default function RoleForm({ role, availablePermissions, onSuccess, onCanc
             value={formData.name}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div className="md:col-span-2">
@@ -111,7 +111,7 @@ export default function RoleForm({ role, availablePermissions, onSuccess, onCanc
             value={formData.description}
             onChange={handleChange}
             rows={2}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -146,7 +146,7 @@ export default function RoleForm({ role, availablePermissions, onSuccess, onCanc
                 className="mt-1"
               />
               <div>
-                <div className="text-sm font-medium text-gray-900 dark:text-white">{perm.name}</div>
+                <div className="text-sm font-medium text-primary dark:text-primary">{perm.name}</div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">{perm.description}</div>
               </div>
             </label>
@@ -158,14 +158,14 @@ export default function RoleForm({ role, availablePermissions, onSuccess, onCanc
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSaving}
-          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
         >
           {isSaving ? (
             <>

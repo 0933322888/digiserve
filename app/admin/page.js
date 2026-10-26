@@ -77,7 +77,7 @@ export default async function AdminDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Dashboard Overview</h2>
+        <h2 className="text-2xl font-bold text-primary dark:text-primary mb-6">Dashboard Overview</h2>
 
         <SetupProgress completion={completionPercentage} steps={steps} />
 
@@ -99,8 +99,8 @@ export default async function AdminDashboard() {
           {/* Side Widgets (Future Implementation - for now placeholder or simplified view) */}
           <div className="space-y-6">
             {/* Example: Pending Actions Widget could go here */}
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">System Status</h3>
+            <div className="bg-white  shadow rounded-lg p-6">
+              <h3 className="text-lg font-medium text-primary dark:text-primary mb-4">System Status</h3>
               <div className="space-y-3">
                 <div className="flex justify-between items-center text-sm">
                   <span className="text-gray-500">Ordering System</span>

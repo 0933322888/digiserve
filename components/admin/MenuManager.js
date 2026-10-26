@@ -216,7 +216,7 @@ export default function MenuManager({ barId }) {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Menu Management</h2>
+        <h2 className="text-2xl font-bold text-primary dark:text-primary">Menu Management</h2>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Manage your menus. Each menu contains food and drinks sections. Only one menu can be
           active at a time.
@@ -224,7 +224,7 @@ export default function MenuManager({ barId }) {
       </div>
 
       {/* Menu Tabs */}
-      <div className="border-b border-gray-200 dark:border-gray-700">
+      <div className="border-b border-gray-200 ">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <nav className="-mb-px flex space-x-4 flex-wrap items-center">
             {menus.map(menu => (
@@ -242,7 +242,7 @@ export default function MenuManager({ barId }) {
                           handleCancelEditMenu()
                         }
                       }}
-                      className="px-2 py-1 border border-primary dark:border-gold rounded-md text-sm dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-gold"
+                      className="px-2 py-1 border border-primary dark:border-gold rounded-md text-sm -700 focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-gold"
                       autoFocus
                     />
                     <button
@@ -265,7 +265,7 @@ export default function MenuManager({ barId }) {
                     <button
                       onClick={() => handleMenuSelect(menu.id)}
                       className={`py-4 px-3 border-b-2 font-medium text-sm flex items-center gap-2 rounded-t-md transition-colors ${activeMenuId === menu.id
-                        ? 'border-primary text-primary-text dark:border-gold  bg-primary/5 dark:bg-gold/10'
+                        ? 'border-primary text-secondary-text dark:border-gold  bg-primary/5 dark:bg-gold/10'
                         : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'
                         }`}
                     >
@@ -283,7 +283,7 @@ export default function MenuManager({ barId }) {
                           setOpenMenuDropdown(openMenuDropdown === menu.id ? null : menu.id)
                         }}
                         className={`p-1.5 rounded-md transition-colors ${openMenuDropdown === menu.id
-                          ? 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                          ? 'bg-gray-100 -700 text-gray-700 dark:text-gray-300'
                           : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50 dark:hover:text-gray-300 dark:hover:bg-gray-800'
                           }`}
                         title="Menu options"
@@ -297,7 +297,7 @@ export default function MenuManager({ barId }) {
                             onClick={() => setOpenMenuDropdown(null)}
                           />
                           <div
-                            className="fixed w-48 bg-white dark:bg-gray-800 rounded-md shadow-lg border border-gray-200 dark:border-gray-700 z-[60]"
+                            className="fixed w-48 bg-white -800 rounded-md shadow-lg border border-gray-200  z-[60]"
                             style={{
                               left: `${menuDropdownPosition.x - 192}px`, // 192px = w-48 width
                               top: `${menuDropdownPosition.y + 4}px`,
@@ -705,7 +705,7 @@ export default function MenuManager({ barId }) {
                                 <Printer className="w-4 h-4" />
                                 Print Menu
                               </button>
-                              <div className="border-t border-gray-200 dark:border-gray-700 my-1" />
+                              <div className="border-t border-gray-200  my-1" />
                               <button
                                 onClick={() => handleDeleteMenu(menu.id, menu.name)}
                                 className="w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
@@ -726,7 +726,7 @@ export default function MenuManager({ barId }) {
           {!showNewMenuForm && (
             <button
               onClick={() => setShowNewMenuForm(true)}
-              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 text-sm font-medium shadow-sm transition-all hover:shadow-md"
+              className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 text-sm font-medium shadow-sm transition-all hover:shadow-md"
             >
               <Plus className="w-4 h-4" />
               New Menu
@@ -737,9 +737,9 @@ export default function MenuManager({ barId }) {
 
       {/* New Menu Form */}
       {showNewMenuForm && (
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-5 rounded-lg shadow-md border border-gray-200 ">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="font-semibold text-gray-900 dark:text-white">Create New Menu</h4>
+            <h4 className="font-semibold text-primary dark:text-primary">Create New Menu</h4>
             <button
               onClick={() => {
                 setShowNewMenuForm(false)
@@ -764,12 +764,12 @@ export default function MenuManager({ barId }) {
                   setNewMenuName('')
                 }
               }}
-              className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent"
+              className="flex-1 px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary focus:outline-none focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent"
               autoFocus
             />
             <button
               onClick={handleCreateMenu}
-              className="px-6 py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light font-medium transition-colors shadow-sm hover:shadow-md"
+              className="px-6 py-2.5 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light font-medium transition-colors shadow-sm hover:shadow-md"
             >
               Create
             </button>

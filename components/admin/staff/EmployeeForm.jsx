@@ -119,7 +119,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="flex items-center justify-between mb-4">
-        <h4 className="text-lg font-semibold text-gray-900 dark:text-white">
+        <h4 className="text-lg font-semibold text-primary dark:text-primary">
           {employee ? 'Edit Employee' : 'Add New Employee'}
         </h4>
         <button
@@ -142,7 +142,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.firstName}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -155,7 +155,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.lastName}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -168,7 +168,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -180,7 +180,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             name="phone"
             value={formData.phone}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -192,7 +192,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.role}
             onChange={handleRoleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           >
             <option value="">Select a role</option>
             {roles.map(role => (
@@ -211,7 +211,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             name="hireDate"
             value={formData.hireDate}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
         <div>
@@ -222,7 +222,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             name="status"
             value={formData.status}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           >
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -241,7 +241,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
               value={formData.address.street}
               onChange={handleChange}
               placeholder="Street Address"
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
             />
           </div>
           <input
@@ -250,7 +250,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.address.city}
             onChange={handleChange}
             placeholder="City"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
           <input
             type="text"
@@ -258,7 +258,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.address.state}
             onChange={handleChange}
             placeholder="State/Province"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
           <input
             type="text"
@@ -266,7 +266,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.address.zip}
             onChange={handleChange}
             placeholder="ZIP/Postal Code"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
       </div>
@@ -282,7 +282,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.emergencyContact.name}
             onChange={handleChange}
             placeholder="Contact Name"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
           <input
             type="text"
@@ -290,7 +290,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.emergencyContact.relationship}
             onChange={handleChange}
             placeholder="Relationship"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
           <input
             type="tel"
@@ -298,7 +298,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
             value={formData.emergencyContact.phone}
             onChange={handleChange}
             placeholder="Phone Number"
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
       </div>
@@ -312,7 +312,7 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
           value={formData.notes}
           onChange={handleChange}
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
         />
       </div>
 
@@ -320,14 +320,14 @@ export default function EmployeeForm({ employee, roles, onSuccess, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+          className="px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
         >
           Cancel
         </button>
         <button
           type="submit"
           disabled={isSaving}
-          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+          className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
         >
           {isSaving ? (
             <>

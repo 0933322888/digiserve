@@ -54,7 +54,7 @@ export default function TenantTable({
     const colors = {
       enterprise: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300 border-purple-200 dark:border-purple-800',
       pro: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800',
-      basic: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-600',
+      basic: 'bg-gray-100 text-gray-800 -700 dark:text-gray-300 border-gray-200 dark:border-gray-600',
     }
     return (
       <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border uppercase tracking-wider ${colors[p] || colors.basic}`}>
@@ -65,7 +65,7 @@ export default function TenantTable({
 
   if (loading) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
+      <div className="bg-white -800 rounded-xl shadow-sm border border-gray-200  p-12 text-center">
         <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary dark:border-gold mb-3" />
         <p className="text-gray-500 dark:text-gray-400 text-sm">Loading tenants...</p>
       </div>
@@ -74,9 +74,9 @@ export default function TenantTable({
 
   if (!tenants || tenants.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-12 text-center">
+      <div className="bg-white -800 rounded-xl shadow-sm border border-gray-200  p-12 text-center">
         <Building2 className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">No tenants found</h3>
+        <h3 className="text-base font-semibold text-primary dark:text-gray-100">No tenants found</h3>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
           Get started by adding a new restaurant tenant or adjusting your search filters.
         </p>
@@ -85,10 +85,10 @@ export default function TenantTable({
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+    <div className="bg-white -800 rounded-xl shadow-sm border border-gray-200  overflow-hidden">
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-900/50">
+          <thead className="bg-gray-50 dark:bg-white/50">
             <tr>
               <th scope="col" className="px-6 py-3.5 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                 Tenant / Restaurant
@@ -125,7 +125,7 @@ export default function TenantTable({
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
-                          <span className="font-medium text-gray-900 dark:text-gray-100">
+                          <span className="font-medium text-primary dark:text-gray-100">
                             {tenant.name}
                           </span>
                           {isCurrent && (
@@ -170,7 +170,7 @@ export default function TenantTable({
                       {modulesList.map((m) => (
                         <span
                           key={m}
-                          className="inline-block px-2 py-0.5 text-[11px] font-medium bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 rounded"
+                          className="inline-block px-2 py-0.5 text-[11px] font-medium bg-gray-100 text-gray-700 -700 dark:text-gray-300 rounded"
                         >
                           {m}
                         </span>

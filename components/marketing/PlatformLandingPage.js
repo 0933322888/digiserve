@@ -397,7 +397,7 @@ function WizardModal({ onClose }) {
             setPrimaryColor(t.primary)
             setSecondaryColor(t.secondary)
         }
-    }, [selectedTheme])
+    }, [selectedTheme, themes])
 
     // No local form state here — SignupForm handles it. We still expose a simple copy helper for other bits.
 
@@ -459,6 +459,7 @@ function WizardModal({ onClose }) {
                                     >
                                         {/* Template Thumbnail */}
                                         <div className="aspect-video bg-gray-900 relative overflow-hidden">
+                                            {/* eslint-disable-next-line @next/next/no-img-element */}
                                             <img
                                                 src={template.thumbnail}
                                                 alt={template.name}

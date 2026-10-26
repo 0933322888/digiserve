@@ -37,7 +37,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
                 setFormData(prev => ({ ...prev, subdomain: generated }))
             }
         }
-    }, [formData.businessName, subdomainTouched])
+    }, [formData.businessName, formData.subdomain, subdomainTouched])
 
     useEffect(() => {
         let mounted = true

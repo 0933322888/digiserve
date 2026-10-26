@@ -287,7 +287,7 @@ export default function CheckoutForm({ cartItems, cartTotals, onSuccess, stripeE
                 <p className="text-red-600 text-sm mt-1">{errors.dineInTime}</p>
               )}
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                We'll prepare your order for this time. Please arrive on time.
+                We&apos;ll prepare your order for this time. Please arrive on time.
               </p>
             </div>
           )}

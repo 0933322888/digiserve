@@ -19,7 +19,7 @@ export default function OnboardingWizard({ currentStep, onboardingStatus, tenant
         if (tenantId) {
             refreshTheme(tenantId)
         }
-    }, [tenantId])
+    }, [tenantId, refreshTheme])
 
     const steps = [
         { number: 1, name: 'Branding', status: 'branding' },

@@ -103,6 +103,7 @@ export default function BrandingStep({ tenantId, onNext }) {
                     <div className="flex items-center gap-4">
                         {logoPreview && (
                             <div className="w-24 h-24 rounded-lg overflow-hidden bg-white/5 border border-white/10">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={logoPreview} alt="Logo preview" className="w-full h-full object-contain" />
                             </div>
                         )}

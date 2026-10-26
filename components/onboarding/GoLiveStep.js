@@ -114,7 +114,7 @@ export default function GoLiveStep({ tenantId, onBack, onComplete, loading }) {
 
             {/* What's Next */}
             <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 mb-8">
-                <h4 className="font-semibold text-blue-200 mb-3">What's Next?</h4>
+                <h4 className="font-semibold text-blue-200 mb-3">What&apos;s Next?</h4>
                 <ul className="space-y-2 text-sm text-blue-100">
                     <li className="flex items-start gap-2">
                         <Check className="w-4 h-4 mt-0.5 flex-shrink-0" />

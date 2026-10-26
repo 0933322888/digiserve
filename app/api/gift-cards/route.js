@@ -3,11 +3,6 @@ import { siteConfig } from '@/config/siteConfig'
 import Stripe from 'stripe'
 import nodemailer from 'nodemailer'
 
-// Initialize Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2023-10-16',
-})
-
 // Initialize Nodemailer
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_SERVER_HOST,
@@ -51,6 +46,9 @@ export async function POST(request) {
     // Process Payment via Stripe
     if (siteConfig.api.enableStripe && process.env.STRIPE_SECRET_KEY) {
       try {
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+          apiVersion: '2023-10-16',
+        })
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ['card'],
           line_items: [

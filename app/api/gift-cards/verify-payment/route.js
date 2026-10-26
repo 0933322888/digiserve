@@ -3,11 +3,6 @@ import Stripe from 'stripe'
 import { createGiftCard } from '@/lib/gift-card-service'
 import { logEvent } from '@/lib/event-service'
 
-// Initialize Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2023-10-16',
-})
-
 export async function POST(request) {
   try {
     const { sessionId, sessionData } = await request.json()
@@ -22,6 +17,16 @@ export async function POST(request) {
 
     // If we have a sessionId, verify with Stripe
     if (sessionId) {
+      if (!process.env.STRIPE_SECRET_KEY) {
+        return NextResponse.json(
+          { error: 'Payment verification is not configured.' },
+          { status: 503 }
+        )
+      }
+
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        apiVersion: '2023-10-16',
+      })
       const session = await stripe.checkout.sessions.retrieve(sessionId)
 
       if (session.payment_status !== 'paid') {

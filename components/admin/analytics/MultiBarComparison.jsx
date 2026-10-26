@@ -44,27 +44,27 @@ export default function MultiBarComparison() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Multi-Bar Comparison</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Multi-Bar Comparison</h3>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <input
               type="date"
               value={startDate}
               onChange={e => setStartDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
             <span className="text-gray-600 dark:text-gray-400">to</span>
             <input
               type="date"
               value={endDate}
               onChange={e => setEndDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
           </div>
           <button
             onClick={fetchComparison}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <Building2 className="w-4 h-4" />
             {loading ? 'Loading...' : 'Compare'}
@@ -73,8 +73,8 @@ export default function MultiBarComparison() {
       </div>
 
       {comparison.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+          <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
             Performance Comparison
           </h4>
           <div className="space-y-4">
@@ -88,26 +88,26 @@ export default function MultiBarComparison() {
                   className={`p-4 rounded-lg border-2 ${
                     isTopPerformer
                       ? 'bg-green-50 dark:bg-green-900/20 border-green-300 dark:border-green-700'
-                      : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
+                      : 'bg-white -800 border-gray-200 '
                   }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
                       {isTopPerformer && (
-                        <span className="px-2 py-1 bg-green-500 text-white text-xs font-semibold rounded">
+                        <span className="px-2 py-1 bg-green-500 text-primary text-xs font-semibold rounded">
                           TOP
                         </span>
                       )}
                       <Building2 className="w-5 h-5 text-gray-400" />
                       <div>
-                        <h5 className="font-semibold text-gray-900 dark:text-white">
+                        <h5 className="font-semibold text-primary dark:text-primary">
                           {bar.barName}
                         </h5>
                         <p className="text-xs text-gray-500 dark:text-gray-400">{bar.barId}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="text-lg font-bold text-gray-900 dark:text-white">
+                      <div className="text-lg font-bold text-primary dark:text-primary">
                         {formatPrice(bar.totalRevenue)}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400">
@@ -119,11 +119,11 @@ export default function MultiBarComparison() {
                   <div className="space-y-2">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400">Revenue</span>
-                      <span className="font-medium text-gray-900 dark:text-white">
+                      <span className="font-medium text-primary dark:text-primary">
                         {formatPrice(bar.totalRevenue)}
                       </span>
                     </div>
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div className="flex-1 bg-gray-200 -700 rounded-full h-3">
                       <div
                         className={`h-3 rounded-full ${
                           isTopPerformer ? 'bg-green-500' : 'bg-blue-500'
@@ -132,22 +132,22 @@ export default function MultiBarComparison() {
                       />
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
+                    <div className="grid grid-cols-3 gap-4 mt-3 pt-3 border-t border-gray-200 ">
                       <div>
                         <div className="text-xs text-gray-500 dark:text-gray-400">Avg Order</div>
-                        <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                        <div className="text-sm font-semibold text-primary dark:text-primary">
                           {formatPrice(bar.averageOrderValue)}
                         </div>
                       </div>
                       <div>
                         <div className="text-xs text-gray-500 dark:text-gray-400">Pickup</div>
-                        <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                        <div className="text-sm font-semibold text-primary dark:text-primary">
                           {bar.ordersByType.pickup}
                         </div>
                       </div>
                       <div>
                         <div className="text-xs text-gray-500 dark:text-gray-400">Delivery</div>
-                        <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                        <div className="text-sm font-semibold text-primary dark:text-primary">
                           {bar.ordersByType.delivery}
                         </div>
                       </div>

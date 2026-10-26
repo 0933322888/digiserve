@@ -88,15 +88,15 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
     <>
       {/* Filters UI (kept same) */}
       <div className="mb-6 flex flex-wrap gap-3 justify-center items-center">
-        <div className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+        <div className="flex items-center gap-2 text-sm font-medium text-primary-text">
           <Filter className="w-4 h-4" />
           <span>Quick Filters:</span>
         </div>
         <button
           onClick={() => toggleDietaryFilter('vegetarian')}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${dietaryFilters.vegetarian
-            ? 'bg-green-600 text-white'
-            : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            ? 'bg-[var(--primary-light-bg)] text-white'
+            : 'bg-[var(--secondary-light-bg)] text-primary-text hover:bg-[var(--primary-dark-bg)]'
             }`}
         >
           Vegetarian
@@ -104,20 +104,13 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
         <button
           onClick={() => toggleDietaryFilter('gluten-free')}
           className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${dietaryFilters['gluten-free']
-            ? 'bg-green-600 text-white'
-            : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+            ? 'bg-[var(--primary-light-bg)] text-white'
+            : 'bg-[var(--secondary-light-bg)] text-primary-text hover:bg-[var(--primary-dark-bg)]'
             }`}
         >
           Gluten-Free
         </button>
-        {(dietaryFilters.vegetarian || dietaryFilters['gluten-free']) && (
-          <button
-            onClick={() => setDietaryFilters({ vegetarian: false, 'gluten-free': false })}
-            className="px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 underline"
-          >
-            Clear Filters
-          </button>
-        )}
+       
       </div>
 
       <div className="mb-8 flex flex-wrap gap-4 justify-center">
@@ -126,8 +119,8 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
             key={category}
             onClick={() => setSelectedCategory(category)}
             className={`px-6 py-2 rounded-lg font-semibold transition-colors ${selectedCategory === category
-              ? 'bg-primary dark:bg-gold text-white dark:text-gray-900'
-              : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'
+              ? 'bg-[var(--primary-light-bg)] text-white'
+              : 'bg-[var(--secondary-light-bg)] text-primary-text hover:bg-[var(--primary-dark-bg)]'
               }`}
           >
             {category}
@@ -143,7 +136,7 @@ export default function OrderMenuClient({ sections, variant = 'grid' }) {
               {section.name}
             </h3>
             {section.description && (
-              <p className="text-gray-600 dark:text-gray-400 mb-6 italic">{section.description}</p>
+              <p className="text-secondary-text mb-6 italic">{section.description}</p>
             )}
             <div className={getContainerClass()}>
               {section.items.map(item => (

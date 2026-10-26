@@ -216,7 +216,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Menu Sections</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Menu Sections</h3>
         <div className="flex items-center gap-4">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
@@ -230,7 +230,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
           <div className="flex items-center gap-2">
             <button
               onClick={expandAllSections}
-              className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-1.5"
+              className="px-3 py-1.5 text-sm bg-gray-100 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-1.5"
               title="Expand all sections"
             >
               <ChevronsDown className="w-4 h-4" />
@@ -238,7 +238,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
             </button>
             <button
               onClick={collapseAllSections}
-              className="px-3 py-1.5 text-sm bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-1.5"
+              className="px-3 py-1.5 text-sm bg-gray-100 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600 flex items-center gap-1.5"
               title="Collapse all sections"
             >
               <ChevronsUp className="w-4 h-4" />
@@ -258,22 +258,22 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
       </div>
 
       {showSectionForm && (
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-          <h4 className="font-medium text-gray-900 dark:text-white mb-3">New Section</h4>
+        <div className="bg-white -800 p-4 rounded-lg shadow border border-gray-200 ">
+          <h4 className="font-medium text-primary dark:text-primary mb-3">New Section</h4>
           <div className="space-y-3">
             <input
               type="text"
               placeholder="Section name"
               value={newSectionName}
               onChange={e => setNewSectionName(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
             />
             <textarea
               placeholder="Section description (optional)"
               value={newSectionDescription}
               onChange={e => setNewSectionDescription(e.target.value)}
               rows={2}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
             />
             <div className="flex gap-2">
               <button
@@ -288,7 +288,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
                   setNewSectionName('')
                   setNewSectionDescription('')
                 }}
-                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+                className="px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
               >
                 Cancel
               </button>
@@ -306,7 +306,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
           onDragOver={e => handleDragOver(e, section.id)}
           onDragLeave={handleDragLeave}
           onDrop={e => handleDrop(e, section.id)}
-          className={`bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden transition-all ${
+          className={`bg-white -800 rounded-lg shadow border border-gray-200  overflow-hidden transition-all ${
             draggedSectionId === section.id
               ? 'opacity-50 cursor-grabbing'
               : dragOverSectionId === section.id
@@ -336,7 +336,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
                   <ChevronRight className="w-5 h-5 text-gray-500" />
                 )}
                 <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">{section.name}</h4>
+                  <h4 className="font-medium text-primary dark:text-primary">{section.name}</h4>
                   {section.description && (
                     <p className="text-sm text-gray-500 dark:text-gray-400">{section.description}</p>
                   )}
@@ -382,7 +382,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
           </div>
 
           {editingSection === section.id && (
-            <div className="px-4 pb-4 border-t border-gray-200 dark:border-gray-700 pt-4">
+            <div className="px-4 pb-4 border-t border-gray-200  pt-4">
               <div className="space-y-3">
                 <input
                   type="text"
@@ -392,7 +392,7 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
                       handleUpdateSection(section.id, { name: e.target.value })
                     }
                   }}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
                 />
                 <textarea
                   defaultValue={section.description}
@@ -402,14 +402,14 @@ export default function MenuSectionManager({ sections, menuId, onRefresh }) {
                     }
                   }}
                   rows={2}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
                 />
               </div>
             </div>
           )}
 
           {expandedSections.has(section.id) && (
-            <div className="border-t border-gray-200 dark:border-gray-700">
+            <div className="border-t border-gray-200 ">
               {showItemForm?.sectionId === section.id ? (
                 <div className="p-4">
                   <MenuItemForm

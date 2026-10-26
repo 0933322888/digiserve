@@ -30,7 +30,7 @@ export const TEMPLATES = [
             eventsSection: true
         },
         sectionStyles: {
-            pageBackground: 'radial-gradient(circle, var(--primary-dark-bg) 0%, var(--secondary-dark-bg) 100%)',
+            pageBackground: 'var(--primary-dark-bg) ',
             aboutPreview: 'bg-primary/5 dark:bg-[var(--secondary-dark-bg)]/50',
             events: 'bg-gradient-to-br from-primary/10 via-gold/5 to-primary/5 dark:from-[var(--secondary-dark-bg)]/50 dark:via-[var(--primary-dark-bg)]/30 dark:to-[var(--secondary-dark-bg)]/50',
             highlights: 'bg-transparent'

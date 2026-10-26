@@ -79,23 +79,23 @@ export default function CustomDashboard({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Dashboard Overview</h3>
-        <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Dashboard Overview</h3>
+        <div className="flex items-center gap-2 bg-white -800 p-2 rounded-md border border-gray-200 ">
           <button
             onClick={() => setPeriod('today')}
-            className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+            className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
           >
             Today
           </button>
           <button
             onClick={() => setPeriod('week')}
-            className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+            className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
           >
             Week
           </button>
           <button
             onClick={() => setPeriod('month')}
-            className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+            className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
           >
             Month
           </button>
@@ -104,67 +104,67 @@ export default function CustomDashboard({ barId }) {
 
       {/* Key Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <div className="rounded-md p-3 bg-blue-500">
-                <DollarSign className="h-6 w-6 text-white" />
+                <DollarSign className="h-6 w-6 text-primary" />
               </div>
             </div>
             <div className="ml-5">
               <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Total Revenue
               </dt>
-              <dd className="text-lg font-medium text-gray-900 dark:text-white">
+              <dd className="text-lg font-medium text-primary dark:text-primary">
                 {formatPrice(sales?.totalRevenue || 0)}
               </dd>
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <div className="rounded-md p-3 bg-green-500">
-                <ShoppingCart className="h-6 w-6 text-white" />
+                <ShoppingCart className="h-6 w-6 text-primary" />
               </div>
             </div>
             <div className="ml-5">
               <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Orders</dt>
-              <dd className="text-lg font-medium text-gray-900 dark:text-white">
+              <dd className="text-lg font-medium text-primary dark:text-primary">
                 {sales?.totalOrders || 0}
               </dd>
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <div className="rounded-md p-3 bg-purple-500">
-                <Users className="h-6 w-6 text-white" />
+                <Users className="h-6 w-6 text-primary" />
               </div>
             </div>
             <div className="ml-5">
               <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Total Customers
               </dt>
-              <dd className="text-lg font-medium text-gray-900 dark:text-white">
+              <dd className="text-lg font-medium text-primary dark:text-primary">
                 {customers?.totalCustomers || 0}
               </dd>
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <div className="rounded-md p-3 bg-orange-500">
-                <TrendingUp className="h-6 w-6 text-white" />
+                <TrendingUp className="h-6 w-6 text-primary" />
               </div>
             </div>
             <div className="ml-5">
               <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Avg Order Value
               </dt>
-              <dd className="text-lg font-medium text-gray-900 dark:text-white">
+              <dd className="text-lg font-medium text-primary dark:text-primary">
                 {formatPrice(sales?.averageOrderValue || 0)}
               </dd>
             </div>
@@ -174,24 +174,24 @@ export default function CustomDashboard({ barId }) {
 
       {/* Popular Items */}
       {popularItems.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+          <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
             Top Selling Items
           </h4>
           <div className="space-y-2">
             {popularItems.slice(0, 5).map((item, index) => (
               <div
                 key={index}
-                className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700"
+                className="flex items-center justify-between py-2 border-b border-gray-200 "
               >
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-6">
                     #{index + 1}
                   </span>
-                  <span className="font-medium text-gray-900 dark:text-white">{item.name}</span>
+                  <span className="font-medium text-primary dark:text-primary">{item.name}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                  <span className="text-sm font-semibold text-primary dark:text-primary">
                     {item.quantity} sold
                   </span>
                 </div>

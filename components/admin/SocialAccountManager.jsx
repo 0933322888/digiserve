@@ -179,9 +179,9 @@ export default function SocialAccountManager({
 
   return (
     <>
-      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+      <div className="bg-white -800 shadow rounded-lg p-6">
         <div className="mb-4">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Connected Accounts</h3>
+          <h3 className="text-lg font-medium text-primary dark:text-primary">Connected Accounts</h3>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage your connected social media accounts
           </p>
@@ -197,7 +197,7 @@ export default function SocialAccountManager({
             accounts.map(account => (
               <div
                 key={account.accountId}
-                className="flex items-center justify-between p-3 border border-gray-200 dark:border-gray-700 rounded-md hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
+                className="flex items-center justify-between p-3 border border-gray-200  rounded-md hover:border-gray-300 dark:hover:border-gray-600 transition-colors"
               >
                 <div className="flex items-center gap-3">
                   <div
@@ -209,7 +209,7 @@ export default function SocialAccountManager({
                     {account.platform === 'facebook' ? '📘' : '📷'}
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{account.name}</p>
+                    <p className="font-medium text-primary dark:text-primary">{account.name}</p>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {account.platform === 'facebook' ? 'Facebook Page' : 'Instagram Business'}
                       {account.username && ` • @${account.username}`}
@@ -242,7 +242,7 @@ export default function SocialAccountManager({
                     onClick={() => handleDeleteAccount(account.accountId)}
                     disabled={deletingAccountId === account.accountId || refreshingAccountId === account.accountId}
                     className={`p-2 rounded transition-colors ${deleteConfirmAccountId === account.accountId
-                      ? 'bg-red-600 text-white hover:bg-red-700'
+                      ? 'bg-red-600 text-primary hover:bg-red-700'
                       : 'text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20'
                       } disabled:opacity-50`}
                     title={deleteConfirmAccountId === account.accountId ? 'Click again to confirm deletion' : 'Delete account'}
@@ -263,10 +263,10 @@ export default function SocialAccountManager({
       {/* Connect Account Modal */}
       {isConnectModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full max-w-md">
+          <div className="bg-white -800 rounded-lg shadow-xl w-full max-w-md">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                <h3 className="text-xl font-semibold text-primary dark:text-primary flex items-center gap-2">
                   <div className={`p-2 rounded-full ${connectPlatform === 'facebook' ? 'bg-blue-100 dark:bg-blue-900/30' : 'bg-pink-100 dark:bg-pink-900/30'}`}>
                     {connectPlatform === 'facebook' ? <Facebook className="w-6 h-6 text-blue-600" /> : <Instagram className="w-6 h-6 text-pink-600" />}
                   </div>
@@ -281,7 +281,7 @@ export default function SocialAccountManager({
               </div>
 
               <div className="space-y-6">
-                <div className="bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg">
+                <div className="bg-gray-50 -700/50 p-4 rounded-lg">
                   <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
                     To connect your {connectPlatform === 'facebook' ? 'Facebook Page' : 'Instagram Business Account'}, you need to:
                   </p>
@@ -353,7 +353,7 @@ export default function SocialAccountManager({
                     }
                   }}
                   disabled={isConnecting}
-                  className={`w-full py-3 px-4 rounded-lg text-white font-medium flex items-center justify-center gap-2 transition-all ${connectPlatform === 'facebook'
+                  className={`w-full py-3 px-4 rounded-lg text-primary font-medium flex items-center justify-center gap-2 transition-all ${connectPlatform === 'facebook'
                     ? 'bg-[#1877F2] hover:bg-[#166fe5]'
                     : 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
                     } disabled:opacity-70 disabled:cursor-not-allowed shadow-md hover:shadow-lg`}

@@ -59,7 +59,7 @@ export default function OrdersManager({ barId }) {
         <div className="space-y-8">
             <div className="flex justify-between items-start">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Orders</h2>
+                    <h2 className="text-2xl font-bold text-primary dark:text-primary">Orders</h2>
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                         View and manage all orders including Dine-in, Pickup, and Delivery.
                     </p>
@@ -83,7 +83,7 @@ export default function OrdersManager({ barId }) {
             {stats && <OrderStats stats={stats} />}
 
             {/* Filters */}
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
+            <div className="bg-white -800 shadow rounded-lg p-4">
                 <div className="flex flex-wrap gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -92,7 +92,7 @@ export default function OrdersManager({ barId }) {
                         <select
                             value={filterStatus}
                             onChange={e => setFilterStatus(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                         >
                             <option value="all">All Status</option>
                             <option value="pending">Pending</option>
@@ -110,7 +110,7 @@ export default function OrdersManager({ barId }) {
                         <select
                             value={filterType}
                             onChange={e => setFilterType(e.target.value)}
-                            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+                            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
                         >
                             <option value="all">All Types</option>
                             <option value="pickup">Pickup</option>

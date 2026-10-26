@@ -74,13 +74,13 @@ export default function OrderStats({ stats }) {
       {statCards.map(item => (
         <div
           key={item.name}
-          className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg"
+          className="bg-white -800 overflow-hidden shadow rounded-lg"
         >
           <div className="p-5">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div className={`rounded-md p-3 ${item.color}`}>
-                  <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                  <item.icon className="h-6 w-6 text-primary" aria-hidden="true" />
                 </div>
               </div>
               <div className="ml-5 w-0 flex-1">
@@ -88,7 +88,7 @@ export default function OrderStats({ stats }) {
                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-400 truncate">
                     {item.name}
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className="text-lg font-medium text-primary dark:text-primary">
                     {item.value}
                   </dd>
                 </dl>

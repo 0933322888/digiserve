@@ -19,7 +19,7 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Start date and end date are required' }, { status: 400 })
     }
 
-    const analytics = getCustomerAnalytics(barId, startDate, endDate)
+    const analytics = await getCustomerAnalytics(barId, startDate, endDate)
     return NextResponse.json({ analytics })
   } catch (error) {
     console.error('Get customer analytics error:', error)

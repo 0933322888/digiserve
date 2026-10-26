@@ -23,7 +23,7 @@ export default function StaffManager({ barId }) {
 
     return (
         <div className="space-y-6">
-            <div className="border-b border-gray-200 dark:border-gray-700 overflow-x-auto">
+            <div className="border-b border-gray-200  overflow-x-auto">
                 <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                     {tabs.map((tab) => {
                         const Icon = tab.icon

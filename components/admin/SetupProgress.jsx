@@ -14,13 +14,13 @@ export default function SetupProgress({
     if (!isVisible || completion === 100) return null
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8 relative overflow-hidden">
+        <div className="bg-white -800 rounded-xl shadow-sm border border-gray-200  p-6 mb-8 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute top-0 right-0 -mt-4 -mr-4 w-32 h-32 bg-primary/5 dark:bg-gold/10 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="flex justify-between items-start mb-4 relative z-10">
                 <div>
-                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">Getting Started</h3>
+                    <h3 className="text-lg font-bold text-primary dark:text-primary">Getting Started</h3>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                         Complete these steps to get your restaurant fully up and running.
                     </p>
@@ -34,7 +34,7 @@ export default function SetupProgress({
             </div>
 
             {/* Progress Bar */}
-            <div className="w-full bg-gray-100 dark:bg-gray-700 rounded-full h-2.5 mb-6">
+            <div className="w-full bg-gray-100 -700 rounded-full h-2.5 mb-6">
                 <div
                     className="bg-primary dark:bg-gold h-2.5 rounded-full transition-all duration-1000 ease-out"
                     style={{ width: `${completion}%` }}
@@ -48,14 +48,14 @@ export default function SetupProgress({
                         key={index}
                         className={`flex items-start p-3 rounded-lg border ${step.completed
                                 ? 'bg-green-50 border-green-100 dark:bg-green-900/10 dark:border-green-900/20'
-                                : 'bg-gray-50 border-gray-100 dark:bg-gray-800/50 dark:border-gray-700'
+                                : 'bg-gray-50 border-gray-300 -800/50 '
                             }`}
                     >
                         <div className={`mt-0.5 mr-3 flex-shrink-0 ${step.completed ? 'text-green-500' : 'text-gray-400'}`}>
                             {step.completed ? <CheckCircle2 className="h-5 w-5" /> : <Circle className="h-5 w-5" />}
                         </div>
                         <div>
-                            <h4 className={`text-sm font-medium ${step.completed ? 'text-green-900 dark:text-green-100' : 'text-gray-900 dark:text-white'
+                            <h4 className={`text-sm font-medium ${step.completed ? 'text-green-900 dark:text-green-100' : 'text-primary dark:text-primary'
                                 }`}>
                                 {step.label}
                             </h4>

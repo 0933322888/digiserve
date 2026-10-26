@@ -65,30 +65,30 @@ export default function RevenueTrends({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Revenue Trends</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Revenue Trends</h3>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-2 bg-white -800 p-2 rounded-md border border-gray-200 ">
             <button
               onClick={() => setGroupBy('day')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'day' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'day' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Daily
             </button>
             <button
               onClick={() => setGroupBy('week')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Weekly
             </button>
             <button
               onClick={() => setGroupBy('month')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Monthly
             </button>
             <button
               onClick={() => setGroupBy('hour')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'hour' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'hour' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Hourly
             </button>
@@ -98,20 +98,20 @@ export default function RevenueTrends({ barId }) {
               type="date"
               value={startDate}
               onChange={e => setStartDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
             <span className="text-gray-600 dark:text-gray-400">to</span>
             <input
               type="date"
               value={endDate}
               onChange={e => setEndDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
           </div>
           <button
             onClick={fetchTrends}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <TrendingUp className="w-4 h-4" />
             {loading ? 'Loading...' : 'Analyze'}
@@ -122,23 +122,23 @@ export default function RevenueTrends({ barId }) {
       {/* Summary */}
       {trends.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
             <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Revenue</dt>
-            <dd className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            <dd className="text-2xl font-bold text-primary dark:text-primary mt-1">
               {formatPrice(totalRevenue)}
             </dd>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
             <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
               Average per Period
             </dt>
-            <dd className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            <dd className="text-2xl font-bold text-primary dark:text-primary mt-1">
               {formatPrice(averageRevenue)}
             </dd>
           </div>
-          <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
             <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Periods</dt>
-            <dd className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+            <dd className="text-2xl font-bold text-primary dark:text-primary mt-1">
               {trends.length}
             </dd>
           </div>
@@ -147,8 +147,8 @@ export default function RevenueTrends({ barId }) {
 
       {/* Chart */}
       {trends.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+          <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
             Revenue Trend
           </h4>
           <div className="space-y-4">
@@ -164,19 +164,19 @@ export default function RevenueTrends({ barId }) {
                       <span className="text-gray-500 dark:text-gray-400">
                         {trend.orders} orders
                       </span>
-                      <span className="font-semibold text-gray-900 dark:text-white w-24 text-right">
+                      <span className="font-semibold text-primary dark:text-primary w-24 text-right">
                         {formatPrice(trend.revenue)}
                       </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-6 relative">
+                    <div className="flex-1 bg-gray-200 -700 rounded-full h-6 relative">
                       <div
                         className="bg-gradient-to-r from-blue-500 to-green-500 h-6 rounded-full flex items-center justify-end pr-2"
                         style={{ width: `${revenuePercent}%` }}
                       >
                         {revenuePercent > 10 && (
-                          <span className="text-xs font-medium text-white">
+                          <span className="text-xs font-medium text-primary">
                             {formatPrice(trend.revenue)}
                           </span>
                         )}

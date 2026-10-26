@@ -87,7 +87,7 @@ export default function MenuItemList({ items, sectionId, menuId, onRefresh, onEd
           key={item.id}
           className={`p-4 border-l-4 transition-all ${
             item.archived
-              ? 'bg-gray-50 dark:bg-gray-800/30 border-gray-400 dark:border-gray-600 opacity-75'
+              ? 'bg-gray-50 -800/30 border-gray-400 dark:border-gray-600 opacity-75'
               : 'hover:bg-gray-50 dark:hover:bg-gray-700/50 border-transparent'
           } ${item.unavailable && !item.archived ? 'opacity-60' : ''}`}
         >
@@ -98,7 +98,7 @@ export default function MenuItemList({ items, sectionId, menuId, onRefresh, onEd
                   className={`font-medium ${
                     item.archived
                       ? 'text-gray-500 dark:text-gray-400 line-through italic'
-                      : 'text-gray-900 dark:text-white'
+                      : 'text-primary dark:text-primary'
                   }`}
                 >
                   {item.name}
@@ -109,7 +109,7 @@ export default function MenuItemList({ items, sectionId, menuId, onRefresh, onEd
                   </span>
                 )}
                 {item.archived && (
-                  <span className="px-2 py-0.5 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs rounded font-semibold uppercase tracking-wide">
+                  <span className="px-2 py-0.5 bg-gray-300 -600 text-gray-700 dark:text-gray-300 text-xs rounded font-semibold uppercase tracking-wide">
                     Archived
                   </span>
                 )}
@@ -127,7 +127,7 @@ export default function MenuItemList({ items, sectionId, menuId, onRefresh, onEd
               )}
               {item.image && (
                 <div className="mt-2 flex items-center gap-2">
-                  <div className="relative w-16 h-16 rounded border border-gray-300 dark:border-gray-600 overflow-hidden bg-gray-100 dark:bg-gray-800 flex-shrink-0">
+                  <div className="relative w-16 h-16 rounded border border-gray-300 dark:border-gray-600 overflow-hidden bg-gray-100 -800 flex-shrink-0">
                     <Image
                       src={item.image}
                       alt={item.name}

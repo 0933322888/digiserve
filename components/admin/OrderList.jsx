@@ -49,7 +49,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
         label: 'Ready',
       },
       completed: {
-        bg: 'bg-gray-100 dark:bg-gray-700',
+        bg: 'bg-gray-100 -700',
         text: 'text-gray-800 dark:text-gray-200',
         icon: CheckCircle,
         label: 'Completed',
@@ -124,13 +124,13 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
       {orders.map(order => (
         <div
           key={order.id}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden"
+          className="bg-white rounded-lg shadow border border-gray-300 overflow-hidden"
         >
           <div className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="font-semibold text-gray-900 dark:text-white">Order #{order.id}</h3>
+                  <h3 className="font-semibold text-primary dark:text-primary">Order #{order.id}</h3>
                   {getStatusBadge(order.status)}
                   <span
                     className={`text-sm px-2 py-1 rounded ${order.orderType === 'pickup'
@@ -234,7 +234,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                               })
                             }
                           }}
-                          className="px-3 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm flex items-center gap-1"
+                          className="px-3 py-2 bg-green-600 text-primary rounded-md hover:bg-green-700 text-sm flex items-center gap-1"
                         >
                           <DollarSign className="w-4 h-4" /> Cash
                         </button>
@@ -255,7 +255,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                               })
                             }
                           }}
-                          className="px-3 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm flex items-center gap-1"
+                          className="px-3 py-2 bg-blue-600 text-primary rounded-md hover:bg-blue-700 text-sm flex items-center gap-1"
                         >
                           <CreditCard className="w-4 h-4" /> Card
                         </button>
@@ -265,7 +265,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                     <Link
                       href={`/print/order/${order.id}`}
                       target="_blank"
-                      className="px-3 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 text-sm flex items-center gap-1"
+                      className="px-3 py-2 bg-gray-600 text-primary rounded-md hover:bg-gray-700 text-sm flex items-center gap-1"
                     >
                       <Printer className="w-4 h-4" /> Print
                     </Link>
@@ -288,7 +288,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                             handleStatusChange(order.id, 'ready')
                           }
                         }}
-                        className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm whitespace-nowrap"
+                        className="px-4 py-2 bg-green-600 text-primary rounded-md hover:bg-green-700 text-sm whitespace-nowrap"
                       >
                         Mark Ready
                       </button>
@@ -301,7 +301,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                             handleStatusChange(order.id, 'cancelled')
                           }
                         }}
-                        className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm whitespace-nowrap"
+                        className="px-4 py-2 bg-red-600 text-primary rounded-md hover:bg-red-700 text-sm whitespace-nowrap"
                       >
                         Cancel
                       </button>
@@ -310,7 +310,7 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                 )}
                 <button
                   onClick={() => setExpandedOrderId(expandedOrderId === order.id ? null : order.id)}
-                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
+                  className="px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 text-sm"
                 >
                   {expandedOrderId === order.id ? 'Hide' : 'View'} Details
                 </button>
@@ -318,16 +318,16 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
             </div>
 
             {expandedOrderId === order.id && (
-              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                <h4 className="font-medium text-gray-900 dark:text-white mb-3">Order Items</h4>
+              <div className="mt-4 pt-4 border-t border-gray-200 ">
+                <h4 className="font-medium text-primary dark:text-primary mb-3">Order Items</h4>
                 <div className="space-y-2 mb-4">
                   {order.items?.map((item, index) => (
                     <div
                       key={index}
-                      className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-900 rounded"
+                      className="flex justify-between items-center p-2 bg-gray-50 dark:bg-white rounded"
                     >
                       <div>
-                        <span className="font-medium text-gray-900 dark:text-white">
+                        <span className="font-medium text-primary dark:text-primary">
                           {item.name}
                         </span>
                         {item.quantity > 1 && (
@@ -346,14 +346,14 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                 <div className="space-y-1 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">Subtotal:</span>
-                    <span className="text-gray-900 dark:text-white">
+                    <span className="text-primary dark:text-primary">
                       {formatPrice(order.totals?.subtotal || 0)}
                     </span>
                   </div>
                   {order.totals?.tax > 0 && (
                     <div className="flex justify-between">
                       <span className="text-gray-600 dark:text-gray-400">Tax:</span>
-                      <span className="text-gray-900 dark:text-white">
+                      <span className="text-primary dark:text-primary">
                         {formatPrice(order.totals.tax || 0)}
                       </span>
                     </div>
@@ -361,13 +361,13 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                   {order.totals?.delivery > 0 && (
                     <div className="flex justify-between">
                       <span className="text-gray-600 dark:text-gray-400">Delivery:</span>
-                      <span className="text-gray-900 dark:text-white">
+                      <span className="text-primary dark:text-primary">
                         {formatPrice(order.totals.delivery || 0)}
                       </span>
                     </div>
                   )}
-                  <div className="flex justify-between pt-2 border-t border-gray-200 dark:border-gray-700 font-bold">
-                    <span className="text-gray-900 dark:text-white">Total:</span>
+                  <div className="flex justify-between pt-2 border-t border-gray-200  font-bold">
+                    <span className="text-primary dark:text-primary">Total:</span>
                     <span className="text-primary-text ">
                       {formatPrice(order.totals?.total || 0)}
                     </span>
@@ -384,8 +384,8 @@ export default function OrderList({ orders, barId, onStatusUpdate }) {
                 )}
 
                 {order.adminNotes && (
-                  <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-900 rounded">
-                    <p className="text-sm font-medium text-gray-900 dark:text-white mb-1">
+                  <div className="mt-4 p-3 bg-gray-50 dark:bg-white rounded">
+                    <p className="text-sm font-medium text-primary dark:text-primary mb-1">
                       Admin Notes:
                     </p>
                     <p className="text-sm text-gray-700 dark:text-gray-300">{order.adminNotes}</p>

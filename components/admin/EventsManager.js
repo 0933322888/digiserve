@@ -171,7 +171,7 @@ export default function EventsManager({ barId }) {
     return (
         <div className="space-y-6">
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Upcoming Events</h2>
+                <h2 className="text-xl font-bold text-primary dark:text-primary">Upcoming Events</h2>
                 <button
                     onClick={() => setShowForm(true)}
                     className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90"
@@ -182,9 +182,9 @@ export default function EventsManager({ barId }) {
             </div>
 
             {showForm && (
-                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+                <div className="bg-white -800 p-6 rounded-lg shadow-md border border-gray-200 ">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                        <h3 className="text-lg font-medium text-primary dark:text-primary">
                             {editingEvent ? 'Edit Event' : 'New Event'}
                         </h3>
                         <button onClick={handleLocalReset} className="text-gray-500 hover:text-gray-700">
@@ -200,7 +200,7 @@ export default function EventsManager({ barId }) {
                                     type="text"
                                     value={formData.title}
                                     onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className="w-full rounded-md border border-gray-300 px-3 py-2 -700 dark:border-gray-600 dark:text-primary"
                                     required
                                 />
                             </div>
@@ -211,7 +211,7 @@ export default function EventsManager({ barId }) {
                                     type="date"
                                     value={formData.date}
                                     onChange={e => setFormData({ ...formData, date: e.target.value })}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className="w-full rounded-md border border-gray-300 px-3 py-2 -700 dark:border-gray-600 dark:text-primary"
                                     required
                                 />
                             </div>
@@ -222,7 +222,7 @@ export default function EventsManager({ barId }) {
                                     type="time"
                                     value={formData.time}
                                     onChange={e => setFormData({ ...formData, time: e.target.value })}
-                                    className="w-full rounded-md border border-gray-300 px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className="w-full rounded-md border border-gray-300 px-3 py-2 -700 dark:border-gray-600 dark:text-primary"
                                 />
                             </div>
 
@@ -246,7 +246,7 @@ export default function EventsManager({ barId }) {
                                 value={formData.description}
                                 onChange={e => setFormData({ ...formData, description: e.target.value })}
                                 rows={3}
-                                className="w-full rounded-md border border-gray-300 px-3 py-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                className="w-full rounded-md border border-gray-300 px-3 py-2 -700 dark:border-gray-600 dark:text-primary"
                             />
                         </div>
 
@@ -256,7 +256,7 @@ export default function EventsManager({ barId }) {
                                 {formData.image && (
                                     <img src={formData.image} alt="Preview" className="w-16 h-16 object-cover rounded" />
                                 )}
-                                <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">
+                                <label className="cursor-pointer flex items-center gap-2 px-4 py-2 bg-gray-100 -700 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">
                                     <Upload className="w-4 h-4" />
                                     {uploading ? 'Uploading...' : 'Upload Image'}
                                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
@@ -286,30 +286,30 @@ export default function EventsManager({ barId }) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {events.map((event) => (
-                    <div key={event.id} className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden group">
+                    <div key={event.id} className="bg-white -800 rounded-lg shadow overflow-hidden group">
                         <div className="relative h-48">
                             {event.image ? (
                                 <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
                             ) : (
-                                <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                                <div className="w-full h-full bg-gray-200 -700 flex items-center justify-center">
                                     <ImageIcon className="w-12 h-12 text-gray-400" />
                                 </div>
                             )}
                             {event.featured && (
-                                <div className="absolute top-2 right-2 bg-yellow-500 text-white p-1 rounded-full shadow-md">
+                                <div className="absolute top-2 right-2 bg-yellow-500 text-primary p-1 rounded-full shadow-md">
                                     <Star className="w-4 h-4 fill-current" />
                                 </div>
                             )}
                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                                 <button
                                     onClick={() => handleEdit(event)}
-                                    className="p-2 bg-white rounded-full hover:bg-gray-100 text-gray-900"
+                                    className="p-2 bg-white rounded-full hover:bg-gray-100 text-primary"
                                 >
                                     <Edit className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => handleDelete(event.id)}
-                                    className="p-2 bg-red-500 rounded-full hover:bg-red-600 text-white"
+                                    className="p-2 bg-red-500 rounded-full hover:bg-red-600 text-primary"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </button>
@@ -317,7 +317,7 @@ export default function EventsManager({ barId }) {
                         </div>
 
                         <div className="p-4">
-                            <h3 className="font-semibold text-lg text-gray-900 dark:text-white mb-1">{event.title}</h3>
+                            <h3 className="font-semibold text-lg text-primary dark:text-primary mb-1">{event.title}</h3>
                             <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400 mb-2">
                                 <div className="flex items-center gap-1">
                                     <Calendar className="w-4 h-4" />
@@ -337,7 +337,7 @@ export default function EventsManager({ barId }) {
                     </div>
                 ))}
                 {events.length === 0 && !loading && (
-                    <div className="col-span-full py-12 text-center text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
+                    <div className="col-span-full py-12 text-center text-gray-500 dark:text-gray-400 bg-white -800 rounded-lg border border-dashed border-gray-300 ">
                         <Calendar className="w-12 h-12 mx-auto mb-3 opacity-20" />
                         <p>No upcoming events</p>
                         <button onClick={() => setShowForm(true)} className="text-primary-text hover:underline mt-2">

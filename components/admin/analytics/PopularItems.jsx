@@ -48,20 +48,20 @@ export default function PopularItems({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+        <h3 className="text-lg font-medium text-primary dark:text-primary">
           Popular Items Analysis
         </h3>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-2 bg-white -800 p-2 rounded-md border border-gray-200 ">
             <button
               onClick={() => setGroupBy('items')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'items' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'items' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               By Items
             </button>
             <button
               onClick={() => setGroupBy('category')}
-              className={`px-3 py-1 text-xs rounded ${groupBy === 'category' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${groupBy === 'category' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               By Category
             </button>
@@ -71,20 +71,20 @@ export default function PopularItems({ barId }) {
               type="date"
               value={startDate}
               onChange={e => setStartDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
             <span className="text-gray-600 dark:text-gray-400">to</span>
             <input
               type="date"
               value={endDate}
               onChange={e => setEndDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
           </div>
           <button
             onClick={fetchItems}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <Calendar className="w-4 h-4" />
             {loading ? 'Loading...' : 'Analyze'}
@@ -93,8 +93,8 @@ export default function PopularItems({ barId }) {
       </div>
 
       {items.length > 0 && (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+        <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+          <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
             {groupBy === 'items' ? 'Top Selling Items' : 'Performance by Category'}
           </h4>
           <div className="space-y-4">
@@ -110,11 +110,11 @@ export default function PopularItems({ barId }) {
                         <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-6">
                           #{index + 1}
                         </span>
-                        <span className="font-semibold text-gray-900 dark:text-white">
+                        <span className="font-semibold text-primary dark:text-primary">
                           {item.name || item.category}
                         </span>
                         {item.category && groupBy === 'items' && (
-                          <span className="text-xs px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded">
+                          <span className="text-xs px-2 py-0.5 bg-gray-100 -700 text-gray-600 dark:text-gray-400 rounded">
                             {item.category}
                           </span>
                         )}
@@ -126,7 +126,7 @@ export default function PopularItems({ barId }) {
                       )}
                     </div>
                     <div className="text-right">
-                      <div className="text-sm font-semibold text-gray-900 dark:text-white">
+                      <div className="text-sm font-semibold text-primary dark:text-primary">
                         {formatPrice(item.revenue)}
                       </div>
                       <div className="text-xs text-gray-500 dark:text-gray-400">
@@ -139,7 +139,7 @@ export default function PopularItems({ barId }) {
                       <span className="text-xs text-gray-500 dark:text-gray-400 w-16">
                         Quantity:
                       </span>
-                      <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="flex-1 bg-gray-200 -700 rounded-full h-2">
                         <div
                           className="bg-blue-500 h-2 rounded-full"
                           style={{ width: `${quantityPercent}%` }}
@@ -153,7 +153,7 @@ export default function PopularItems({ barId }) {
                       <span className="text-xs text-gray-500 dark:text-gray-400 w-16">
                         Revenue:
                       </span>
-                      <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                      <div className="flex-1 bg-gray-200 -700 rounded-full h-2">
                         <div
                           className="bg-green-500 h-2 rounded-full"
                           style={{ width: `${revenuePercent}%` }}

@@ -12,7 +12,7 @@ export default function CampaignList({ campaigns, barId, onCampaignUpdated, onCa
     const badges = {
       active: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
       paused: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
-      completed: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+      completed: 'bg-gray-100 -700 text-gray-800 dark:text-gray-200',
     }
     return (
       <span
@@ -87,13 +87,13 @@ export default function CampaignList({ campaigns, barId, onCampaignUpdated, onCa
       {campaigns.map(campaign => (
         <div
           key={campaign.campaignId}
-          className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden"
+          className="bg-white -800 rounded-lg shadow border border-gray-300  overflow-hidden"
         >
           <div className="p-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <h3 className="font-semibold text-gray-900 dark:text-white">{campaign.name}</h3>
+                  <h3 className="font-semibold text-primary dark:text-primary">{campaign.name}</h3>
                   {getStatusBadge(campaign.status)}
                   <span className="text-sm px-2 py-1 rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
                     {campaign.platform.charAt(0).toUpperCase() + campaign.platform.slice(1)}
@@ -110,7 +110,7 @@ export default function CampaignList({ campaigns, barId, onCampaignUpdated, onCa
                 </div>
 
                 {expandedCampaign === campaign.campaignId && (
-                  <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+                  <div className="mt-4 pt-4 border-t border-gray-200 ">
                     <div className="space-y-2 text-sm">
                       <div>
                         <span className="font-medium text-gray-700 dark:text-gray-300">

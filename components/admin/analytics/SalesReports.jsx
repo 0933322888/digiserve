@@ -78,30 +78,30 @@ export default function SalesReports({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Sales Reports</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Sales Reports</h3>
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-2 bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-2 bg-white -800 p-2 rounded-md border border-gray-200 ">
             <button
               onClick={() => handlePeriodChange('today')}
-              className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'today' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Today
             </button>
             <button
               onClick={() => handlePeriodChange('week')}
-              className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'week' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Week
             </button>
             <button
               onClick={() => handlePeriodChange('month')}
-              className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'month' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Month
             </button>
             <button
               onClick={() => handlePeriodChange('custom')}
-              className={`px-3 py-1 text-xs rounded ${period === 'custom' ? 'bg-primary text-white dark:bg-gold dark:text-gray-900' : 'text-gray-600 dark:text-gray-400'}`}
+              className={`px-3 py-1 text-xs rounded ${period === 'custom' ? 'bg-primary text-white dark:bg-gold dark:text-primary' : 'text-gray-600 dark:text-gray-400'}`}
             >
               Custom
             </button>
@@ -112,21 +112,21 @@ export default function SalesReports({ barId }) {
                 type="date"
                 value={startDate}
                 onChange={e => setStartDate(e.target.value)}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
               />
               <span className="text-gray-600 dark:text-gray-400">to</span>
               <input
                 type="date"
                 value={endDate}
                 onChange={e => setEndDate(e.target.value)}
-                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
               />
             </div>
           )}
           <button
             onClick={fetchReport}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <Calendar className="w-4 h-4" />
             {loading ? 'Loading...' : 'Generate Report'}
@@ -149,67 +149,67 @@ export default function SalesReports({ barId }) {
         <>
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+            <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="rounded-md p-3 bg-blue-500">
-                    <DollarSign className="h-6 w-6 text-white" />
+                    <DollarSign className="h-6 w-6 text-primary" />
                   </div>
                 </div>
                 <div className="ml-5">
                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Total Revenue
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className="text-lg font-medium text-primary dark:text-primary">
                     {formatPrice(report.totalRevenue)}
                   </dd>
                 </div>
               </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+            <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="rounded-md p-3 bg-green-500">
-                    <ShoppingCart className="h-6 w-6 text-white" />
+                    <ShoppingCart className="h-6 w-6 text-primary" />
                   </div>
                 </div>
                 <div className="ml-5">
                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Total Orders
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className="text-lg font-medium text-primary dark:text-primary">
                     {report.totalOrders}
                   </dd>
                 </div>
               </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+            <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="rounded-md p-3 bg-purple-500">
-                    <TrendingUp className="h-6 w-6 text-white" />
+                    <TrendingUp className="h-6 w-6 text-primary" />
                   </div>
                 </div>
                 <div className="ml-5">
                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Avg Order Value
                   </dt>
-                  <dd className="text-lg font-medium text-gray-900 dark:text-white">
+                  <dd className="text-lg font-medium text-primary dark:text-primary">
                     {formatPrice(report.averageOrderValue)}
                   </dd>
                 </div>
               </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+            <div className="bg-white -800 p-5 rounded-lg shadow border border-gray-200 ">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <div className="rounded-md p-3 bg-orange-500">
-                    <Calendar className="h-6 w-6 text-white" />
+                    <Calendar className="h-6 w-6 text-primary" />
                   </div>
                 </div>
                 <div className="ml-5">
                   <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">Period</dt>
-                  <dd className="text-sm font-medium text-gray-900 dark:text-white">
+                  <dd className="text-sm font-medium text-primary dark:text-primary">
                     {new Date(report.period.startDate).toLocaleDateString()} -{' '}
                     {new Date(report.period.endDate).toLocaleDateString()}
                   </dd>
@@ -221,8 +221,8 @@ export default function SalesReports({ barId }) {
           {/* Revenue Breakdown */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Revenue by Order Type */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+              <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
                 Revenue by Order Type
               </h4>
               <div className="space-y-3">
@@ -231,7 +231,7 @@ export default function SalesReports({ barId }) {
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">
                       {type}
                     </span>
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="text-sm font-semibold text-primary dark:text-primary">
                       {formatPrice(revenue)}
                     </span>
                   </div>
@@ -240,8 +240,8 @@ export default function SalesReports({ barId }) {
             </div>
 
             {/* Orders by Status */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+              <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
                 Orders by Status
               </h4>
               <div className="space-y-3">
@@ -250,7 +250,7 @@ export default function SalesReports({ barId }) {
                     <span className="text-sm font-medium text-gray-700 dark:text-gray-300 capitalize">
                       {status}
                     </span>
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                    <span className="text-sm font-semibold text-primary dark:text-primary">
                       {count}
                     </span>
                   </div>
@@ -261,8 +261,8 @@ export default function SalesReports({ barId }) {
 
           {/* Daily Revenue */}
           {Object.keys(report.revenueByDay).length > 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+            <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+              <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
                 Daily Revenue
               </h4>
               <div className="space-y-2">
@@ -271,7 +271,7 @@ export default function SalesReports({ barId }) {
                   .map(([date, revenue]) => (
                     <div
                       key={date}
-                      className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-700"
+                      className="flex items-center justify-between py-2 border-b border-gray-200 "
                     >
                       <span className="text-sm text-gray-600 dark:text-gray-400">
                         {new Date(date).toLocaleDateString('en-US', {
@@ -280,7 +280,7 @@ export default function SalesReports({ barId }) {
                           day: 'numeric',
                         })}
                       </span>
-                      <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                      <span className="text-sm font-semibold text-primary dark:text-primary">
                         {formatPrice(revenue)}
                       </span>
                     </div>

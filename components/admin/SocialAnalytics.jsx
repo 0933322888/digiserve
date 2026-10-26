@@ -88,9 +88,9 @@ export default function SocialAnalytics({ barId }) {
   return (
     <div className="space-y-6">
       {/* Filters */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white -800 p-4 rounded-lg shadow border border-gray-200 ">
         <div className="flex items-center gap-4">
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white">Overview</h3>
+          <h3 className="text-lg font-medium text-primary dark:text-primary">Overview</h3>
           {data.lastUpdated && (
             <span className="text-xs text-gray-500 dark:text-gray-400">
               Last updated: {new Date(data.lastUpdated).toLocaleString()}
@@ -101,7 +101,7 @@ export default function SocialAnalytics({ barId }) {
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="px-3 py-2 bg-primary dark:bg-gold text-white rounded-md hover:bg-primary/90 dark:hover:bg-gold/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm transition-colors"
+            className="px-3 py-2 bg-primary dark:bg-gold text-primary rounded-md hover:bg-primary/90 dark:hover:bg-gold/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm transition-colors"
             title="Refresh analytics data from Facebook/Instagram"
           >
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
@@ -110,7 +110,7 @@ export default function SocialAnalytics({ barId }) {
           <select
             value={platform}
             onChange={e => setPlatform(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white text-sm"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary text-sm"
           >
             <option value="all">All Platforms</option>
             <option value="facebook">Facebook</option>
@@ -119,7 +119,7 @@ export default function SocialAnalytics({ barId }) {
           <select
             value={period}
             onChange={e => setPeriod(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white text-sm"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary text-sm"
           >
             <option value="7d">Last 7 Days</option>
             <option value="30d">Last 30 Days</option>
@@ -130,11 +130,11 @@ export default function SocialAnalytics({ barId }) {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Reach</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+              <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                 {summary.totalReach.toLocaleString()}
               </p>
             </div>
@@ -143,13 +143,13 @@ export default function SocialAnalytics({ barId }) {
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Total Engagement
               </p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+              <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                 {summary.totalEngagement.toLocaleString()}
               </p>
             </div>
@@ -158,11 +158,11 @@ export default function SocialAnalytics({ barId }) {
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Likes</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+              <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                 {summary.totalLikes.toLocaleString()}
               </p>
             </div>
@@ -171,11 +171,11 @@ export default function SocialAnalytics({ barId }) {
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Comments</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+              <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                 {summary.totalComments.toLocaleString()}
               </p>
             </div>
@@ -188,8 +188,8 @@ export default function SocialAnalytics({ barId }) {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-          <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-6">Reach Trend</h4>
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
+          <h4 className="text-lg font-medium text-primary dark:text-primary mb-6">Reach Trend</h4>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={trends}>
@@ -236,8 +236,8 @@ export default function SocialAnalytics({ barId }) {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-          <h4 className="text-lg font-medium text-gray-900 dark:text-white mb-6">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
+          <h4 className="text-lg font-medium text-primary dark:text-primary mb-6">
             Engagement Breakdown
           </h4>
           <div className="h-80">
@@ -278,15 +278,15 @@ export default function SocialAnalytics({ barId }) {
       </div>
 
       {/* Top Posts */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h4 className="text-lg font-medium text-gray-900 dark:text-white">
+      <div className="bg-white -800 rounded-lg shadow border border-gray-200  overflow-hidden">
+        <div className="p-6 border-b border-gray-200 ">
+          <h4 className="text-lg font-medium text-primary dark:text-primary">
             Top Performing Posts
           </h4>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-            <thead className="bg-gray-50 dark:bg-gray-900/50">
+            <thead className="bg-gray-50 dark:bg-white/50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Post
@@ -305,7 +305,7 @@ export default function SocialAnalytics({ barId }) {
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="bg-white -800 divide-y divide-gray-200 dark:divide-gray-700">
               {topPosts.map(post => (
                 <tr key={post.id}>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -317,11 +317,11 @@ export default function SocialAnalytics({ barId }) {
                           alt=""
                         />
                       ) : (
-                        <div className="h-10 w-10 rounded-md bg-gray-100 dark:bg-gray-700 flex items-center justify-center mr-3">
+                        <div className="h-10 w-10 rounded-md bg-gray-100 -700 flex items-center justify-center mr-3">
                           <span className="text-xs text-gray-500">No Img</span>
                         </div>
                       )}
-                      <div className="text-sm text-gray-900 dark:text-white truncate max-w-xs">
+                      <div className="text-sm text-primary dark:text-primary truncate max-w-xs">
                         {post.content}
                       </div>
                     </div>
@@ -339,10 +339,10 @@ export default function SocialAnalytics({ barId }) {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                     {new Date(post.date).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-primary dark:text-primary font-medium">
                     {post.reach.toLocaleString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white font-medium">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-primary dark:text-primary font-medium">
                     {post.engagement.toLocaleString()}
                   </td>
                 </tr>

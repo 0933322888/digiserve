@@ -27,16 +27,16 @@ export default async function AdminReservationsPage() {
     <div className="space-y-8">
       <div className="flex justify-between items-center">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Reservations</h2>
+          <h2 className="text-2xl font-bold text-primary dark:text-primary">Reservations</h2>
           <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
             Manage table bookings and capacity.
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow flex items-center space-x-4">
+        <div className="bg-white  p-4 rounded-lg shadow flex items-center space-x-4">
           <span className="text-sm text-gray-500 dark:text-gray-400">
             Max Capacity (Seats/Slot):
           </span>
-          <span className="text-lg font-bold text-gray-900 dark:text-white">
+          <span className="text-lg font-bold text-primary dark:text-primary">
             {settings.maxSeatsPerSlot}
           </span>
         </div>

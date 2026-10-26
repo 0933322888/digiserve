@@ -141,7 +141,7 @@ export default function TenantManager({ currentTenantId }) {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 flex items-center gap-2">
+            <h1 className="text-2xl font-bold text-primary dark:text-gray-100 flex items-center gap-2">
               <Building2 className="w-7 h-7 text-primary-text " />
               Tenant Management
             </h1>
@@ -162,7 +162,7 @@ export default function TenantManager({ currentTenantId }) {
 
           <button
             onClick={handleOpenCreate}
-            className="px-4 py-2.5 bg-primary hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold/90 text-white rounded-lg font-medium text-sm flex items-center gap-2 shadow-sm transition"
+            className="px-4 py-2.5 bg-primary hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold/90 text-primary rounded-lg font-medium text-sm flex items-center gap-2 shadow-sm transition"
           >
             <Plus className="w-4 h-4" />
             Provision Tenant
@@ -172,12 +172,12 @@ export default function TenantManager({ currentTenantId }) {
 
       {/* Metrics Row */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center justify-between">
+        <div className="bg-white -800 p-5 rounded-xl border border-gray-200  shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               Total Tenants
             </p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100 mt-1">
+            <p className="text-2xl font-bold text-primary dark:text-gray-100 mt-1">
               {totalCount}
             </p>
           </div>
@@ -186,7 +186,7 @@ export default function TenantManager({ currentTenantId }) {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center justify-between">
+        <div className="bg-white -800 p-5 rounded-xl border border-gray-200  shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               Active Subscriptions
@@ -200,7 +200,7 @@ export default function TenantManager({ currentTenantId }) {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 p-5 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center justify-between">
+        <div className="bg-white -800 p-5 rounded-xl border border-gray-200  shadow-sm flex items-center justify-between">
           <div>
             <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
               In Trial
@@ -216,7 +216,7 @@ export default function TenantManager({ currentTenantId }) {
       </div>
 
       {/* Filters Bar */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <div className="bg-white -800 p-4 rounded-xl border border-gray-200  shadow-sm flex flex-col sm:flex-row gap-3 items-center justify-between">
         <div className="relative w-full sm:w-80">
           <Search className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -224,7 +224,7 @@ export default function TenantManager({ currentTenantId }) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by name, slug, ID or domain..."
-            className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-750 text-gray-900 dark:text-gray-100 focus:bg-white dark:focus:bg-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
+            className="w-full pl-9 pr-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 -750 text-primary dark:text-gray-100 focus:bg-white dark:focus:bg-gray-700 focus:ring-2 focus:ring-primary focus:outline-none"
           />
         </div>
 
@@ -233,7 +233,7 @@ export default function TenantManager({ currentTenantId }) {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="w-full sm:w-auto px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-750 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+            className="w-full sm:w-auto px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -750 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
           >
             <option value="">All Statuses</option>
             <option value="active">Active</option>

@@ -87,11 +87,11 @@ export default function RoleManagement({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Roles & Permissions</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Roles & Permissions</h3>
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Add Role
@@ -100,7 +100,7 @@ export default function RoleManagement({ barId }) {
       </div>
 
       {showForm && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
           <RoleForm
             role={editingRole}
             availablePermissions={AVAILABLE_PERMISSIONS}
@@ -121,18 +121,18 @@ export default function RoleManagement({ barId }) {
         {roles.map(role => (
           <div
             key={role.id}
-            className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6"
+            className="bg-white -800 rounded-lg shadow border border-gray-200  p-6"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
                 <div
-                  className="w-12 h-12 rounded-lg flex items-center justify-center text-white"
+                  className="w-12 h-12 rounded-lg flex items-center justify-center text-primary"
                   style={{ backgroundColor: role.color }}
                 >
                   <Shield className="w-6 h-6" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">{role.name}</h4>
+                  <h4 className="font-semibold text-primary dark:text-primary">{role.name}</h4>
                 </div>
               </div>
               <div className="flex items-center gap-2">

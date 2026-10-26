@@ -53,7 +53,7 @@ function TopBar({ floors, onCreateFloor, onDeleteFloor, onUpdateFloor }) {
                             key={floor.id}
                             onClick={() => dispatch({ type: 'SELECT_FLOOR', payload: floor.id })}
                             className={`px-3 py-1 text-sm rounded-md font-medium transition-colors ${state.currentFloorId === floor.id
-                                ? 'bg-white shadow text-gray-900'
+                                ? 'bg-white shadow text-primary'
                                 : 'text-gray-500 hover:text-gray-700'
                                 }`}
                         >
@@ -71,34 +71,34 @@ function TopBar({ floors, onCreateFloor, onDeleteFloor, onUpdateFloor }) {
             </div>
 
             <div className="flex items-center space-x-2">
-                <div className="flex items-center bg-gray-50 rounded-lg p-1 mr-4 border border-gray-100">
+                <div className="flex items-center bg-gray-50 rounded-lg p-1 mr-4 border border-gray-300">
                     <button
                         onClick={() => dispatch({ type: 'UNDO' })}
                         disabled={state.history.length === 0}
-                        className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-30 transition-colors"
+                        className="p-2 text-gray-600 hover:text-primary disabled:opacity-30 transition-colors"
                     >
                         <Undo size={18} />
                     </button>
                     <button
                         onClick={() => dispatch({ type: 'REDO' })}
                         disabled={state.future.length === 0}
-                        className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-30 transition-colors"
+                        className="p-2 text-gray-600 hover:text-primary disabled:opacity-30 transition-colors"
                     >
                         <Redo size={18} />
                     </button>
                 </div>
 
-                <div className="flex items-center bg-gray-50 rounded-lg p-1 mr-4 border border-gray-100">
+                <div className="flex items-center bg-gray-50 rounded-lg p-1 mr-4 border border-gray-300">
                     <button
                         onClick={() => dispatch({ type: 'SET_ZOOM', payload: Math.max(0.2, state.zoom - 0.1) })}
-                        className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-30 transition-colors"
+                        className="p-2 text-gray-600 hover:text-primary disabled:opacity-30 transition-colors"
                     >
                         <ZoomOut size={18} />
                     </button>
                     <span className="text-xs text-mono w-12 text-center text-gray-500">{Math.round(state.zoom * 100)}%</span>
                     <button
                         onClick={() => dispatch({ type: 'SET_ZOOM', payload: Math.min(2, state.zoom + 0.1) })}
-                        className="p-2 text-gray-600 hover:text-gray-900 disabled:opacity-30 transition-colors"
+                        className="p-2 text-gray-600 hover:text-primary disabled:opacity-30 transition-colors"
                     >
                         <ZoomIn size={18} />
                     </button>
@@ -130,7 +130,7 @@ function TopBar({ floors, onCreateFloor, onDeleteFloor, onUpdateFloor }) {
                 <button
                     onClick={handleSave}
                     disabled={!state.isDirty}
-                    className="flex items-center px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm"
+                    className="flex items-center px-4 py-2 bg-black text-primary rounded-lg hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium shadow-sm"
                 >
                     <Save size={18} className="mr-2" />
                     Save Changes

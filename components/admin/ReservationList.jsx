@@ -30,13 +30,13 @@ export default function ReservationList({ initialReservations }) {
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Upcoming Reservations</h3>
+    <div className="bg-white -800 shadow rounded-lg overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-200 ">
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Upcoming Reservations</h3>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+          <thead className="bg-gray-50 -700">
             <tr>
               <th
                 scope="col"
@@ -76,13 +76,13 @@ export default function ReservationList({ initialReservations }) {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="bg-white -800 divide-y divide-gray-200 dark:divide-gray-700">
             {initialReservations.map(res => (
               <tr key={res.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-primary dark:text-primary">
                   {res.date} at {res.time}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary dark:text-primary">
                   {res.name}
                   {res.specialRequests && (
                     <span className="block text-xs text-gray-500 italic truncate max-w-xs">

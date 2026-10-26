@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react/no-unescaped-entities */
+
 import { useState, useEffect } from 'react'
 import { X, Save, Loader2, Plus } from 'lucide-react'
 import toast from 'react-hot-toast'

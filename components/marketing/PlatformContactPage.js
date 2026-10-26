@@ -10,7 +10,7 @@ export default function PlatformContactPage() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center max-w-3xl mx-auto mb-20">
                         <h1 className="text-4xl md:text-5xl font-bold mb-6">Get in touch</h1>
-                        <p className="text-xl text-gray-400">Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                        <p className="text-xl text-gray-400">Have questions? We&apos;d love to hear from you. Send us a message and we&apos;ll respond as soon as possible.</p>
                     </div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">

@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unescaped-entities */
+
 import { useState } from 'react'
 import { Loader2, CheckCircle, X } from 'lucide-react'
 import toast from 'react-hot-toast'

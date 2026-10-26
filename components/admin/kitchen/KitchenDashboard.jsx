@@ -2,7 +2,7 @@
 
 import { useKDS } from '@/hooks/useKDS'
 import OrderCard from '@/components/admin/kitchen/OrderCard'
-import { Loader2, AlertCircle } from 'lucide-react'
+import { Loader2, AlertCircle, CheckCircle } from 'lucide-react'
 
 export default function KitchenPage({ barId }) {
     const { orders, loading, error, refresh, updateOrderStatus } = useKDS(barId)

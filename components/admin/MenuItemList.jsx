@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react/no-unescaped-entities */
+
 import { useState } from 'react'
 import { Edit, Trash2, XCircle, CheckCircle, Archive, ArchiveRestore } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'

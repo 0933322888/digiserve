@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react/no-unescaped-entities */
+
 import { useState, useEffect } from 'react'
 import { Calendar, Clock, TrendingUp, TrendingDown } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'

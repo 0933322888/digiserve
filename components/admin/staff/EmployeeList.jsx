@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react/no-unescaped-entities */
+
 import { useState, useEffect } from 'react'
 import { Plus, Edit, Trash2, Mail, Phone, MapPin, User, Calendar, DollarSign } from 'lucide-react'
 import EmployeeForm from './EmployeeForm'

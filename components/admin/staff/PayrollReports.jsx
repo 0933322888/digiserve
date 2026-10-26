@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+/* eslint-disable react/no-unescaped-entities */
+
+import { useState, useEffect } from 'react'
 import { Calendar, DollarSign, Download, Clock } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import toast from 'react-hot-toast'

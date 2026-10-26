@@ -114,7 +114,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
     }
   }
 
-  const useCaption = selectedCaption => {
+  const applyCaptionSuggestion = selectedCaption => {
     setCaption(selectedCaption)
     setShowCaptionSuggestions(false)
   }
@@ -417,7 +417,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
               {generatedCaptions.map((suggestion, index) => (
                 <button
                   key={index}
-                  onClick={() => useCaption(suggestion)}
+                  onClick={() => applyCaptionSuggestion(suggestion)}
                   className="block w-full text-left text-sm p-2 bg-white -800 border border-gray-200  rounded hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   {suggestion}

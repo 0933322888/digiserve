@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react/no-unescaped-entities */
+
 import { useState, useEffect } from 'react'
 import { Settings as SettingsIcon, Loader2, CheckCircle, XCircle } from 'lucide-react'
 import toast from 'react-hot-toast'

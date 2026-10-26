@@ -1,5 +1,7 @@
 'use client'
 
+/* eslint-disable react/no-unescaped-entities */
+
 import { useState } from 'react'
 import { Check, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'

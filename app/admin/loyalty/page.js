@@ -6,7 +6,7 @@ export default function LoyaltyProgramPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+        <h2 className="text-2xl font-bold text-primary dark:text-primary">
           Customer Loyalty & Rewards Program
         </h2>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -14,13 +14,13 @@ export default function LoyaltyProgramPage() {
         </p>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Coming Soon</h3>
+      <div className="bg-white  rounded-lg shadow-lg p-6">
+        <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">Coming Soon</h3>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
           This module will include the following features:
         </p>
 
-        <ul className="space-y-3 text-gray-700 dark:text-gray-300">
+        <ul className="space-y-3 text-gray-700 ">
           <li className="flex items-start">
             <span className="mr-2">•</span>
             <span>

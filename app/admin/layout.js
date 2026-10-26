@@ -277,7 +277,7 @@ export default function AdminLayout({ children }) {
   // Show loading state while checking authentication (but not on login page)
   if (!isLoginPage && isAuthenticated === null) {
     return (
-      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-white dark:bg-white flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary dark:border-gold mb-4"></div>
           <p className="text-gray-600 dark:text-gray-400">Checking authentication...</p>
@@ -298,11 +298,11 @@ export default function AdminLayout({ children }) {
 
   // Only render sidebar and content when authenticated (and not on login page)
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
+    <div className="min-h-screen bg-white dark:bg-white flex">
       <CommandPalette />
       {/* Sidebar */}
       <div
-        className={`fixed inset-y-0 left-0 z-50 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`fixed inset-y-0 left-0 z-50 bg-white shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
           } md:translate-x-0 md:sticky md:top-0 md:h-screen md:z-30 ${isSidebarCollapsed ? 'w-20' : 'w-64'
           }`}
       >
@@ -338,14 +338,14 @@ export default function AdminLayout({ children }) {
                       key={item.name}
                       href={item.href}
                       className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors ${isActive
-                        ? 'bg-primary text-white dark:bg-gold dark:text-gray-900'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+                        ? 'bg-primary text-white'
+                        : 'text-gray-600 hover:bg-gray-50 hover:text-primary  dark:hover:bg-gray-700 dark:hover:text-primary'
                         } ${isSidebarCollapsed ? 'justify-center' : ''}`}
                       title={isSidebarCollapsed ? item.name : undefined}
                     >
                       <item.icon
                         className={`h-6 w-6 flex-shrink-0 ${isActive
-                          ? 'text-white dark:text-gray-900'
+                          ? 'text-white'
                           : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
                           } ${!isSidebarCollapsed ? 'mr-3' : ''}`}
                       />
@@ -355,7 +355,7 @@ export default function AdminLayout({ children }) {
 
                       {!isSidebarCollapsed && item.badge > 0 && (
                         <span
-                          className={`inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full ${isActive ? 'bg-red-500 text-white' : ''
+                          className={`inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full ${isActive ? 'bg-red-500 text-primary' : ''
                             }`}
                         >
                           {item.badge}
@@ -378,14 +378,14 @@ export default function AdminLayout({ children }) {
           <Link
             href="/admin/settings"
             className={`group flex items-center px-2 py-2 text-base font-medium rounded-md transition-colors ${pathname === '/admin/settings'
-              ? 'bg-primary text-white dark:bg-gold dark:text-gray-900'
-              : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white'
+              ? 'bg-primary text-white dark:bg-gold dark:text-primary'
+              : 'text-gray-600 hover:bg-gray-50 hover:text-primary  dark:hover:bg-gray-700 dark:hover:text-primary'
               } ${isSidebarCollapsed ? 'justify-center' : ''}`}
             title="Settings"
           >
             <Settings
               className={`h-6 w-6 flex-shrink-0 ${pathname === '/admin/settings'
-                ? 'text-white dark:text-gray-900'
+                ? 'text-primary dark:text-primary'
                 : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400 dark:group-hover:text-gray-300'
                 } ${!isSidebarCollapsed ? 'mr-3' : ''}`}
             />
@@ -407,11 +407,10 @@ export default function AdminLayout({ children }) {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Desktop Header */}
-        <div className="hidden md:flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 sticky top-0 z-40 shadow-sm">
-        </div>
+
 
         {/* Mobile Header */}
-        <div className="md:hidden flex items-center justify-between bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-2">
+        <div className="md:hidden flex items-center justify-between bg-white  border-b border-gray-200 dark:border-gray-700 px-4 py-2">
           <h1 className="text-lg font-bold text-primary-text ">Restaurant Admin</h1>
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

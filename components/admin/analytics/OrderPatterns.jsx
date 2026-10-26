@@ -47,27 +47,27 @@ export default function OrderPatterns({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Order Patterns</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Order Patterns</h3>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2">
             <input
               type="date"
               value={startDate}
               onChange={e => setStartDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
             <span className="text-gray-600 dark:text-gray-400">to</span>
             <input
               type="date"
               value={endDate}
               onChange={e => setEndDate(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white text-sm"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary text-sm"
             />
           </div>
           <button
             onClick={fetchPatterns}
             disabled={loading}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2 disabled:opacity-50"
           >
             <Clock className="w-4 h-4" />
             {loading ? 'Loading...' : 'Analyze'}
@@ -78,8 +78,8 @@ export default function OrderPatterns({ barId }) {
       {patterns && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* By Time of Day */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+            <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
               By Time of Day
             </h4>
             <div className="space-y-3">
@@ -89,11 +89,11 @@ export default function OrderPatterns({ barId }) {
                   <div key={index} className="space-y-1">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400">{period.period}</span>
-                      <span className="font-semibold text-gray-900 dark:text-white">
+                      <span className="font-semibold text-primary dark:text-primary">
                         {period.orders} orders
                       </span>
                     </div>
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div className="flex-1 bg-gray-200 -700 rounded-full h-3">
                       <div
                         className="bg-blue-500 h-3 rounded-full"
                         style={{ width: `${percent}%` }}
@@ -109,8 +109,8 @@ export default function OrderPatterns({ barId }) {
           </div>
 
           {/* By Day of Week */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+            <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
               By Day of Week
             </h4>
             <div className="space-y-3">
@@ -120,11 +120,11 @@ export default function OrderPatterns({ barId }) {
                   <div key={index} className="space-y-1">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400">{day.day}</span>
-                      <span className="font-semibold text-gray-900 dark:text-white">
+                      <span className="font-semibold text-primary dark:text-primary">
                         {day.orders} orders
                       </span>
                     </div>
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div className="flex-1 bg-gray-200 -700 rounded-full h-3">
                       <div
                         className="bg-green-500 h-3 rounded-full"
                         style={{ width: `${percent}%` }}
@@ -140,8 +140,8 @@ export default function OrderPatterns({ barId }) {
           </div>
 
           {/* By Order Type */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+          <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+            <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">
               By Order Type
             </h4>
             <div className="space-y-3">
@@ -152,11 +152,11 @@ export default function OrderPatterns({ barId }) {
                   <div key={type} className="space-y-1">
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-gray-600 dark:text-gray-400 capitalize">{type}</span>
-                      <span className="font-semibold text-gray-900 dark:text-white">
+                      <span className="font-semibold text-primary dark:text-primary">
                         {count} orders ({percent.toFixed(1)}%)
                       </span>
                     </div>
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div className="flex-1 bg-gray-200 -700 rounded-full h-3">
                       <div
                         className="bg-purple-500 h-3 rounded-full"
                         style={{ width: `${percent}%` }}
@@ -169,8 +169,8 @@ export default function OrderPatterns({ barId }) {
           </div>
 
           {/* By Hour */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-            <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">By Hour</h4>
+          <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+            <h4 className="text-lg font-semibold text-primary dark:text-primary mb-4">By Hour</h4>
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {patterns.byHour.map((hour, index) => {
                 const maxHourOrders = Math.max(...patterns.byHour.map(h => h.orders))
@@ -179,11 +179,11 @@ export default function OrderPatterns({ barId }) {
                   <div key={index} className="space-y-1">
                     <div className="flex items-center justify-between text-xs">
                       <span className="text-gray-600 dark:text-gray-400 w-16">{hour.hour}:00</span>
-                      <span className="font-semibold text-gray-900 dark:text-white">
+                      <span className="font-semibold text-primary dark:text-primary">
                         {hour.orders} orders
                       </span>
                     </div>
-                    <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="flex-1 bg-gray-200 -700 rounded-full h-2">
                       <div
                         className="bg-orange-500 h-2 rounded-full"
                         style={{ width: `${percent}%` }}

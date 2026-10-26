@@ -8,13 +8,13 @@ export default function GiftCardList({ giftCards }) {
   const [selectedCard, setSelectedCard] = useState(null)
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Recent Gift Cards</h3>
+    <div className="bg-white -800 shadow rounded-lg overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-200 ">
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Recent Gift Cards</h3>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-700">
+          <thead className="bg-gray-50 -700">
             <tr>
               <th
                 scope="col"
@@ -54,10 +54,10 @@ export default function GiftCardList({ giftCards }) {
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="bg-white -800 divide-y divide-gray-200 dark:divide-gray-700">
             {giftCards.map(card => (
               <tr key={card.giftCardId}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary dark:text-primary">
                   {card.code}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
@@ -71,7 +71,7 @@ export default function GiftCardList({ giftCards }) {
                     className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                       card.status === 'active'
                         ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                        : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
+                        : 'bg-gray-100 text-gray-800 -700 dark:text-gray-300'
                     }`}
                   >
                     {card.status}
@@ -108,9 +108,9 @@ export default function GiftCardList({ giftCards }) {
       {/* History Modal */}
       {selectedCard && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
-            <div className="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+          <div className="bg-white -800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="flex justify-between items-center p-6 border-b border-gray-200 ">
+              <h3 className="text-lg font-bold text-primary dark:text-primary">
                 Redemption History: {selectedCard.code}
               </h3>
               <button
@@ -129,21 +129,21 @@ export default function GiftCardList({ giftCards }) {
                         <div className="relative pb-8">
                           {eventIdx !== selectedCard.redemptions.length - 1 ? (
                             <span
-                              className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200 dark:bg-gray-700"
+                              className="absolute top-4 left-4 -ml-px h-full w-0.5 bg-gray-200 -700"
                               aria-hidden="true"
                             />
                           ) : null}
                           <div className="relative flex space-x-3">
                             <div>
                               <span className="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white dark:ring-gray-800">
-                                <History className="h-5 w-5 text-white" aria-hidden="true" />
+                                <History className="h-5 w-5 text-primary" aria-hidden="true" />
                               </span>
                             </div>
                             <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
                               <div>
                                 <p className="text-sm text-gray-500 dark:text-gray-400">
                                   Redeemed{' '}
-                                  <span className="font-medium text-gray-900 dark:text-white">
+                                  <span className="font-medium text-primary dark:text-primary">
                                     {formatPrice(redemption.amount)}
                                   </span>
                                 </p>
@@ -169,11 +169,11 @@ export default function GiftCardList({ giftCards }) {
                 </p>
               )}
             </div>
-            <div className="p-6 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+            <div className="p-6 border-t border-gray-200  bg-gray-50 dark:bg-white">
               <dl className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <dt className="font-medium text-gray-500 dark:text-gray-400">Initial Amount</dt>
-                  <dd className="mt-1 text-gray-900 dark:text-white">
+                  <dd className="mt-1 text-primary dark:text-primary">
                     {formatPrice(selectedCard.initialAmount)}
                   </dd>
                 </div>
@@ -181,7 +181,7 @@ export default function GiftCardList({ giftCards }) {
                   <dt className="font-medium text-gray-500 dark:text-gray-400">
                     Remaining Balance
                   </dt>
-                  <dd className="mt-1 text-gray-900 dark:text-white">
+                  <dd className="mt-1 text-primary dark:text-primary">
                     {formatPrice(selectedCard.remainingAmount)}
                   </dd>
                 </div>

@@ -295,8 +295,8 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
   }
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-      <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">Create New Post</h3>
+    <div className="bg-white -800 shadow rounded-lg p-6">
+      <h3 className="text-lg font-medium text-primary dark:text-primary mb-4">Create New Post</h3>
 
       {/* Platform and Account Selection */}
       <div className="mb-4 grid grid-cols-2 gap-4">
@@ -309,7 +309,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
             onChange={e => {
               setPlatform(e.target.value)
             }}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
           >
             <option value="facebook">Facebook Page</option>
             <option value="instagram">Instagram Business</option>
@@ -323,7 +323,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
           <select
             value={accountId}
             onChange={e => setAccountId(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
           >
             <option value="">Select an account</option>
             {filteredAccounts.map(account => (
@@ -356,14 +356,14 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
               />
               <button
                 onClick={() => removeImage(index)}
-                className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
+                className="absolute -top-2 -right-2 bg-red-500 text-primary rounded-full p-1 hover:bg-red-600"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
           ))}
         </div>
-        <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">
+        <label className="cursor-pointer inline-flex items-center px-4 py-2 bg-gray-100 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-200 dark:hover:bg-gray-600">
           <Image className="w-5 h-5 mr-2" />
           {uploadingImages ? 'Uploading...' : 'Upload Images'}
           <input
@@ -386,7 +386,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
           <button
             onClick={generateCaptions}
             disabled={isGeneratingCaptions}
-            className="px-3 py-1.5 text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-md shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md"
+            className="px-3 py-1.5 text-sm font-medium text-primary bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 rounded-md shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-md"
           >
             {isGeneratingCaptions ? (
               <>
@@ -405,11 +405,11 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
           value={caption}
           onChange={e => setCaption(e.target.value)}
           rows={4}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
           placeholder="Write your caption here..."
         />
         {showCaptionSuggestions && generatedCaptions.length > 0 && (
-          <div className="mt-2 p-3 bg-gray-50 dark:bg-gray-900 rounded-md">
+          <div className="mt-2 p-3 bg-gray-50 dark:bg-white rounded-md">
             <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
               AI Suggestions:
             </p>
@@ -418,7 +418,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
                 <button
                   key={index}
                   onClick={() => useCaption(suggestion)}
-                  className="block w-full text-left text-sm p-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
+                  className="block w-full text-left text-sm p-2 bg-white -800 border border-gray-200  rounded hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   {suggestion}
                 </button>
@@ -438,7 +438,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
           value={scheduledFor}
           onChange={e => setScheduledFor(e.target.value)}
           min={new Date().toISOString().slice(0, 16)}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
         />
       </div>
 
@@ -452,7 +452,7 @@ export default function SocialPostForm({ accounts, barId, adminId, adminName, on
             ((!caption?.trim()) && mediaUrls.length === 0) ||
             (platform === 'instagram' && mediaUrls.length === 0)
           }
-          className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex-1 px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSavingDraft ? 'Saving...' : 'Save Draft'}
         </button>

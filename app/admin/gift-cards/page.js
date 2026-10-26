@@ -16,7 +16,7 @@ export default async function AdminGiftCardsPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Gift Cards Management</h2>
+        <h2 className="text-2xl font-bold text-primary dark:text-primary">Gift Cards Management</h2>
         <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
           Redeem gift cards and view transaction history.
         </p>
@@ -25,8 +25,8 @@ export default async function AdminGiftCardsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Redemption Form */}
         <div className="lg:col-span-1">
-          <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
+          <div className="bg-white  shadow rounded-lg p-6">
+            <h3 className="text-lg font-medium text-primary dark:text-primary mb-4">
               Redeem Gift Card
             </h3>
             <AdminRedeemForm />

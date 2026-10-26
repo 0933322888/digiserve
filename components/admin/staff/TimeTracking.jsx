@@ -108,12 +108,12 @@ export default function TimeTracking({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between flex-wrap gap-4">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Time Tracking</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Time Tracking</h3>
         <div className="flex items-center gap-4">
           <select
             value={selectedEmployee}
             onChange={e => setSelectedEmployee(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           >
             <option value="all">All Employees</option>
             {employees.map(emp => (
@@ -126,21 +126,21 @@ export default function TimeTracking({ barId }) {
             type="date"
             value={startDate}
             onChange={e => setStartDate(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
           <span className="text-gray-600 dark:text-gray-400">to</span>
           <input
             type="date"
             value={endDate}
             onChange={e => setEndDate(e.target.value)}
-            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+            className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
           />
         </div>
       </div>
 
       {/* Active Clock-ins */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
-        <h4 className="font-semibold text-gray-900 dark:text-white mb-4">Currently Clocked In</h4>
+      <div className="bg-white -800 rounded-lg shadow border border-gray-200  p-6">
+        <h4 className="font-semibold text-primary dark:text-primary mb-4">Currently Clocked In</h4>
         {employees.length === 0 ? (
           <p className="text-gray-500 dark:text-gray-400">No active employees</p>
         ) : (
@@ -152,13 +152,13 @@ export default function TimeTracking({ barId }) {
                   key={employee.id}
                   className={`p-4 rounded-lg border ${activeEntry
                     ? 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800'
-                    : 'bg-gray-50 dark:bg-gray-700 border-gray-200 dark:border-gray-600'
+                    : 'bg-gray-50 -700 border-gray-200 dark:border-gray-600'
                     }`}
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <User className="w-5 h-5 text-gray-400" />
-                      <span className="font-medium text-gray-900 dark:text-white">
+                      <span className="font-medium text-primary dark:text-primary">
                         {employee.firstName} {employee.lastName}
                       </span>
                     </div>
@@ -180,7 +180,7 @@ export default function TimeTracking({ barId }) {
                         {!activeEntry.breakStart ? (
                           <button
                             onClick={() => handleTimeAction(employee.id, 'break_start')}
-                            className="flex-1 px-3 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 text-sm flex items-center justify-center gap-2"
+                            className="flex-1 px-3 py-2 bg-yellow-500 text-primary rounded-md hover:bg-yellow-600 text-sm flex items-center justify-center gap-2"
                           >
                             <Coffee className="w-4 h-4" />
                             Start Break
@@ -188,7 +188,7 @@ export default function TimeTracking({ barId }) {
                         ) : (
                           <button
                             onClick={() => handleTimeAction(employee.id, 'break_end')}
-                            className="flex-1 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 text-sm flex items-center justify-center gap-2"
+                            className="flex-1 px-3 py-2 bg-blue-500 text-primary rounded-md hover:bg-blue-600 text-sm flex items-center justify-center gap-2"
                           >
                             <X className="w-4 h-4" />
                             End Break
@@ -196,7 +196,7 @@ export default function TimeTracking({ barId }) {
                         )}
                         <button
                           onClick={() => handleTimeAction(employee.id, 'clock_out')}
-                          className="flex-1 px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 text-sm flex items-center justify-center gap-2"
+                          className="flex-1 px-3 py-2 bg-red-500 text-primary rounded-md hover:bg-red-600 text-sm flex items-center justify-center gap-2"
                         >
                           <Square className="w-4 h-4" />
                           Clock Out
@@ -206,7 +206,7 @@ export default function TimeTracking({ barId }) {
                   ) : (
                     <button
                       onClick={() => handleTimeAction(employee.id, 'clock_in')}
-                      className="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center justify-center gap-2"
                     >
                       <Play className="w-4 h-4" />
                       Clock In
@@ -220,9 +220,9 @@ export default function TimeTracking({ barId }) {
       </div>
 
       {/* Time Entries History */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700">
-        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
-          <h4 className="font-semibold text-gray-900 dark:text-white">Time Entries History</h4>
+      <div className="bg-white -800 rounded-lg shadow border border-gray-200 ">
+        <div className="p-6 border-b border-gray-200 ">
+          <h4 className="font-semibold text-primary dark:text-primary">Time Entries History</h4>
         </div>
         <div className="divide-y divide-gray-200 dark:divide-gray-700">
           {timeEntries.length === 0 ? (
@@ -236,13 +236,13 @@ export default function TimeTracking({ barId }) {
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <User className="w-5 h-5 text-gray-400" />
-                      <h5 className="font-semibold text-gray-900 dark:text-white">
+                      <h5 className="font-semibold text-primary dark:text-primary">
                         {entry.employeeName}
                       </h5>
                       <span
                         className={`text-xs px-2 py-0.5 rounded ${entry.status === 'active'
                           ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                          : 'bg-gray-100 -700 text-gray-800 dark:text-gray-200'
                           }`}
                       >
                         {entry.status}

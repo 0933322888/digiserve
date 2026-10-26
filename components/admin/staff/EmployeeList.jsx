@@ -105,11 +105,11 @@ export default function EmployeeList({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">Employee Profiles</h3>
+        <h3 className="text-lg font-medium text-primary dark:text-primary">Employee Profiles</h3>
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
-            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold-light flex items-center gap-2"
+            className="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold-light flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             Add Employee
@@ -118,7 +118,7 @@ export default function EmployeeList({ barId }) {
       </div>
 
       {/* Filters */}
-      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+      <div className="bg-white -800 p-4 rounded-lg shadow border border-gray-200 ">
         <div className="flex flex-wrap gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -127,7 +127,7 @@ export default function EmployeeList({ barId }) {
             <select
               value={filterStatus}
               onChange={e => setFilterStatus(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
             >
               <option value="all">All Status</option>
               <option value="active">Active</option>
@@ -142,7 +142,7 @@ export default function EmployeeList({ barId }) {
             <select
               value={filterRole}
               onChange={e => setFilterRole(e.target.value)}
-              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+              className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
             >
               <option value="all">All Roles</option>
               {roles.map(role => (
@@ -157,7 +157,7 @@ export default function EmployeeList({ barId }) {
 
       {/* Employee Form */}
       {showForm && (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+        <div className="bg-white -800 p-6 rounded-lg shadow border border-gray-200 ">
           <EmployeeForm
             employee={editingEmployee}
             roles={roles}
@@ -177,23 +177,23 @@ export default function EmployeeList({ barId }) {
           {filteredEmployees.map(employee => (
             <div
               key={employee.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6 hover:shadow-lg transition-shadow"
+              className="bg-white -800 rounded-lg shadow border border-gray-200  p-6 hover:shadow-lg transition-shadow"
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-center gap-3">
                   <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-primary font-semibold"
                     style={{ backgroundColor: getRoleColor(employee.role) }}
                   >
                     {employee.firstName[0]}
                     {employee.lastName[0]}
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">
+                    <h4 className="font-semibold text-primary dark:text-primary">
                       {employee.firstName} {employee.lastName}
                     </h4>
                     <span
-                      className="text-xs px-2 py-0.5 rounded text-white"
+                      className="text-xs px-2 py-0.5 rounded text-primary"
                       style={{ backgroundColor: getRoleColor(employee.role) }}
                     >
                       {roles.find(r => r.id === employee.role)?.name || employee.role}
@@ -238,7 +238,7 @@ export default function EmployeeList({ barId }) {
                     className={`text-xs px-2 py-0.5 rounded ${employee.status === 'active'
                         ? 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200'
                         : employee.status === 'inactive'
-                          ? 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200'
+                          ? 'bg-gray-100 -700 text-gray-800 dark:text-gray-200'
                           : 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-200'
                       }`}
                   >

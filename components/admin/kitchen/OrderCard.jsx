@@ -34,11 +34,11 @@ export default function OrderCard({ order, onUpdateStatus }) {
     const isPreparing = order.status === 'preparing'
 
     return (
-        <div className={`flex flex-col h-full bg-white dark:bg-gray-800 rounded-lg shadow-sm border-2 ${isPreparing ? 'border-primary dark:border-gold' : 'border-gray-200 dark:border-gray-700'}`}>
+        <div className={`flex flex-col h-full bg-white -800 rounded-lg shadow-sm border-2 ${isPreparing ? 'border-primary dark:border-gold' : 'border-gray-200 '}`}>
             {/* Header */}
-            <div className={`px-4 py-3 border-b flex justify-between items-center ${isPreparing ? 'bg-primary/5 dark:bg-gold/10' : 'bg-gray-50 dark:bg-gray-700/50'}`}>
+            <div className={`px-4 py-3 border-b flex justify-between items-center ${isPreparing ? 'bg-primary/5 dark:bg-gold/10' : 'bg-gray-50 -700/50'}`}>
                 <div>
-                    <span className="text-lg font-bold text-gray-900 dark:text-white">
+                    <span className="text-lg font-bold text-primary dark:text-primary">
                         Table {order.tableId || 'N/A'}
                     </span>
                     {order.orderType && (
@@ -59,11 +59,11 @@ export default function OrderCard({ order, onUpdateStatus }) {
                     {order.items.map((item, idx) => (
                         <li key={idx} className="flex items-start justify-between">
                             <div className="flex gap-3">
-                                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 dark:bg-gray-700 text-sm font-bold text-gray-900 dark:text-white shrink-0">
+                                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-100 -700 text-sm font-bold text-primary dark:text-primary shrink-0">
                                     {item.quantity}
                                 </div>
                                 <div>
-                                    <p className="text-base font-medium text-gray-900 dark:text-white">
+                                    <p className="text-base font-medium text-primary dark:text-primary">
                                         {item.name}
                                     </p>
                                     {item.options && Object.keys(item.options).length > 0 && (
@@ -86,11 +86,11 @@ export default function OrderCard({ order, onUpdateStatus }) {
             </div>
 
             {/* Footer (Actions) */}
-            <div className="p-4 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <div className="p-4 border-t border-gray-300  bg-gray-50 -800/50">
                 {isPending && (
                     <button
                         onClick={() => onUpdateStatus(order.id, 'preparing')}
-                        className="w-full flex items-center justify-center gap-3 bg-primary hover:bg-primary-dark text-white py-6 rounded-xl text-xl font-bold transition-transform active:scale-95 shadow-md"
+                        className="w-full flex items-center justify-center gap-3 bg-primary hover:bg-primary-dark text-primary py-6 rounded-xl text-xl font-bold transition-transform active:scale-95 shadow-md"
                     >
                         <ChefHat className="w-8 h-8" />
                         Start Preparing
@@ -99,7 +99,7 @@ export default function OrderCard({ order, onUpdateStatus }) {
                 {isPreparing && (
                     <button
                         onClick={() => onUpdateStatus(order.id, 'completed')}
-                        className="w-full flex items-center justify-center gap-3 bg-green-600 hover:bg-green-700 text-white py-6 rounded-xl text-xl font-bold transition-transform active:scale-95 shadow-md"
+                        className="w-full flex items-center justify-center gap-3 bg-green-600 hover:bg-green-700 text-primary py-6 rounded-xl text-xl font-bold transition-transform active:scale-95 shadow-md"
                     >
                         <CheckCircle className="w-8 h-8" />
                         Mark Ready

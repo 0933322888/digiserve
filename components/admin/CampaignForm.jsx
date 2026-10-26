@@ -186,8 +186,8 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
     }
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">Create Campaign</h3>
+        <div className="bg-white -800 rounded-lg shadow-lg p-6">
+            <h3 className="text-xl font-semibold text-primary dark:text-primary mb-6">Create Campaign</h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Campaign Name */}
@@ -199,7 +199,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white -700 text-primary dark:text-gray-100"
                         placeholder="e.g., Summer Promotion 2024"
                         required
                     />
@@ -217,7 +217,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                 setPlatform(e.target.value)
                                 setAccountId('')
                             }}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white -700 text-primary dark:text-gray-100"
                         >
                             <option value="facebook">Facebook</option>
                             <option value="instagram">Instagram</option>
@@ -231,7 +231,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                         <select
                             value={accountId}
                             onChange={e => setAccountId(e.target.value)}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white -700 text-primary dark:text-gray-100"
                             required
                         >
                             <option value="">Select account</option>
@@ -260,7 +260,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                         >
                             <div className="flex items-center gap-3">
                                 <Sparkles className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                                <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                <span className="text-sm font-semibold text-primary dark:text-primary">
                                     AI Campaign Generator
                                 </span>
                             </div>
@@ -285,7 +285,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                         placeholder="e.g., Promote our new summer cocktail menu with tropical vibes..."
                                         rows={3}
                                         disabled={isGenerating}
-                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm resize-none"
+                                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white -700 text-primary dark:text-gray-100 text-sm resize-none"
                                     />
                                 </div>
 
@@ -299,7 +299,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                         <select
                                             value={tone}
                                             onChange={e => setTone(e.target.value)}
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white -700 text-primary dark:text-gray-100 text-sm"
                                             disabled={isGenerating}
                                         >
                                             <option value="fun">Fun</option>
@@ -321,7 +321,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                             value={numberOfPosts}
                                             onChange={e => setNumberOfPosts(parseInt(e.target.value) || 1)}
                                             disabled={isGenerating}
-                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 text-sm"
+                                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent bg-white -700 text-primary dark:text-gray-100 text-sm"
                                         />
                                     </div>
 
@@ -330,13 +330,13 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                             Options
                                         </label>
-                                        <label className="inline-flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 text-sm h-[42px]">
+                                        <label className="inline-flex items-center gap-2 px-3 py-2 bg-white -700 border border-gray-300 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-600 text-sm h-[42px]">
                                             <input
                                                 type="checkbox"
                                                 checked={generateImages}
                                                 onChange={e => setGenerateImages(e.target.checked)}
                                                 disabled={isGenerating}
-                                                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                className="w-4 h-4 text-purple-600 bg-gray-100 border-gray-300 rounded focus:ring-purple-500 dark:focus:ring-purple-600 dark:ring-offset-gray-800 focus:ring-2 -700 dark:border-gray-600"
                                             />
                                             <span className="text-gray-700 dark:text-gray-300">Generate Images</span>
                                         </label>
@@ -351,7 +351,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                             type="button"
                                             onClick={handleGenerateCampaign}
                                             disabled={isGenerating}
-                                            className="w-full inline-flex items-center justify-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed h-[42px]"
+                                            className="w-full inline-flex items-center justify-center px-4 py-2 bg-purple-600 text-primary rounded-lg hover:bg-purple-700 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed h-[42px]"
                                         >
                                             {isGenerating ? (
                                                 <>
@@ -376,7 +376,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                         <button
                             type="button"
                             onClick={addPost}
-                            className="inline-flex items-center px-4 py-2 bg-primary dark:bg-gold text-white rounded-lg hover:bg-primary/90 dark:hover:bg-gold/90 transition-colors text-sm"
+                            className="inline-flex items-center px-4 py-2 bg-primary dark:bg-gold text-primary rounded-lg hover:bg-primary/90 dark:hover:bg-gold/90 transition-colors text-sm"
                         >
                             <Plus className="w-4 h-4 mr-2" />
                             Add Post Manually
@@ -389,7 +389,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                             <button
                                 type="button"
                                 onClick={addPost}
-                                className="inline-flex items-center px-4 py-2 bg-primary dark:bg-gold text-white rounded-lg hover:bg-primary/90 dark:hover:bg-gold/90 transition-colors"
+                                className="inline-flex items-center px-4 py-2 bg-primary dark:bg-gold text-primary rounded-lg hover:bg-primary/90 dark:hover:bg-gold/90 transition-colors"
                             >
                                 <Plus className="w-4 h-4 mr-2" />
                                 Add First Post
@@ -400,10 +400,10 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                             {posts.map((post, index) => (
                                 <div
                                     key={index}
-                                    className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-700/50"
+                                    className="border border-gray-300 dark:border-gray-600 rounded-lg p-4 bg-gray-50 -700/50"
                                 >
                                     <div className="flex items-center justify-between mb-4">
-                                        <h4 className="font-medium text-gray-900 dark:text-white">Post {index + 1}</h4>
+                                        <h4 className="font-medium text-primary dark:text-primary">Post {index + 1}</h4>
                                         <button
                                             type="button"
                                             onClick={() => removePost(index)}
@@ -424,7 +424,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                             value={post.scheduledFor}
                                             onChange={e => updatePost(index, 'scheduledFor', e.target.value)}
                                             min={new Date().toISOString().slice(0, 16)}
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white -700 text-primary dark:text-gray-100"
                                             required
                                         />
                                     </div>
@@ -438,7 +438,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                             value={post.caption}
                                             onChange={e => updatePost(index, 'caption', e.target.value)}
                                             rows={3}
-                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary dark:focus:ring-gold focus:border-transparent bg-white -700 text-primary dark:text-gray-100"
                                             placeholder="Enter caption for this post..."
                                         />
                                     </div>
@@ -460,7 +460,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                                                         <button
                                                             type="button"
                                                             onClick={() => removeImage(index, imgIndex)}
-                                                            className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 hover:bg-red-700"
+                                                            className="absolute top-1 right-1 bg-red-600 text-primary rounded-full p-1 hover:bg-red-700"
                                                         >
                                                             <X className="w-3 h-3" />
                                                         </button>
@@ -493,7 +493,7 @@ export default function CampaignForm({ accounts, barId, adminId, adminName, onCa
                     <button
                         type="submit"
                         disabled={isCreating || posts.length === 0}
-                        className="w-full px-6 py-3 bg-primary dark:bg-gold text-white rounded-lg hover:bg-primary/90 dark:hover:bg-gold/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                        className="w-full px-6 py-3 bg-primary dark:bg-gold text-primary rounded-lg hover:bg-primary/90 dark:hover:bg-gold/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
                         {isCreating ? (
                             <>

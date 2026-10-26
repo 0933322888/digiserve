@@ -45,7 +45,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4 }}
-      className={`bg-secondary dark:bg-[var(--secondary-dark-bg)] p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex ${variant === 'list' ? 'flex-col md:flex-row gap-6' : 'flex-col h-full'
+      className={`bg-secondary p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow flex ${variant === 'list' ? 'flex-col md:flex-row gap-6' : 'flex-col h-full'
         } ${item.unavailable ? 'opacity-60' : ''}`}
     >
       {item.image && (
@@ -74,19 +74,19 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
           </div>
           {/* Only show main price if ordering is enabled OR item has no size variants */}
           {(showOrdering || !item.options || item.options.length === 0) && (
-            <span className="text-lg font-bold text-primary-text  ml-4">
+            <span className="text-lg font-bold text-secondary-text  ml-4">
               {formatPrice(currentPrice)}
             </span>
           )}
         </div>
         {item.description && (
-          <p className="text-secondary-text dark:text-gray-300 mb-4 text-sm">{item.description}</p>
+          <p className="text-primary-text mb-4 text-sm">{item.description}</p>
         )}
 
         {/* Show size dropdown only when ordering is enabled */}
         {showOrdering && item.options && item.options.length > 0 && (
           <div className="mb-4">
-            <label className="block text-sm font-medium text-secondary-text dark:text-gray-300 mb-1">
+            <label className="block text-sm font-medium text-primary-text mb-1">
               Select Size
             </label>
             <select
@@ -95,7 +95,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
                 const option = item.options.find(o => o.name === e.target.value)
                 setSelectedOption(option)
               }}
-              className="w-full p-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-sm focus:ring-primary focus:border-primary"
+              className="w-full p-2 border border-gray-300 rounded-md bg-white text-sm focus:ring-primary focus:border-primary"
             >
               {item.options.map(opt => (
                 <option key={opt.name} value={opt.name}>
@@ -115,7 +115,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
                   key={idx}
                   className="flex justify-between items-center text-sm"
                 >
-                  <span className="text-secondary-text dark:text-gray-300">{option.name}</span>
+                  <span className="text-primary-text">{option.name}</span>
                   <span className="font-semibold text-primary-text ">
                     {formatPrice(option.price)}
                   </span>
@@ -130,7 +130,7 @@ export default function MenuItemCard({ item, category, showOrdering = false, var
             {item.dietary.map(diet => (
               <span
                 key={diet}
-                className="text-xs px-2 py-1 bg-gold/20 text-primary-text  rounded"
+                className="text-xs px-2 py-1 text-white  rounded bg-[var(--secondary-dark-bg)] "
               >
                 {diet}
               </span>

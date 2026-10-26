@@ -120,7 +120,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           value={formData.name}
           onChange={e => setFormData({ ...formData, name: e.target.value })}
           required
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
         />
       </div>
 
@@ -132,7 +132,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           value={formData.description}
           onChange={e => setFormData({ ...formData, description: e.target.value })}
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
         />
       </div>
 
@@ -145,7 +145,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           value={formData.image}
           onChange={e => setFormData({ ...formData, image: e.target.value })}
           placeholder="https://example.com/image.jpg or /images/menu-item.jpg"
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
         />
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           Enter a full URL (https://...) or a relative path (e.g., /images/menu-item.jpg)
@@ -163,7 +163,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           value={formData.price}
           onChange={e => setFormData({ ...formData, price: e.target.value })}
           required
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
         />
       </div>
 
@@ -175,7 +175,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           type="text"
           value={formData.serves}
           onChange={e => setFormData({ ...formData, serves: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
         />
       </div>
 
@@ -187,11 +187,11 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           type="text"
           value={formData.size}
           onChange={e => setFormData({ ...formData, size: e.target.value })}
-          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
         />
       </div>
 
-      <div className="border-t border-b border-gray-200 dark:border-gray-700 py-4 my-4">
+      <div className="border-t border-b border-gray-200  py-4 my-4">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Size Variants (Optional)
         </label>
@@ -212,7 +212,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
                   newOptions[index].name = e.target.value
                   setFormData({ ...formData, options: newOptions })
                 }}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white text-sm"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary text-sm"
               />
             </div>
             <div className="w-32">
@@ -226,7 +226,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
                   newOptions[index].price = e.target.value
                   setFormData({ ...formData, options: newOptions })
                 }}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white text-sm"
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary text-sm"
               />
             </div>
             <button
@@ -267,12 +267,12 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
             onChange={e => setDietaryInput(e.target.value)}
             onKeyPress={e => e.key === 'Enter' && (e.preventDefault(), addDietary())}
             placeholder="e.g., vegetarian, gluten-free"
-            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white"
+            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary -700 dark:text-primary"
           />
           <button
             type="button"
             onClick={addDietary}
-            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
           >
             Add
           </button>
@@ -333,7 +333,7 @@ export default function MenuItemForm({ item, sectionId, menuId, onSave, onCancel
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
+            className="px-4 py-2 bg-gray-200 -700 text-gray-700 dark:text-gray-300 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600"
           >
             Cancel
           </button>

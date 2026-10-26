@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getTenantFromRequest } from '@/lib/tenant-service'
-import { getSetting } from '@/lib/app-settings-service'
+import { MODULE_STATUS_KEYS, resolveModuleStatus } from '@/modules'
 
 /**
  * GET /api/modules/status
@@ -29,45 +29,25 @@ export async function GET(request) {
       )
     }
 
-    // Helper to check module status (DB -> Tenant Config -> Default)
-    const checkModule = async (key, configKey) => {
-      // Check AppSetting first (user toggle)
-      const dbKey = `MODULE_${key.toUpperCase()}_ENABLED`
-      const dbValue = await getSetting(barId, dbKey)
+    const statusEntries = await Promise.all(
+      Object.entries(MODULE_STATUS_KEYS).map(async ([outputKey, moduleKey]) => {
+        const enabled = await resolveModuleStatus(barId, moduleKey)
 
-      if (dbValue !== null) {
-        return dbValue === true || dbValue === 'true'
-      }
+        if (!enabled && tenantConfig.modules) {
+          const legacyKeys = moduleKey === 'giftCards'
+            ? ['giftCards', 'gift-cards']
+            : moduleKey === 'socialPosting'
+              ? ['socialPosting', 'social']
+              : [moduleKey]
 
-      // Fallback to tenant config (provisioned modules)
-      return tenantConfig.modules?.includes(configKey) || false
-    }
+          return [outputKey, tenantConfig.modules.some((value) => legacyKeys.includes(value))]
+        }
 
-    const [
-      ordering,
-      reservations,
-      events,
-      gallery,
-      giftCards,
-      socialPosting
-    ] = await Promise.all([
-      checkModule('ordering', 'ordering'),
-      checkModule('reservations', 'reservations'),
-      checkModule('events', 'events'),
-      checkModule('gallery', 'gallery'),
-      checkModule('giftCards', 'gift-cards'),
-      checkModule('socialPosting', 'social')
-    ])
+        return [outputKey, enabled]
+      })
+    )
 
-    // Convert modules array to status object
-    const modules = {
-      ordering,
-      reservations,
-      events,
-      gallery,
-      giftCards,
-      social: socialPosting,
-    }
+    const modules = Object.fromEntries(statusEntries)
 
     return NextResponse.json({
       success: true,

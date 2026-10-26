@@ -111,13 +111,13 @@ export default function ShiftRequests({ barId }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+        <h3 className="text-lg font-medium text-primary dark:text-primary">
           Shift Requests & Time Off
         </h3>
         <select
           value={filterStatus}
           onChange={e => setFilterStatus(e.target.value)}
-          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md dark:bg-gray-700 dark:text-white"
+          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md -700 dark:text-primary"
         >
           <option value="all">All Status</option>
           <option value="pending">Pending</option>
@@ -133,13 +133,13 @@ export default function ShiftRequests({ barId }) {
           {requests.map(request => (
             <div
               key={request.id}
-              className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6"
+              className="bg-white -800 rounded-lg shadow border border-gray-200  p-6"
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <User className="w-5 h-5 text-gray-400" />
-                    <h4 className="font-semibold text-gray-900 dark:text-white">
+                    <h4 className="font-semibold text-primary dark:text-primary">
                       {request.employeeName}
                     </h4>
                     <span
@@ -193,14 +193,14 @@ export default function ShiftRequests({ barId }) {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => handleApprove(request.id)}
-                      className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 flex items-center gap-2"
+                      className="px-4 py-2 bg-green-600 text-primary rounded-md hover:bg-green-700 flex items-center gap-2"
                     >
                       <CheckCircle className="w-4 h-4" />
                       Approve
                     </button>
                     <button
                       onClick={() => handleReject(request.id)}
-                      className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 flex items-center gap-2"
+                      className="px-4 py-2 bg-red-600 text-primary rounded-md hover:bg-red-700 flex items-center gap-2"
                     >
                       <XCircle className="w-4 h-4" />
                       Reject

@@ -160,11 +160,11 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex overflow-hidden">
+            <div className="bg-white -800 rounded-xl shadow-2xl w-full max-w-6xl max-h-[90vh] flex overflow-hidden">
 
                 {/* Left Side: Menu */}
-                <div className="w-2/3 flex flex-col border-r border-gray-200 dark:border-gray-700">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-900">
+                <div className="w-2/3 flex flex-col border-r border-gray-200 ">
+                    <div className="p-4 border-b border-gray-200  flex justify-between items-center bg-gray-50 dark:bg-white">
                         {/* Category Filter */}
                         <div className="flex gap-2 flex-wrap">
                             {menu?.sections?.map(section => (
@@ -173,7 +173,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                                     onClick={() => setSelectedCategory(section.id)}
                                     className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${selectedCategory === section.id
                                         ? 'bg-primary text-white'
-                                        : 'bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
+                                        : 'bg-white -700 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600'
                                         }`}
                                 >
                                     {section.name}
@@ -182,7 +182,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                         </div>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-900">
+                    <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-white">
                         {loading ? (
                             <div className="flex justify-center items-center h-full">Loading menu...</div>
                         ) : (
@@ -192,10 +192,10 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                                         key={item.id}
                                         onClick={() => addToCart(item)}
                                         disabled={item.unavailable}
-                                        className="flex flex-col text-left bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:border-primary hover:shadow-md transition-all group"
+                                        className="flex flex-col text-left bg-white -800 p-4 rounded-lg shadow-sm border border-gray-200  hover:border-primary hover:shadow-md transition-all group"
                                     >
                                         <div className="flex justify-between w-full mb-2">
-                                            <span className="font-medium text-gray-900 dark:text-white line-clamp-1">{item.name}</span>
+                                            <span className="font-medium text-primary dark:text-primary line-clamp-1">{item.name}</span>
                                             <span className="font-bold text-primary-text">${item.price}</span>
                                         </div>
                                         <p className="text-xs text-gray-500 line-clamp-2 mb-2">{item.description}</p>
@@ -207,10 +207,10 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                 </div>
 
                 {/* Right Side: Order Summary */}
-                <div className="w-1/3 flex flex-col bg-white dark:bg-gray-800">
-                    <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+                <div className="w-1/3 flex flex-col bg-white -800">
+                    <div className="p-4 border-b border-gray-200  bg-white -800">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-xl font-bold text-gray-900 dark:text-white">New Order</h2>
+                            <h2 className="text-xl font-bold text-primary dark:text-primary">New Order</h2>
                             <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
                                 <span className="sr-only">Close</span>
                                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -229,7 +229,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                                             onClick={() => setOrderType(type)}
                                             className={`py-2 text-sm font-medium rounded-md ${orderType === type
                                                 ? 'bg-primary text-white'
-                                                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                                                : 'bg-gray-100 -700 text-gray-700 dark:text-gray-300'
                                                 }`}
                                         >
                                             {type === 'dineIn' ? 'Dine In' : type.charAt(0).toUpperCase() + type.slice(1)}
@@ -249,7 +249,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                                                 value={tableNumber}
                                                 onChange={e => setTableNumber(e.target.value)}
                                                 placeholder="e.g. 5"
-                                                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-transparent dark:text-white"
+                                                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-transparent dark:text-primary"
                                             />
                                         </div>
                                         <div>
@@ -259,7 +259,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                                                 value={seatNumber}
                                                 onChange={e => setSeatNumber(e.target.value)}
                                                 placeholder="e.g. 1"
-                                                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-transparent dark:text-white"
+                                                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-transparent dark:text-primary"
                                             />
                                         </div>
                                     </>
@@ -275,15 +275,15 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                             </div>
                         ) : (
                             cart.map(item => (
-                                <div key={item.id} className="flex justify-between items-center bg-gray-50 dark:bg-gray-700 p-2 rounded-md">
+                                <div key={item.id} className="flex justify-between items-center bg-gray-50 -700 p-2 rounded-md">
                                     <div className="flex-1">
-                                        <div className="text-sm font-medium text-gray-900 dark:text-white">{item.name}</div>
+                                        <div className="text-sm font-medium text-primary dark:text-primary">{item.name}</div>
                                         <div className="text-xs text-gray-500">${item.price}</div>
                                     </div>
                                     <div className="flex items-center gap-3">
-                                        <button onClick={() => updateQuantity(item.id, -1)} className="w-6 h-6 flex items-center justify-center bg-white dark:bg-gray-600 rounded-full shadow text-gray-600 dark:text-gray-200">-</button>
-                                        <span className="text-sm font-medium w-4 text-center dark:text-white">{item.quantity}</span>
-                                        <button onClick={() => updateQuantity(item.id, 1)} className="w-6 h-6 flex items-center justify-center bg-white dark:bg-gray-600 rounded-full shadow text-gray-600 dark:text-gray-200">+</button>
+                                        <button onClick={() => updateQuantity(item.id, -1)} className="w-6 h-6 flex items-center justify-center bg-white -600 rounded-full shadow text-gray-600 dark:text-gray-200">-</button>
+                                        <span className="text-sm font-medium w-4 text-center dark:text-primary">{item.quantity}</span>
+                                        <button onClick={() => updateQuantity(item.id, 1)} className="w-6 h-6 flex items-center justify-center bg-white -600 rounded-full shadow text-gray-600 dark:text-gray-200">+</button>
                                         <button onClick={() => removeFromCart(item.id)} className="ml-2 text-red-500 hover:text-red-700">
                                             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -295,7 +295,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                         )}
                     </div>
 
-                    <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                    <div className="p-4 border-t border-gray-200  bg-gray-50 dark:bg-white">
                         <div className="space-y-1 mb-4">
                             <div className="flex justify-between text-sm text-gray-500">
                                 <span>Subtotal</span>
@@ -305,7 +305,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                                 <span>Tax (13%)</span>
                                 <span>${totals.tax.toFixed(2)}</span>
                             </div>
-                            <div className="flex justify-between text-xl font-bold text-gray-900 dark:text-white pt-2 border-t border-gray-200 dark:border-gray-700">
+                            <div className="flex justify-between text-xl font-bold text-primary dark:text-primary pt-2 border-t border-gray-200 ">
                                 <span>Total</span>
                                 <span>${totals.total.toFixed(2)}</span>
                             </div>
@@ -314,7 +314,7 @@ export default function CreateOrderModal({ barId, isOpen, onClose, onOrderCreate
                         <button
                             onClick={handleSubmit}
                             disabled={submitting || cart.length === 0}
-                            className={`w-full py-3 rounded-lg font-bold text-white shadow-lg transition-transform active:scale-95 ${submitting || cart.length === 0
+                            className={`w-full py-3 rounded-lg font-bold text-primary shadow-lg transition-transform active:scale-95 ${submitting || cart.length === 0
                                 ? 'bg-gray-400 cursor-not-allowed'
                                 : 'bg-green-600 hover:bg-green-700'
                                 }`}

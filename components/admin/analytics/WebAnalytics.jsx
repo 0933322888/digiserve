@@ -153,7 +153,7 @@ export default function WebAnalytics({ barId }) {
             {/* Header */}
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Web Analytics</h2>
+                    <h2 className="text-2xl font-bold text-primary dark:text-primary">Web Analytics</h2>
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                         Track pageviews, visitors, and traffic sources for your website
                     </p>
@@ -161,10 +161,10 @@ export default function WebAnalytics({ barId }) {
             </div>
 
             {/* Filters */}
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-4 space-y-4">
+            <div className="bg-white -800 rounded-lg shadow p-4 space-y-4">
                 <div className="flex items-center gap-2 mb-4">
                     <Filter className="h-5 w-5 text-gray-500" />
-                    <h3 className="font-medium text-gray-900 dark:text-white">Filters</h3>
+                    <h3 className="font-medium text-primary dark:text-primary">Filters</h3>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -182,7 +182,7 @@ export default function WebAnalytics({ barId }) {
                                     setCustomEndDate('')
                                 }
                             }}
-                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white -700 text-primary dark:text-primary"
                         >
                             <option value="7d">Last 7 days</option>
                             <option value="30d">Last 30 days</option>
@@ -200,7 +200,7 @@ export default function WebAnalytics({ barId }) {
                                     type="date"
                                     value={customStartDate}
                                     onChange={e => setCustomStartDate(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white -700 text-primary dark:text-primary"
                                 />
                             </div>
                             <div>
@@ -211,7 +211,7 @@ export default function WebAnalytics({ barId }) {
                                     type="date"
                                     value={customEndDate}
                                     onChange={e => setCustomEndDate(e.target.value)}
-                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white -700 text-primary dark:text-primary"
                                 />
                             </div>
                         </>
@@ -225,7 +225,7 @@ export default function WebAnalytics({ barId }) {
                         <select
                             value={deviceFilter}
                             onChange={e => setDeviceFilter(e.target.value)}
-                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white -700 text-primary dark:text-primary"
                         >
                             <option value="">All Devices</option>
                             <option value="desktop">Desktop</option>
@@ -238,11 +238,11 @@ export default function WebAnalytics({ barId }) {
 
             {/* Stats Widgets */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div className="bg-white -800 rounded-lg shadow p-6">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Total Visits</p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                            <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                                 {formatNumber(totalVisits)}
                             </p>
                         </div>
@@ -252,13 +252,13 @@ export default function WebAnalytics({ barId }) {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div className="bg-white -800 rounded-lg shadow p-6">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
                                 Unique Visitors
                             </p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                            <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                                 {formatNumber(uniqueVisitors)}
                             </p>
                         </div>
@@ -268,11 +268,11 @@ export default function WebAnalytics({ barId }) {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div className="bg-white -800 rounded-lg shadow p-6">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Bounce Rate</p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                            <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                                 {totalVisits > 0
                                     ? (((totalVisits - uniqueVisitors) / totalVisits) * 100).toFixed(1)
                                     : '0'}
@@ -285,11 +285,11 @@ export default function WebAnalytics({ barId }) {
                     </div>
                 </div>
 
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <div className="bg-white -800 rounded-lg shadow p-6">
                     <div className="flex items-center justify-between">
                         <div>
                             <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Avg. per Visitor</p>
-                            <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
+                            <p className="text-2xl font-bold text-primary dark:text-primary mt-1">
                                 {uniqueVisitors > 0
                                     ? (totalVisits / uniqueVisitors).toFixed(2)
                                     : '0'}
@@ -305,8 +305,8 @@ export default function WebAnalytics({ barId }) {
             {/* Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Pageviews Over Time */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <div className="bg-white -800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">
                         Pageviews Over Time
                     </h3>
                     <ResponsiveContainer width="100%" height={300}>
@@ -340,8 +340,8 @@ export default function WebAnalytics({ barId }) {
                 </div>
 
                 {/* Device Breakdown */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                <div className="bg-white -800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">
                         Devices
                     </h3>
                     <ResponsiveContainer width="100%" height={300}>
@@ -369,24 +369,24 @@ export default function WebAnalytics({ barId }) {
             {/* Top Pages and Referrers */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Top Pages */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Pages</h3>
+                <div className="bg-white -800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">Top Pages</h3>
                     <div className="space-y-3">
                         {topPagesData.length > 0 ? (
                             topPagesData.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                                    className="flex items-center justify-between p-3 bg-gray-50 -700 rounded-lg"
                                 >
                                     <div className="flex items-center gap-3 flex-1 min-w-0">
                                         <span className="text-sm font-medium text-gray-500 dark:text-gray-400 w-6">
                                             {index + 1}
                                         </span>
-                                        <span className="text-sm text-gray-900 dark:text-white truncate">
+                                        <span className="text-sm text-primary dark:text-primary truncate">
                                             {item.page || '/'}
                                         </span>
                                     </div>
-                                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                    <span className="text-sm font-semibold text-primary dark:text-primary">
                                         {formatNumber(item.visits)}
                                     </span>
                                 </div>
@@ -398,22 +398,22 @@ export default function WebAnalytics({ barId }) {
                 </div>
 
                 {/* Top Referrers */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Referrers</h3>
+                <div className="bg-white -800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">Top Referrers</h3>
                     <div className="space-y-3">
                         {referrersData.length > 0 ? (
                             referrersData.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                                    className="flex items-center justify-between p-3 bg-gray-50 -700 rounded-lg"
                                 >
                                     <div className="flex items-center gap-3 flex-1 min-w-0">
                                         <Globe className="h-4 w-4 text-gray-400 flex-shrink-0" />
-                                        <span className="text-sm text-gray-900 dark:text-white truncate">
+                                        <span className="text-sm text-primary dark:text-primary truncate">
                                             {item.referrer}
                                         </span>
                                     </div>
-                                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                    <span className="text-sm font-semibold text-primary dark:text-primary">
                                         {formatNumber(item.visits)}
                                     </span>
                                 </div>
@@ -428,8 +428,8 @@ export default function WebAnalytics({ barId }) {
             {/* Countries and UTM Campaigns */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Top Countries */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Countries</h3>
+                <div className="bg-white -800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">Top Countries</h3>
                     <ResponsiveContainer width="100%" height={250}>
                         <BarChart data={countriesData}>
                             <CartesianGrid strokeDasharray="3 3" className="stroke-gray-200 dark:stroke-gray-700" />
@@ -447,22 +447,22 @@ export default function WebAnalytics({ barId }) {
                 </div>
 
                 {/* UTM Campaigns */}
-                <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">UTM Campaigns</h3>
+                <div className="bg-white -800 rounded-lg shadow p-6">
+                    <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">UTM Campaigns</h3>
                     <div className="space-y-3">
                         {utmStats && utmStats.length > 0 ? (
                             utmStats.map((item, index) => (
                                 <div
                                     key={index}
-                                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                                    className="flex items-center justify-between p-3 bg-gray-50 -700 rounded-lg"
                                 >
                                     <div className="flex items-center gap-3 flex-1 min-w-0">
                                         <ExternalLink className="h-4 w-4 text-gray-400 flex-shrink-0" />
-                                        <span className="text-sm text-gray-900 dark:text-white truncate">
+                                        <span className="text-sm text-primary dark:text-primary truncate">
                                             {item.campaign}
                                         </span>
                                     </div>
-                                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
+                                    <span className="text-sm font-semibold text-primary dark:text-primary">
                                         {formatNumber(item.count)}
                                     </span>
                                 </div>

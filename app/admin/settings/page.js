@@ -500,7 +500,7 @@ export default function AdminSettingsPage() {
         <div className="flex items-center gap-3">
           <SettingsIcon className="w-8 h-8 text-primary-text " />
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Settings</h1>
+            <h1 className="text-2xl font-bold text-primary dark:text-primary">Settings</h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Manage module configurations and feature toggles
             </p>
@@ -538,17 +538,17 @@ export default function AdminSettingsPage() {
           <div className="space-y-6">
             {/* Domain Verification */}
             {tenantInfo && (
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-4">
+              <div className="bg-white  shadow rounded-lg p-4">
                 <div className="flex items-center justify-between">
                   <div>
                     <div className="text-sm text-gray-500">Custom Domain</div>
-                    <div className="text-lg font-medium text-gray-900 dark:text-white">{tenantInfo.customDomains && tenantInfo.customDomains.length ? tenantInfo.customDomains[0] : 'Not configured'}</div>
+                    <div className="text-lg font-medium text-primary dark:text-primary">{tenantInfo.customDomains && tenantInfo.customDomains.length ? tenantInfo.customDomains[0] : 'Not configured'}</div>
                     {tenantInfo.domainVerification && (
                       <div className="text-xs mt-1 text-gray-500">Verification: {tenantInfo.domainVerification.verified ? 'Verified' : 'Pending'}</div>
                     )}
                   </div>
                   <div>
-                    <button onClick={verifyDomain} disabled={verifyingDomain || !(tenantInfo.customDomains && tenantInfo.customDomains.length)} className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded disabled:opacity-50 transition-colors">
+                    <button onClick={verifyDomain} disabled={verifyingDomain || !(tenantInfo.customDomains && tenantInfo.customDomains.length)} className="bg-primary hover:bg-primary/90 text-primary px-4 py-2 rounded disabled:opacity-50 transition-colors">
                       {verifyingDomain ? 'Verifying...' : 'Verify Domain'}
                     </button>
                   </div>
@@ -557,9 +557,9 @@ export default function AdminSettingsPage() {
             )}
 
             {/* Business Hours */}
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+            <div className="bg-white  shadow rounded-lg">
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Social Media Links</h2>
+                <h2 className="text-lg font-semibold text-primary dark:text-primary">Social Media Links</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   Configure links for the "Follow Us" section in the footer.
                 </p>
@@ -567,7 +567,7 @@ export default function AdminSettingsPage() {
               <div className="p-6 space-y-4">
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label htmlFor="facebook" className="block text-sm font-medium text-gray-700 ">
                       Facebook URL
                     </label>
                     <input
@@ -576,11 +576,11 @@ export default function AdminSettingsPage() {
                       value={socialLinks.facebook}
                       onChange={(e) => setSocialLinks({ ...socialLinks, facebook: e.target.value })}
                       placeholder="https://facebook.com/..."
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm px-3 py-2"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-primary sm:text-sm px-3 py-2"
                     />
                   </div>
                   <div>
-                    <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label htmlFor="instagram" className="block text-sm font-medium text-gray-700 ">
                       Instagram URL
                     </label>
                     <input
@@ -589,11 +589,11 @@ export default function AdminSettingsPage() {
                       value={socialLinks.instagram}
                       onChange={(e) => setSocialLinks({ ...socialLinks, instagram: e.target.value })}
                       placeholder="https://instagram.com/..."
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm px-3 py-2"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-primary sm:text-sm px-3 py-2"
                     />
                   </div>
                   <div>
-                    <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <label htmlFor="twitter" className="block text-sm font-medium text-gray-700 ">
                       X (Twitter) URL
                     </label>
                     <input
@@ -602,7 +602,7 @@ export default function AdminSettingsPage() {
                       value={socialLinks.twitter}
                       onChange={(e) => setSocialLinks({ ...socialLinks, twitter: e.target.value })}
                       placeholder="https://x.com/..."
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-white sm:text-sm px-3 py-2"
+                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-gray-700 dark:border-gray-600 dark:text-primary sm:text-sm px-3 py-2"
                     />
                   </div>
                 </div>
@@ -630,7 +630,7 @@ export default function AdminSettingsPage() {
                       }
                     }}
                     disabled={saving.socialLinks}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-primary py-2 px-4 text-sm font-medium text-primary shadow-sm hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50"
                   >
                     {saving.socialLinks ? 'Saving...' : 'Save Links'}
                   </button>
@@ -639,9 +639,9 @@ export default function AdminSettingsPage() {
             </div>
 
             {/* Business Hours */}
-            <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+            <div className="bg-white  shadow rounded-lg">
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Business Hours</h2>
+                <h2 className="text-lg font-semibold text-primary dark:text-primary">Business Hours</h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   Set the opening and closing times for each day (24-hour format).
                 </p>
@@ -670,7 +670,7 @@ export default function AdminSettingsPage() {
                         key={day}
                         className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700/50 rounded-md"
                       >
-                        <div className="w-24 text-sm font-medium text-gray-700 dark:text-gray-300">
+                        <div className="w-24 text-sm font-medium text-gray-700 ">
                           {day}
                         </div>
                         <div className="flex items-center gap-2 flex-1">
@@ -689,7 +689,7 @@ export default function AdminSettingsPage() {
                             }}
                             onBlur={() => updateBusinessHours(day, 'open', hours.open)}
                             disabled={isSaving}
-                            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-primary disabled:opacity-50"
                             placeholder="Open"
                           />
                           <span className="text-gray-500 dark:text-gray-400">to</span>
@@ -708,7 +708,7 @@ export default function AdminSettingsPage() {
                             }}
                             onBlur={() => updateBusinessHours(day, 'close', hours.close)}
                             disabled={isSaving}
-                            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                            className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-primary disabled:opacity-50"
                             placeholder="Close"
                           />
                           {isSaving && (
@@ -742,9 +742,9 @@ export default function AdminSettingsPage() {
               if (contentModules.length === 0) return null
 
               return (
-                <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+                <div className="bg-white  shadow rounded-lg">
                   <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Website Modules</h2>
+                    <h2 className="text-lg font-semibold text-primary dark:text-primary">Website Modules</h2>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                       Enable or disable additional content sections for your website.
                     </p>
@@ -754,13 +754,13 @@ export default function AdminSettingsPage() {
                       <div key={module.key} className="px-6 py-4 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
                         <div className="flex-1">
                           <div className="flex items-center gap-3">
-                            <h3 className="text-base font-medium text-gray-900 dark:text-white">{module.name}</h3>
+                            <h3 className="text-base font-medium text-primary dark:text-primary">{module.name}</h3>
                             {module.enabled ? (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
                                 <CheckCircle className="w-3 h-3" /> Enabled
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700  rounded-full">
                                 <XCircle className="w-3 h-3" /> Disabled
                               </span>
                             )}
@@ -813,9 +813,9 @@ export default function AdminSettingsPage() {
 
           return (
             <div className="space-y-6">
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+              <div className="bg-white  shadow rounded-lg">
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Premium Modules</h2>
+                  <h2 className="text-lg font-semibold text-primary dark:text-primary">Premium Modules</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     Manage your subscription add-ons.
                   </p>
@@ -827,13 +827,13 @@ export default function AdminSettingsPage() {
                       <div className="px-6 py-4 flex items-center justify-between">
                         <div className="flex-1">
                           <div className="flex items-center gap-3">
-                            <h3 className="text-base font-medium text-gray-900 dark:text-white">{module.name}</h3>
+                            <h3 className="text-base font-medium text-primary dark:text-primary">{module.name}</h3>
                             {module.enabled ? (
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-400 rounded-full">
                                 <CheckCircle className="w-3 h-3" /> Enabled
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 rounded-full">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium text-gray-700 bg-gray-100 dark:bg-gray-700  rounded-full">
                                 <XCircle className="w-3 h-3" /> Disabled
                               </span>
                             )}
@@ -865,7 +865,7 @@ export default function AdminSettingsPage() {
                           <div className="space-y-6">
                             <div className="border border-gray-200 dark:border-gray-700 rounded-lg">
                               <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
-                                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                                <h3 className="text-sm font-semibold text-primary dark:text-primary">
                                   Ordering Options
                                 </h3>
                               </div>
@@ -873,7 +873,7 @@ export default function AdminSettingsPage() {
                                 {/* Pickup */}
                                 <div className="px-4 py-3 flex items-center justify-between">
                                   <div className="flex-1">
-                                    <h4 className="text-sm font-medium text-gray-900 dark:text-white">Pickup</h4>
+                                    <h4 className="text-sm font-medium text-primary dark:text-primary">Pickup</h4>
                                     <p className="text-xs text-gray-500 dark:text-gray-400">Allow customers to place orders for pickup.</p>
                                   </div>
                                   <button
@@ -890,7 +890,7 @@ export default function AdminSettingsPage() {
                                 {/* Delivery */}
                                 <div className="px-4 py-3 flex items-center justify-between">
                                   <div className="flex-1">
-                                    <h4 className="text-sm font-medium text-gray-900 dark:text-white">Delivery</h4>
+                                    <h4 className="text-sm font-medium text-primary dark:text-primary">Delivery</h4>
                                     <p className="text-xs text-gray-500 dark:text-gray-400">Allow delivery orders (requires Stripe).</p>
                                   </div>
                                   <button
@@ -907,7 +907,7 @@ export default function AdminSettingsPage() {
                                 {/* Dine-In */}
                                 <div className="px-4 py-3 flex items-center justify-between">
                                   <div className="flex-1">
-                                    <h4 className="text-sm font-medium text-gray-900 dark:text-white">Dine-In</h4>
+                                    <h4 className="text-sm font-medium text-primary dark:text-primary">Dine-In</h4>
                                     <p className="text-xs text-gray-500 dark:text-gray-400">Allow dine-in orders.</p>
                                   </div>
                                   <button
@@ -925,7 +925,7 @@ export default function AdminSettingsPage() {
 
                             {/* Tax Rate */}
                             <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              <label className="block text-sm font-medium text-gray-700  mb-2">
                                 Tax Rate
                               </label>
                               <div className="flex items-center gap-3">
@@ -943,7 +943,7 @@ export default function AdminSettingsPage() {
                                   }}
                                   onBlur={e => updateTaxRate(e.target.value)}
                                   disabled={saving.taxRate}
-                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-primary disabled:opacity-50"
                                   placeholder="0.13"
                                 />
                                 <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -967,7 +967,7 @@ export default function AdminSettingsPage() {
                           <div className="space-y-6">
                             {/* Max Seats Per Slot */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              <label className="block text-sm font-medium text-gray-700  mb-2">
                                 Maximum Seats Per Slot
                               </label>
                               <div className="flex items-center gap-3">
@@ -989,7 +989,7 @@ export default function AdminSettingsPage() {
                                     }
                                   }}
                                   disabled={saving['reservations_maxSeatsPerSlot']}
-                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-primary disabled:opacity-50"
                                 />
                                 {saving['reservations_maxSeatsPerSlot'] && (
                                   <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
@@ -1002,7 +1002,7 @@ export default function AdminSettingsPage() {
 
                             {/* Slot Duration */}
                             <div>
-                              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              <label className="block text-sm font-medium text-gray-700  mb-2">
                                 Slot Duration (minutes)
                               </label>
                               <div className="flex items-center gap-3">
@@ -1024,7 +1024,7 @@ export default function AdminSettingsPage() {
                                     }
                                   }}
                                   disabled={saving['reservations_slotDurationMinutes']}
-                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-white disabled:opacity-50"
+                                  className="w-32 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary dark:bg-gray-700 dark:text-primary disabled:opacity-50"
                                 />
                                 <span className="text-sm text-gray-500 dark:text-gray-400">
                                   {(reservationsConfig.slotDurationMinutes / 60).toFixed(2)} hours
@@ -1060,9 +1060,9 @@ export default function AdminSettingsPage() {
             <div className="space-y-6">
 
               {/* Social Media Integration */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+              <div className="bg-white  shadow rounded-lg">
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Social Media Integration</h2>
+                  <h2 className="text-lg font-semibold text-primary dark:text-primary">Social Media Integration</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     Connect your Facebook and Instagram accounts.
                   </p>
@@ -1083,9 +1083,9 @@ export default function AdminSettingsPage() {
               </div>
 
               {/* Stripe Integration */}
-              <div className="bg-white dark:bg-gray-800 shadow rounded-lg">
+              <div className="bg-white  shadow rounded-lg">
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Stripe Integration</h2>
+                  <h2 className="text-lg font-semibold text-primary dark:text-primary">Stripe Integration</h2>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                     Payment processing status.
                   </p>
@@ -1093,7 +1093,7 @@ export default function AdminSettingsPage() {
                 <div className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-sm font-medium text-gray-900 dark:text-white">Connection Status</h3>
+                      <h3 className="text-sm font-medium text-primary dark:text-primary">Connection Status</h3>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         {stripeModule?.enabled ? 'Connected and ready to process payments.' : 'Not connected.'}
                       </p>
@@ -1104,7 +1104,7 @@ export default function AdminSettingsPage() {
                         Connected
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 ">
                         <XCircle className="w-4 h-4" />
                         Disconnected
                       </span>

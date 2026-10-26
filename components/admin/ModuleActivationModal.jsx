@@ -50,10 +50,10 @@ export default function ModuleActivationModal({ module, isOpen, onClose }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-md overflow-hidden border border-gray-200 dark:border-gray-700">
+            <div className="bg-white -800 rounded-2xl shadow-xl w-full max-w-md overflow-hidden border border-gray-200 ">
                 <div className="p-6">
                     <div className="flex justify-between items-start mb-4">
-                        <h2 className="text-xl font-bold text-gray-900 dark:text-white">Enable {module.name}</h2>
+                        <h2 className="text-xl font-bold text-primary dark:text-primary">Enable {module.name}</h2>
                         <button onClick={onClose} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
                             <X className="w-5 h-5" />
                         </button>
@@ -63,11 +63,11 @@ export default function ModuleActivationModal({ module, isOpen, onClose }) {
                         {module.description}
                     </p>
 
-                    <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6">
+                    <div className="bg-gray-50 -700/50 rounded-xl p-4 mb-6">
                         <div className="flex justify-between items-end mb-2">
                             <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Monthly Subscription</span>
                             <div className="flex items-baseline gap-1">
-                                <span className="text-2xl font-bold text-gray-900 dark:text-white">{getPrice(module.key)}</span>
+                                <span className="text-2xl font-bold text-primary dark:text-primary">{getPrice(module.key)}</span>
                                 <span className="text-gray-500 text-sm">/mo</span>
                             </div>
                         </div>
@@ -81,7 +81,7 @@ export default function ModuleActivationModal({ module, isOpen, onClose }) {
                         <button
                             onClick={handleActivate}
                             disabled={loading}
-                            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
+                            className="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-primary font-bold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed shadow-lg shadow-blue-900/20"
                         >
                             {loading ? (
                                 <>

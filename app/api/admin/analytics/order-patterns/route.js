@@ -21,10 +21,10 @@ export async function GET(request) {
     }
 
     if (analysis === 'peak') {
-      const peakAnalysis = getPeakHoursAnalysis(barId, startDate, endDate)
+      const peakAnalysis = await getPeakHoursAnalysis(barId, startDate, endDate)
       return NextResponse.json({ peakAnalysis })
     } else {
-      const patterns = getOrderPatterns(barId, startDate, endDate)
+      const patterns = await getOrderPatterns(barId, startDate, endDate)
       return NextResponse.json({ patterns })
     }
   } catch (error) {

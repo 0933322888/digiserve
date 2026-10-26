@@ -155,11 +155,11 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white -800 rounded-2xl shadow-2xl border border-gray-200  w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+        <div className="px-6 py-4 border-b border-gray-200  flex items-center justify-between">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+            <h2 className="text-xl font-bold text-primary dark:text-gray-100">
               {isEditing ? `Edit Tenant: ${tenant.name}` : 'Provision New Tenant'}
             </h2>
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
@@ -186,7 +186,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
 
           {/* Basic Details */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">
+            <h3 className="text-sm font-semibold text-primary dark:text-gray-100 uppercase tracking-wider mb-3">
               General Information
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -200,7 +200,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                   value={formData.name}
                   onChange={handleNameChange}
                   placeholder="e.g. Trio Bistro & Lounge"
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
                 />
               </div>
 
@@ -222,9 +222,9 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                       }))
                     }
                     placeholder="triobistro"
-                    className="flex-1 min-w-0 px-3 py-2 text-sm rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 disabled:opacity-60 focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="flex-1 min-w-0 px-3 py-2 text-sm rounded-l-lg border border-r-0 border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 disabled:opacity-60 focus:ring-2 focus:ring-primary focus:outline-none"
                   />
-                  <span className="inline-flex items-center px-3 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 text-gray-500 text-xs">
+                  <span className="inline-flex items-center px-3 rounded-r-lg border border-l-0 border-gray-300 dark:border-gray-600 bg-gray-50 -800 text-gray-500 text-xs">
                     .digiserve.com
                   </span>
                 </div>
@@ -234,7 +234,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
 
           {/* Custom Domains */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">
+            <h3 className="text-sm font-semibold text-primary dark:text-gray-100 uppercase tracking-wider mb-3">
               Domains & Branding
             </h3>
             <div className="space-y-3">
@@ -248,12 +248,12 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                     value={customDomainInput}
                     onChange={(e) => setCustomDomainInput(e.target.value)}
                     placeholder="e.g. www.triobistro.com"
-                    className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="flex-1 px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                   <button
                     type="button"
                     onClick={handleAddCustomDomain}
-                    className="px-3 py-2 text-xs font-medium bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg flex items-center gap-1 transition"
+                    className="px-3 py-2 text-xs font-medium bg-gray-100 hover:bg-gray-200 -700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg flex items-center gap-1 transition"
                   >
                     <Plus className="w-3.5 h-3.5" /> Add
                   </button>
@@ -265,7 +265,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                   {formData.customDomains.map((dom) => (
                     <span
                       key={dom}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 font-mono"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs bg-gray-100 text-gray-800 -700 dark:text-gray-200 font-mono"
                     >
                       {dom}
                       <button
@@ -284,7 +284,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
 
           {/* Subscription & Plan */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">
+            <h3 className="text-sm font-semibold text-primary dark:text-gray-100 uppercase tracking-wider mb-3">
               Subscription & Plan
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -295,7 +295,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                 <select
                   value={formData.subscriptionPlan}
                   onChange={(e) => setFormData((p) => ({ ...p, subscriptionPlan: e.target.value }))}
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   <option value="basic">Basic (Starter)</option>
                   <option value="pro">Pro (Growth)</option>
@@ -310,7 +310,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                 <select
                   value={formData.subscriptionStatus}
                   onChange={(e) => setFormData((p) => ({ ...p, subscriptionStatus: e.target.value }))}
-                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
                 >
                   <option value="active">Active</option>
                   <option value="trialing">Trialing</option>
@@ -323,7 +323,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
 
           {/* Enabled Modules */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">
+            <h3 className="text-sm font-semibold text-primary dark:text-gray-100 uppercase tracking-wider mb-3">
               Tenant Modules
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -336,11 +336,11 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                     className={`cursor-pointer p-3 rounded-lg border text-left transition flex items-start justify-between ${
                       isSelected
                         ? 'border-primary bg-primary/5 dark:border-gold dark:bg-gold/10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                        : 'border-gray-200  hover:border-gray-300 dark:hover:border-gray-600'
                     }`}
                   >
                     <div>
-                      <div className="font-medium text-xs text-gray-900 dark:text-gray-100">
+                      <div className="font-medium text-xs text-primary dark:text-gray-100">
                         {mod.name}
                       </div>
                       <div className="text-[11px] text-gray-500 dark:text-gray-400 mt-0.5">
@@ -350,7 +350,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                     <div
                       className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 ml-2 ${
                         isSelected
-                          ? 'bg-primary border-primary text-white dark:bg-gold dark:border-gold dark:text-gray-900'
+                          ? 'bg-primary border-primary text-primary dark:bg-gold dark:border-gold dark:text-primary'
                           : 'border-gray-300 dark:border-gray-600'
                       }`}
                     >
@@ -365,7 +365,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
           {/* Admin Account Provisioning (Create mode only) */}
           {!isEditing && (
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100 uppercase tracking-wider mb-3">
+              <h3 className="text-sm font-semibold text-primary dark:text-gray-100 uppercase tracking-wider mb-3">
                 Primary Admin Account
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -378,7 +378,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                     value={formData.adminName}
                     onChange={(e) => setFormData((p) => ({ ...p, adminName: e.target.value }))}
                     placeholder="e.g. John Doe"
-                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
                 <div>
@@ -390,7 +390,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                     value={formData.adminEmail}
                     onChange={(e) => setFormData((p) => ({ ...p, adminEmail: e.target.value }))}
                     placeholder="admin@restaurant.com"
-                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
                 <div>
@@ -402,7 +402,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
                     value={formData.adminPassword}
                     onChange={(e) => setFormData((p) => ({ ...p, adminPassword: e.target.value }))}
                     placeholder="••••••••"
-                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
+                    className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 dark:border-gray-600 bg-white -700 text-primary dark:text-gray-100 focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
               </div>
@@ -411,7 +411,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
         </form>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex items-center justify-end gap-3">
+        <div className="px-6 py-4 border-t border-gray-200  bg-gray-50 dark:bg-white/50 flex items-center justify-end gap-3">
           <button
             type="button"
             onClick={onClose}
@@ -423,7 +423,7 @@ export default function TenantModal({ isOpen, onClose, tenant, onSave }) {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="px-4 py-2 text-sm font-medium text-white bg-primary hover:bg-primary-dark dark:bg-gold dark:text-gray-900 dark:hover:bg-gold/90 rounded-lg flex items-center gap-2 shadow-sm transition disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-primary bg-primary hover:bg-primary-dark dark:bg-gold dark:text-primary dark:hover:bg-gold/90 rounded-lg flex items-center gap-2 shadow-sm transition disabled:opacity-50"
           >
             {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
             {isEditing ? 'Save Changes' : 'Create Tenant'}

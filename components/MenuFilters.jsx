@@ -33,7 +33,7 @@ export default function MenuFilters({ onFilterChange }) {
         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
           dietaryFilters.vegetarian
             ? 'bg-green-600 text-white'
-            : 'bg-[var(--secondary-dark-bg)] text-primary-text hover:bg-[var(--primary-dark-bg)]/10'
+            : 'bg-[var(--secondary-light-bg)] text-primary-text hover:bg-[var(--primary-dark-bg)]'
         }`}
       >
         Vegetarian
@@ -43,23 +43,11 @@ export default function MenuFilters({ onFilterChange }) {
         className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
           dietaryFilters['gluten-free']
             ? 'bg-green-600 text-white'
-            : 'bg-[var(--secondary-dark-bg)] text-primary-text hover:bg-[var(--primary-dark-bg)]/10'
+            : 'bg-[var(--secondary-light-bg)] text-primary-text hover:bg-[var(--primary-dark-bg)]'
         }`}
       >
         Gluten-Free
       </button>
-      {(dietaryFilters.vegetarian || dietaryFilters['gluten-free']) && (
-        <button
-          onClick={() => {
-            const clearedFilters = { vegetarian: false, 'gluten-free': false }
-            setDietaryFilters(clearedFilters)
-            onFilterChange(clearedFilters)
-          }}
-          className="px-4 py-2 rounded-lg text-sm font-medium text-primary-text hover:text-[var(--primary-dark-text)] underline"
-        >
-          Clear Filters
-        </button>
-      )}
     </div>
   )
 }

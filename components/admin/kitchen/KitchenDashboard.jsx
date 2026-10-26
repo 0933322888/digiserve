@@ -34,10 +34,10 @@ export default function KitchenPage({ barId }) {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 p-6">
+        <div className="min-h-screen bg-gray-100 dark:bg-white p-6">
             <div className="mb-6 flex justify-between items-center">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                    <h1 className="text-3xl font-bold text-primary dark:text-primary flex items-center gap-3">
                         Kitchen Display System
                         <div className="flex items-center gap-2 text-sm font-normal px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full">
                             <span className="relative flex h-3 w-3">
@@ -58,10 +58,10 @@ export default function KitchenPage({ barId }) {
 
             {orders.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-[60vh] text-gray-500">
-                    <div className="w-16 h-16 bg-gray-200 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-gray-200 -800 rounded-full flex items-center justify-center mb-4">
                         <CheckCircle className="w-8 h-8 text-gray-400" />
                     </div>
-                    <h3 className="text-xl font-medium text-gray-900 dark:text-white">All Caught Up!</h3>
+                    <h3 className="text-xl font-medium text-primary dark:text-primary">All Caught Up!</h3>
                     <p>No active orders in the queue.</p>
                 </div>
             ) : (

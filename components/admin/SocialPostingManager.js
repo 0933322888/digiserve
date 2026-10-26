@@ -180,7 +180,7 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
         <div className="space-y-8">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Social Media Posting</h2>
+                    <h2 className="text-2xl font-bold text-primary dark:text-primary">Social Media Posting</h2>
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
                         Create, schedule, and manage social media posts for Facebook Pages and Instagram Business
                         Accounts.
@@ -188,7 +188,7 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
                 </div>
                 <button
                     onClick={processScheduledPosts}
-                    className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-white rounded-md hover:bg-primary-dark dark:hover:bg-gold/90 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-primary dark:bg-gold text-primary rounded-md hover:bg-primary-dark dark:hover:bg-gold/90 transition-colors"
                     title="Process scheduled posts now (also runs automatically every minute)"
                 >
                     <Clock className="w-4 h-4" />
@@ -197,7 +197,7 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
             </div>
 
             {/* Tabs */}
-            <div className="border-b border-gray-200 dark:border-gray-700">
+            <div className="border-b border-gray-200 ">
                 <nav className="-mb-px flex space-x-8">
                     <button
                         onClick={() => setActiveTab('posts')}
@@ -271,7 +271,7 @@ export default function SocialPostingManager({ barId, adminId, adminName }) {
 
                     {/* Campaigns List */}
                     <div className="mt-8">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+                        <h3 className="text-lg font-semibold text-primary dark:text-primary mb-4">
                             Active Campaigns
                         </h3>
                         <CampaignList

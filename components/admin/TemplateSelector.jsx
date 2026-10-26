@@ -113,7 +113,7 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
                                     </div>
                                 )}
                             </div>
-                            <div className="p-4 bg-white dark:bg-gray-800">
+                            <div className="p-4 bg-white -800">
                                 <h4 className="font-bold text-lg">{template.name}</h4>
                                 <p className="text-sm text-gray-500 line-clamp-2 mb-3">{template.description}</p>
                                 {template.features && (
@@ -132,7 +132,7 @@ export default function TemplateSelector({ tenantId, initialTheme, onSave, saveL
             </div>
 
             {/* Template palette */}
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+            <div className="bg-white -800 p-6 rounded-xl border border-gray-200 ">
                 <h3 className="text-xl font-bold mb-4">Color Palette</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     {(templates.find(template => template.id === selectedTemplate)?.palettes || []).map(palette => {

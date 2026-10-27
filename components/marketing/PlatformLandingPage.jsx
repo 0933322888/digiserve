@@ -19,7 +19,7 @@ const capabilities = [
     { number: '05', title: 'Useful analytics', description: 'Review sales, popular menu items, and activity across your site.' },
     { number: '06', title: 'Themes with room to make them yours', description: 'Start with a restaurant-specific template, then choose colors that suit your brand.' },
 ]
-const audienceWords = ['restaurant', 'bar', 'bistro', 'sushi bar']
+const audienceWords = ['restaurant', 'bar', 'bistro', 'sushi bar', 'bakery', 'coffee shop', 'café', 'tavern', 'pub']
 
 export default function PlatformLandingPage() {
     const [showWizard, setShowWizard] = useState(false)
@@ -70,7 +70,7 @@ export default function PlatformLandingPage() {
                         <ul className="flex min-w-max items-center gap-5 py-1 text-sm text-[#20372d]/75 md:gap-7">
                             <li><a className="transition-colors hover:text-[#c84b35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="#features">Features</a></li>
                             <li><Link className="transition-colors hover:text-[#c84b35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/pricing">Pricing</Link></li>
-                            <li><a className="transition-colors hover:text-[#c84b35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="#demo">Templates</a></li>
+                            <li><a className="transition-colors hover:text-[#c84b35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="#templates">Templates</a></li>
                             <li><Link className="transition-colors hover:text-[#c84b35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/about">About</Link></li>
                             <li><Link className="transition-colors hover:text-[#c84b35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/blog">Blog</Link></li>
                         </ul>
@@ -98,7 +98,7 @@ export default function PlatformLandingPage() {
                             <button type="button" onClick={openWizard} className="inline-flex min-h-12 items-center justify-center gap-3 bg-[#c84b35] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#a93b29] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#20372d]">
                                 Create your site <span aria-hidden="true">&rarr;</span>
                             </button>
-                            <a href="#demo" className="inline-flex min-h-12 items-center justify-center border border-[#20372d]/30 px-6 py-3 text-sm font-semibold text-[#20372d] transition-colors hover:border-[#20372d] hover:bg-[#20372d]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]">
+                            <a href="#templates" className="inline-flex min-h-12 items-center justify-center border border-[#20372d]/30 px-6 py-3 text-sm font-semibold text-[#20372d] transition-colors hover:border-[#20372d] hover:bg-[#20372d]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]">
                                 View the templates
                             </a>
                         </div>
@@ -119,7 +119,7 @@ export default function PlatformLandingPage() {
                     )}
                 </section>
 
-                <section id="demo" className="scroll-mt-24 border-y border-[#20372d]/15 bg-[#ebe5d8] px-5 py-16 sm:px-8 sm:py-24">
+                <section id="templates" className="scroll-mt-24 border-y border-[#20372d]/15 bg-[#ebe5d8] px-5 py-16 sm:px-8 sm:py-24">
                     <div className="mx-auto max-w-7xl">
                         <div className="mb-10 grid gap-5 md:mb-14 md:grid-cols-[1fr_0.7fr] md:items-end md:gap-12">
                             <div>

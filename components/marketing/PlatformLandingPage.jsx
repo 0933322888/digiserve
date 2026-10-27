@@ -22,10 +22,12 @@ const capabilities = [
 
 export default function PlatformLandingPage() {
     const [showWizard, setShowWizard] = useState(false)
+    const [initialTemplate, setInitialTemplate] = useState(TEMPLATES[0]?.id || 'bar')
     const focusReturnRef = useRef(null)
     const [featuredTemplate, ...otherTemplates] = templates
-    const openWizard = event => {
+    const openWizard = (event, templateId = TEMPLATES[0]?.id || 'bar') => {
         focusReturnRef.current = event.currentTarget
+        setInitialTemplate(templateId)
         setShowWizard(true)
     }
 
@@ -93,14 +95,14 @@ export default function PlatformLandingPage() {
                         </div>
 
                         <div className="grid gap-8 md:grid-cols-[1.12fr_0.88fr] md:gap-10">
-                            {featuredTemplate && <TemplatePreview template={featuredTemplate} featured />}
+                            {featuredTemplate && <TemplatePreview template={featuredTemplate} featured onSelect={openWizard} />}
                             <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-1 md:gap-7">
-                                {otherTemplates.map(template => <TemplatePreview key={template.id} template={template} />)}
+                                {otherTemplates.map(template => <TemplatePreview key={template.id} template={template} onSelect={openWizard} />)}
                             </div>
                         </div>
                         <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-[#20372d]/20 pt-5">
                             <p className="text-sm text-[#20372d]/65">Modern Bar · Zen Sushi · Classic Bistro</p>
-                            <Link href="/templates" className="inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-[#a3432f] underline decoration-[#a3432f]/40 underline-offset-4 hover:decoration-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#20372d]">Explore templates <span aria-hidden="true">&rarr;</span></Link>
+                            <p className="text-sm text-[#20372d]/65">Choose a look to start your site.</p>
                         </div>
                     </div>
                 </section>
@@ -159,32 +161,32 @@ export default function PlatformLandingPage() {
                     <p className="text-xs text-[#20372d]/55">&copy; {new Date().getFullYear()} DigiServe Inc.</p>
                 </div>
             </footer>
-            {showWizard && <SignupWizard onClose={() => setShowWizard(false)} returnFocusRef={focusReturnRef} />}
+            {showWizard && <SignupWizard initialTemplate={initialTemplate} onClose={() => setShowWizard(false)} returnFocusRef={focusReturnRef} />}
         </div>
     )
 }
 
-function TemplatePreview({ template, featured = false }) {
+function TemplatePreview({ template, featured = false, onSelect }) {
     return (
         <article className="min-w-0">
-            <Link href="/templates" className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" aria-label={`Explore the ${template.name} template`}>
+            <div className="group block">
                 <div className={`relative overflow-hidden bg-[#ddd4c2] ${featured ? 'aspect-[1.08/1] sm:aspect-[1.12/1]' : 'aspect-[1.45/1] sm:aspect-[1.65/1] md:aspect-[1.8/1]'}`}>
-                    <Image src={template.thumbnail} alt="" fill sizes={featured ? '(max-width: 768px) 100vw, 55vw' : '(max-width: 768px) 50vw, 38vw'} className="object-cover transition-transform duration-500 group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:transform-none" />
+                    <Image src={template.thumbnail} alt={`${template.name} website template preview`} fill sizes={featured ? '(max-width: 768px) 100vw, 55vw' : '(max-width: 768px) 50vw, 38vw'} className="object-cover transition-transform duration-500 group-hover:scale-[1.02] motion-reduce:transition-none motion-reduce:transform-none" />
                 </div>
                 <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-[#20372d]/25 py-3">
                     <h3 className="font-serif text-2xl text-[#20372d]">{template.name}</h3>
-                    <span className="text-xs font-semibold uppercase tracking-[0.1em] text-[#a3432f]">View template &rarr;</span>
+                    <button type="button" onClick={event => onSelect(event, template.id)} className="min-h-11 text-left text-xs font-semibold uppercase tracking-[0.1em] text-[#a3432f] underline decoration-[#a3432f]/40 underline-offset-4 hover:decoration-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#20372d]">Start with this look <span aria-hidden="true">&rarr;</span></button>
                 </div>
                 <p className="mt-2 max-w-lg text-sm leading-6 text-[#20372d]/70">{template.description}</p>
-            </Link>
+            </div>
         </article>
     )
 }
 
-function SignupWizard({ onClose, returnFocusRef }) {
+function SignupWizard({ initialTemplate, onClose, returnFocusRef }) {
     const previewBaseDomain = process.env.NEXT_PUBLIC_BASE_DOMAIN || 'digiserve.com'
     const [step, setStep] = useState(1)
-    const [selectedTemplate, setSelectedTemplate] = useState(TEMPLATES[0]?.id || 'bar')
+    const [selectedTemplate, setSelectedTemplate] = useState(initialTemplate)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const signupRef = useRef(null)

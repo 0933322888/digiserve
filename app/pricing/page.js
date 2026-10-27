@@ -1,5 +1,5 @@
 import MarketingLayout from '@/components/marketing/MarketingLayout'
-import { Check, Plus, ArrowRight } from 'lucide-react'
+import { Check, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 
 export const metadata = {
@@ -9,151 +9,72 @@ export const metadata = {
 
 export default function PricingPage() {
     return (
-        <MarketingLayout>
-            <div className="py-20 px-6">
-                <div className="max-w-7xl mx-auto">
-                    <div className="text-center max-w-3xl mx-auto mb-20">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-6">Flexible Pricing</h1>
-                        <p className="text-xl text-gray-400">
-                            Start for free with our Core Platform. Add powerful modules as you grow.
-                            <br />
-                            <span className="text-white font-medium">Pay only for what you use.</span>
-                        </p>
-                    </div>
+        <MarketingLayout variant="editorial">
+            <div className="px-5 pb-16 pt-12 sm:px-8 sm:pb-24 sm:pt-16">
+                <div className="mx-auto max-w-7xl">
+                    <header className="mb-12 max-w-3xl sm:mb-16">
+                        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#a3432f]">Pricing</p>
+                        <h1 className="font-serif text-5xl leading-tight text-[#20372d] sm:text-6xl">A simple start, with room to add more.</h1>
+                        <p className="mt-5 max-w-2xl text-base leading-7 text-[#20372d]/70 sm:text-lg sm:leading-8">Start with the Core Platform, then choose optional modules that fit the way your business works.</p>
+                    </header>
 
-                    {/* Core Platform Section */}
-                    <div className="mb-16">
-                        <div className="bg-[#111] border border-white/10 rounded-3xl p-8 md:p-12 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 bg-gradient-to-bl from-blue-900/20 to-transparent w-96 h-96 blur-3xl rounded-full pointer-events-none" />
+                    <section aria-labelledby="core-platform" className="grid gap-10 bg-[#20372d] px-6 py-8 text-[#f5f0e5] sm:px-10 sm:py-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#e2a56f]">Included for free</p>
+                            <h2 id="core-platform" className="mt-3 font-serif text-4xl sm:text-5xl">Core Platform</h2>
+                            <p className="mt-4 max-w-md leading-7 text-white/75">The essentials to establish your restaurant’s online presence: a website, a digital menu, and tools to keep your content current.</p>
+                            <Link href="/signup" className="mt-7 inline-flex min-h-12 items-center gap-3 bg-[#c84b35] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#a93b29] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#f5f0e5]">
+                                Get started <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                            </Link>
+                        </div>
+                        <ul className="grid content-center gap-x-8 sm:grid-cols-2">
+                            {['Professional website', 'Digital menu & QR codes', 'Basic analytics', 'Content management', 'SEO tools', 'Email support'].map(feature => (
+                                <li key={feature} className="flex items-center gap-3 border-b border-white/20 py-4 text-sm sm:py-5">
+                                    <Check className="h-4 w-4 shrink-0 text-[#e2a56f]" aria-hidden="true" />
+                                    {feature}
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
 
-                            <div className="flex flex-col md:flex-row gap-12 relative z-10">
-                                <div className="flex-1">
-                                    <div className="bg-blue-600/10 text-blue-400 border border-blue-600/20 px-4 py-1.5 rounded-full text-sm font-semibold inline-block mb-6">
-                                        Included for Free
-                                    </div>
-                                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Core Platform</h2>
-                                    <p className="text-gray-400 text-lg mb-8 max-w-xl">
-                                        Everything you need to establish your online presence. No credit card required.
-                                        Launch your professional website in minutes.
-                                    </p>
-                                    <Link
-                                        href="/signup"
-                                        className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-colors"
-                                    >
-                                        Get Started Free <ArrowRight className="w-5 h-5" />
-                                    </Link>
-                                </div>
-
-                                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <FeatureItem text="Professional Website" />
-                                    <FeatureItem text="Digital Menu & QR Codes" />
-                                    <FeatureItem text="Basic Analytics" />
-                                    <FeatureItem text="Content Management" />
-                                    <FeatureItem text="SEO Tools" />
-                                    <FeatureItem text="Email Support" />
-                                </div>
+                    <section aria-labelledby="optional-modules" className="pt-16 sm:pt-24">
+                        <div className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-[#20372d]/20 pb-5">
+                            <div>
+                                <p className="mb-2 text-xs font-semibold uppercase tracking-[0.12em] text-[#a3432f]">Add what you need</p>
+                                <h2 id="optional-modules" className="font-serif text-3xl text-[#20372d] sm:text-4xl">Optional modules</h2>
                             </div>
+                            <p className="text-sm text-[#20372d]/60">Listed per month</p>
                         </div>
-                    </div>
-
-                    {/* Add-ons Grid */}
-                    <div className="mb-12">
-                        <h3 className="text-2xl font-bold mb-8 text-center">Add-on Modules</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <AddOnCard
-                                title="Ordering System"
-                                price="$29"
-                                description="Commission-free branded ordering for pickup and delivery."
-                                icon="🛍️"
-                                features={['Zero commissions', 'Pickup & Delivery', 'Kitchen printing']}
-                            />
-                            <AddOnCard
-                                title="Reservations"
-                                price="$19"
-                                description="Smart table management and booking system."
-                                icon="📅"
-                                features={['Table management', 'SMS reminders', 'Guest history']}
-                            />
-                            <AddOnCard
-                                title="Events & Tickets"
-                                price="$9"
-                                description="Promote events and sell tickets directly from your site."
-                                icon="🎟️"
-                                features={['Ticket sales', 'Recurring events', 'Calendar view']}
-                            />
-                            <AddOnCard
-                                title="Gift Cards"
-                                price="$14"
-                                description="Sell digital gift cards and boost upfront revenue."
-                                icon="🎁"
-                                features={['Digital delivery', 'Balance lookup', 'Redemption tracking']}
-                            />
-                            <AddOnCard
-                                title="Social Marketing"
-                                price="$19"
-                                description="Auto-post content to Instagram and Facebook."
-                                icon="📱"
-                                features={['AI content generation', 'Auto-scheduling', 'Engagement stats']}
-                            />
-                            <AddOnCard
-                                title="Loyalty Program"
-                                price="$24"
-                                description="Reward regular customers and increase retention."
-                                icon="💎"
-                                features={['Points system', 'Reward tiers', 'Customer insights']}
-                            />
+                        <div className="grid gap-x-12 md:grid-cols-2">
+                            {modules.map(module => <ModuleRow key={module.title} {...module} />)}
                         </div>
-                    </div>
-
-                    <div className="text-center text-gray-500 text-sm">
-                        All modules come with a <span className="text-white">5-day free trial</span>. No seamless cancellation.
-                    </div>
+                    </section>
                 </div>
             </div>
         </MarketingLayout>
     )
 }
 
-function FeatureItem({ text }) {
+const modules = [
+    { title: 'Ordering System', price: '$29', description: 'Branded ordering for pickup and delivery.', features: ['Pickup & delivery', 'Kitchen printing'] },
+    { title: 'Reservations', price: '$19', description: 'Table management and online bookings.', features: ['Table management', 'SMS reminders', 'Guest history'] },
+    { title: 'Events & Tickets', price: '$9', description: 'Promote events and manage ticket sales.', features: ['Ticket sales', 'Recurring events', 'Calendar view'] },
+    { title: 'Gift Cards', price: '$14', description: 'Offer digital gift cards through your site.', features: ['Digital delivery', 'Balance lookup', 'Redemption tracking'] },
+    { title: 'Social Marketing', price: '$19', description: 'Plan and publish social content.', features: ['Content generation', 'Auto-scheduling', 'Engagement stats'] },
+    { title: 'Loyalty Program', price: '$24', description: 'Set up rewards for returning customers.', features: ['Points system', 'Reward tiers', 'Customer insights'] },
+]
+
+function ModuleRow({ title, price, description, features }) {
     return (
-        <div className="flex items-center gap-3 bg-white/5 p-4 rounded-xl border border-white/5">
-            <Check className="w-5 h-5 text-blue-500 flex-shrink-0" />
-            <span className="font-medium">{text}</span>
-        </div>
-    )
-}
-
-function AddOnCard({ title, price, description, icon, features }) {
-    return (
-        <div className="group bg-[#0A0A0A] border border-white/10 hover:border-blue-500/50 p-8 rounded-2xl transition-all duration-300 flex flex-col hover:shadow-2xl hover:shadow-blue-900/10">
-            <div className="mb-6">
-                <div className="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center text-2xl mb-4 group-hover:bg-blue-600/20 transition-colors">
-                    {icon}
-                </div>
-                <h4 className="text-xl font-bold mb-2">{title}</h4>
-                <p className="text-gray-400 text-sm h-10">{description}</p>
+        <article className="border-b border-[#20372d]/20 py-6 sm:py-7">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2">
+                <h3 className="font-serif text-2xl text-[#20372d]">{title}</h3>
+                <p className="text-sm text-[#20372d]/60"><span className="font-serif text-3xl text-[#20372d]">{price}</span> / month</p>
             </div>
-
-            <div className="flex items-baseline gap-1 mb-6">
-                <span className="text-3xl font-bold">{price}</span>
-                <span className="text-gray-500">/mo</span>
-            </div>
-
-            <div className="space-y-3 mb-8 flex-grow">
-                {features.map((f, i) => (
-                    <div key={i} className="flex items-start gap-2 text-sm text-gray-400">
-                        <Plus className="w-4 h-4 text-gray-600 mt-0.5" />
-                        {f}
-                    </div>
-                ))}
-            </div>
-
-            <Link
-                href="/signup"
-                className="block w-full py-3 px-4 rounded-lg font-bold text-center bg-white/10 hover:bg-white text-white hover:text-black transition-all"
-            >
-                Start 5-Day Free Trial
-            </Link>
-        </div>
+            <p className="mt-2 text-sm leading-6 text-[#20372d]/70">{description}</p>
+            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#20372d]/65">
+                {features.map(feature => <li key={feature}>{feature}</li>)}
+            </ul>
+        </article>
     )
 }

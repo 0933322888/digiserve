@@ -1,46 +1,72 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 
-export default function MarketingLayout({ children }) {
+const navigation = [
+    { href: '/features', label: 'Features' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/templates', label: 'Templates' },
+    { href: '/about', label: 'About' },
+    { href: '/blog', label: 'Blog' },
+]
+
+export default function MarketingLayout({ children, variant = 'dark' }) {
+    const pathname = usePathname()
+    const editorial = variant === 'editorial'
+
     return (
-        <div className="min-h-screen bg-[#0A0A0A] text-white font-sans selection:bg-blue-600 selection:text-white flex flex-col">
-            {/* Navigation */}
-            <nav className="sticky top-0 w-full z-50 px-6 py-4 bg-[#0A0A0A]/80 backdrop-blur-md border-b border-white/5">
-                <div className="max-w-7xl mx-auto flex justify-between items-center">
-                    <Link href="/" className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                            <span className="font-bold text-white">D</span>
-                        </div>
-                        <span className="text-xl font-bold tracking-tight">DigiServe</span>
+        <div className={`flex min-h-screen flex-col font-sans selection:bg-[#c84b35] selection:text-white ${editorial ? 'bg-[#f5f0e5] text-[#20372d]' : 'bg-[#0A0A0A] text-white'}`}>
+            <header className={`sticky top-0 z-40 border-b backdrop-blur-sm ${editorial ? 'border-[#20372d]/15 bg-[#f5f0e5]/95' : 'border-white/5 bg-[#0A0A0A]/90'}`}>
+                <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-x-8 px-5 py-4 sm:px-8">
+                    <Link href="/" aria-label="DigiServe home" className={`font-serif text-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${editorial ? 'text-[#20372d] focus-visible:outline-[#c84b35]' : 'text-white focus-visible:outline-white'}`}>
+                        DigiServe<span className="text-[#c84b35]">.</span>
                     </Link>
 
-                    <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-                        <Link href="/features" className="hover:text-white transition-colors">Features</Link>
-                        <Link href="/pricing" className="hover:text-white transition-colors">Pricing</Link>
-                        <Link href="/templates" className="hover:text-white transition-colors">Templates</Link>
-                        <Link href="/about" className="hover:text-white transition-colors">About</Link>
-                        <Link href="/blog" className="hover:text-white transition-colors">Blog</Link>
-                    </div>
+                    <nav aria-label="Main navigation" className="order-3 w-full overflow-x-auto md:order-0 md:w-auto">
+                        <ul className={`flex min-w-max items-center gap-5 py-1 text-sm md:gap-7 ${editorial ? 'text-[#20372d]/75' : 'text-gray-400'}`}>
+                            {navigation.map(item => {
+                                const active = pathname === item.href
+                                return (
+                                    <li key={item.href}>
+                                        <Link href={item.href} aria-current={active ? 'page' : undefined} className={`transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${editorial ? 'focus-visible:outline-[#c84b35]' : 'focus-visible:outline-white'} ${active ? editorial ? 'font-semibold text-[#a3432f]' : 'font-semibold text-white' : editorial ? 'hover:text-[#c84b35]' : 'hover:text-white'}`}>
+                                            {item.label}
+                                        </Link>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </nav>
 
-                    <div className="flex items-center gap-4">
-                        <Link
-                            href="/signup"
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/40"
-                        >
-                            Get Started
-                        </Link>
-                    </div>
+                    <Link href="/signup" className={`inline-flex min-h-11 items-center justify-center px-5 py-2 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 ${editorial ? 'bg-[#c84b35] text-white hover:bg-[#a93b29] focus-visible:outline-[#20372d]' : 'bg-blue-600 text-white hover:bg-blue-700 focus-visible:outline-white'}`}>
+                        Get started
+                    </Link>
                 </div>
-            </nav>
+            </header>
 
-            {/* Main Content */}
             <main className="flex-grow">
                 {children}
             </main>
 
-            {/* Footer */}
-            <footer className="py-12 border-t border-white/5 bg-[#050505] text-sm mt-auto">
+            {editorial ? (
+                <footer className="border-t border-[#20372d]/15 bg-[#f5f0e5] px-5 py-8 text-sm sm:px-8">
+                    <div className="mx-auto flex max-w-7xl flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                        <Link href="/" className="w-fit font-serif text-xl text-[#20372d] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]">
+                            DigiServe<span className="text-[#c84b35]">.</span>
+                        </Link>
+                        <nav aria-label="Footer navigation" className="flex flex-wrap gap-x-6 gap-y-3 text-[#20372d]/70">
+                            <Link className="hover:text-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/features">Features</Link>
+                            <Link className="hover:text-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/pricing">Pricing</Link>
+                            <Link className="hover:text-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/templates">Templates</Link>
+                            <Link className="hover:text-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/privacy">Privacy</Link>
+                            <Link className="hover:text-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/terms">Terms</Link>
+                            <Link className="hover:text-[#a3432f] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#c84b35]" href="/contact">Contact</Link>
+                        </nav>
+                        <p className="text-xs text-[#20372d]/55">&copy; {new Date().getFullYear()} DigiServe Inc.</p>
+                    </div>
+                </footer>
+            ) : (
+                <footer className="mt-auto border-t border-white/5 bg-[#050505] py-12 text-sm">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
                         <div>
@@ -85,7 +111,8 @@ export default function MarketingLayout({ children }) {
                         <p className="text-gray-600">&copy; {new Date().getFullYear()} DigiServe Inc. All rights reserved.</p>
                     </div>
                 </div>
-            </footer>
+                </footer>
+            )}
         </div>
     )
 }

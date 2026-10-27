@@ -19,12 +19,40 @@ const capabilities = [
     { number: '05', title: 'Useful analytics', description: 'Review sales, popular menu items, and activity across your site.' },
     { number: '06', title: 'Themes with room to make them yours', description: 'Start with a restaurant-specific template, then choose colors that suit your brand.' },
 ]
+const audienceWords = ['restaurant', 'bar', 'bistro', 'sushi bar']
 
 export default function PlatformLandingPage() {
     const [showWizard, setShowWizard] = useState(false)
     const [initialTemplate, setInitialTemplate] = useState(TEMPLATES[0]?.id || 'bar')
+    const [audienceIndex, setAudienceIndex] = useState(0)
+    const [visibleCharacters, setVisibleCharacters] = useState(audienceWords[0].length)
+    const [isErasing, setIsErasing] = useState(false)
     const focusReturnRef = useRef(null)
     const [featuredTemplate, ...otherTemplates] = templates
+
+    useEffect(() => {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+        const word = audienceWords[audienceIndex]
+        const delay = isErasing ? 55 : visibleCharacters === word.length ? 1500 : 95
+        const timeout = window.setTimeout(() => {
+            if (isErasing) {
+                if (visibleCharacters === 0) {
+                    setAudienceIndex(index => (index + 1) % audienceWords.length)
+                    setIsErasing(false)
+                } else {
+                    setVisibleCharacters(count => count - 1)
+                }
+            } else if (visibleCharacters === word.length) {
+                setIsErasing(true)
+            } else {
+                setVisibleCharacters(count => count + 1)
+            }
+        }, delay)
+
+        return () => window.clearTimeout(timeout)
+    }, [audienceIndex, isErasing, visibleCharacters])
+
     const openWizard = (event, templateId = TEMPLATES[0]?.id || 'bar') => {
         focusReturnRef.current = event.currentTarget
         setInitialTemplate(templateId)
@@ -56,8 +84,15 @@ export default function PlatformLandingPage() {
             <main>
                 <section className="mx-auto grid max-w-7xl items-center gap-10 px-5 pb-16 pt-12 sm:px-8 sm:pb-24 sm:pt-16 lg:grid-cols-[0.88fr_1.12fr] lg:gap-16 lg:pb-28 lg:pt-20">
                     <div className="max-w-xl">
-                        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-[#a3432f]">For independent restaurants</p>
-                        <h1 className="font-serif text-5xl leading-[1.04] text-[#20372d] sm:text-6xl lg:text-7xl">A better way to bring your restaurant online.</h1>
+                        <p className="mb-5 text-xs font-semibold uppercase tracking-[0.12em] text-[#a3432f]">For independent hospitality businesses</p>
+                        <h1 className="font-serif text-5xl leading-[1.04] text-[#20372d] sm:text-6xl lg:text-7xl">
+                            A better way to bring your{' '}
+                            <span aria-hidden="true" className="inline-block min-w-[10ch] text-[#a3432f]">
+                                {audienceWords[audienceIndex].slice(0, visibleCharacters)}<span className="ml-px inline-block h-[0.8em] border-l-2 border-current align-[-0.06em]" />
+                            </span>
+                            <span className="sr-only" aria-live="polite" aria-atomic="true">{audienceWords[audienceIndex]}</span>{' '}
+                            online.
+                        </h1>
                         <p className="mt-6 max-w-lg text-base leading-7 text-[#20372d]/75 sm:text-lg sm:leading-8">Build your website, keep your menu current, take orders, and manage reservations from one place.</p>
                         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
                             <button type="button" onClick={openWizard} className="inline-flex min-h-12 items-center justify-center gap-3 bg-[#c84b35] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#a93b29] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#20372d]">

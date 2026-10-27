@@ -19,6 +19,14 @@ const capabilities = [
     { number: '05', title: 'Useful analytics', description: 'Review sales, popular menu items, and activity across your site.' },
     { number: '06', title: 'Themes with room to make them yours', description: 'Start with a restaurant-specific template, then choose colors that suit your brand.' },
 ]
+const modules = [
+    { name: 'Online ordering', description: 'Let guests order directly from your website.' },
+    { name: 'Reservations', description: 'Accept table requests and manage bookings.' },
+    { name: 'Events', description: 'Promote upcoming events at your business.' },
+    { name: 'Photo gallery', description: 'Showcase your space, dishes, and team.' },
+    { name: 'Gift cards', description: 'Offer digital gift cards to your guests.' },
+    { name: 'Social media posting', description: 'Create and manage posts for Facebook and Instagram.' },
+]
 const audienceWords = ['restaurant', 'bar', 'bistro', 'sushi bar', 'bakery', 'coffee shop', 'café', 'tavern', 'pub']
 
 export default function PlatformLandingPage() {
@@ -167,6 +175,24 @@ export default function PlatformLandingPage() {
                                 </li>
                             ))}
                         </ol>
+                    </div>
+                </section>
+
+                <section className="border-y border-[#20372d]/15 bg-[#eee7d8] px-5 py-16 sm:px-8 sm:py-24">
+                    <div className="mx-auto max-w-7xl">
+                        <div className="max-w-2xl">
+                            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.12em] text-[#a3432f]">Choose what works for you</p>
+                            <h2 className="font-serif text-4xl leading-tight text-[#20372d] sm:text-5xl">The modules your business needs. Nothing you don’t.</h2>
+                            <p className="mt-5 max-w-xl leading-7 text-[#20372d]/70">Choose from online ordering, reservations, events, photo galleries, gift cards, and social media posting. Enable only the modules you need, then easily turn them on or off at any time as your business changes.</p>
+                        </div>
+                        <ul className="mt-10 grid gap-px border border-[#20372d]/15 bg-[#20372d]/15 sm:grid-cols-2 lg:grid-cols-3">
+                            {modules.map(module => (
+                                <li key={module.name} className="bg-[#f5f0e5] p-6 sm:p-7">
+                                    <h3 className="font-serif text-2xl text-[#20372d]">{module.name}</h3>
+                                    <p className="mt-2 text-sm leading-6 text-[#20372d]/70">{module.description}</p>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
                 </section>
 

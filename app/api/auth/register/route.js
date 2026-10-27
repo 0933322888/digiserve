@@ -60,25 +60,22 @@ export async function POST(request) {
             )
         }
 
-        // Generate unique slug from business name
+        // Use the requested subdomain as the canonical tenant slug when provided.
         let slug
-        try {
-            slug = await generateUniqueSlug(businessName)
-        } catch (error) {
-            return NextResponse.json(
-                { error: error.message },
-                { status: 400 }
-            )
-        }
-
-        // Decide subdomain label: use requestedSubdomain (left-most label) if provided, otherwise use slug
         let subdomainLabel = null
         if (requestedSubdomain && requestedSubdomain.trim()) {
             // normalize: if user pasted full hostname, grab left-most label before any dots
             const raw = requestedSubdomain.trim().toLowerCase()
             subdomainLabel = raw.split('.')[0]
         } else {
-            subdomainLabel = slug
+            try {
+                subdomainLabel = await generateUniqueSlug(businessName)
+            } catch (error) {
+                return NextResponse.json(
+                    { error: error.message },
+                    { status: 400 }
+                )
+            }
         }
 
         // Validate subdomain format (label only)
@@ -97,6 +94,17 @@ export async function POST(request) {
                 { status: 400 }
             )
         }
+
+        const existingSubdomain = await Restaurant.findOne({
+            $or: [{ slug: subdomainLabel }, { customDomains: subdomainLabel }],
+        })
+        if (existingSubdomain) {
+            return NextResponse.json(
+                { error: 'This subdomain is already taken. Please choose another.' },
+                { status: 409 }
+            )
+        }
+        slug = subdomainLabel
 
         // Generate IDs
         const userId = uuidv4()
@@ -221,6 +229,7 @@ export async function POST(request) {
                 userId: user.id,
                 tenantId: restaurant.barId,
                 slug,
+                subdomain: subdomainLabel,
                 businessName,
             },
         }

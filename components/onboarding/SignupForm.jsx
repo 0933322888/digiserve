@@ -166,7 +166,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
             if (!res.ok) { setError(data.error || 'Registration failed'); setLoading(false); return }
 
             const activation = data.data?.activationToken
-            const subdomain = data.data?.subdomain
+            const subdomain = data.data?.subdomain || data.data?.slug || formData.subdomain
             const protocol = window.location.protocol
             const port = window.location.port ? `:${window.location.port}` : ''
             let activateUrl

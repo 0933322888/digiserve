@@ -318,7 +318,7 @@ function SignupWizard({ initialTemplate, onClose, returnFocusRef }) {
             }
 
             const activation = data.data?.activationToken
-            const subdomain = data.data?.subdomain
+            const subdomain = data.data?.subdomain || data.data?.slug || values.subdomain
             const protocol = window.location.protocol
             const port = window.location.port ? `:${window.location.port}` : ''
             const activateUrl = process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost'

@@ -170,42 +170,42 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
         <form onSubmit={handleNext} className="space-y-6">
 
             <div>
-                <label className="block text-sm font-medium text-gray-200 mb-2">Business Name *</label>
+                <label htmlFor="signup-business-name" className="block text-sm font-medium text-gray-200 mb-2">Business Name *</label>
                 <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Building2 className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input name="businessName" value={formData.businessName} onChange={handleChange} required placeholder="Business Name" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                    <input id="signup-business-name" name="businessName" value={formData.businessName} onChange={handleChange} required placeholder="Business Name" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                 </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-2">Email Address *</label>
+                    <label htmlFor="signup-email" className="block text-sm font-medium text-gray-200 mb-2">Email Address *</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Mail className="h-5 w-5 text-gray-400" />
                         </div>
-                        <input name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@example.com" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                        <input id="signup-email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="you@example.com" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-2">Phone Number (Optional)</label>
+                    <label htmlFor="signup-phone" className="block text-sm font-medium text-gray-200 mb-2">Phone Number (Optional)</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Phone className="h-5 w-5 text-gray-400" />
                         </div>
-                        <input name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="(555) 123-4567" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                        <input id="signup-phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="(555) 123-4567" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                     </div>
                 </div>
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-200 mb-2">Preferred subdomain</label>
+                <label htmlFor="signup-subdomain" className="block text-sm font-medium text-gray-200 mb-2">Preferred subdomain</label>
                 <div className="flex items-center">
                     <div className="relative flex-1">
-                        <input name="subdomain" value={formData.subdomain} onChange={(e)=>{ setSubdomainTouched(true); const raw=(e.target.value||'').trim().toLowerCase(); const left=raw.split('.')[0]; const cleaned=slugify(left); setFormData(prev=>({...prev, subdomain: cleaned})); }} placeholder="abc-bar" className="block w-full pr-28 pl-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                        <input id="signup-subdomain" name="subdomain" value={formData.subdomain} onChange={(e)=>{ setSubdomainTouched(true); const raw=(e.target.value||'').trim().toLowerCase(); const left=raw.split('.')[0]; const cleaned=slugify(left); setFormData(prev=>({...prev, subdomain: cleaned})); }} placeholder="abc-bar" className="block w-full pr-28 pl-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                         <div className="absolute right-28 top-1/2 -translate-y-1/2 text-xs" aria-live="polite">
                             {subdomainStatus === 'checking' && <span className="text-yellow-300">Checking…</span>}
                             {subdomainStatus === 'available' && <span className="text-green-300">Available</span>}
@@ -228,28 +228,28 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
             </div>
 
             <div>
-                <label className="block text-sm font-medium text-gray-200 mb-2">Custom domain (optional)</label>
-                <input name="customDomain" value={formData.customDomain} onChange={handleChange} placeholder="yourdomain.com" className="block w-full pl-3 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                <label htmlFor="signup-custom-domain" className="block text-sm font-medium text-gray-200 mb-2">Custom domain (optional)</label>
+                <input id="signup-custom-domain" name="customDomain" value={formData.customDomain} onChange={handleChange} placeholder="yourdomain.com" className="block w-full pl-3 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-2">Password *</label>
+                    <label htmlFor="signup-password" className="block text-sm font-medium text-gray-200 mb-2">Password *</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Lock className="h-5 w-5 text-gray-400" />
                         </div>
-                        <input name="password" type="password" value={formData.password} onChange={handleChange} required placeholder="Minimum 8 characters" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                        <input id="signup-password" name="password" type="password" value={formData.password} onChange={handleChange} required placeholder="Minimum 8 characters" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-200 mb-2">Confirm Password *</label>
+                    <label htmlFor="signup-confirm-password" className="block text-sm font-medium text-gray-200 mb-2">Confirm Password *</label>
                     <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <Lock className="h-5 w-5 text-gray-400" />
                         </div>
-                        <input name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} required placeholder="Re-enter password" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                        <input id="signup-confirm-password" name="confirmPassword" type="password" value={formData.confirmPassword} onChange={handleChange} required placeholder="Re-enter password" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                     </div>
                 </div>
             </div>

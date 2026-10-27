@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import SignupForm from '@/components/onboarding/SignupForm'
@@ -37,6 +37,7 @@ export default function PlatformLandingPage() {
     const [isErasing, setIsErasing] = useState(false)
     const focusReturnRef = useRef(null)
     const [featuredTemplate, ...otherTemplates] = templates
+    const closeWizard = useCallback(() => setShowWizard(false), [])
 
     useEffect(() => {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -222,7 +223,7 @@ export default function PlatformLandingPage() {
                     <p className="text-xs text-[#20372d]/55">&copy; {new Date().getFullYear()} DigiServe Inc.</p>
                 </div>
             </footer>
-            {showWizard && <SignupWizard initialTemplate={initialTemplate} onClose={() => setShowWizard(false)} returnFocusRef={focusReturnRef} />}
+            {showWizard && <SignupWizard initialTemplate={initialTemplate} onClose={closeWizard} returnFocusRef={focusReturnRef} />}
         </div>
     )
 }

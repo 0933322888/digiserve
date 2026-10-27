@@ -16,6 +16,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
     })
     const [subdomainTouched, setSubdomainTouched] = useState(false)
     const [subdomainStatus, setSubdomainStatus] = useState(null)
+    const [subdomainBlurred, setSubdomainBlurred] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
     const [copied, setCopied] = useState(false)
@@ -41,10 +42,11 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
 
     useEffect(() => {
         let mounted = true
+        if (!subdomainBlurred) return
         if (!formData.subdomain) { setSubdomainStatus(null); return }
         if (!/^[a-z0-9-]{2,63}$/.test(formData.subdomain)) { setSubdomainStatus('invalid'); return }
         setSubdomainStatus('checking')
-        const t = setTimeout(async () => {
+        const checkAvailability = async () => {
             try {
                 const res = await fetch('/api/subdomain/check', {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -56,9 +58,10 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
             } catch (err) {
                 if (mounted) setSubdomainStatus(null)
             }
-        }, 500)
-        return () => { mounted = false; clearTimeout(t) }
-    }, [formData.subdomain])
+        }
+        checkAvailability()
+        return () => { mounted = false }
+    }, [formData.subdomain, subdomainBlurred])
 
     // Expose current values to parent via ref
     useImperativeHandle(ref, () => ({
@@ -68,7 +71,21 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
 
     const handleChange = (e) => {
         const { name, value } = e.target
+        if (name === 'businessName') {
+            setSubdomainBlurred(false)
+            setSubdomainStatus(null)
+        }
         setFormData(prev => ({ ...prev, [name]: value }))
+    }
+
+    const handleSubdomainChange = (e) => {
+        setSubdomainTouched(true)
+        setSubdomainBlurred(false)
+        setSubdomainStatus(null)
+        const raw = (e.target.value || '').trim().toLowerCase()
+        const left = raw.split('.')[0]
+        const cleaned = slugify(left)
+        setFormData(prev => ({ ...prev, subdomain: cleaned }))
     }
 
     const handleCopy = async () => {
@@ -175,7 +192,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <Building2 className="h-5 w-5 text-gray-400" />
                     </div>
-                    <input id="signup-business-name" name="businessName" value={formData.businessName} onChange={handleChange} required placeholder="Business Name" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                    <input id="signup-business-name" name="businessName" value={formData.businessName} onChange={handleChange} onBlur={() => { if (!subdomainTouched) setSubdomainBlurred(true) }} required placeholder="Business Name" className="block w-full pl-10 pr-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                 </div>
             </div>
 
@@ -205,7 +222,7 @@ function SignupFormInner({ onNext, initialValues = {}, submitLabel = 'Create Acc
                 <label htmlFor="signup-subdomain" className="block text-sm font-medium text-gray-200 mb-2">Preferred subdomain</label>
                 <div className="flex items-center">
                     <div className="relative flex-1">
-                        <input id="signup-subdomain" name="subdomain" value={formData.subdomain} onChange={(e)=>{ setSubdomainTouched(true); const raw=(e.target.value||'').trim().toLowerCase(); const left=raw.split('.')[0]; const cleaned=slugify(left); setFormData(prev=>({...prev, subdomain: cleaned})); }} placeholder="abc-bar" className="block w-full pr-28 pl-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
+                        <input id="signup-subdomain" name="subdomain" value={formData.subdomain} onChange={handleSubdomainChange} onBlur={() => setSubdomainBlurred(true)} placeholder="abc-bar" className="block w-full pr-28 pl-3 py-3 border border-gray-600 rounded-lg bg-gray-800/50 text-white placeholder-gray-400" />
                         <div className="absolute right-28 top-1/2 -translate-y-1/2 text-xs" aria-live="polite">
                             {subdomainStatus === 'checking' && <span className="text-yellow-300">Checking…</span>}
                             {subdomainStatus === 'available' && <span className="text-green-300">Available</span>}

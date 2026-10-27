@@ -11,12 +11,14 @@ import FooterWrapper from '@/components/FooterWrapper'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
+const appUrl = process.env.NEXT_PUBLIC_APP_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
 
 // Force dynamic rendering to ensure tenant config is always fresh
 export const dynamic = 'force-dynamic'
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL), // Update with your domain
+  metadataBase: new URL(appUrl),
   title: {
     default: siteConfig.seo.defaultTitle,
     template: `%s | ${siteConfig.seo.siteName}`,
@@ -35,7 +37,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: process.env.NEXT_PUBLIC_APP_URL, // Update with your domain
+    url: appUrl,
     siteName: siteConfig.seo.siteName,
     title: siteConfig.seo.defaultTitle,
     description: siteConfig.seo.defaultDescription,
